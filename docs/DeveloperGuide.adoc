@@ -830,7 +830,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |event planner |manage participants based on tags |mass register/delete participants belonging to a certain group
 
-|`* *` |event planner |add multiple contacts from a file |do not have add each contact manually
+|`* *` |event planner |add multiple contacts from a file |do without adding each contact manually
 
 |`*` |participant |mark my attendance by scanning a QR code |make the process of marking attendance quicker
 
@@ -860,8 +860,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |event planner |conduct a lucky draw for event participants |
 |=======================================================================
-
-_{More to be added}_
 
 [appendix]
 == Use Cases
