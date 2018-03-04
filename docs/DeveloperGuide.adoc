@@ -858,7 +858,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |event planner |export event details (attendance rate, feedback etc) in a presentable format |do an after action review of the event
 
-|`*` |event planner |conduct a lucky draw for event participants
+|`*` |event planner |conduct a lucky draw for event participants |
 |=======================================================================
 
 _{More to be added}_
