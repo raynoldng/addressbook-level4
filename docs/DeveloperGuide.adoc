@@ -886,19 +886,32 @@ A contact detail that is not meant to be shared with others
 [appendix]
 == Product Survey
 
-*Product Name*
+*Guestday*
 
-Author: ...
+Author: Tinkertanker Pte Ltd
+
+Website: https://guestday.com
 
 Pros:
 
-* ...
-* ...
+* Fast Contextual Search
+** Search for guests by name, table, department, or any other parameter of your choosing.
+* Quick, easy check-in
+** Effortlessly check the guest in with a simple swipe. Guests can also find out where they’re seated and whom they’re seated with. Display custom data to aid your receptionists, such as information on VIP attendees.
+* Even faster: QR scanning
+** Send out QR codes on physical invitation cards or by email, and guests can simply wave their codes at the iPad camera to check in.
+* Synchronization across multiple devices
+** Multiple devices can be setup to parallelize the registration process and increase the efficiency of the reception
+* Elegant and easy to use interface
+
 
 Cons:
 
-* ...
-* ...
+* Requires specific hardware (iPads loaned out by the company)
+* Expensive, and not reusable (payment for each event)
+* Proprietary software, not open source
+* Participant contact information cannot be reused across multiple events - has to be re-entered
+* Editing guest list has to go through the company and hence is slow and a large hassle
 
 [appendix]
 == Instructions for Manual Testing
