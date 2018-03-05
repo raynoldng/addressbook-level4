@@ -1,23 +1,19 @@
 package seedu.address.model;
 
-import static org.junit.Assert.assertEquals;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
+import seedu.address.testutil.AddressBookBuilder;
+
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static seedu.address.testutil.TypicalPersons.*;
+
 
 public class AddressBookTest {
 
@@ -66,6 +62,16 @@ public class AddressBookTest {
     public void getTagList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
         addressBook.getTagList().remove(0);
+    }
+
+    @Test
+    public void updatePerson_personAndTagsListUpdated() throws Exception {
+        AddressBook addressBookChangedtoAmy = new AddressBookBuilder().withPerson(BOB).build();
+        addressBookChangedtoAmy.updatePerson(BOB, AMY);
+
+        AddressBook expectedAddressBook = new AddressBookBuilder().withPerson(AMY).build();
+
+        assertEquals(expectedAddressBook, addressBookChangedtoAmy);
     }
 
     /**
