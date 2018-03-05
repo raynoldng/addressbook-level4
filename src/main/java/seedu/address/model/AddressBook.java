@@ -1,12 +1,6 @@
 package seedu.address.model;
 
-import javafx.collections.ObservableList;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.UniquePersonList;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.UniqueTagList;
+import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +10,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.requireNonNull;
+import javafx.collections.ObservableList;
+
+import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
+
+
 
 /**
  * Wraps all data at the address-book level
@@ -211,7 +214,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         if (!wasPersonTagged) {
             return; // short circuit since person did not have tag to remove
         }
-        Person newPerson = new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), newTags);
+        Person newPerson = new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(),
+                newTags);
 
         try {
             updatePerson(person, newPerson);
@@ -220,6 +224,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    /**
+     * Removes unused {@code tag}s from this {@code AddressBook}
+     */
     private void removeUnusedTags() {
 
         Set<Tag> tagsInPersons = persons.asObservableList().stream()
