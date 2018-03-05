@@ -200,13 +200,12 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @throws PersonNotFoundException if {@code person} not found in this {@code AddressBook}
      */
     private void removeTagFromPerson(Person person, Tag tag) throws PersonNotFoundException {
-        Set<Tag> newTags = person.getTags();
+        Set<Tag> newTags = new HashSet<Tag>(person.getTags());
         boolean wasPersonTagged = newTags.remove(tag);
 
         if (!wasPersonTagged) {
             return; // short circuit since person did not have tag to remove
         }
-
         Person newPerson = new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), newTags);
 
         try {
