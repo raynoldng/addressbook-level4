@@ -1,15 +1,5 @@
 package seedu.address.model;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
@@ -17,6 +7,11 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Wraps all data at the address-book level
@@ -183,5 +178,48 @@ public class AddressBook implements ReadOnlyAddressBook {
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(persons, tags);
+    }
+
+    /**
+     * Removes {@code tag} from all persons in {@code AddressBook}
+     * @param tag
+     */
+    public void removeTag(Tag tag) {
+        for (Person person : persons) {
+            try {
+                removeTagFromPerson(person, tag);
+            } catch (PersonNotFoundException e) {
+                throw new AssertionError("Impossible: person was drawn from AddressBook");
+            }
+        }
+    }
+
+    /**
+     * Removes {@code tag} from {@code person} in this {@code AddressBook}
+     * @throws PersonNotFoundException if {@code person} not found in this {@code AddressBook}
+     */
+    private void removeTagFromPerson(Person person, Tag tag) throws PersonNotFoundException {
+        Set<Tag> newTags = person.getTags();
+        boolean wasPersonTagged = newTags.remove(tag);
+
+        if (!wasPersonTagged) {
+            return; // short circuit since person did not have tag to remove
+        }
+
+        Person newPerson = new Person(person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), newTags);
+
+        try {
+            updatePerson(person, newPerson);
+        } catch (DuplicatePersonException e) {
+            throw new AssertionError("Modifying person's tags should not result in duplicate persons.");
+        }
+    }
+
+    private void removeUnusedTags() {
+
+        Set<Tag> tagsInPersons = persons.asObservableList().stream()
+                                        .flatMap(person -> person.getTags().stream())
+                                        .collect(Collectors.toSet());
+        tags.setTags(tagsInPersons);
     }
 }
