@@ -800,18 +800,66 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *`|new user |see an onboarding guide |familiarize myself with the application
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |event planner |add a new participant |
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |event planner |delete a participant |remove a participant that has withdrawn from the event
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* * *` |event planner |list all participants for the event |
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* * *` |event planner |edit a participant’s details |update a participant’s details upon request
+
+|`* * *` |event planner |mark attendance for a participant |know who attended the event
+
+|`* * *` |event planner |find a participant by name |locate a participant without going through the entire list of participants
+
+|`* * *` |event planner |have all participant’s data in persistent storage |close the program without losing my data
+
+|`* *` |event planner |set privacy settings |meet PDPA guideline
+
+|`* *` |event planner |create multiple events|
+
+|`* *` |event planner |add the same user to multiple events |use the same, stored information across multiple events
+
+|`* *` |event planner managing large events |import participant contact information from csv |quickly add participants without manual typing
+
+|`* *` |event planner managing large events |export participant contact information as csv |use the data for other applications (e.g. presentation, data analysis)
+
+|`* *` |event planner in charge of marking attendance of many participants |find a participant by his/her initials |mark attendance quickly
+
+|`* *` |event planner |manage participants based on tags |mass register/delete participants belonging to a certain group
+
+|`* *` |event planner |add multiple contacts from a file |do without adding each contact manually
+
+|`*` |participant |mark my attendance by scanning a QR code |make the process of marking attendance quicker
+
+|`*` |participant |mark my attendance by scanning a card with an RFID chip |make the process of marking attendance quicker
+
+|`*` |event planner |fuzzy search contacts |find the relevant contact even if I do not know his/her complete name
+
+|`*` |participant |mark my attendance by scanning an NFC tag |make the process of marking attendance quicker
+
+|`*` |participant |see where I should be seated at the venue when I mark my attendance |find my seating location quicker
+
+|`*` |event planner |synchronize application data across multiple devices |collaboratively edit participant information
+
+|`*` |participant |add feedback for the event |
+
+|`*` |event planner |send out a mass email to all participants |send out information such as event details and QR codes quickly
+
+|`*` |event planner |make my edits synchronized in real time across all devices |parallelize the registration and attendance taking process
+
+|`*` |event planner |automatically email a reminder to all participants near the event date |ensure participants do not accidentally forget about the event
+
+|`*` |event planner |type commands in natural language |do without memorising the syntax for every command
+
+|`*` |tech-savvy event planner |set hotkeys for commands |shorten frequently used commands
+
+|`*` |event planner |export event details (attendance rate, feedback etc) in a presentable format |do an after action review of the event
+
+|`*` |event planner |conduct a lucky draw for event participants |
 |=======================================================================
-
-_{More to be added}_
 
 [appendix]
 == Use Cases
