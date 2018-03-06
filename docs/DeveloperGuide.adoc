@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+= Event Planning isn't Complicated (EPIC) - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -10,9 +10,9 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4/tree/master
+:repoURL: https://github.com/CS2103T-2018-W13-B2/addressbook-level4
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team W13-B2`      Since: `Mar 2018`      Licence: `MIT`
 
 == Setting up
 
