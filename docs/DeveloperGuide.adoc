@@ -883,6 +883,7 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
 === Use case: Delete person
 
 *MSS*
@@ -908,6 +909,7 @@ Use case ends.
 +
 Use case resumes at step 2.
 
+[discrete]
 === Use case: Edit person 
 
 *MSS*
@@ -940,6 +942,7 @@ Use case resumes at step 2.
 +
 Use case resumes at step 2.
 
+[discrete]
 === Use case: Mark person
 
 *MSS*
