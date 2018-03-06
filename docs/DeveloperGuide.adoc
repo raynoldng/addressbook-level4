@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+= Event Planning isn't Complicated (EPIC) - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -10,9 +10,9 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4/tree/master
+:repoURL: https://github.com/CS2103T-2018-W13-B2/addressbook-level4
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team W13-B2`      Since: `Mar 2018`      Licence: `MIT`
 
 == Setting up
 
@@ -782,14 +782,13 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
+* has to plan school events with a large attendance size
 * prefer desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
-
+*Value proposition*: streamline attendance taking and registration of event participants, far superior to traditional pen and paper registration
 [appendix]
 == User Stories
 
@@ -850,10 +849,14 @@ _{More to be added}_
 == Non Functional Requirements
 
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
-.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 50000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-_{More to be added}_
+.  Should come with automated unit tests and open source code.
+.  Should work on both 32-bit and 64-bit environments.
+.  Should respond to any command within one second
+.  Should be able to be used by programmers and non-programmers alike
+.  Should not result in a large binary (more than 5mb)
+.  Should be able to run without relying on other dependencies
 
 [appendix]
 == Glossary
