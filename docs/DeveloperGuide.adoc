@@ -863,17 +863,34 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `EventPlanner` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
+=== Use case: Find person by name
+
+*MSS*
+
+1.  User requests to find persons with a particular name
+2.  EventPlanner shows a list of persons with entered name
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
+** 2a1. EventPlanner alerts the user that there is no such person with name
++
+Use case ends.
+
 === Use case: Delete person
 
 *MSS*
 
 1.  User requests to list persons
-2.  AddressBook shows a list of persons
+2.  EventPlanner shows a list of persons
 3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+4.  EventPlanner deletes the person
 +
 Use case ends.
 
@@ -887,11 +904,66 @@ Use case ends.
 * 3a. The given index is invalid.
 +
 [none]
-** 3a1. AddressBook shows an error message.
+** 3a1. EventPlanner shows an error message.
 +
 Use case resumes at step 2.
 
-_{More to be added}_
+=== Use case: Edit person 
+
+*MSS*
+
+1. User requests to list persons
+2. EventPlanner shows a list of persons
+3. User requests to edit a specific person in the list
+4. EventPlanner edits the person’s details
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. EventPlanner shows an error message.
++
+Use case resumes at step 2.
+
+* 3b. The edit string following the command is invalid.
++
+[none]
+** 3b1. EventPlanner shows an error message.
++
+Use case resumes at step 2.
+
+=== Use case: Mark person
+
+*MSS*
+
+1. User requests to find persons by name
+2. EventPlanner shows a list of persons
+3. User requests to mark that person
+4. EventPlanner marks the person
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. No persons are found.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. EventPlanner shows an error message.
++
+Use case resumes at step 2.
 
 [appendix]
 == Non Functional Requirements
