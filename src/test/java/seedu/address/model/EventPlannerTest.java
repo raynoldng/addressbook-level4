@@ -16,6 +16,7 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -73,6 +74,7 @@ public class EventPlannerTest {
      */
     private static class EventPlannerStub implements ReadOnlyEventPlanner {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
+        private final ObservableList<EpicEvent> events = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 
         EventPlannerStub(Collection<Person> persons, Collection<? extends Tag> tags) {
@@ -84,6 +86,9 @@ public class EventPlannerTest {
         public ObservableList<Person> getPersonList() {
             return persons;
         }
+
+        @Override
+        public ObservableList<EpicEvent> getEventList() { return events; }
 
         @Override
         public ObservableList<Tag> getTagList() {

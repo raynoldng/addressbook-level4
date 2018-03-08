@@ -20,6 +20,12 @@ public class UniqueEventList {
                 && this.internalList.equals(((UniqueEventList) other).internalList));
     }
 
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<EpicEvent> asObservableList() {
+        return FXCollections.unmodifiableObservableList(internalList);
+    }
     @Override
     public int hashCode() {
         return internalList.hashCode();

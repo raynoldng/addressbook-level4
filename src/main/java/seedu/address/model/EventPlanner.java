@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.UniqueEventList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
@@ -168,6 +169,9 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     public ObservableList<Person> getPersonList() {
         return persons.asObservableList();
     }
+
+    @Override
+    public ObservableList<EpicEvent> getEventList() { return events.asObservableList(); }
 
     @Override
     public ObservableList<Tag> getTagList() {
