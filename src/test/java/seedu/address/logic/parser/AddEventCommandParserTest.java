@@ -1,10 +1,13 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_SEMINAR;
+import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_GRADUATION;
@@ -22,7 +25,9 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.Test;
 
 import seedu.address.logic.commands.AddEventCommand;
+import seedu.address.model.Name;
 import seedu.address.model.event.EpicEvent;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EpicEventBuilder;
 
 public class AddEventCommandParserTest {
@@ -60,6 +65,24 @@ public class AddEventCommandParserTest {
 
         // missing name prefix
         assertParseFailure(parser, VALID_NAME_BOB, expectedMessage);
+    }
+
+    @Test
+    public void parse_invalidValue_failure() {
+        // invalid name
+        assertParseFailure(parser, INVALID_NAME_DESC + TAG_DESC_SEMINAR + TAG_DESC_GRADUATION,
+                Name.MESSAGE_NAME_CONSTRAINTS);
+
+        // invalid tag
+        assertParseFailure(parser, NAME_DESC_GRADUATION + INVALID_TAG_DESC + VALID_TAG_GRADUATION,
+                Tag.MESSAGE_TAG_CONSTRAINTS);
+
+        // two invalid values, only first invalid value reported
+        assertParseFailure(parser, INVALID_NAME_DESC + INVALID_TAG_DESC, Name.MESSAGE_NAME_CONSTRAINTS);
+
+        // non-empty preamble
+        assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_GRADUATION + TAG_DESC_SEMINAR +
+                TAG_DESC_GRADUATION, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
     }
 
 }
