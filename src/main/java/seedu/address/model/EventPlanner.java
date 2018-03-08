@@ -22,7 +22,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
 /**
- * Wraps all data at the address-book level
+ * Wraps all data at the event planner level
  * Duplicates are not allowed (by .equals comparison)
  */
 public class EventPlanner implements ReadOnlyEventPlanner {
@@ -77,7 +77,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         try {
             setPersons(syncedPersonList);
         } catch (DuplicatePersonException e) {
-            throw new AssertionError("AddressBooks should not have duplicate persons");
+            throw new AssertionError("EventPlanners should not have duplicate persons");
         }
     }
 
