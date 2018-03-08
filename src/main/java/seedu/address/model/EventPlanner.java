@@ -179,7 +179,6 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         return new EpicEvent(event.getName(), correctTagReferences);
     }
 
-
     //// tag-level operations
 
     /**

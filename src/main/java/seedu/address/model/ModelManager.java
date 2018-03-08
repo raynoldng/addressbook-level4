@@ -87,7 +87,8 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public synchronized void addEvent(EpicEvent event) throws DuplicateEventException {
-
+        eventPlanner.addEvent(event);
+        indicateEventPlannerChanged();
     }
 
     //=========== Filtered Person List Accessors =============================================================
