@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.Name;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -15,21 +16,21 @@ import seedu.address.model.tag.UniqueTagList;
  */
 public class EpicEvent {
 
-    private final EventName name;
+    private final Name name;
 
     private final UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
      */
-    public EpicEvent(EventName name,  Set<Tag> tags) {
+    public EpicEvent(Name name, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
 
-    public EventName getName() {
+    public Name getName() {
         return name;
     }
 
