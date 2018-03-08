@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_GRADUATION;
@@ -15,6 +16,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_SEMINAR;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.Test;
@@ -50,6 +52,14 @@ public class AddEventCommandParserTest {
         // zero tags
         EpicEvent expectedEvent = new EpicEventBuilder().withName(VALID_NAME_GRADUATION).withTags().build();
         assertParseSuccess(parser, NAME_DESC_GRADUATION , new AddEventCommand(expectedEvent));
+    }
+
+    @Test
+    public void parse_compulsoryFieldMissing_failure() {
+        String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE);
+
+        // missing name prefix
+        assertParseFailure(parser, VALID_NAME_BOB, expectedMessage);
     }
 
 }
