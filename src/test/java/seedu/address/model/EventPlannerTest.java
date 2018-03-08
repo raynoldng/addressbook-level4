@@ -88,7 +88,9 @@ public class EventPlannerTest {
         }
 
         @Override
-        public ObservableList<EpicEvent> getEventList() { return events; }
+        public ObservableList<EpicEvent> getEventList() {
+            return events;
+        }
 
         @Override
         public ObservableList<Tag> getTagList() {

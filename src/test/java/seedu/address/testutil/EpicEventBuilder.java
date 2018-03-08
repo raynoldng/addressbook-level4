@@ -3,8 +3,8 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.event.EpicEvent;
 import seedu.address.model.Name;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 

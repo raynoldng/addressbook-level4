@@ -70,7 +70,8 @@ public class XmlUtilTest {
 
     @Test
     public void getDataFromFile_validFile_validResult() throws Exception {
-        EventPlanner dataFromFile = XmlUtil.getDataFromFile(VALID_FILE, XmlSerializableEventPlanner.class).toModelType();
+        EventPlanner dataFromFile = XmlUtil.getDataFromFile(VALID_FILE,
+                XmlSerializableEventPlanner.class).toModelType();
         assertEquals(9, dataFromFile.getPersonList().size());
         assertEquals(0, dataFromFile.getTagList().size());
     }
@@ -125,7 +126,8 @@ public class XmlUtilTest {
         TEMP_FILE.createNewFile();
         XmlSerializableEventPlanner dataToWrite = new XmlSerializableEventPlanner(new EventPlanner());
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
-        XmlSerializableEventPlanner dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableEventPlanner.class);
+        XmlSerializableEventPlanner dataFromFile =
+                XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableEventPlanner.class);
         assertEquals(dataToWrite, dataFromFile);
 
         AddressBookBuilder builder = new AddressBookBuilder(new EventPlanner());
