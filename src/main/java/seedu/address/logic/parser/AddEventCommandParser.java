@@ -10,8 +10,8 @@ import java.util.stream.Stream;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.event.EpicEvent;
 import seedu.address.model.Name;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.tag.Tag;
 
 /**
