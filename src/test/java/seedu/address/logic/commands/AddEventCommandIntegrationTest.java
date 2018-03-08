@@ -35,6 +35,15 @@ public class AddEventCommandIntegrationTest {
                 String.format(AddEventCommand.MESSAGE_SUCCESS, validEvent), expectedModel);
     }
 
+    @Test
+    public void execute_duplicateEvent_throwsCommandException() throws Exception {
+        EpicEvent validEvent = new EpicEventBuilder().build();
+        model.addEvent(validEvent);
+
+        EpicEvent eventInList = model.getEventPlanner().getEventList().get(0);
+        assertCommandFailure(prepareCommand(eventInList, model), model, AddEventCommand.MESSAGE_DUPLICATE_EVENT);
+    }
+
     /**
      * Generates a new {@code AddEventCommand} which upon execution, adds {@code event} into the {@code model}.
      */
