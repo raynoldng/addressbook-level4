@@ -70,7 +70,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         requireNonNull(newData);
         setTags(new HashSet<>(newData.getTagList()));
         List<Person> syncedPersonList = newData.getPersonList().stream()
-                .map(this::syncWithMasterTagList)
+                .map(this::syncPersonWithMasterTagList)
                 .collect(Collectors.toList());
 
         try {
@@ -90,7 +90,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      * @throws DuplicatePersonException if an equivalent person already exists.
      */
     public void addPerson(Person p) throws DuplicatePersonException {
-        Person person = syncWithMasterTagList(p);
+        Person person = syncPersonWithMasterTagList(p);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
@@ -105,13 +105,13 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      *      another existing person in the list.
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
      *
-     * @see #syncWithMasterTagList(Person)
+     * @see #syncPersonWithMasterTagList(Person)
      */
     public void updatePerson(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
         requireNonNull(editedPerson);
 
-        Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        Person syncedEditedPerson = syncPersonWithMasterTagList(editedPerson);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
@@ -123,14 +123,9 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      *  @return a copy of this {@code person} such that every tag in this person points to a Tag object in the master
      *  list.
      */
-    private Person syncWithMasterTagList(Person person) {
+    private Person syncPersonWithMasterTagList(Person person) {
         final UniqueTagList personTags = new UniqueTagList(person.getTags());
-        tags.mergeFrom(personTags);
-
-        // Create map with values = tag object references in the master list
-        // used for checking person tag references
-        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
-        tags.forEach(tag -> masterTagObjects.put(tag, tag));
+        final Map<Tag, Tag> masterTagObjects = updateMasterTagList(personTags);
 
         // Rebuild the list of person tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
@@ -152,6 +147,21 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     }
 
     //// tag-level operations
+
+    /**
+     *  Updates the master tag list to include tags in {@code objectTags} that are not in the list.
+     *  @return a mapping of the Tags in the list Tag object in the master list.
+     */
+    private Map<Tag, Tag> updateMasterTagList(UniqueTagList objectTags) {
+        tags.mergeFrom(objectTags);
+
+        // Create map with values = tag object references in the master list
+        // used for checking tag references
+        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
+        tags.forEach(tag -> masterTagObjects.put(tag, tag));
+
+        return masterTagObjects;
+    }
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
         tags.add(t);
