@@ -15,6 +15,7 @@ import org.junit.rules.ExpectedException;
 import javafx.collections.ObservableList;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyEventPlanner;
@@ -45,6 +46,17 @@ public class AddEventCommandTest {
 
         assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, validEvent), commandResult.feedbackToUser);
         assertEquals(Arrays.asList(validEvent), modelStub.eventsAdded);
+    }
+
+    @Test
+    public void execute_duplicateEvent_throwsCommandException() throws Exception {
+        ModelStub modelStub = new ModelStubThrowingDuplicateEventException();
+        EpicEvent validEvent = new EpicEventBuilder().build();
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(AddEventCommand.MESSAGE_DUPLICATE_EVENT);
+
+        getAddEventCommandForEpicEvent(validEvent, modelStub).execute();
     }
 
     /**
@@ -112,6 +124,21 @@ public class AddEventCommandTest {
         @Override
         public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
             fail("This method should not be called.");
+        }
+    }
+
+    /**
+     * A Model stub that always throw a DuplicateEventException when trying to add a event.
+     */
+    private class ModelStubThrowingDuplicateEventException extends ModelStub {
+        @Override
+        public void addEvent(EpicEvent person) throws DuplicateEventException {
+            throw new DuplicateEventException();
+        }
+
+        @Override
+        public ReadOnlyEventPlanner getEventPlanner() {
+            return new EventPlanner();
         }
     }
 
