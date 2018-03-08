@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -145,6 +146,39 @@ public class EventPlanner implements ReadOnlyEventPlanner {
             throw new PersonNotFoundException();
         }
     }
+
+    //// event-level operation
+
+    /**
+     * Adds an event to the event planner
+     * Also checks the new event's tags and updates {@link #tags} with any new tags found,
+     * and updates the Tag objects in the person to point to those in {@link #tags}.
+     *
+     * @throws DuplicatePersonException if an equivalent person already exists.
+     */
+    public void addEvent(EpicEvent e) throws DuplicateEventException {
+        EpicEvent event = syncEventWithMasterTagList(e);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any event
+        // in the event list.
+        events.add(event);
+    }
+
+    /**
+     *  Updates the master tag list to include tags in {@code event} that are not in the list.
+     *  @return a copy of this {@code event} such that every tag in this person event to a Tag object in the master
+     *  list.
+     */
+    private EpicEvent syncEventWithMasterTagList(EpicEvent event) {
+        final UniqueTagList eventTags = new UniqueTagList(event.getTags());
+        final Map<Tag, Tag> masterTagObjects = updateMasterTagList(eventTags);
+
+        // Rebuild the list of event tags to point to the relevant tags in the master tag list.
+        final Set<Tag> correctTagReferences = new HashSet<>();
+        eventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
+        return new EpicEvent(event.getName(), correctTagReferences);
+    }
+
 
     //// tag-level operations
 
