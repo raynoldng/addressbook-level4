@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -57,6 +59,30 @@ public class AddEventCommandTest {
         thrown.expectMessage(AddEventCommand.MESSAGE_DUPLICATE_EVENT);
 
         getAddEventCommandForEpicEvent(validEvent, modelStub).execute();
+    }
+
+    @Test
+    public void equals() {
+        EpicEvent eventA = new EpicEventBuilder().withName("Event A").build();
+        EpicEvent eventB = new EpicEventBuilder().withName("Event B").build();
+        AddEventCommand addEventACommand = new AddEventCommand(eventA);
+        AddEventCommand addEventBCommand = new AddEventCommand(eventB);
+
+        // same object -> returns true
+        assertTrue(addEventACommand.equals(addEventACommand));
+
+        // same values -> returns true
+        AddEventCommand addEventACommandCopy = new AddEventCommand(eventA);
+        assertTrue(addEventACommand.equals(addEventACommandCopy));
+
+        // different types -> returns false
+        assertFalse(addEventACommand.equals(1));
+
+        // null -> returns false
+        assertFalse(addEventACommand.equals(null));
+
+        // different person -> returns false
+        assertFalse(addEventACommand.equals(addEventBCommand));
     }
 
     /**
