@@ -22,6 +22,7 @@ import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.event.EpicEvent;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -103,7 +104,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addEvent(EpicEvent event) {
+        public void addEvent(EpicEvent event) throws DuplicateEventException {
             fail("This method should not be called.");
         }
 
