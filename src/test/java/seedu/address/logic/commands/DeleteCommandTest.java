@@ -38,7 +38,7 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete);
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -61,7 +61,7 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete);
 
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
         showNoPerson(expectedModel);
 
@@ -74,7 +74,7 @@ public class DeleteCommandTest {
 
         Index outOfBoundIndex = INDEX_SECOND_PERSON;
         // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getEventPlanner().getPersonList().size());
 
         DeleteCommand deleteCommand = prepareCommand(outOfBoundIndex);
 
@@ -88,7 +88,7 @@ public class DeleteCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeleteCommand deleteCommand = prepareCommand(INDEX_FIRST_PERSON);
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
         // delete -> first person deleted
         deleteCommand.execute();
@@ -131,7 +131,7 @@ public class DeleteCommandTest {
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         DeleteCommand deleteCommand = prepareCommand(INDEX_FIRST_PERSON);
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());

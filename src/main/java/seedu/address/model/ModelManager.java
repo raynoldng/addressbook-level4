@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.EventPlannerChangedEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -23,51 +23,51 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final AddressBook addressBook;
+    private final EventPlanner eventPlanner;
     private final FilteredList<Person> filteredPersons;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given eventPlanner and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyEventPlanner addressBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
-        this.addressBook = new AddressBook(addressBook);
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        this.eventPlanner = new EventPlanner(addressBook);
+        filteredPersons = new FilteredList<>(this.eventPlanner.getPersonList());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new EventPlanner(), new UserPrefs());
     }
 
     @Override
-    public void resetData(ReadOnlyAddressBook newData) {
-        addressBook.resetData(newData);
+    public void resetData(ReadOnlyEventPlanner newData) {
+        eventPlanner.resetData(newData);
         indicateAddressBookChanged();
     }
 
     @Override
-    public ReadOnlyAddressBook getAddressBook() {
-        return addressBook;
+    public ReadOnlyEventPlanner getEventPlanner() {
+        return eventPlanner;
     }
 
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
-        raise(new AddressBookChangedEvent(addressBook));
+        raise(new EventPlannerChangedEvent(eventPlanner));
     }
 
     @Override
     public synchronized void deletePerson(Person target) throws PersonNotFoundException {
-        addressBook.removePerson(target);
+        eventPlanner.removePerson(target);
         indicateAddressBookChanged();
     }
 
     @Override
     public synchronized void addPerson(Person person) throws DuplicatePersonException {
-        addressBook.addPerson(person);
+        eventPlanner.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
     }
@@ -77,7 +77,7 @@ public class ModelManager extends ComponentManager implements Model {
             throws DuplicatePersonException, PersonNotFoundException {
         requireAllNonNull(target, editedPerson);
 
-        addressBook.updatePerson(target, editedPerson);
+        eventPlanner.updatePerson(target, editedPerson);
         indicateAddressBookChanged();
     }
 
@@ -85,7 +85,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code addressBook}
+     * {@code eventPlanner}
      */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
@@ -112,7 +112,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return addressBook.equals(other.addressBook)
+        return eventPlanner.equals(other.eventPlanner)
                 && filteredPersons.equals(other.filteredPersons);
     }
 

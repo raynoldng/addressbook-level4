@@ -19,30 +19,30 @@ import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
-public class AddressBookTest {
+public class EventPlannerTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private final AddressBook addressBook = new AddressBook();
+    private final EventPlanner eventPlanner = new EventPlanner();
 
     @Test
     public void constructor() {
-        assertEquals(Collections.emptyList(), addressBook.getPersonList());
-        assertEquals(Collections.emptyList(), addressBook.getTagList());
+        assertEquals(Collections.emptyList(), eventPlanner.getPersonList());
+        assertEquals(Collections.emptyList(), eventPlanner.getTagList());
     }
 
     @Test
     public void resetData_null_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        addressBook.resetData(null);
+        eventPlanner.resetData(null);
     }
 
     @Test
     public void resetData_withValidReadOnlyAddressBook_replacesData() {
-        AddressBook newData = getTypicalAddressBook();
-        addressBook.resetData(newData);
-        assertEquals(newData, addressBook);
+        EventPlanner newData = getTypicalAddressBook();
+        eventPlanner.resetData(newData);
+        assertEquals(newData, eventPlanner);
     }
 
     @Test
@@ -50,32 +50,32 @@ public class AddressBookTest {
         // Repeat ALICE twice
         List<Person> newPersons = Arrays.asList(ALICE, ALICE);
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
-        AddressBookStub newData = new AddressBookStub(newPersons, newTags);
+        EventPlannerStub newData = new EventPlannerStub(newPersons, newTags);
 
         thrown.expect(AssertionError.class);
-        addressBook.resetData(newData);
+        eventPlanner.resetData(newData);
     }
 
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        addressBook.getPersonList().remove(0);
+        eventPlanner.getPersonList().remove(0);
     }
 
     @Test
     public void getTagList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        addressBook.getTagList().remove(0);
+        eventPlanner.getTagList().remove(0);
     }
 
     /**
-     * A stub ReadOnlyAddressBook whose persons and tags lists can violate interface constraints.
+     * A stub ReadOnlyEventPlanner whose persons and tags lists can violate interface constraints.
      */
-    private static class AddressBookStub implements ReadOnlyAddressBook {
+    private static class EventPlannerStub implements ReadOnlyEventPlanner {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
 
-        AddressBookStub(Collection<Person> persons, Collection<? extends Tag> tags) {
+        EventPlannerStub(Collection<Person> persons, Collection<? extends Tag> tags) {
             this.persons.setAll(persons);
             this.tags.setAll(tags);
         }

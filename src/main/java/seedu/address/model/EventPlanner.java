@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.event.UniqueEventList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -22,9 +23,10 @@ import seedu.address.model.tag.UniqueTagList;
  * Wraps all data at the address-book level
  * Duplicates are not allowed (by .equals comparison)
  */
-public class AddressBook implements ReadOnlyAddressBook {
+public class EventPlanner implements ReadOnlyEventPlanner {
 
     private final UniquePersonList persons;
+    private final UniqueEventList events;
     private final UniqueTagList tags;
 
     /*
@@ -36,15 +38,16 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        events = new UniqueEventList();
         tags = new UniqueTagList();
     }
 
-    public AddressBook() {}
+    public EventPlanner() {}
 
     /**
-     * Creates an AddressBook using the Persons and Tags in the {@code toBeCopied}
+     * Creates an EventPlanner using the Persons and Tags in the {@code toBeCopied}
      */
-    public AddressBook(ReadOnlyAddressBook toBeCopied) {
+    public EventPlanner(ReadOnlyEventPlanner toBeCopied) {
         this();
         resetData(toBeCopied);
     }
@@ -60,9 +63,9 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Resets the existing data of this {@code AddressBook} with {@code newData}.
+     * Resets the existing data of this {@code EventPlanner} with {@code newData}.
      */
-    public void resetData(ReadOnlyAddressBook newData) {
+    public void resetData(ReadOnlyEventPlanner newData) {
         requireNonNull(newData);
         setTags(new HashSet<>(newData.getTagList()));
         List<Person> syncedPersonList = newData.getPersonList().stream()
@@ -95,7 +98,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
+     * {@code EventPlanner}'s tag list will be updated with the tags of {@code editedPerson}.
      *
      * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
      *      another existing person in the list.
@@ -136,8 +139,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Removes {@code key} from this {@code AddressBook}.
-     * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
+     * Removes {@code key} from this {@code EventPlanner}.
+     * @throws PersonNotFoundException if the {@code key} is not in this {@code EventPlanner}.
      */
     public boolean removePerson(Person key) throws PersonNotFoundException {
         if (persons.remove(key)) {
@@ -174,9 +177,9 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddressBook // instanceof handles nulls
-                && this.persons.equals(((AddressBook) other).persons)
-                && this.tags.equalsOrderInsensitive(((AddressBook) other).tags));
+                || (other instanceof EventPlanner // instanceof handles nulls
+                && this.persons.equals(((EventPlanner) other).persons)
+                && this.tags.equalsOrderInsensitive(((EventPlanner) other).tags));
     }
 
     @Override

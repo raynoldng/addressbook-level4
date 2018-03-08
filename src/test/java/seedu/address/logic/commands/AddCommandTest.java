@@ -18,9 +18,9 @@ import javafx.collections.ObservableList;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
+import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -102,12 +102,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void resetData(ReadOnlyAddressBook newData) {
+        public void resetData(ReadOnlyEventPlanner newData) {
             fail("This method should not be called.");
         }
 
         @Override
-        public ReadOnlyAddressBook getAddressBook() {
+        public ReadOnlyEventPlanner getEventPlanner() {
             fail("This method should not be called.");
             return null;
         }
@@ -145,8 +145,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
+        public ReadOnlyEventPlanner getEventPlanner() {
+            return new EventPlanner();
         }
     }
 
@@ -163,8 +163,8 @@ public class AddCommandTest {
         }
 
         @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
+        public ReadOnlyEventPlanner getEventPlanner() {
+            return new EventPlanner();
         }
     }
 

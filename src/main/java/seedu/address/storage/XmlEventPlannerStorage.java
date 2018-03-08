@@ -12,47 +12,47 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyEventPlanner;
 
 /**
- * A class to access AddressBook data stored as an xml file on the hard disk.
+ * A class to access EventPlanner data stored as an xml file on the hard disk.
  */
-public class XmlAddressBookStorage implements AddressBookStorage {
+public class XmlEventPlannerStorage implements EventPlannerStorage {
 
-    private static final Logger logger = LogsCenter.getLogger(XmlAddressBookStorage.class);
+    private static final Logger logger = LogsCenter.getLogger(XmlEventPlannerStorage.class);
 
     private String filePath;
 
-    public XmlAddressBookStorage(String filePath) {
+    public XmlEventPlannerStorage(String filePath) {
         this.filePath = filePath;
     }
 
-    public String getAddressBookFilePath() {
+    public String getEventPlannerFilePath() {
         return filePath;
     }
 
     @Override
-    public Optional<ReadOnlyAddressBook> readAddressBook() throws DataConversionException, IOException {
-        return readAddressBook(filePath);
+    public Optional<ReadOnlyEventPlanner> readEventPlanner() throws DataConversionException, IOException {
+        return readEventPlanner(filePath);
     }
 
     /**
-     * Similar to {@link #readAddressBook()}
+     * Similar to {@link #readEventPlanner()}
      * @param filePath location of the data. Cannot be null
      * @throws DataConversionException if the file is not in the correct format.
      */
-    public Optional<ReadOnlyAddressBook> readAddressBook(String filePath) throws DataConversionException,
+    public Optional<ReadOnlyEventPlanner> readEventPlanner(String filePath) throws DataConversionException,
                                                                                  FileNotFoundException {
         requireNonNull(filePath);
 
         File addressBookFile = new File(filePath);
 
         if (!addressBookFile.exists()) {
-            logger.info("AddressBook file "  + addressBookFile + " not found");
+            logger.info("EventPlanner file "  + addressBookFile + " not found");
             return Optional.empty();
         }
 
-        XmlSerializableAddressBook xmlAddressBook = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
+        XmlSerializableEventPlanner xmlAddressBook = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
         try {
             return Optional.of(xmlAddressBook.toModelType());
         } catch (IllegalValueException ive) {
@@ -62,21 +62,21 @@ public class XmlAddressBookStorage implements AddressBookStorage {
     }
 
     @Override
-    public void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
-        saveAddressBook(addressBook, filePath);
+    public void saveEventPlanner(ReadOnlyEventPlanner addressBook) throws IOException {
+        saveEventPlanner(addressBook, filePath);
     }
 
     /**
-     * Similar to {@link #saveAddressBook(ReadOnlyAddressBook)}
+     * Similar to {@link #saveEventPlanner(ReadOnlyEventPlanner)}
      * @param filePath location of the data. Cannot be null
      */
-    public void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) throws IOException {
+    public void saveEventPlanner(ReadOnlyEventPlanner addressBook, String filePath) throws IOException {
         requireNonNull(addressBook);
         requireNonNull(filePath);
 
         File file = new File(filePath);
         FileUtil.createIfMissing(file);
-        XmlFileStorage.saveDataToFile(file, new XmlSerializableAddressBook(addressBook));
+        XmlFileStorage.saveDataToFile(file, new XmlSerializableEventPlanner(addressBook));
     }
 
 }
