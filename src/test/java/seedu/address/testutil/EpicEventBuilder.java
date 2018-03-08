@@ -13,7 +13,7 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class EpicEventBuilder {
 
-    public static final String DEFAULT_NAME = "AY2017/18 Graduation Ceremony";
+    public static final String DEFAULT_NAME = "AY201718 Graduation Ceremony";
     public static final String DEFAULT_TAGS = "graduation";
 
     private Name name;

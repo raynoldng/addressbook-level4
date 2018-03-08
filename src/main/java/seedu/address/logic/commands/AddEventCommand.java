@@ -20,7 +20,7 @@ public class AddEventCommand extends UndoableCommand {
             + PREFIX_NAME + "NAME "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "AY2017/18 Graduation Ceremony "
+            + PREFIX_NAME + "AY201718 Graduation Ceremony "
             + PREFIX_TAG + "graduation ";
 
     public static final String MESSAGE_SUCCESS = "New event added: %1$s";
