@@ -11,7 +11,7 @@ public class EventName {
      * The first character of the event name must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String NAME_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String EVENT_NAME_VALIDATION_REGEX = "[\\p{Alnum}][\\p{Alnum} ]*";
 
     public final String eventName;
 
@@ -30,7 +30,7 @@ public class EventName {
      * Returns true if a given string is a valid event name.
      */
     public static boolean isValidEventName(String test) {
-        return test.matches(NAME_VALIDATION_REGEX);
+        return test.matches(EVENT_NAME_VALIDATION_REGEX);
     }
 
 
