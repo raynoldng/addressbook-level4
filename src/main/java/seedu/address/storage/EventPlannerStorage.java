@@ -32,10 +32,10 @@ public interface EventPlannerStorage {
 
     /**
      * Saves the given {@link ReadOnlyEventPlanner} to the storage.
-     * @param addressBook cannot be null.
+     * @param eventPlanner cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveEventPlanner(ReadOnlyEventPlanner addressBook) throws IOException;
+    void saveEventPlanner(ReadOnlyEventPlanner eventPlanner) throws IOException;
 
     /**
      * @see #saveEventPlanner(ReadOnlyEventPlanner)

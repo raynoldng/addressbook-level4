@@ -81,19 +81,19 @@ public class MainApp extends Application {
     }
 
     /**
-     * Returns a {@code ModelManager} with the data from {@code storage}'s address book and {@code userPrefs}. <br>
-     * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
-     * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
+     * Returns a {@code ModelManager} with the data from {@code storage}'s event planner and {@code userPrefs}. <br>
+     * The data from the sample event planner will be used instead if {@code storage}'s event planner is not found,
+     * or an empty address book will be used instead if errors occur when reading {@code storage}'s event plannerk.
      */
     private Model initModelManager(Storage storage, UserPrefs userPrefs) {
-        Optional<ReadOnlyEventPlanner> addressBookOptional;
+        Optional<ReadOnlyEventPlanner> eventPlannerOptional;
         ReadOnlyEventPlanner initialData;
         try {
-            addressBookOptional = storage.readEventPlanner();
-            if (!addressBookOptional.isPresent()) {
+            eventPlannerOptional = storage.readEventPlanner();
+            if (!eventPlannerOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample EventPlanner");
             }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+            initialData = eventPlannerOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty EventPlanner");
             initialData = new EventPlanner();
@@ -189,7 +189,7 @@ public class MainApp extends Application {
 
     @Override
     public void stop() {
-        logger.info("============================ [ Stopping Address Book ] =============================");
+        logger.info("============================ [ Stopping EventPlanner ] =============================");
         ui.stop();
         try {
             storage.saveUserPrefs(userPrefs);
