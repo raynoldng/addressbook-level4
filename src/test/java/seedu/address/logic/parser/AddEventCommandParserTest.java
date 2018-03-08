@@ -45,4 +45,11 @@ public class AddEventCommandParserTest {
                 new AddEventCommand(expectedEventMultipleTags));
     }
 
+    @Test
+    public void parse_optionalFieldsMissing_success() {
+        // zero tags
+        EpicEvent expectedEvent = new EpicEventBuilder().withName(VALID_NAME_GRADUATION).withTags().build();
+        assertParseSuccess(parser, NAME_DESC_GRADUATION , new AddEventCommand(expectedEvent));
+    }
+
 }
