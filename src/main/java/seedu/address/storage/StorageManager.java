@@ -61,7 +61,8 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public Optional<ReadOnlyEventPlanner> readEventPlanner(String filePath) throws DataConversionException, IOException {
+    public Optional<ReadOnlyEventPlanner> readEventPlanner(String filePath)
+            throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
         return eventPlannerStorage.readEventPlanner(filePath);
     }

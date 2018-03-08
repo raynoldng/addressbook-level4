@@ -4,8 +4,17 @@ import static java.util.Objects.requireNonNull;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 
+/**
+ * A list of events that enforces uniqueness between its elements and does not allow nulls.
+ *
+ * Supports a minimal set of list operations.
+ *
+ * @see EpicEvent#equals(Object)
+ * @see CollectionUtil#elementsAreUnique(Collection)
+ */
 public class UniqueEventList {
 
     private final ObservableList<EpicEvent> internalList = FXCollections.observableArrayList();

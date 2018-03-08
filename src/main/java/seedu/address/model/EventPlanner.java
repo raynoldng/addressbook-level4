@@ -214,7 +214,9 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     }
 
     @Override
-    public ObservableList<EpicEvent> getEventList() { return events.asObservableList(); }
+    public ObservableList<EpicEvent> getEventList() {
+        return events.asObservableList();
+    }
 
     @Override
     public ObservableList<Tag> getTagList() {
