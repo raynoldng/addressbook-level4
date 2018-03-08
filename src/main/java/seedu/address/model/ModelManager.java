@@ -84,6 +84,11 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    @Override
+    public synchronized void addEvent(EpicEvent event) {
+
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
