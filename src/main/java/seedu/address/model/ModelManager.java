@@ -29,13 +29,13 @@ public class ModelManager extends ComponentManager implements Model {
     /**
      * Initializes a ModelManager with the given eventPlanner and userPrefs.
      */
-    public ModelManager(ReadOnlyEventPlanner addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyEventPlanner eventPlanner, UserPrefs userPrefs) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(eventPlanner, userPrefs);
 
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+        logger.fine("Initializing with event planner: " + eventPlanner + " and user prefs " + userPrefs);
 
-        this.eventPlanner = new EventPlanner(addressBook);
+        this.eventPlanner = new EventPlanner(eventPlanner);
         filteredPersons = new FilteredList<>(this.eventPlanner.getPersonList());
     }
 
@@ -46,7 +46,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void resetData(ReadOnlyEventPlanner newData) {
         eventPlanner.resetData(newData);
-        indicateAddressBookChanged();
+        indicateEventPlannerChanged();
     }
 
     @Override
@@ -55,21 +55,21 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     /** Raises an event to indicate the model has changed */
-    private void indicateAddressBookChanged() {
+    private void indicateEventPlannerChanged() {
         raise(new EventPlannerChangedEvent(eventPlanner));
     }
 
     @Override
     public synchronized void deletePerson(Person target) throws PersonNotFoundException {
         eventPlanner.removePerson(target);
-        indicateAddressBookChanged();
+        indicateEventPlannerChanged();
     }
 
     @Override
     public synchronized void addPerson(Person person) throws DuplicatePersonException {
         eventPlanner.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        indicateAddressBookChanged();
+        indicateEventPlannerChanged();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ModelManager extends ComponentManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         eventPlanner.updatePerson(target, editedPerson);
-        indicateAddressBookChanged();
+        indicateEventPlannerChanged();
     }
 
     //=========== Filtered Person List Accessors =============================================================
