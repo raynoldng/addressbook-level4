@@ -88,6 +88,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addEvent(EpicEvent event) throws DuplicateEventException {
         eventPlanner.addEvent(event);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
         indicateEventPlannerChanged();
     }
 
@@ -106,6 +107,23 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    //=========== Filtered Event List Accessors =============================================================
+
+    /**
+     * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
+     * {@code eventPlanner}
+     */
+    @Override
+    public ObservableList<EpicEvent> getFilteredEventList() {
+        return FXCollections.unmodifiableObservableList(filteredEvents);
+    }
+
+    @Override
+    public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
+        requireNonNull(predicate);
+        filteredEvents.setPredicate(predicate);
     }
 
     @Override
