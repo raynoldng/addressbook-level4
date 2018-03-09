@@ -14,7 +14,7 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 /**
  * Adds a person to the address book.
  */
-public class AddCommand extends UndoableCommand {
+public class AddPersonCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
 
@@ -39,9 +39,9 @@ public class AddCommand extends UndoableCommand {
     private final Person toAdd;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates an AddPersonCommand to add the specified {@code Person}
      */
-    public AddCommand(Person person) {
+    public AddPersonCommand(Person person) {
         requireNonNull(person);
         toAdd = person;
     }
@@ -61,7 +61,7 @@ public class AddCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddCommand // instanceof handles nulls
-                && toAdd.equals(((AddCommand) other).toAdd));
+                || (other instanceof AddPersonCommand // instanceof handles nulls
+                && toAdd.equals(((AddPersonCommand) other).toAdd));
     }
 }
