@@ -49,9 +49,9 @@
         </StackPane>
 
         <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.4" VBox.vgrow="ALWAYS">
-          <TabPane tabClosingPolicy="UNAVAILABLE">
+          <TabPane id="tabPane" fx:id="sideTabPane" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-              <Tab text="Contacts">
+              <Tab text="Contacts" fx:id="personTab">
                 <content>
                   <VBox fx:id="personList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
                     <padding>
@@ -61,7 +61,7 @@
                   </VBox>
                 </content>
               </Tab>
-              <Tab text="Events">
+              <Tab text="Events" fx:id="epicEventsTab">
                 <content>
                   <VBox fx:id="eventList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
                     <padding>
