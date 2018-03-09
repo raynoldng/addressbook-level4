@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
          minWidth="450" minHeight="600">
   <icons>
@@ -47,12 +49,31 @@
         </StackPane>
 
         <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.4" VBox.vgrow="ALWAYS">
-          <VBox fx:id="personList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
-            <padding>
-              <Insets top="10" right="10" bottom="10" left="10" />
-            </padding>
-            <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-          </VBox>
+          <TabPane tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+              <Tab text="Contacts">
+                <content>
+                  <VBox fx:id="personList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
+                    <padding>
+                      <Insets top="10" right="10" bottom="10" left="10" />
+                    </padding>
+                    <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                  </VBox>
+                </content>
+              </Tab>
+              <Tab text="Events">
+                <content>
+                  <VBox fx:id="eventList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
+                    <padding>
+                      <Insets top="10" right="10" bottom="10" left="10" />
+                    </padding>
+                    <StackPane fx:id="epicEventListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+                  </VBox>
+                </content>
+              </Tab>
+            </tabs>
+          </TabPane>
+
 
           <StackPane fx:id="browserPlaceholder" prefWidth="340" >
             <padding>

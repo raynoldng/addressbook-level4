@@ -1,0 +1,88 @@
+package seedu.address.ui;
+
+import com.google.common.eventbus.Subscribe;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.Region;
+import org.fxmisc.easybind.EasyBind;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
+import seedu.address.commons.events.ui.JumpToListRequestEvent;
+import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.model.person.Person;
+
+import java.util.logging.Logger;
+
+/**
+ * Panel containing the list of persons.
+ */
+public class EpicEventListPanel extends UiPart<Region> {
+    private static final String FXML = "EpicEventListPanel.fxml";
+    private final Logger logger = LogsCenter.getLogger(EpicEventListPanel.class);
+
+    @FXML
+    private ListView<EpicEventCard> epicEventListView;
+
+    public EpicEventListPanel(ObservableList<EpicEvent> epicEventList) {
+        super(FXML);
+        setConnections(epicEventList);
+        registerAsAnEventHandler(this);
+    }
+
+    private void setConnections(ObservableList<EpicEvent> epicEventList) {
+        ObservableList<EpicEventCard> mappedList = EasyBind.map(
+                epicEventList, (event) -> new EpicEventCard(event, epicEventList.indexOf(event) + 1));
+        epicEventListView.setItems(mappedList);
+        epicEventListView.setCellFactory(listView -> new EventListViewCell());
+        setEventHandlerForSelectionChangeEvent();
+    }
+
+    private void setEventHandlerForSelectionChangeEvent() {
+        epicEventListView.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        logger.fine("Selection in person list panel changed to : '" + newValue + "'");
+                        raise(new EpicEventPanelSelectionChangedEvent(newValue));
+                    }
+                });
+    }
+
+    /**
+     * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
+     */
+    private void scrollTo(int index) {
+        Platform.runLater(() -> {
+            epicEventListView.scrollTo(index);
+            epicEventListView.getSelectionModel().clearAndSelect(index);
+        });
+    }
+
+    @Subscribe
+    private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        scrollTo(event.targetIndex);
+    }
+
+    /**
+     * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.
+     */
+    class EventListViewCell extends ListCell<EpicEventCard> {
+
+        @Override
+        protected void updateItem(EpicEventCard event, boolean empty) {
+            super.updateItem(event, empty);
+
+            if (empty || event == null) {
+                setGraphic(null);
+                setText(null);
+            } else {
+                setGraphic(event.getRoot());
+            }
+        }
+    }
+
+}
