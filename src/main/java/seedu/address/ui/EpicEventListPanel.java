@@ -10,8 +10,8 @@ import javafx.scene.layout.Region;
 import org.fxmisc.easybind.EasyBind;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
+import seedu.address.commons.events.ui.FocusOnEpicEventListEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
@@ -66,6 +66,7 @@ public class EpicEventListPanel extends UiPart<Region> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         scrollTo(event.targetIndex);
     }
+
 
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.

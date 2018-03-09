@@ -7,6 +7,9 @@ import com.google.common.eventbus.Subscribe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -15,7 +18,9 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.FocusOnPersonListEvent;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
+import seedu.address.commons.events.ui.FocusOnEpicEventListEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
@@ -40,6 +45,8 @@ public class MainWindow extends UiPart<Stage> {
     private Config config;
     private UserPrefs prefs;
 
+    SingleSelectionModel<Tab> tabSingleSelectionModel;
+
     @FXML
     private StackPane browserPlaceholder;
 
@@ -48,6 +55,15 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private MenuItem helpMenuItem;
+
+    @FXML
+    private TabPane sideTabPane;
+
+    @FXML
+    private Tab epicEventsTab;
+
+    @FXML
+    private Tab personTab;
 
     @FXML
     private StackPane personListPanelPlaceholder;
@@ -126,7 +142,8 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
-//        System.out.println(logic.getFilteredEventList());
+        tabSingleSelectionModel = sideTabPane.getSelectionModel();
+
         epicEventListPanel = new EpicEventListPanel(logic.getFilteredEventList());
         epicEventListPanelPlaceholder.getChildren().add(epicEventListPanel.getRoot());
 
@@ -201,5 +218,17 @@ public class MainWindow extends UiPart<Stage> {
     private void handleShowHelpEvent(ShowHelpRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         handleHelp();
+    }
+
+    @Subscribe
+    private void handleFocusOnEpicEventListEvent(FocusOnEpicEventListEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        tabSingleSelectionModel.select(epicEventsTab);
+    }
+
+    @Subscribe
+    private void handleFocusOnPersonListEvent(FocusOnPersonListEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        tabSingleSelectionModel.select(personTab);
     }
 }
