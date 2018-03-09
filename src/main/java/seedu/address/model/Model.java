@@ -3,6 +3,8 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -14,11 +16,14 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
-    /** Clears existing backing model and replaces with the provided new data. */
-    void resetData(ReadOnlyAddressBook newData);
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<EpicEvent> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
 
-    /** Returns the AddressBook */
-    ReadOnlyAddressBook getAddressBook();
+    /** Clears existing backing model and replaces with the provided new data. */
+    void resetData(ReadOnlyEventPlanner newData);
+
+    /** Returns the EventPlanner */
+    ReadOnlyEventPlanner getEventPlanner();
 
     /** Deletes the given person. */
     void deletePerson(Person target) throws PersonNotFoundException;
@@ -44,5 +49,17 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /** Adds the given event */
+    void addEvent(EpicEvent event) throws DuplicateEventException;
+
+    /** Returns an unmodifiable view of the filtered event list */
+    ObservableList<EpicEvent> getFilteredEventList();
+
+    /**
+     * Updates the filter of the filtered event list to filter by the given {@code predicate}.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredEventList(Predicate<EpicEvent> predicate);
 
 }

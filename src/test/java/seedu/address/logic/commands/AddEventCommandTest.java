@@ -26,70 +26,70 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.EpicEventBuilder;
 
-public class AddCommandTest {
+public class AddEventCommandTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
+    public void constructor_nullEvent_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new AddCommand(null);
+        new AddEventCommand(null);
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Person validPerson = new PersonBuilder().build();
+    public void execute_eventAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingEventAdded modelStub = new ModelStubAcceptingEventAdded();
+        EpicEvent validEvent = new EpicEventBuilder().build();
 
-        CommandResult commandResult = getAddCommandForPerson(validPerson, modelStub).execute();
+        CommandResult commandResult = getAddEventCommandForEpicEvent(validEvent, modelStub).execute();
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validPerson), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+        assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, validEvent), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validEvent), modelStub.eventsAdded);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingDuplicatePersonException();
-        Person validPerson = new PersonBuilder().build();
+    public void execute_duplicateEvent_throwsCommandException() throws Exception {
+        ModelStub modelStub = new ModelStubThrowingDuplicateEventException();
+        EpicEvent validEvent = new EpicEventBuilder().build();
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_PERSON);
+        thrown.expectMessage(AddEventCommand.MESSAGE_DUPLICATE_EVENT);
 
-        getAddCommandForPerson(validPerson, modelStub).execute();
+        getAddEventCommandForEpicEvent(validEvent, modelStub).execute();
     }
 
     @Test
     public void equals() {
-        Person alice = new PersonBuilder().withName("Alice").build();
-        Person bob = new PersonBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        EpicEvent eventA = new EpicEventBuilder().withName("Event A").build();
+        EpicEvent eventB = new EpicEventBuilder().withName("Event B").build();
+        AddEventCommand addEventACommand = new AddEventCommand(eventA);
+        AddEventCommand addEventBCommand = new AddEventCommand(eventB);
 
         // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
+        assertTrue(addEventACommand.equals(addEventACommand));
 
         // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
+        AddEventCommand addEventACommandCopy = new AddEventCommand(eventA);
+        assertTrue(addEventACommand.equals(addEventACommandCopy));
 
         // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
+        assertFalse(addEventACommand.equals(1));
 
         // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
+        assertFalse(addEventACommand.equals(null));
 
         // different person -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        assertFalse(addEventACommand.equals(addEventBCommand));
     }
 
     /**
-     * Generates a new AddCommand with the details of the given person.
+     * Generates a new AddEventCommand with the details of the given event.
      */
-    private AddCommand getAddCommandForPerson(Person person, Model model) {
-        AddCommand command = new AddCommand(person);
+    private AddEventCommand getAddEventCommandForEpicEvent(EpicEvent event, Model model) {
+        AddEventCommand command = new AddEventCommand(event);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -154,12 +154,12 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that always throw a DuplicatePersonException when trying to add a person.
+     * A Model stub that always throw a DuplicateEventException when trying to add a event.
      */
-    private class ModelStubThrowingDuplicatePersonException extends ModelStub {
+    private class ModelStubThrowingDuplicateEventException extends ModelStub {
         @Override
-        public void addPerson(Person person) throws DuplicatePersonException {
-            throw new DuplicatePersonException();
+        public void addEvent(EpicEvent person) throws DuplicateEventException {
+            throw new DuplicateEventException();
         }
 
         @Override
@@ -169,15 +169,15 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that always accept the person being added.
+     * A Model stub that always accept the event being added.
      */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
-        final ArrayList<Person> personsAdded = new ArrayList<>();
+    private class ModelStubAcceptingEventAdded extends ModelStub {
+        final ArrayList<EpicEvent> eventsAdded = new ArrayList<>();
 
         @Override
-        public void addPerson(Person person) throws DuplicatePersonException {
-            requireNonNull(person);
-            personsAdded.add(person);
+        public void addEvent(EpicEvent event) throws DuplicateEventException {
+            requireNonNull(event);
+            eventsAdded.add(event);
         }
 
         @Override
@@ -185,5 +185,4 @@ public class AddCommandTest {
             return new EventPlanner();
         }
     }
-
 }

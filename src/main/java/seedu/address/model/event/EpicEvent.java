@@ -1,4 +1,4 @@
-package seedu.address.model.person;
+package seedu.address.model.event;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -11,45 +11,27 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
 /**
- * Represents a Person in the event planner.
+ * Represents a Event in the event planner.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Person {
+public class EpicEvent {
 
     private final Name name;
-    private final Phone phone;
-    private final Email email;
-    private final Address address;
 
     private final UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public EpicEvent(Name name, Set<Tag> tags) {
+        requireAllNonNull(name, tags);
         this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
 
     public Name getName() {
         return name;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public Email getEmail() {
-        return email;
-    }
-
-    public Address getAddress() {
-        return address;
     }
 
     /**
@@ -66,33 +48,24 @@ public class Person {
             return true;
         }
 
-        if (!(other instanceof Person)) {
+        if (!(other instanceof EpicEvent)) {
             return false;
         }
 
-        Person otherPerson = (Person) other;
-        return otherPerson.getName().equals(this.getName())
-                && otherPerson.getPhone().equals(this.getPhone())
-                && otherPerson.getEmail().equals(this.getEmail())
-                && otherPerson.getAddress().equals(this.getAddress());
+        EpicEvent otherEpicEvent = (EpicEvent) other;
+        return otherEpicEvent.getName().equals(this.getName());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, tags);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getName())
-                .append(" Phone: ")
-                .append(getPhone())
-                .append(" Email: ")
-                .append(getEmail())
-                .append(" Address: ")
-                .append(getAddress())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

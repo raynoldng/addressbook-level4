@@ -3,18 +3,18 @@ package seedu.address.model.util;
 import java.util.HashSet;
 import java.util.Set;
 
-import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.EventPlanner;
+import seedu.address.model.Name;
+import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
 
 /**
- * Contains utility methods for populating {@code AddressBook} with sample data.
+ * Contains utility methods for populating {@code EventPlanner} with sample data.
  */
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
@@ -40,9 +40,9 @@ public class SampleDataUtil {
         };
     }
 
-    public static ReadOnlyAddressBook getSampleAddressBook() {
+    public static ReadOnlyEventPlanner getSampleAddressBook() {
         try {
-            AddressBook sampleAb = new AddressBook();
+            EventPlanner sampleAb = new EventPlanner();
             for (Person samplePerson : getSamplePersons()) {
                 sampleAb.addPerson(samplePerson);
             }
