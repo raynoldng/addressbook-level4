@@ -33,13 +33,13 @@ public interface Model {
     void addPerson(Person person) throws DuplicatePersonException;
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
+     * Replaces the given person {@code targetPerson} with {@code editedPerson}.
      *
      * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
      *      another existing person in the list.
-     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     * @throws PersonNotFoundException if {@code targetPerson} could not be found in the list.
      */
-    void updatePerson(Person target, Person editedPerson)
+    void updatePerson(Person targetPerson, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException;
 
     /** Returns an unmodifiable view of the filtered person list. */
@@ -56,6 +56,16 @@ public interface Model {
 
     /** Deletes the given event. */
     void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException;
+
+    /**
+     * Replaces the given event {@code targetEvent} with {@code editedEvent}.
+     *
+     * @throws DuplicateEventException if updating the event's details causes the event to be equivalent to
+     *      another existing event in the list.
+     * @throws EventNotFoundException if {@code targetEvnt} could not be found in the list.
+     */
+    void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException;
 
     /** Returns an unmodifiable view of the filtered event list. */
     ObservableList<EpicEvent> getFilteredEventList();

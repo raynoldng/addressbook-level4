@@ -78,11 +78,11 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updatePerson(Person target, Person editedPerson)
+    public void updatePerson(Person targetPerson, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
-        requireAllNonNull(target, editedPerson);
+        requireAllNonNull(targetPerson, editedPerson);
 
-        eventPlanner.updatePerson(target, editedPerson);
+        eventPlanner.updatePerson(targetPerson, editedPerson);
         indicateEventPlannerChanged();
     }
 
@@ -100,6 +100,16 @@ public class ModelManager extends ComponentManager implements Model {
         eventPlanner.removeEvent(targetEvent);
         indicateEventPlannerChanged();
     }
+
+    @Override
+    public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException {
+        requireAllNonNull(targetEvent, editedEvent);
+
+        eventPlanner.updateEvent(targetEvent, editedEvent);
+        indicateEventPlannerChanged();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**

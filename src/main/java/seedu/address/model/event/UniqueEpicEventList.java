@@ -44,7 +44,7 @@ public class UniqueEpicEventList {
     /**
      * Removes the equivalent event from the list.
      *
-     * @throws EventNotFoundException if no such person could be found in the list.
+     * @throws EventNotFoundException if no such event could be found in the list.
      */
     public boolean remove(EpicEvent eventToRemove) throws EventNotFoundException {
         requireNonNull(eventToRemove);
@@ -53,6 +53,28 @@ public class UniqueEpicEventList {
             throw new EventNotFoundException();
         }
         return eventFoundAndDeleted;
+    }
+
+    /**
+     * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
+     *
+     * @throws DuplicateEventException if the replacement is equivalent to another existing event in the list.
+     * @throws EventNotFoundException if {@code targetEvent} could not be found in the list.
+     */
+    public void setEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException {
+        requireNonNull(editedEvent);
+
+        int index = internalList.indexOf(targetEvent);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        if (!targetEvent.equals(editedEvent) && internalList.contains(editedEvent)) {
+            throw new DuplicateEventException();
+        }
+
+        internalList.set(index, editedEvent);
     }
 
     @Override
