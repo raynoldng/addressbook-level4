@@ -25,21 +25,21 @@ public class RedoCommandTest {
     private static final UndoRedoStack EMPTY_STACK = new UndoRedoStack();
 
     private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-    private final DeleteCommand deleteCommandOne = new DeleteCommand(INDEX_FIRST_PERSON);
-    private final DeleteCommand deleteCommandTwo = new DeleteCommand(INDEX_SECOND_PERSON);
+    private final DeletePersonCommand deletePersonCommandOne = new DeletePersonCommand(INDEX_FIRST_PERSON);
+    private final DeletePersonCommand deletePersonCommandTwo = new DeletePersonCommand(INDEX_SECOND_PERSON);
 
     @Before
     public void setUp() throws Exception {
-        deleteCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
-        deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
-        deleteCommandOne.preprocessUndoableCommand();
-        deleteCommandTwo.preprocessUndoableCommand();
+        deletePersonCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
+        deletePersonCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
+        deletePersonCommandOne.preprocessUndoableCommand();
+        deletePersonCommandTwo.preprocessUndoableCommand();
     }
 
     @Test
     public void execute() {
         UndoRedoStack undoRedoStack = prepareStack(
-                Collections.emptyList(), Arrays.asList(deleteCommandTwo, deleteCommandOne));
+                Collections.emptyList(), Arrays.asList(deletePersonCommandTwo, deletePersonCommandOne));
         RedoCommand redoCommand = new RedoCommand();
         redoCommand.setData(model, EMPTY_COMMAND_HISTORY, undoRedoStack);
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
