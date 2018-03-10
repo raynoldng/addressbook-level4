@@ -9,10 +9,10 @@ import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_SEMINAR;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_SEMINAR;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_NAME_BOB;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 

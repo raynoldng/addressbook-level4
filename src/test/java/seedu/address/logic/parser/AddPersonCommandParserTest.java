@@ -48,7 +48,8 @@ public class AddPersonCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         Person expectedPerson = new PersonBuilder().withName(VALID_PERSON_NAME_BOB).withPhone(VALID_PERSON_PHONE_BOB)
-                .withEmail(VALID_PERSON_EMAIL_BOB).withAddress(VALID_PERSON_ADDRESS_BOB).withTags(VALID_PERSON_TAG_FRIEND).build();
+                .withEmail(VALID_PERSON_EMAIL_BOB).withAddress(VALID_PERSON_ADDRESS_BOB)
+                .withTags(VALID_PERSON_TAG_FRIEND).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
@@ -71,8 +72,9 @@ public class AddPersonCommandParserTest {
                 + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddPersonCommand(expectedPerson));
 
         // multiple tags - all accepted
-        Person expectedPersonMultipleTags = new PersonBuilder().withName(VALID_PERSON_NAME_BOB).withPhone(VALID_PERSON_PHONE_BOB)
-                .withEmail(VALID_PERSON_EMAIL_BOB).withAddress(VALID_PERSON_ADDRESS_BOB)
+        Person expectedPersonMultipleTags = new PersonBuilder().withName(VALID_PERSON_NAME_BOB)
+                .withPhone(VALID_PERSON_PHONE_BOB).withEmail(VALID_PERSON_EMAIL_BOB)
+                .withAddress(VALID_PERSON_ADDRESS_BOB)
                 .withTags(VALID_PERSON_TAG_FRIEND, VALID_PERSON_TAG_HUSBAND).build();
         assertParseSuccess(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddPersonCommand(expectedPersonMultipleTags));
@@ -108,7 +110,8 @@ public class AddPersonCommandParserTest {
                 expectedMessage);
 
         // all prefixes missing
-        assertParseFailure(parser, VALID_PERSON_NAME_BOB + VALID_PERSON_PHONE_BOB + VALID_PERSON_EMAIL_BOB + VALID_PERSON_ADDRESS_BOB,
+        assertParseFailure(parser, VALID_PERSON_NAME_BOB + VALID_PERSON_PHONE_BOB + VALID_PERSON_EMAIL_BOB
+                        + VALID_PERSON_ADDRESS_BOB,
                 expectedMessage);
     }
 

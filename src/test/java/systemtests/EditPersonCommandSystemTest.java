@@ -64,7 +64,8 @@ public class EditPersonCommandSystemTest extends EventPlannerSystemTest {
         String command = " " + EditPersonCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
                 + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + TAG_DESC_HUSBAND + " ";
         Person editedPerson = new PersonBuilder().withName(VALID_PERSON_NAME_BOB).withPhone(VALID_PERSON_PHONE_BOB)
-                .withEmail(VALID_PERSON_EMAIL_BOB).withAddress(VALID_PERSON_ADDRESS_BOB).withTags(VALID_PERSON_TAG_HUSBAND).build();
+                .withEmail(VALID_PERSON_EMAIL_BOB).withAddress(VALID_PERSON_ADDRESS_BOB)
+                .withTags(VALID_PERSON_TAG_HUSBAND).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: undo editing the last person in the list -> last person restored */

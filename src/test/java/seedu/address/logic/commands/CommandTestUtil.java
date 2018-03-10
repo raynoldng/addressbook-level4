@@ -76,10 +76,11 @@ public class CommandTestUtil {
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_PERSON_NAME_AMY)
-                .withPhone(VALID_PERSON_PHONE_AMY).withEmail(VALID_PERSON_EMAIL_AMY).withAddress(VALID_PERSON_ADDRESS_AMY)
-                .withTags(VALID_PERSON_TAG_FRIEND).build();
+                .withPhone(VALID_PERSON_PHONE_AMY).withEmail(VALID_PERSON_EMAIL_AMY)
+                .withAddress(VALID_PERSON_ADDRESS_AMY).withTags(VALID_PERSON_TAG_FRIEND).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_PERSON_NAME_BOB)
-                .withPhone(VALID_PERSON_PHONE_BOB).withEmail(VALID_PERSON_EMAIL_BOB).withAddress(VALID_PERSON_ADDRESS_BOB)
+                .withPhone(VALID_PERSON_PHONE_BOB).withEmail(VALID_PERSON_EMAIL_BOB)
+                .withAddress(VALID_PERSON_ADDRESS_BOB)
                 .withTags(VALID_PERSON_TAG_HUSBAND, VALID_PERSON_TAG_FRIEND).build();
     }
 
@@ -159,7 +160,7 @@ public class CommandTestUtil {
         final String[] splitName = event.getName().name.split("\\s+");
         model.updateFilteredEventList(new EventNameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-     //   assertEquals(1, model.getFilteredEventList().size());
+        assertEquals(1, model.getFilteredEventList().size());
     }
 
     /**
