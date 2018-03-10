@@ -14,6 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -64,8 +65,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deletePerson(Person target) throws PersonNotFoundException {
-        eventPlanner.removePerson(target);
+    public synchronized void deletePerson(Person targetPerson) throws PersonNotFoundException {
+        eventPlanner.removePerson(targetPerson);
         indicateEventPlannerChanged();
     }
 
@@ -85,6 +86,8 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    //=========== Event Level Operations =====================================================================
+
     @Override
     public synchronized void addEvent(EpicEvent event) throws DuplicateEventException {
         eventPlanner.addEvent(event);
@@ -92,6 +95,11 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    @Override
+    public synchronized void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
+        eventPlanner.removeEvent(targetEvent);
+        indicateEventPlannerChanged();
+    }
     //=========== Filtered Person List Accessors =============================================================
 
     /**

@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 
 /**
  * A list of events that enforces uniqueness between its elements and does not allow nulls.
@@ -40,6 +41,19 @@ public class UniqueEpicEventList {
         internalList.add(toAdd);
     }
 
+    /**
+     * Removes the equivalent event from the list.
+     *
+     * @throws EventNotFoundException if no such person could be found in the list.
+     */
+    public boolean remove(EpicEvent eventToRemove) throws EventNotFoundException {
+        requireNonNull(eventToRemove);
+        final boolean eventFoundAndDeleted = internalList.remove(eventToRemove);
+        if (!eventFoundAndDeleted) {
+            throw new EventNotFoundException();
+        }
+        return eventFoundAndDeleted;
+    }
 
     @Override
     public boolean equals(Object other) {

@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -13,22 +14,22 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /** {@code Predicate} that always evaluate to true. */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
-    /** {@code Predicate} that always evaluate to true */
+    /** {@code Predicate} that always evaluate to true. */
     Predicate<EpicEvent> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
 
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyEventPlanner newData);
 
-    /** Returns the EventPlanner */
+    /** Returns the EventPlanner. */
     ReadOnlyEventPlanner getEventPlanner();
 
     /** Deletes the given person. */
     void deletePerson(Person target) throws PersonNotFoundException;
 
-    /** Adds the given person */
+    /** Adds the given person. */
     void addPerson(Person person) throws DuplicatePersonException;
 
     /**
@@ -41,7 +42,7 @@ public interface Model {
     void updatePerson(Person target, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException;
 
-    /** Returns an unmodifiable view of the filtered person list */
+    /** Returns an unmodifiable view of the filtered person list. */
     ObservableList<Person> getFilteredPersonList();
 
     /**
@@ -50,10 +51,13 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
-    /** Adds the given event */
+    /** Adds the given event. */
     void addEvent(EpicEvent event) throws DuplicateEventException;
 
-    /** Returns an unmodifiable view of the filtered event list */
+    /** Deletes the given event. */
+    void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException;
+
+    /** Returns an unmodifiable view of the filtered event list. */
     ObservableList<EpicEvent> getFilteredEventList();
 
     /**

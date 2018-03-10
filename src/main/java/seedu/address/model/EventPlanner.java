@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.UniqueEpicEventList;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -136,11 +137,11 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     }
 
     /**
-     * Removes {@code key} from this {@code EventPlanner}.
-     * @throws PersonNotFoundException if the {@code key} is not in this {@code EventPlanner}.
+     * Removes {@code personKey} from this {@code EventPlanner}.
+     * @throws PersonNotFoundException if the {@code personKey} is not in this {@code EventPlanner}.
      */
-    public boolean removePerson(Person key) throws PersonNotFoundException {
-        if (persons.remove(key)) {
+    public boolean removePerson(Person personKey) throws PersonNotFoundException {
+        if (persons.remove(personKey)) {
             return true;
         } else {
             throw new PersonNotFoundException();
@@ -179,6 +180,17 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         return new EpicEvent(event.getName(), correctTagReferences);
     }
 
+    /**
+     * Removes {@code key} from this {@code EventPlanner}.
+     * @throws EventNotFoundException if the {@code eventKey} is not in this {@code EventPlanner}.
+     */
+    public boolean removeEvent(EpicEvent eventKey) throws EventNotFoundException {
+        if (events.remove(eventKey)) {
+            return true;
+        } else {
+            throw new EventNotFoundException();
+        }
+    }
     //// tag-level operations
 
     /**
