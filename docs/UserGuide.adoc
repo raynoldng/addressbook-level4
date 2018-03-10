@@ -86,9 +86,15 @@ Examples:
 * `add-event n/AY201718 Graduation t/Graduation`
 * `add-event n/Computing Seminar`
 
+
+=== Listing all events: `list-events`
+
+Shows a list of all events in the event planner and changes the focus to events list tab. +
+Format: `list-events`
+
 === Listing all persons : `list`
 
-Shows a list of all persons in the address book. +
+Shows a list of all persons in the event planner and changes the focus to persons list tab. +
 Format: `list`
 
 === Editing a person : `edit`
