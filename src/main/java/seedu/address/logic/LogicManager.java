@@ -5,8 +5,12 @@ import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.FocusOnEpicEventListEvent;
+import seedu.address.commons.events.ui.FocusOnPersonListEvent;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.FocusOnEpicEventsList;
+import seedu.address.logic.commands.FocusOnPersonList;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.EventPlannerParser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -39,6 +43,15 @@ public class LogicManager extends ComponentManager implements Logic {
             Command command = eventPlannerParser.parseCommand(commandText);
             command.setData(model, history, undoRedoStack);
             CommandResult result = command.execute();
+
+            // set focus of the tab pane
+            if (command instanceof FocusOnEpicEventsList) {
+                raise(new FocusOnEpicEventListEvent());
+            } else if (command instanceof FocusOnPersonList) {
+                raise(new FocusOnPersonListEvent());
+            }
+
+
             undoRedoStack.push(command);
             return result;
         } finally {

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
-import seedu.address.model.event.UniqueEventList;
+import seedu.address.model.event.UniqueEpicEventList;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
@@ -28,7 +28,7 @@ import seedu.address.model.tag.UniqueTagList;
 public class EventPlanner implements ReadOnlyEventPlanner {
 
     private final UniquePersonList persons;
-    private final UniqueEventList events;
+    private final UniqueEpicEventList events;
     private final UniqueTagList tags;
 
     /*
@@ -40,7 +40,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      */
     {
         persons = new UniquePersonList();
-        events = new UniqueEventList();
+        events = new UniqueEpicEventList();
         tags = new UniqueTagList();
     }
 

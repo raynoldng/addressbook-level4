@@ -15,7 +15,7 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
  * @see EpicEvent#equals(Object)
  * @see CollectionUtil#elementsAreUnique(Collection)
  */
-public class UniqueEventList {
+public class UniqueEpicEventList {
 
     private final ObservableList<EpicEvent> internalList = FXCollections.observableArrayList();
 
@@ -44,8 +44,8 @@ public class UniqueEventList {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof UniqueEventList // instanceof handles nulls
-                && this.internalList.equals(((UniqueEventList) other).internalList));
+                || (other instanceof UniqueEpicEventList // instanceof handles nulls
+                && this.internalList.equals(((UniqueEpicEventList) other).internalList));
     }
 
     /**

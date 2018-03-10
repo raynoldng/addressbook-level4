@@ -5,9 +5,11 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import guitests.guihandles.EpicEventCardHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -36,6 +38,19 @@ public class GuiTestAssert {
         assertEquals(expectedPerson.getAddress().value, actualCard.getAddress());
         assertEquals(expectedPerson.getTags().stream().map(tag -> tag.tagName).collect(Collectors.toList()),
                 actualCard.getTags());
+    }
+
+    /**
+     * Asserts that {@code actualEpicEventCard} displays the details of {@code expectedEpicEvent}.
+     */
+    public static void assertEpicEventCardDisplaysEpicEvent(EpicEvent expectedEpicEvent,
+                                                            EpicEventCardHandle actualCard) {
+        assertEquals(expectedEpicEvent.getName().name, actualCard.getName());
+
+        /* Tags in events are not displayed for now
+        assertEquals(expectedEpicEvent.getTags().stream().map(tag -> tag.tagName).collect(Collectors.toList()),
+                actualCard.getTags());
+        */
     }
 
     /**
