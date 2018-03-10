@@ -117,6 +117,12 @@ public class AddEventCommandTest {
         }
 
         @Override
+        public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+                throws DuplicateEventException {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void addPerson(Person person) throws DuplicatePersonException {
             fail("This method should not be called.");
         }

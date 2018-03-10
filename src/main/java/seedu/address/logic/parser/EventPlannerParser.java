@@ -12,6 +12,7 @@ import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteEventCommand;
 import seedu.address.logic.commands.DeletePersonCommand;
+import seedu.address.logic.commands.EditEventCommand;
 import seedu.address.logic.commands.EditPersonCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindEventCommand;
@@ -64,11 +65,14 @@ public class EventPlannerParser {
         case FindEventCommand.COMMAND_WORD:
             return new FindEventCommandParser().parse(arguments);
 
+        case EditEventCommand.COMMAND_WORD:
+            return new EditEventCommandParser().parse(arguments);
+
         case AddPersonCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
 
         case EditPersonCommand.COMMAND_WORD:
-            return new EditCommandParser().parse(arguments);
+            return new EditPersonCommandParser().parse(arguments);
 
         case SelectCommand.COMMAND_WORD:
             return new SelectCommandParser().parse(arguments);
