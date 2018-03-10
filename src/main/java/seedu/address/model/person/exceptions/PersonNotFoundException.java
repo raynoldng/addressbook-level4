@@ -7,6 +7,6 @@ import seedu.address.commons.exceptions.DataNotFoundException;
  */
 public class PersonNotFoundException extends DataNotFoundException {
     public PersonNotFoundException() {
-        super("Operation requires person that do not exist\n");
+        super("Operation requires person that do not exist");
     }
 }
