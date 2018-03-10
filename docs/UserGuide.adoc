@@ -1,4 +1,4 @@
-= AddressBook Level 4 - User Guide
+= Event Planning isn’t Complicated (EPIC) - User Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
