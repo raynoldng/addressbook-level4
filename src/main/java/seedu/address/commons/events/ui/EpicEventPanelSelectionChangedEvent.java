@@ -2,7 +2,6 @@ package seedu.address.commons.events.ui;
 
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.ui.EpicEventCard;
-import seedu.address.ui.PersonCard;
 
 /**
  * Represents a selection change in the Epic Event List Panel

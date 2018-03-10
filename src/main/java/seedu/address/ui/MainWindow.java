@@ -15,12 +15,13 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.FocusOnPersonListEvent;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.FocusOnEpicEventListEvent;
+import seedu.address.commons.events.ui.FocusOnPersonListEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
@@ -45,7 +46,7 @@ public class MainWindow extends UiPart<Stage> {
     private Config config;
     private UserPrefs prefs;
 
-    SingleSelectionModel<Tab> tabSingleSelectionModel;
+    private SingleSelectionModel<Tab> tabSingleSelectionModel;
 
     @FXML
     private StackPane browserPlaceholder;

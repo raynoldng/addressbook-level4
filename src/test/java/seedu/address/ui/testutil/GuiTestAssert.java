@@ -43,7 +43,8 @@ public class GuiTestAssert {
     /**
      * Asserts that {@code actualEpicEventCard} displays the details of {@code expectedEpicEvent}.
      */
-    public static void assertEpicEventCardDisplaysEpicEvent(EpicEvent expectedEpicEvent, EpicEventCardHandle actualCard) {
+    public static void assertEpicEventCardDisplaysEpicEvent(EpicEvent expectedEpicEvent,
+                                                            EpicEventCardHandle actualCard) {
         assertEquals(expectedEpicEvent.getName().name, actualCard.getName());
 
         /* Tags in events are not displayed for now

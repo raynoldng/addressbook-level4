@@ -11,7 +11,6 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.FocusOnEpicEventsList;
 import seedu.address.logic.commands.FocusOnPersonList;
-import seedu.address.logic.commands.ListEventCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.EventPlannerParser;
 import seedu.address.logic.parser.exceptions.ParseException;

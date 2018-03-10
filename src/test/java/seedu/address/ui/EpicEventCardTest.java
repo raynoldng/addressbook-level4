@@ -1,18 +1,16 @@
 package seedu.address.ui;
 
-import guitests.guihandles.EpicEventCardHandle;
-import guitests.guihandles.PersonCardHandle;
-import org.junit.Test;
-import seedu.address.model.event.EpicEvent;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.EpicEventBuilder;
-import seedu.address.testutil.PersonBuilder;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.ui.testutil.GuiTestAssert.assertCardDisplaysPerson;
 import static seedu.address.ui.testutil.GuiTestAssert.assertEpicEventCardDisplaysEpicEvent;
+
+import org.junit.Test;
+
+import guitests.guihandles.EpicEventCardHandle;
+
+import seedu.address.model.event.EpicEvent;
+import seedu.address.testutil.EpicEventBuilder;
 
 public class EpicEventCardTest extends GuiUnitTest {
 

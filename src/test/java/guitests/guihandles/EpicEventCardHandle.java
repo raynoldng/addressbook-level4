@@ -1,11 +1,11 @@
 package guitests.guihandles;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Provides a handle to a person card in the person list panel.
