@@ -152,9 +152,9 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     /**
      * Adds an event to the event planner
      * Also checks the new event's tags and updates {@link #tags} with any new tags found,
-     * and updates the Tag objects in the person to point to those in {@link #tags}.
+     * and updates the Tag objects in the event to point to those in {@link #tags}.
      *
-     * @throws DuplicatePersonException if an equivalent person already exists.
+     * @throws DuplicateEventException if an equivalent event already exists.
      */
     public void addEvent(EpicEvent e) throws DuplicateEventException {
         EpicEvent event = syncEventWithMasterTagList(e);
@@ -166,7 +166,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
 
     /**
      *  Updates the master tag list to include tags in {@code event} that are not in the list.
-     *  @return a copy of this {@code event} such that every tag in this person event to a Tag object in the master
+     *  @return a copy of this {@code event} such that every tag in this event points to a Tag object in the master
      *  list.
      */
     private EpicEvent syncEventWithMasterTagList(EpicEvent event) {
