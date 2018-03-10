@@ -17,12 +17,12 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_TAG_FRIEND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_TAG_HUSBAND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -63,8 +63,8 @@ public class EditPersonCommandSystemTest extends EventPlannerSystemTest {
         Index index = INDEX_FIRST_PERSON;
         String command = " " + EditPersonCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
                 + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + TAG_DESC_HUSBAND + " ";
-        Person editedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
+        Person editedPerson = new PersonBuilder().withName(VALID_PERSON_NAME_BOB).withPhone(VALID_PERSON_PHONE_BOB)
+                .withEmail(VALID_PERSON_EMAIL_BOB).withAddress(VALID_PERSON_ADDRESS_BOB).withTags(VALID_PERSON_TAG_HUSBAND).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: undo editing the last person in the list -> last person restored */
@@ -88,7 +88,7 @@ public class EditPersonCommandSystemTest extends EventPlannerSystemTest {
         index = INDEX_FIRST_PERSON;
         command = EditPersonCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
         Person personToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
-        editedPerson = new PersonBuilder(personToEdit).withTags(VALID_TAG_FRIEND).build();
+        editedPerson = new PersonBuilder(personToEdit).withTags(VALID_PERSON_TAG_FRIEND).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: clear tags -> cleared */
@@ -105,7 +105,7 @@ public class EditPersonCommandSystemTest extends EventPlannerSystemTest {
         assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
         command = EditPersonCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BOB;
         personToEdit = getModel().getFilteredPersonList().get(index.getZeroBased());
-        editedPerson = new PersonBuilder(personToEdit).withName(VALID_NAME_BOB).build();
+        editedPerson = new PersonBuilder(personToEdit).withName(VALID_PERSON_NAME_BOB).build();
         assertCommandSuccess(command, index, editedPerson);
 
         /* Case: filtered person list, edit index within bounds of address book but out of bounds of person list

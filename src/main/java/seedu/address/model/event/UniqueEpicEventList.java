@@ -1,6 +1,9 @@
 package seedu.address.model.event;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,6 +78,19 @@ public class UniqueEpicEventList {
         }
 
         internalList.set(index, editedEvent);
+    }
+
+    public void setEvents(UniqueEpicEventList replacement) {
+        this.internalList.setAll(replacement.internalList);
+    }
+
+    public void setEvents(List<EpicEvent> events) throws DuplicateEventException {
+        requireAllNonNull(events);
+        final UniqueEpicEventList replacement = new UniqueEpicEventList();
+        for (final EpicEvent event : events) {
+            replacement.add(event);
+        }
+        setEvents(replacement);
     }
 
     @Override

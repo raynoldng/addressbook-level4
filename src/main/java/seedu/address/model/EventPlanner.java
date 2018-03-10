@@ -61,6 +61,10 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         this.persons.setPersons(persons);
     }
 
+    public void setEvents(List<EpicEvent> events) throws DuplicateEventException {
+        this.events.setEvents(events);
+    }
+
     public void setTags(Set<Tag> tags) {
         this.tags.setTags(tags);
     }
@@ -74,11 +78,19 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         List<Person> syncedPersonList = newData.getPersonList().stream()
                 .map(this::syncPersonWithMasterTagList)
                 .collect(Collectors.toList());
+        List<EpicEvent> syncedEventList = newData.getEventList().stream()
+                .map(this::syncEventWithMasterTagList)
+                .collect(Collectors.toList());
 
         try {
             setPersons(syncedPersonList);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("EventPlanners should not have duplicate persons");
+        }
+        try {
+            setEvents(syncedEventList);
+        } catch (DuplicateEventException e) {
+            throw new AssertionError("EventPlanners should not have duplicate events");
         }
     }
 
@@ -262,6 +274,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         return other == this // short circuit if same object
                 || (other instanceof EventPlanner // instanceof handles nulls
                 && this.persons.equals(((EventPlanner) other).persons)
+                && this.events.equals(((EventPlanner) other).events)
                 && this.tags.equalsOrderInsensitive(((EventPlanner) other).tags));
     }
 

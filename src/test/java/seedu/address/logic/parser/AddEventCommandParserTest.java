@@ -9,10 +9,10 @@ import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_SEMINAR;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_GRADUATION;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_GRADUATION;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_SEMINAR;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_GRADUATION;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_GRADUATION;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_SEMINAR;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -29,8 +29,8 @@ public class AddEventCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        EpicEvent expectedEvent = new EpicEventBuilder().withName(VALID_NAME_GRADUATION)
-                .withTags(VALID_TAG_GRADUATION).build();
+        EpicEvent expectedEvent = new EpicEventBuilder().withName(VALID_EVENT_NAME_GRADUATION)
+                .withTags(VALID_EVENT_TAG_GRADUATION).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_GRADUATION + TAG_DESC_GRADUATION,
@@ -41,8 +41,8 @@ public class AddEventCommandParserTest {
                 new AddEventCommand(expectedEvent));
 
         // multiple tags - all accepted
-        EpicEvent expectedEventMultipleTags = new EpicEventBuilder().withName(VALID_NAME_GRADUATION)
-                .withTags(VALID_TAG_SEMINAR, VALID_TAG_GRADUATION).build();
+        EpicEvent expectedEventMultipleTags = new EpicEventBuilder().withName(VALID_EVENT_NAME_GRADUATION)
+                .withTags(VALID_EVENT_TAG_SEMINAR, VALID_EVENT_TAG_GRADUATION).build();
         assertParseSuccess(parser, NAME_DESC_GRADUATION + TAG_DESC_SEMINAR + TAG_DESC_GRADUATION,
                 new AddEventCommand(expectedEventMultipleTags));
     }
@@ -50,7 +50,7 @@ public class AddEventCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        EpicEvent expectedEvent = new EpicEventBuilder().withName(VALID_NAME_GRADUATION).withTags().build();
+        EpicEvent expectedEvent = new EpicEventBuilder().withName(VALID_EVENT_NAME_GRADUATION).withTags().build();
         assertParseSuccess(parser, NAME_DESC_GRADUATION , new AddEventCommand(expectedEvent));
     }
 
@@ -59,7 +59,7 @@ public class AddEventCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE);
 
         // missing name prefix
-        assertParseFailure(parser, VALID_NAME_BOB, expectedMessage);
+        assertParseFailure(parser, VALID_PERSON_NAME_BOB, expectedMessage);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class AddEventCommandParserTest {
                 Name.MESSAGE_NAME_CONSTRAINTS);
 
         // invalid tag
-        assertParseFailure(parser, NAME_DESC_GRADUATION + INVALID_TAG_DESC + VALID_TAG_GRADUATION,
+        assertParseFailure(parser, NAME_DESC_GRADUATION + INVALID_TAG_DESC + VALID_EVENT_TAG_GRADUATION,
                 Tag.MESSAGE_TAG_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
