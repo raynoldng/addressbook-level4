@@ -24,7 +24,7 @@ public class FindEventCommand extends Command {
     @Override
     public CommandResult execute() {
         model.updateFilteredEventList(predicate);
-        return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
+        return new CommandResult(getMessageForEventListShownSummary(model.getFilteredEventList().size()));
     }
 
     @Override
