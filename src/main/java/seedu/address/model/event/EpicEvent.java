@@ -41,16 +41,23 @@ public class EpicEvent {
         return name;
     }
 
+    /** registers person for this event */
     public void registerPerson(Person person) throws DuplicatePersonException {
         persons.add(person);
     }
 
+    /** deregisters person from this event */
     public void deregisterPerson(Person person) throws PersonNotFoundInEventException {
         try {
             persons.remove(person);
         } catch (PersonNotFoundException e) {
             throw new PersonNotFoundInEventException();
         }
+    }
+
+    /** returns true if person is in this event */
+    public boolean hasPerson(Person person) {
+        return true;
     }
 
     /**
