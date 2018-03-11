@@ -36,9 +36,8 @@ public class ListAttendeesCommand extends Command {
 
         eventToListAttendeesFor = matchedEvents.get(0);
 
-        Predicate<Person> PREDICATE_SHOW_ALL_PERSONS_IN_EVENT = person -> {
+        Predicate<Person> PREDICATE_SHOW_ALL_PERSONS_IN_EVENT = person ->
             eventToListAttendeesFor.hasPerson(person);
-        };
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS_IN_EVENT);
         return new CommandResult(String.format(MESSAGE_SUCCESS, eventName));
