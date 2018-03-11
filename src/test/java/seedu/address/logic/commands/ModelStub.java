@@ -10,6 +10,7 @@ import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -52,7 +53,14 @@ public class ModelStub implements Model {
     }
 
     @Override
-    public void registerPersonForEvent(Person person, EpicEvent event) throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException {
+    public void registerPersonForEvent(Person person, EpicEvent event) throws PersonNotFoundException,
+            EventNotFoundException, DuplicatePersonException {
+        fail("This method should not be called.");
+    }
+
+    @Override
+    public void deregisterPersonFromEvent(Person person, EpicEvent event) throws PersonNotFoundException,
+            EventNotFoundException, PersonNotFoundInEventException {
         fail("This method should not be called.");
     }
 

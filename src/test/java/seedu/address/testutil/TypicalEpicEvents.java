@@ -10,11 +10,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import seedu.address.commons.exceptions.DataNotFoundException;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * A utility class containing a list of {@code EpicEvent} objects to be used in tests.
@@ -67,6 +71,40 @@ public class TypicalEpicEvents {
                 ab.addPerson(person);
             } catch (DuplicatePersonException e) {
                 throw new AssertionError("not possible");
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code EventPlanner} with all the typical events.
+     */
+    public static EventPlanner getTypicalEventPlannerWithRegisteredPersons() {
+        EventPlanner ab = new EventPlanner();
+        for (Person person : getTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        for (EpicEvent event : getTypicalEvents()) {
+            try {
+                ab.addEvent(event);
+            } catch (DuplicateEventException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        EpicEvent mainEvent = ab.getEventList().get(0);
+        for (Person person : ab.getPersonList()) {
+            try {
+                ab.registerPersonForEvent(person, mainEvent);
+            } catch (PersonNotFoundException e) {
+                e.printStackTrace();
+            } catch (EventNotFoundException e) {
+                e.printStackTrace();
+            } catch (DuplicatePersonException e) {
+                e.printStackTrace();
             }
         }
         return ab;
