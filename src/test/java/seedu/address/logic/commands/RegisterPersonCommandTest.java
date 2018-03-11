@@ -121,4 +121,5 @@ public class RegisterPersonCommandTest {
 
         assertTrue(model.getFilteredPersonList().isEmpty());
     }
+    
 }

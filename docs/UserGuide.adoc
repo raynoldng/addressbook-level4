@@ -258,6 +258,29 @@ Registers the 2nd person in the event planner to AY201718 Graduation.
 `register 1 Computing Seminar` +
 Registers the 1st person in the results of the `find` command to Computing Seminar.
 
+=== Deregistering a person from an event: `deregister`
+
+Deregisters the specified person from an event in the event planner. +
+Format: `deregister INDEX EVENT_NAME`
+
+****
+* Deregisters the person at the specified `INDEX`.
+* The index refers to the index number shown in the most recent listing.
+* The index *must be a positive integer* 1, 2, 3, ...
+* `EVENT_NAME` must match the name of an event in the EventPlanner exactly.
+* The person to be deregistered must be already in the event.
+****
+
+
+Examples:
+
+* `list` +
+`deregister 2 AY201718 Graduation` +
+Deregisters the 2nd person in the event planner from AY201718 Graduation.
+* `find Betsy` +
+`deregister 1 Computing Seminar` +
+Deregisters the 1st person in the results of the `find` command to Computing Seminar.
+
 === Listing entered commands : `history`
 
 Lists all the commands that you have entered in reverse chronological order. +

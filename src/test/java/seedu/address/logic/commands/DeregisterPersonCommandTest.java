@@ -106,4 +106,5 @@ public class DeregisterPersonCommandTest {
 
         assertTrue(model.getFilteredPersonList().isEmpty());
     }
+    
 }
