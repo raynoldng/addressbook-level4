@@ -1,11 +1,10 @@
 package seedu.address.logic.commands;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalEpicEvents.getTypicalAddressBook;
-import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlannerWithRegisteredPersons;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
@@ -20,14 +19,10 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.event.EpicEvent;
-import seedu.address.model.person.Person;
 
 public class DeregisterPersonCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(),
-            new UserPrefs());
-    private Model duplicatedModel = new ModelManager(getTypicalAddressBook(),
             new UserPrefs());
 
     @Test

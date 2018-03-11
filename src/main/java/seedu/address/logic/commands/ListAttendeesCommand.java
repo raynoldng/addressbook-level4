@@ -8,6 +8,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
+/** lists all attendees in a given event */
 public class ListAttendeesCommand extends Command {
 
     public static final String COMMAND_WORD = "list-attendees";
@@ -30,16 +31,16 @@ public class ListAttendeesCommand extends Command {
                 .filter(e -> e.getName().toString().equals(eventName))
                 .collect(Collectors.toList());
 
-        if(matchedEvents.isEmpty()) {
+        if (matchedEvents.isEmpty()) {
             throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
         }
 
         eventToListAttendeesFor = matchedEvents.get(0);
 
-        Predicate<Person> PREDICATE_SHOW_ALL_PERSONS_IN_EVENT = person ->
+        Predicate<Person> isInEvent = person ->
             eventToListAttendeesFor.hasPerson(person);
 
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS_IN_EVENT);
+        model.updateFilteredPersonList(isInEvent);
         return new CommandResult(String.format(MESSAGE_SUCCESS, eventName));
     }
 }

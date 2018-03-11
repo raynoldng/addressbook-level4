@@ -81,7 +81,7 @@ public class RegisterPersonCommand extends UndoableCommand {
                 .filter(e -> e.getName().toString().equals(eventName))
                 .collect(Collectors.toList());
 
-        if(matchedEvents.isEmpty()) {
+        if (matchedEvents.isEmpty()) {
             throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
         }
 

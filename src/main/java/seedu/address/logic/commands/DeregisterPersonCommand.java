@@ -13,7 +13,6 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
@@ -82,7 +81,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
                 .filter(e -> e.getName().toString().equals(eventName))
                 .collect(Collectors.toList());
 
-        if(matchedEvents.isEmpty()) {
+        if (matchedEvents.isEmpty()) {
             throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
         }
 
