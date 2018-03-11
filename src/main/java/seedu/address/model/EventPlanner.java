@@ -225,6 +225,14 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         events.setEvent(targetEvent, syncedEditedEvent);
     }
 
+    /**
+     * Registers a particular person to a particular event
+     */
+    public void registerPersonForEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException {
+        events.registerPersonForEvent(person, event);
+    }
+
     //// tag-level operations
 
     /**

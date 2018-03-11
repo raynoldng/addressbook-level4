@@ -1,14 +1,10 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -16,6 +12,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
@@ -33,6 +30,7 @@ public class RegisterPersonCommand extends UndoableCommand {
 
     public static final String MESSAGE_SUCCESS = "Registered person %1$s for event %2$s";
     public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This person is already registered for the event";
 
     private final Index targetIndex;
     private final String eventName;
@@ -58,7 +56,9 @@ public class RegisterPersonCommand extends UndoableCommand {
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
         } catch (EventNotFoundException enfe) {
-            throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
+            throw new AssertionError("The target event cannot be missing");
+        } catch (DuplicatePersonException dpe) {
+            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, personToRegister, eventToRegisterFor));
@@ -66,13 +66,25 @@ public class RegisterPersonCommand extends UndoableCommand {
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownPersonList = model.getFilteredPersonList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+        if (targetIndex.getZeroBased() >= lastShownPersonList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        personToRegister = lastShownList.get(targetIndex.getZeroBased());
+        personToRegister = lastShownPersonList.get(targetIndex.getZeroBased());
+
+        List<EpicEvent> events = model.getEventList();
+
+        List<EpicEvent> matchedEvents = events.stream()
+                .filter(e -> e.getName().toString().equals(eventName))
+                .collect(Collectors.toList());
+
+        if(matchedEvents.isEmpty()) {
+            throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
+        }
+
+        eventToRegisterFor = matchedEvents.get(0);
     }
 
     @Override

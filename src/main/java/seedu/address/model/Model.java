@@ -57,9 +57,14 @@ public interface Model {
     /** Deletes the given event. */
     void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException;
 
-    /** Registers the given person for the given event. */
+    /**
+     * Registers the given person {@code person} for the given event {@code event}
+     *
+     * @throws PersonNotFoundException if the person could not be found in the list
+     * @throws EventNotFoundException if the event could not be found in the list
+     */
     void registerPersonForEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException;
+            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException;
 
     /**
      * Replaces the given event {@code targetEvent} with {@code editedEvent}.
@@ -73,6 +78,9 @@ public interface Model {
 
     /** Returns an unmodifiable view of the filtered event list. */
     ObservableList<EpicEvent> getFilteredEventList();
+
+    /** Returns an unmodifiable view of the event list. */
+    ObservableList<EpicEvent> getEventList();
 
     /**
      * Updates the filter of the filtered event list to filter by the given {@code predicate}.

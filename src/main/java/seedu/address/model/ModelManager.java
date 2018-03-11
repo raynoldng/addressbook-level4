@@ -102,19 +102,22 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void registerPersonForEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException {
-
-    }
-
-    //=========== Event-Person Interactions ==================================================================
-
-    @Override
     public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
             throws DuplicateEventException, EventNotFoundException {
         requireAllNonNull(targetEvent, editedEvent);
 
         eventPlanner.updateEvent(targetEvent, editedEvent);
+        indicateEventPlannerChanged();
+    }
+
+    //=========== Event-Person Interactions ==================================================================
+
+    @Override
+    public void registerPersonForEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException {
+        requireAllNonNull(person, event);
+
+        eventPlanner.registerPersonForEvent(person, event);
         indicateEventPlannerChanged();
     }
 
@@ -138,7 +141,7 @@ public class ModelManager extends ComponentManager implements Model {
     //=========== Filtered Event List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
+     * Returns an unmodifiable view of the filtered list of {@code EpicEvent} backed by the internal list of
      * {@code eventPlanner}
      */
     @Override
@@ -150,6 +153,15 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
+    }
+
+    /**
+     * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
+     * {@code eventPlanner}
+     */
+    @Override
+    public ObservableList<EpicEvent> getEventList() {
+        return FXCollections.unmodifiableObservableList(eventPlanner.getEventList());
     }
 
     @Override

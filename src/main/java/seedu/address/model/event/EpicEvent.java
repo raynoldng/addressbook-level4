@@ -7,6 +7,9 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.Name;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -19,6 +22,7 @@ public class EpicEvent {
     private final Name name;
 
     private final UniqueTagList tags;
+    private final UniquePersonList persons;
 
     /**
      * Every field must be present and not null.
@@ -28,10 +32,15 @@ public class EpicEvent {
         this.name = name;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
+        this.persons = new UniquePersonList();
     }
 
     public Name getName() {
         return name;
+    }
+
+    public void registerPerson(Person person) throws DuplicatePersonException {
+        persons.add(person);
     }
 
     /**
