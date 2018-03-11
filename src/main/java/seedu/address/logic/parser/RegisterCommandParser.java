@@ -19,9 +19,9 @@ public class RegisterCommandParser implements Parser<RegisterPersonCommand> {
      */
     public RegisterPersonCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
-        String[] indexAndEventName = trimmedArgs.split("\\s+");
+        String[] indexAndEventName = trimmedArgs.split("\\s+", 2);
 
-        if (indexAndEventName.length > 2) {
+        if (indexAndEventName.length < 2) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, RegisterPersonCommand.MESSAGE_USAGE));
         }

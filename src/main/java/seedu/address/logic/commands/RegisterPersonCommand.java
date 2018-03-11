@@ -61,7 +61,7 @@ public class RegisterPersonCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, personToRegister, eventToRegisterFor));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, personToRegister, eventName));
     }
 
     @Override

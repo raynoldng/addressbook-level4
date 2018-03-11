@@ -4,6 +4,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_GRAD
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_SEMINAR;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_SEMINAR;
+import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,13 +13,15 @@ import java.util.List;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * A utility class containing a list of {@code EpicEvent} objects to be used in tests.
  */
 public class TypicalEpicEvents {
 
-    public static final EpicEvent GRDUATION = new EpicEventBuilder().withName("AY201718 Graduation Ceremony")
+    public static final EpicEvent GRADUATION = new EpicEventBuilder().withName("AY201718 Graduation Ceremony")
             .withTags("graduation").build();
     public static final EpicEvent FOODSEMINAR = new EpicEventBuilder().withName("Food Seminar")
             .withTags("seminar", "food").build();
@@ -59,11 +62,18 @@ public class TypicalEpicEvents {
                 throw new AssertionError("not possible");
             }
         }
+        for (Person person : getTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                throw new AssertionError("not possible");
+            }
+        }
         return ab;
     }
 
     public static List<EpicEvent> getTypicalEvents() {
-        return new ArrayList<>(Arrays.asList(GRDUATION, FOODSEMINAR, IOTSEMINAR, MATHOLYMPIAD, PHYSICSOLYMPIAD,
+        return new ArrayList<>(Arrays.asList(GRADUATION, FOODSEMINAR, IOTSEMINAR, MATHOLYMPIAD, PHYSICSOLYMPIAD,
                 CAREERTALK, ORIENTATION));
     }
 }
