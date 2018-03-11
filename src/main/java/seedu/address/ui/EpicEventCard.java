@@ -8,7 +8,7 @@ import javafx.scene.layout.Region;
 import seedu.address.model.event.EpicEvent;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * An UI component that displays information of an {@code EpicEvent}.
  */
 public class EpicEventCard extends UiPart<Region> {
 
@@ -31,12 +31,6 @@ public class EpicEventCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private Label phone;
-    @FXML
-    private Label address;
-    @FXML
-    private Label email;
-    @FXML
     private FlowPane tags;
 
     public EpicEventCard(EpicEvent epicEvent, int displayedIndex) {
@@ -44,6 +38,7 @@ public class EpicEventCard extends UiPart<Region> {
         this.epicEvent = epicEvent;
         id.setText(displayedIndex + ". ");
         name.setText(epicEvent.getName().name);
+        epicEvent.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 
     @Override

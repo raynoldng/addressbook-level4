@@ -23,6 +23,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -98,15 +99,6 @@ public class AddEventCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
-        @Override
-        public void addPerson(Person person) throws DuplicatePersonException {
-            fail("This method should not be called.");
-        }
-
-        @Override
-        public void addEvent(EpicEvent event) throws DuplicateEventException {
-            fail("This method should not be called.");
-        }
 
         @Override
         public void resetData(ReadOnlyEventPlanner newData) {
@@ -120,7 +112,28 @@ public class AddEventCommandTest {
         }
 
         @Override
-        public void deletePerson(Person target) throws PersonNotFoundException {
+        public void addEvent(EpicEvent event) throws DuplicateEventException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+                throws DuplicateEventException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void addPerson(Person person) throws DuplicatePersonException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void deletePerson(Person targetPerson) throws PersonNotFoundException {
             fail("This method should not be called.");
         }
 

@@ -1,11 +1,15 @@
 package seedu.address.model.event;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 
 /**
  * A list of events that enforces uniqueness between its elements and does not allow nulls.
@@ -40,6 +44,54 @@ public class UniqueEpicEventList {
         internalList.add(toAdd);
     }
 
+    /**
+     * Removes the equivalent event from the list.
+     *
+     * @throws EventNotFoundException if no such event could be found in the list.
+     */
+    public boolean remove(EpicEvent eventToRemove) throws EventNotFoundException {
+        requireNonNull(eventToRemove);
+        final boolean eventFoundAndDeleted = internalList.remove(eventToRemove);
+        if (!eventFoundAndDeleted) {
+            throw new EventNotFoundException();
+        }
+        return eventFoundAndDeleted;
+    }
+
+    /**
+     * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
+     *
+     * @throws DuplicateEventException if the replacement is equivalent to another existing event in the list.
+     * @throws EventNotFoundException if {@code targetEvent} could not be found in the list.
+     */
+    public void setEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException {
+        requireNonNull(editedEvent);
+
+        int index = internalList.indexOf(targetEvent);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        if (!targetEvent.equals(editedEvent) && internalList.contains(editedEvent)) {
+            throw new DuplicateEventException();
+        }
+
+        internalList.set(index, editedEvent);
+    }
+
+    public void setEvents(UniqueEpicEventList replacement) {
+        this.internalList.setAll(replacement.internalList);
+    }
+
+    public void setEvents(List<EpicEvent> events) throws DuplicateEventException {
+        requireAllNonNull(events);
+        final UniqueEpicEventList replacement = new UniqueEpicEventList();
+        for (final EpicEvent event : events) {
+            replacement.add(event);
+        }
+        setEvents(replacement);
+    }
 
     @Override
     public boolean equals(Object other) {

@@ -14,6 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -64,8 +65,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deletePerson(Person target) throws PersonNotFoundException {
-        eventPlanner.removePerson(target);
+    public synchronized void deletePerson(Person targetPerson) throws PersonNotFoundException {
+        eventPlanner.removePerson(targetPerson);
         indicateEventPlannerChanged();
     }
 
@@ -77,18 +78,35 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updatePerson(Person target, Person editedPerson)
+    public void updatePerson(Person targetPerson, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
-        requireAllNonNull(target, editedPerson);
+        requireAllNonNull(targetPerson, editedPerson);
 
-        eventPlanner.updatePerson(target, editedPerson);
+        eventPlanner.updatePerson(targetPerson, editedPerson);
         indicateEventPlannerChanged();
     }
+
+    //=========== Event Level Operations =====================================================================
 
     @Override
     public synchronized void addEvent(EpicEvent event) throws DuplicateEventException {
         eventPlanner.addEvent(event);
         updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        indicateEventPlannerChanged();
+    }
+
+    @Override
+    public synchronized void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
+        eventPlanner.removeEvent(targetEvent);
+        indicateEventPlannerChanged();
+    }
+
+    @Override
+    public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException {
+        requireAllNonNull(targetEvent, editedEvent);
+
+        eventPlanner.updateEvent(targetEvent, editedEvent);
         indicateEventPlannerChanged();
     }
 
@@ -141,7 +159,8 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return eventPlanner.equals(other.eventPlanner)
-                && filteredPersons.equals(other.filteredPersons);
+                && filteredPersons.equals(other.filteredPersons)
+                && filteredEvents.equals(other.filteredEvents);
     }
 
 }

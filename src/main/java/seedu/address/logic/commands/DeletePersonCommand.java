@@ -14,7 +14,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 /**
  * Deletes a person identified using it's last displayed index from the address book.
  */
-public class DeleteCommand extends UndoableCommand {
+public class DeletePersonCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -29,7 +29,7 @@ public class DeleteCommand extends UndoableCommand {
 
     private Person personToDelete;
 
-    public DeleteCommand(Index targetIndex) {
+    public DeletePersonCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
@@ -60,8 +60,8 @@ public class DeleteCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof DeleteCommand // instanceof handles nulls
-                && this.targetIndex.equals(((DeleteCommand) other).targetIndex) // state check
-                && Objects.equals(this.personToDelete, ((DeleteCommand) other).personToDelete));
+                || (other instanceof DeletePersonCommand // instanceof handles nulls
+                && this.targetIndex.equals(((DeletePersonCommand) other).targetIndex) // state check
+                && Objects.equals(this.personToDelete, ((DeletePersonCommand) other).personToDelete));
     }
 }

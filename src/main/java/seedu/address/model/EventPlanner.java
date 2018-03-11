@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.UniqueEpicEventList;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -60,6 +61,10 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         this.persons.setPersons(persons);
     }
 
+    public void setEvents(List<EpicEvent> events) throws DuplicateEventException {
+        this.events.setEvents(events);
+    }
+
     public void setTags(Set<Tag> tags) {
         this.tags.setTags(tags);
     }
@@ -73,11 +78,19 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         List<Person> syncedPersonList = newData.getPersonList().stream()
                 .map(this::syncPersonWithMasterTagList)
                 .collect(Collectors.toList());
+        List<EpicEvent> syncedEventList = newData.getEventList().stream()
+                .map(this::syncEventWithMasterTagList)
+                .collect(Collectors.toList());
 
         try {
             setPersons(syncedPersonList);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("EventPlanners should not have duplicate persons");
+        }
+        try {
+            setEvents(syncedEventList);
+        } catch (DuplicateEventException e) {
+            throw new AssertionError("EventPlanners should not have duplicate events");
         }
     }
 
@@ -99,16 +112,16 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * Replaces the given person {@code targetPerson} in the list with {@code editedPerson}.
      * {@code EventPlanner}'s tag list will be updated with the tags of {@code editedPerson}.
      *
      * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
      *      another existing person in the list.
-     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     * @throws PersonNotFoundException if {@code targetPerson} could not be found in the list.
      *
      * @see #syncPersonWithMasterTagList(Person)
      */
-    public void updatePerson(Person target, Person editedPerson)
+    public void updatePerson(Person targetPerson, Person editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
         requireNonNull(editedPerson);
 
@@ -116,7 +129,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any person
         // in the person list.
-        persons.setPerson(target, syncedEditedPerson);
+        persons.setPerson(targetPerson, syncedEditedPerson);
     }
 
     /**
@@ -136,11 +149,11 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     }
 
     /**
-     * Removes {@code key} from this {@code EventPlanner}.
-     * @throws PersonNotFoundException if the {@code key} is not in this {@code EventPlanner}.
+     * Removes {@code personKey} from this {@code EventPlanner}.
+     * @throws PersonNotFoundException if the {@code personKey} is not in this {@code EventPlanner}.
      */
-    public boolean removePerson(Person key) throws PersonNotFoundException {
-        if (persons.remove(key)) {
+    public boolean removePerson(Person personKey) throws PersonNotFoundException {
+        if (persons.remove(personKey)) {
             return true;
         } else {
             throw new PersonNotFoundException();
@@ -152,9 +165,9 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     /**
      * Adds an event to the event planner
      * Also checks the new event's tags and updates {@link #tags} with any new tags found,
-     * and updates the Tag objects in the person to point to those in {@link #tags}.
+     * and updates the Tag objects in the event to point to those in {@link #tags}.
      *
-     * @throws DuplicatePersonException if an equivalent person already exists.
+     * @throws DuplicateEventException if an equivalent event already exists.
      */
     public void addEvent(EpicEvent e) throws DuplicateEventException {
         EpicEvent event = syncEventWithMasterTagList(e);
@@ -166,7 +179,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
 
     /**
      *  Updates the master tag list to include tags in {@code event} that are not in the list.
-     *  @return a copy of this {@code event} such that every tag in this person event to a Tag object in the master
+     *  @return a copy of this {@code event} such that every tag in this event points to a Tag object in the master
      *  list.
      */
     private EpicEvent syncEventWithMasterTagList(EpicEvent event) {
@@ -177,6 +190,39 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         final Set<Tag> correctTagReferences = new HashSet<>();
         eventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new EpicEvent(event.getName(), correctTagReferences);
+    }
+
+    /**
+     * Removes {@code key} from this {@code EventPlanner}.
+     * @throws EventNotFoundException if the {@code eventKey} is not in this {@code EventPlanner}.
+     */
+    public boolean removeEvent(EpicEvent eventKey) throws EventNotFoundException {
+        if (events.remove(eventKey)) {
+            return true;
+        } else {
+            throw new EventNotFoundException();
+        }
+    }
+
+    /**
+     * Replaces the given event {@code targetEvent} in the list with {@code editedEvent}.
+     * {@code EventPlanner}'s tag list will be updated with the tags of {@code editedEvent}.
+     *
+     * @throws DuplicateEventException if updating the event's details causes the event to be equivalent to
+     *      another existing event in the list.
+     * @throws EventNotFoundException if {@code targetEvent} could not be found in the list.
+     *
+     * @see #syncEventWithMasterTagList(EpicEvent)
+     */
+    public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException {
+        requireNonNull(editedEvent);
+
+        EpicEvent syncedEditedEvent = syncEventWithMasterTagList(editedEvent);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any person
+        // in the person list.
+        events.setEvent(targetEvent, syncedEditedEvent);
     }
 
     //// tag-level operations
@@ -228,6 +274,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         return other == this // short circuit if same object
                 || (other instanceof EventPlanner // instanceof handles nulls
                 && this.persons.equals(((EventPlanner) other).persons)
+                && this.events.equals(((EventPlanner) other).events)
                 && this.tags.equalsOrderInsensitive(((EventPlanner) other).tags));
     }
 
