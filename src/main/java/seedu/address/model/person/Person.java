@@ -52,20 +52,24 @@ public class Person {
         return address;
     }
 
-    public void setName(Name name) {
+    public Person setName(Name name) {
         this.name = name;
+        return this;
     }
 
-    public void setPhone(Phone phone) {
+    public Person setPhone(Phone phone) {
         this.phone = phone;
+        return this;
     }
 
-    public void setEmail(Email email) {
+    public Person setEmail(Email email) {
         this.email = email;
+        return this;
     }
 
-    public void setAddress(Address address) {
+    public Person setAddress(Address address) {
         this.address = address;
+        return this;
     }
 
     /**

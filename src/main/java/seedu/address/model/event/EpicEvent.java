@@ -21,9 +21,9 @@ import seedu.address.model.tag.UniqueTagList;
  */
 public class EpicEvent {
 
-    private final Name name;
+    private Name name;
 
-    private final UniqueTagList tags;
+    private UniqueTagList tags;
     private final UniquePersonList attendees;
 
     /**
@@ -39,6 +39,16 @@ public class EpicEvent {
 
     public Name getName() {
         return name;
+    }
+
+    public EpicEvent setName(Name name) {
+        this.name = name;
+        return this;
+    }
+
+    public EpicEvent setTags(Set<Tag> tags) {
+        this.tags = new UniqueTagList(tags);
+        return this;
     }
 
     /** registers person for this event */
