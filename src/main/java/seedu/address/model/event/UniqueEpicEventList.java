@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
@@ -76,6 +77,24 @@ public class UniqueEpicEventList {
         }
 
         eventToRegisterFor.registerPerson(person);
+    }
+
+    /**
+     * Deregisters the person to the event.
+     *
+     * @throws PersonNotFoundInEventException if person could not be found in event
+     * @throws EventNotFoundException if no such event could be found in the list
+     */
+    public void deregisterPersonFromEvent(Person person, EpicEvent eventToRegisterFor)
+            throws PersonNotFoundInEventException, EventNotFoundException {
+        requireAllNonNull(person, eventToRegisterFor);
+
+        int index = internalList.indexOf(eventToRegisterFor);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        eventToRegisterFor.deregisterPerson(person);
     }
 
     /**

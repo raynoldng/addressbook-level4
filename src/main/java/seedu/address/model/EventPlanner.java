@@ -15,6 +15,7 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.UniqueEpicEventList;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -232,6 +233,15 @@ public class EventPlanner implements ReadOnlyEventPlanner {
             throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException {
         events.registerPersonForEvent(person, event);
     }
+
+    /**
+     * Deregisters a particular person from a particular event
+     */
+    public void deregisterPersonFromEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException {
+        events.deregisterPersonFromEvent(person, event);
+    }
+
 
     //// tag-level operations
 

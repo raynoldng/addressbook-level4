@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -62,9 +63,20 @@ public interface Model {
      *
      * @throws PersonNotFoundException if the person could not be found in the list
      * @throws EventNotFoundException if the event could not be found in the list
+     * @throws DuplicatePersonException if the person is already registered for the event
      */
     void registerPersonForEvent(Person person, EpicEvent event)
             throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException;
+
+    /**
+     * Deregisters the given person {@code person} from the given event {@code event}
+     *
+     * @throws PersonNotFoundException if the person could not be found in the list
+     * @throws EventNotFoundException if the event could not be found in the list
+     * @throws PersonNotFoundInEventException if the person could not be found in the event
+     */
+    void deregisterPersonFromEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException;
 
     /**
      * Replaces the given event {@code targetEvent} with {@code editedEvent}.

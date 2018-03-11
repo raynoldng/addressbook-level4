@@ -7,9 +7,11 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.Name;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -41,6 +43,14 @@ public class EpicEvent {
 
     public void registerPerson(Person person) throws DuplicatePersonException {
         persons.add(person);
+    }
+
+    public void deregisterPerson(Person person) throws PersonNotFoundInEventException {
+        try {
+            persons.remove(person);
+        } catch (PersonNotFoundException e) {
+            throw new PersonNotFoundInEventException();
+        }
     }
 
     /**

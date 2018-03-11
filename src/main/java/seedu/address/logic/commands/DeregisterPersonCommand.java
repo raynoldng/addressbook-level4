@@ -11,6 +11,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -18,32 +19,32 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 /**
  * Registers a person to an event.
  */
-public class RegisterPersonCommand extends UndoableCommand {
+public class DeregisterPersonCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "register";
+    public static final String COMMAND_WORD = "deregister";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Registers the person identified by the index number used in the last person listing"
-            + " to a particular event.\n"
+            + ": Deregisters the person identified by the index number used in the last person listing"
+            + " from a particular event.\n"
             + "Parameters: INDEX (must be a positive integer), EVENT_NAME (must match an event's name"
             + " in EventPlanner exactly\n"
             + "Example: " + COMMAND_WORD + " 1" + " AY201718 Graduation";
 
-    public static final String MESSAGE_SUCCESS = "Registered person %1$s for event %2$s";
+    public static final String MESSAGE_SUCCESS = "Deregistered person %1$s from event %2$s";
     public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person is already registered for the event";
+    public static final String MESSAGE_PERSON_NOT_IN_EVENT = "This person was not registered for the event";
 
     private final Index targetIndex;
     private final String eventName;
 
-    private Person personToRegister;
-    private EpicEvent eventToRegisterFor;
+    private Person personToDeregister;
+    private EpicEvent eventToDeregisterFor;
 
     /**
      * Creates an RegisterPersonCommand to register the Person at targetIndex in the last person
      * listing for the EpicEvent with name eventName
      */
-    public RegisterPersonCommand(Index targetIndex, String eventName) {
+    public DeregisterPersonCommand(Index targetIndex, String eventName) {
         requireAllNonNull(targetIndex, eventName);
         this.targetIndex = targetIndex;
         this.eventName = eventName;
@@ -51,18 +52,18 @@ public class RegisterPersonCommand extends UndoableCommand {
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
-        requireAllNonNull(personToRegister, eventToRegisterFor);
+        requireAllNonNull(personToDeregister, eventToDeregisterFor);
         try {
-            model.registerPersonForEvent(personToRegister, eventToRegisterFor);
+            model.deregisterPersonFromEvent(personToDeregister, eventToDeregisterFor);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");
-        } catch (DuplicatePersonException dpe) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (PersonNotFoundInEventException dpe) {
+            throw new CommandException(MESSAGE_PERSON_NOT_IN_EVENT);
         }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, personToRegister, eventName));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, personToDeregister, eventName));
     }
 
     @Override
@@ -73,7 +74,7 @@ public class RegisterPersonCommand extends UndoableCommand {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        personToRegister = lastShownPersonList.get(targetIndex.getZeroBased());
+        personToDeregister = lastShownPersonList.get(targetIndex.getZeroBased());
 
         List<EpicEvent> events = model.getEventList();
 
@@ -85,16 +86,16 @@ public class RegisterPersonCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
         }
 
-        eventToRegisterFor = matchedEvents.get(0);
+        eventToDeregisterFor = matchedEvents.get(0);
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof RegisterPersonCommand // instanceof handles nulls
-                && this.targetIndex.equals(((RegisterPersonCommand) other).targetIndex) // state check
-                && Objects.equals(this.personToRegister, ((RegisterPersonCommand) other).personToRegister)
-                && this.eventName.equals(((RegisterPersonCommand) other).eventName)
-                && Objects.equals(this.eventToRegisterFor, ((RegisterPersonCommand) other).eventToRegisterFor));
+                || (other instanceof DeregisterPersonCommand // instanceof handles nulls
+                && this.targetIndex.equals(((DeregisterPersonCommand) other).targetIndex) // state check
+                && Objects.equals(this.personToDeregister, ((DeregisterPersonCommand) other).personToDeregister)
+                && this.eventName.equals(((DeregisterPersonCommand) other).eventName)
+                && Objects.equals(this.eventToDeregisterFor, ((DeregisterPersonCommand) other).eventToDeregisterFor));
     }
 }

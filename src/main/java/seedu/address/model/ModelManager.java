@@ -15,6 +15,7 @@ import seedu.address.commons.events.model.EventPlannerChangedEvent;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -118,6 +119,15 @@ public class ModelManager extends ComponentManager implements Model {
         requireAllNonNull(person, event);
 
         eventPlanner.registerPersonForEvent(person, event);
+        indicateEventPlannerChanged();
+    }
+
+    @Override
+    public void deregisterPersonFromEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException {
+        requireAllNonNull(person, event);
+
+        eventPlanner.deregisterPersonFromEvent(person, event);
         indicateEventPlannerChanged();
     }
 
