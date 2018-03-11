@@ -57,6 +57,10 @@ public interface Model {
     /** Deletes the given event. */
     void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException;
 
+    /** Registers the given person for the given event. */
+    void registerPersonForEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException;
+
     /**
      * Replaces the given event {@code targetEvent} with {@code editedEvent}.
      *

@@ -102,6 +102,14 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void registerPersonForEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException {
+
+    }
+
+    //=========== Event-Person Interactions ==================================================================
+
+    @Override
     public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
             throws DuplicateEventException, EventNotFoundException {
         requireAllNonNull(targetEvent, editedEvent);
