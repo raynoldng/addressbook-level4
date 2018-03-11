@@ -4,7 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
-import static seedu.address.testutil.TypicalEpicEvents.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlanner;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
@@ -22,7 +22,7 @@ import seedu.address.model.UserPrefs;
 
 public class DeregisterPersonCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(),
+    private Model model = new ModelManager(getTypicalEventPlanner(),
             new UserPrefs());
 
     @Test

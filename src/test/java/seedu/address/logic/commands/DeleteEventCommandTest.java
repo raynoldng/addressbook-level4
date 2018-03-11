@@ -7,7 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showEventAtIndex;
-import static seedu.address.testutil.TypicalEpicEvents.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlanner;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
 
@@ -28,12 +28,12 @@ import seedu.address.model.event.EpicEvent;
  */
 public class DeleteEventCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        System.out.println(getTypicalAddressBook().getEventList().size());
+        model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+        System.out.println(getTypicalEventPlanner().getEventList().size());
         System.out.println(model.getEventPlanner().getEventList().size());
         EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
         DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);

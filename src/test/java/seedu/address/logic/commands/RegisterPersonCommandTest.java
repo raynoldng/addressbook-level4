@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
-import static seedu.address.testutil.TypicalEpicEvents.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlanner;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
@@ -25,8 +25,8 @@ import seedu.address.model.person.Person;
 
 public class RegisterPersonCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-    private Model duplicatedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+    private Model duplicatedModel = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
 
     @Test
     public void execute_validIndexUnfilteredList_success() throws Exception {

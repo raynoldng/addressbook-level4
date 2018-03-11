@@ -41,6 +41,6 @@ public class ListAttendeesCommand extends Command {
             eventToListAttendeesFor.hasPerson(person);
 
         model.updateFilteredPersonList(isInEvent);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, eventName));
+        return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
     }
 }
