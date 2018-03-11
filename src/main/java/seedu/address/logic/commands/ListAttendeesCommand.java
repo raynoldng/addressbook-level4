@@ -10,7 +10,7 @@ import seedu.address.model.person.Person;
 
 public class ListAttendeesCommand extends Command {
 
-    public static final String COMMAND_WORD = "list";
+    public static final String COMMAND_WORD = "list-attendees";
 
     public static final String MESSAGE_SUCCESS = "Listed all persons in %1$s";
     public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";

@@ -20,6 +20,7 @@ import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.FindPersonCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
+import seedu.address.logic.commands.ListAttendeesCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListEventCommand;
 import seedu.address.logic.commands.RedoCommand;
@@ -75,6 +76,9 @@ public class EventPlannerParser {
 
         case DeregisterPersonCommand.COMMAND_WORD:
             return new DeregisterCommandParser().parse(arguments);
+
+        case ListAttendeesCommand.COMMAND_WORD:
+            return new ListAttendeesCommandParser().parse(arguments);
 
         case AddPersonCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
