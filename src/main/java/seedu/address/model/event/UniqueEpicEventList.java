@@ -117,6 +117,9 @@ public class UniqueEpicEventList {
         }
 
         internalList.get(index).setEvent(editedEvent);
+
+        // Forces UI to refresh
+        internalList.set(index, internalList.get(index));
     }
 
     public void setEvents(UniqueEpicEventList replacement) {
