@@ -357,27 +357,27 @@ Event planner data are saved in the hard disk automatically after any command th
 There is no need to save manually.
 
 // tag::dataencryption[]
-=== Mark attendance for event participant `[coming in v1.5]`
+=== Marking attendance for event participant `[coming in v1.5]`
 
-=== Keep all participants' and events' data in persistent storage `[coming in v1.5]`
+=== Keeping all participants' and events' data in persistent storage `[coming in v1.5]`
 
-=== Import participant contact information from an csv file `[coming in v1.5]`
+=== Importing participant contact information from an csv file `[coming in v1.5]`
 
-=== Export participant contact information to an csv file `[coming in v1.5]`
+=== Exporting participant contact information to an csv file `[coming in v1.5]`
 
-=== Include privacy settings for participants' information `[coming in v2.0]`
+=== Including privacy settings for participants' information `[coming in v2.0]`
 
-=== Find a participant by his/her initials `[coming in v2.0]`
+=== Finding a participant by his/her initials `[coming in v2.0]`
 
-=== Add feedback for event from participant `[coming in v2.0]`
+=== Adding feedback for event from participant `[coming in v2.0]`
 
-=== Export event details (attendance rate, feedback etc) in a presentable format `[coming in v2.0]`
+=== Exporting event details (attendance rate, feedback etc) in a presentable format `[coming in v2.0]`
 
 === Encrypting data files `[coming in v2.0]`
 
-=== Add all participants with a particular tag to an event `[coming in v2.0]`
+=== Adding all participants with a particular tag to an event `[coming in v2.0]`
 
-=== Set up automatic email reminders to event participants `[coming in v2.0]`
+=== Setting up automatic email reminders to event participants `[coming in v2.0]`
 // end::automatedemailreminder[]
 
 == FAQ
