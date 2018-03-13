@@ -369,7 +369,17 @@ There is no need to save manually.
 
 === Finding a participant by his/her initials `[coming in v2.0]`
 
+=== Finding a participant via fuzzy search `[coming in v2.0]`
+
 === Adding feedback for event from participant `[coming in v2.0]`
+
+=== Setting up attendance marking via Quick Response (QR) codes `[coming in v2.0]`
+
+=== Setting up attendance marking via Radio-frequency identification (RFID) chips `[coming in v2.0]`
+
+=== Setting up attendance marking via Near-field communication (NFC) tags `[coming in v2.0]`
+
+=== Synchronising data across multiple devices `[coming in v2.0]`
 
 === Exporting event details (attendance rate, feedback etc) in a presentable format `[coming in v2.0]`
 
