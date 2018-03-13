@@ -42,7 +42,7 @@ public class EpicEvent {
     }
 
     /**
-     * Edits this person by transferring the fields of dummyPerson over
+     * Edits this event by transferring the name and tags of the dummyEvent over
      */
     public void setEvent(EpicEvent dummyEvent) {
         this.name = dummyEvent.getName();

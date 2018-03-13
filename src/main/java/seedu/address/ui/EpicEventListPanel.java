@@ -18,7 +18,7 @@ import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.model.event.EpicEvent;
 /**
- * Panel containing the list of persons.
+ * Panel containing the list of events.
  */
 public class EpicEventListPanel extends UiPart<Region> {
     private static final String FXML = "EpicEventListPanel.fxml";
@@ -45,14 +45,14 @@ public class EpicEventListPanel extends UiPart<Region> {
         epicEventListView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
-                        logger.fine("Selection in person list panel changed to : '" + newValue + "'");
+                        logger.fine("Selection in events list panel changed to : '" + newValue + "'");
                         raise(new EpicEventPanelSelectionChangedEvent(newValue));
                     }
                 });
     }
 
     /**
-     * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
+     * Scrolls to the {@code EventCard} at the {@code index} and selects it.
      */
     private void scrollTo(int index) {
         Platform.runLater(() -> {
@@ -69,7 +69,7 @@ public class EpicEventListPanel extends UiPart<Region> {
 
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code EventCard}.
      */
     class EventListViewCell extends ListCell<EpicEventCard> {
 
