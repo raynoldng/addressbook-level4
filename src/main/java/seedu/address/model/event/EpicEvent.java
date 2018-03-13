@@ -41,14 +41,12 @@ public class EpicEvent {
         return name;
     }
 
-    public EpicEvent setName(Name name) {
-        this.name = name;
-        return this;
-    }
-
-    public EpicEvent setTags(Set<Tag> tags) {
-        this.tags = new UniqueTagList(tags);
-        return this;
+    /**
+     * Edits this person by transferring the fields of dummyPerson over
+     */
+    public void setEvent(EpicEvent dummyEvent) {
+        this.name = dummyEvent.getName();
+        this.tags = new UniqueTagList(dummyEvent.getTags());
     }
 
     /** registers person for this event */

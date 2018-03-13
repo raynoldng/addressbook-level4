@@ -102,6 +102,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+
     @Override
     public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
             throws DuplicateEventException, EventNotFoundException {

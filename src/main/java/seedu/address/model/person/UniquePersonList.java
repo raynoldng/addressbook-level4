@@ -64,8 +64,7 @@ public class UniquePersonList implements Iterable<Person> {
             throw new DuplicatePersonException();
         }
 
-        internalList.get(index).setName(editedPerson.getName()).setPhone(editedPerson.getPhone())
-                .setEmail(editedPerson.getEmail()).setAddress(editedPerson.getAddress());
+        internalList.get(index).setPerson(editedPerson);
     }
 
     /**

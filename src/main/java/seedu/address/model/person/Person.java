@@ -52,24 +52,14 @@ public class Person {
         return address;
     }
 
-    public Person setName(Name name) {
-        this.name = name;
-        return this;
-    }
-
-    public Person setPhone(Phone phone) {
-        this.phone = phone;
-        return this;
-    }
-
-    public Person setEmail(Email email) {
-        this.email = email;
-        return this;
-    }
-
-    public Person setAddress(Address address) {
-        this.address = address;
-        return this;
+    /**
+     * Edits this person by transferring the fields of dummyPerson over
+     */
+    public void setPerson(Person dummyPerson) {
+        this.name = dummyPerson.getName();
+        this.phone = dummyPerson.getPhone();
+        this.email = dummyPerson.getEmail();
+        this.address = dummyPerson.getAddress();
     }
 
     /**

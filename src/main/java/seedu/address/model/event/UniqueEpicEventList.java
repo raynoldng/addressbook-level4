@@ -116,7 +116,7 @@ public class UniqueEpicEventList {
             throw new DuplicateEventException();
         }
 
-        internalList.get(index).setName(editedEvent.getName()).setTags(editedEvent.getTags());
+        internalList.get(index).setEvent(editedEvent);
     }
 
     public void setEvents(UniqueEpicEventList replacement) {
