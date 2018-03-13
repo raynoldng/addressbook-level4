@@ -360,7 +360,7 @@ There is no need to save manually.
 === Encrypting data files `[coming in v2.0]`
 // end::dataencryption[]
 
-=== Mark attendance for event participant `[coming in v2.0]`
+=== Mark attendance for event participant `[coming in v1.5]`
 
 === Find a participant by his/her initials `[coming in v2.0]`
 
