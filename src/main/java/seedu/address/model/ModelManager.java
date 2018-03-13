@@ -15,6 +15,7 @@ import seedu.address.commons.events.model.EventPlannerChangedEvent;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -101,12 +102,33 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+
     @Override
     public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
             throws DuplicateEventException, EventNotFoundException {
         requireAllNonNull(targetEvent, editedEvent);
 
         eventPlanner.updateEvent(targetEvent, editedEvent);
+        indicateEventPlannerChanged();
+    }
+
+    //=========== Event-Person Interactions ==================================================================
+
+    @Override
+    public void registerPersonForEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException {
+        requireAllNonNull(person, event);
+
+        eventPlanner.registerPersonForEvent(person, event);
+        indicateEventPlannerChanged();
+    }
+
+    @Override
+    public void deregisterPersonFromEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException {
+        requireAllNonNull(person, event);
+
+        eventPlanner.deregisterPersonFromEvent(person, event);
         indicateEventPlannerChanged();
     }
 
@@ -130,7 +152,7 @@ public class ModelManager extends ComponentManager implements Model {
     //=========== Filtered Event List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
+     * Returns an unmodifiable view of the filtered list of {@code EpicEvent} backed by the internal list of
      * {@code eventPlanner}
      */
     @Override
@@ -142,6 +164,15 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
+    }
+
+    /**
+     * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
+     * {@code eventPlanner}
+     */
+    @Override
+    public ObservableList<EpicEvent> getEventList() {
+        return FXCollections.unmodifiableObservableList(eventPlanner.getEventList());
     }
 
     @Override

@@ -7,6 +7,11 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.Name;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -16,9 +21,10 @@ import seedu.address.model.tag.UniqueTagList;
  */
 public class EpicEvent {
 
-    private final Name name;
+    private Name name;
 
-    private final UniqueTagList tags;
+    private UniqueTagList tags;
+    private final UniquePersonList attendees;
 
     /**
      * Every field must be present and not null.
@@ -28,10 +34,38 @@ public class EpicEvent {
         this.name = name;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
+        this.attendees = new UniquePersonList();
     }
 
     public Name getName() {
         return name;
+    }
+
+    /**
+     * Edits this event by transferring the name and tags of the dummyEvent over
+     */
+    public void setEvent(EpicEvent dummyEvent) {
+        this.name = dummyEvent.getName();
+        this.tags = new UniqueTagList(dummyEvent.getTags());
+    }
+
+    /** registers person for this event */
+    public void registerPerson(Person person) throws DuplicatePersonException {
+        attendees.add(person);
+    }
+
+    /** deregisters person from this event */
+    public void deregisterPerson(Person person) throws PersonNotFoundInEventException {
+        try {
+            attendees.remove(person);
+        } catch (PersonNotFoundException e) {
+            throw new PersonNotFoundInEventException();
+        }
+    }
+
+    /** returns true if person is in this event */
+    public boolean hasPerson(Person person) {
+        return attendees.contains(person);
     }
 
     /**

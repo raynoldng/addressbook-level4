@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -58,6 +59,26 @@ public interface Model {
     void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException;
 
     /**
+     * Registers the given person {@code person} for the given event {@code event}
+     *
+     * @throws PersonNotFoundException if the person could not be found in the list
+     * @throws EventNotFoundException if the event could not be found in the list
+     * @throws DuplicatePersonException if the person is already registered for the event
+     */
+    void registerPersonForEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException;
+
+    /**
+     * Deregisters the given person {@code person} from the given event {@code event}
+     *
+     * @throws PersonNotFoundException if the person could not be found in the list
+     * @throws EventNotFoundException if the event could not be found in the list
+     * @throws PersonNotFoundInEventException if the person could not be found in the event
+     */
+    void deregisterPersonFromEvent(Person person, EpicEvent event)
+            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException;
+
+    /**
      * Replaces the given event {@code targetEvent} with {@code editedEvent}.
      *
      * @throws DuplicateEventException if updating the event's details causes the event to be equivalent to
@@ -69,6 +90,9 @@ public interface Model {
 
     /** Returns an unmodifiable view of the filtered event list. */
     ObservableList<EpicEvent> getFilteredEventList();
+
+    /** Returns an unmodifiable view of the event list. */
+    ObservableList<EpicEvent> getEventList();
 
     /**
      * Updates the filter of the filtered event list to filter by the given {@code predicate}.

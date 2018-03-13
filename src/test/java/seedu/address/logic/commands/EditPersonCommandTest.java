@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
+//import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
@@ -10,8 +10,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_PHONE_BO
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
-import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
+//import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
+//import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
@@ -151,6 +151,7 @@ public class EditPersonCommandTest {
         assertCommandFailure(editPersonCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
+    /**
     @Test
     public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
@@ -189,7 +190,7 @@ public class EditPersonCommandTest {
         // no commands in undoRedoStack -> undoCommand and redoCommand fail
         assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-    }
+    }*/
 
     /**
      * 1. Edits a {@code Person} from a filtered list.
@@ -198,6 +199,8 @@ public class EditPersonCommandTest {
      * unfiltered list is different from the index at the filtered list.
      * 4. Redo the edit. This ensures {@code RedoCommand} edits the person object regardless of indexing.
      */
+
+    /**
     @Test
     public void executeUndoRedo_validIndexFilteredList_samePersonEdited() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
@@ -221,7 +224,7 @@ public class EditPersonCommandTest {
         assertNotEquals(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), personToEdit);
         // redo -> edits same second person in unfiltered person list
         assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
+    }*/
 
     @Test
     public void equals() throws Exception {

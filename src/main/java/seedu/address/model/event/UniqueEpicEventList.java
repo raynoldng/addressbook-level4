@@ -10,6 +10,9 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
  * A list of events that enforces uniqueness between its elements and does not allow nulls.
@@ -59,6 +62,42 @@ public class UniqueEpicEventList {
     }
 
     /**
+     * Registers the person to the event.
+     *
+     * @throws DuplicatePersonException if the person is already registered
+     * @throws EventNotFoundException if no such event could be found in the list
+     */
+    public void registerPersonForEvent(Person person, EpicEvent eventToRegisterFor)
+            throws DuplicatePersonException, EventNotFoundException {
+        requireAllNonNull(person, eventToRegisterFor);
+
+        int index = internalList.indexOf(eventToRegisterFor);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        eventToRegisterFor.registerPerson(person);
+    }
+
+    /**
+     * Deregisters the person to the event.
+     *
+     * @throws PersonNotFoundInEventException if person could not be found in event
+     * @throws EventNotFoundException if no such event could be found in the list
+     */
+    public void deregisterPersonFromEvent(Person person, EpicEvent eventToRegisterFor)
+            throws PersonNotFoundInEventException, EventNotFoundException {
+        requireAllNonNull(person, eventToRegisterFor);
+
+        int index = internalList.indexOf(eventToRegisterFor);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        eventToRegisterFor.deregisterPerson(person);
+    }
+
+    /**
      * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
      *
      * @throws DuplicateEventException if the replacement is equivalent to another existing event in the list.
@@ -77,7 +116,10 @@ public class UniqueEpicEventList {
             throw new DuplicateEventException();
         }
 
-        internalList.set(index, editedEvent);
+        internalList.get(index).setEvent(editedEvent);
+
+        // Forces UI to refresh
+        internalList.set(index, internalList.get(index));
     }
 
     public void setEvents(UniqueEpicEventList replacement) {

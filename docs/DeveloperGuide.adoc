@@ -832,11 +832,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |event planner managing large events |export participant contact information as csv |use the data for other applications (e.g. presentation, data analysis)
 
-|`* *` |event planner in charge of marking attendance of many participants |find a participant by his/her initials |mark attendance quickly
+|`* *` |event planner managing many participants |find a participant by his/her initials |find persons quickly
 
 |`* *` |event planner |manage participants based on tags |mass register/delete participants belonging to a certain group
-
-|`* *` |event planner |add multiple contacts from a file |do without adding each contact manually
 
 |`*` |participant |mark my attendance by scanning a QR code |make the process of marking attendance quicker
 
@@ -950,14 +948,14 @@ Use case resumes at step 2.
 Use case resumes at step 2.
 
 [discrete]
-=== Use case: Mark person
+=== Use case: Mark event attendee's attendance
 
 *MSS*
 
 1. User requests to find persons by name
 2. EventPlanner shows a list of persons
-3. User requests to mark that person
-4. EventPlanner marks the person
+3. User requests to mark the attendance of that person
+4. EventPlanner marks the attendance of that person
 +
 Use case ends.
 
@@ -979,14 +977,14 @@ Use case resumes at step 2.
 == Non Functional Requirements
 
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
-.  Should be able to hold up to 50000 persons without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 50000 persons.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Should come with automated unit tests and open source code.
 .  Should work on both 32-bit and 64-bit environments.
 .  Should respond to any command within one second
 .  Should be able to be used by programmers and non-programmers alike
 .  Should not result in a large binary (more than 5mb)
-.  Should be able to run without relying on other dependencies
+.  Packaging should take care of dependencies
 
 [appendix]
 == Glossary

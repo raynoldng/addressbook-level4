@@ -16,10 +16,10 @@ import seedu.address.model.tag.UniqueTagList;
  */
 public class Person {
 
-    private final Name name;
-    private final Phone phone;
-    private final Email email;
-    private final Address address;
+    private Name name;
+    private Phone phone;
+    private Email email;
+    private Address address;
 
     private final UniqueTagList tags;
 
@@ -50,6 +50,16 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    /**
+     * Edits this person by transferring the fields of dummyPerson over
+     */
+    public void setPerson(Person dummyPerson) {
+        this.name = dummyPerson.getName();
+        this.phone = dummyPerson.getPhone();
+        this.email = dummyPerson.getEmail();
+        this.address = dummyPerson.getAddress();
     }
 
     /**
