@@ -18,12 +18,12 @@ Responsibilities: Logic
 
 '''
 
-=== John Roe
-image::lejolly.jpg[width="150", align="left"]
-{empty}[http://github.com/lejolly[github]] [<<johndoe#, portfolio>>]
+=== Jiang Yue
+image::jiangyue12392.png[width="150", align="left"]
+{empty}[http://github.com/jiangyue12392[github]] [<<johndoe#, portfolio>>]
 
-Role: Team Lead +
-Responsibilities: UI
+Role: Developer, Deliverables and Deadline, Code Quality +
+Responsibilities: Storage
 
 '''
 
