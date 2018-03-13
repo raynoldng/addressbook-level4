@@ -364,7 +364,7 @@ There is no need to save manually.
 
 === Find a participant by his/her initials `[coming in v2.0]`
 
-=== Mark attendance for event participant `[coming in v2.0]`
+=== Add feedback for event from participant `[coming in v2.0]`
 
 === Add all participants with a particular tag to an event `[coming in v2.0]`
 
