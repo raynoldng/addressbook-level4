@@ -27,7 +27,7 @@ Event Planning isn’t Complicated (EPIC) is for those who *prefer to use a desk
 Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
+.  Download the latest `EPIC.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your Event Planner.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
@@ -388,6 +388,12 @@ There is no need to save manually.
 === Adding all participants with a particular tag to an event `[coming in v2.0]`
 
 === Setting up automatic email reminders to event participants `[coming in v2.0]`
+
+=== Setting up a lucky draw for event participants `[coming in v2.0]`
+
+=== Setting hotkeys for commands `[coming in v2.0]`
+
+=== Entering commands in natural language `[coming in v2.0]`
 // end::automatedemailreminder[]
 
 == FAQ
