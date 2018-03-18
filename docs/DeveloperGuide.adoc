@@ -365,12 +365,19 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
+// tag::markattendance[]
 
-_{Explain here how the data encryption feature will be implemented}_
+=== [Proposed] Marking/Unmarking Attendance
 
-// end::dataencryption[]
+The proposed implementation is to use an association class called `Attendance`.
+An instance of `Attendance` is created every time a person that registers to an event and
+it is stored inside the `EpicEvent`. The instance stores the corresponding `Person`
+and stores a `boolean` representing whether the person has attended the event.
+This reduces coupling between the `Person` and `EpicEvent` class and allows the event
+to have access to all its attendees so that adding, removing and listing attendees is
+easy to implement.
+
+// end::markattendance[]
 
 === Logging
 
