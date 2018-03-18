@@ -357,7 +357,13 @@ Event planner data are saved in the hard disk automatically after any command th
 There is no need to save manually.
 
 // tag::dataencryption[]
-=== Marking attendance for event participant `[coming in v1.5]`
+=== Marking attendance for event participant : `mark` `[coming in v1.5]`
+
+Marks the attendance of a participant to an event
+
+=== Unmarking attendance for event participant : `unmark` `[coming in v1.5]`
+
+Unmarks the attendance of a participant to an event
 
 === Keeping all participants' and events' data in persistent storage `[coming in v1.5]`
 
