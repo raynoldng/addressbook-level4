@@ -359,17 +359,19 @@ There is no need to save manually.
 // tag::dataencryption[]
 === Marking attendance for event participant : `mark` `[coming in v1.5]`
 
-Marks the attendance of a participant to an event
+Marks the attendance of a participant to an event.
 
 === Unmarking attendance for event participant : `unmark` `[coming in v1.5]`
 
-Unmarks the attendance of a participant to an event
+Unmarks the attendance of a participant to an event.
 
-=== Keeping all participants' and events' data in persistent storage `[coming in v1.5]`
+=== Exporting contact information to a csv file : `export` `[coming in v1.5]`
 
-=== Importing participant contact information from an csv file `[coming in v1.5]`
+Exports the list of all persons in the event planner to a csv file.
 
-=== Exporting participant contact information to an csv file `[coming in v1.5]`
+=== Importing contact information from a csv file : `import` `[coming in v1.5]`
+
+Imports a list of persons from a csv file and adds them to the event planner.
 
 === Including privacy settings for participants' information `[coming in v2.0]`
 
