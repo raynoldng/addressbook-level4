@@ -179,7 +179,7 @@ Format: `list-events`
 === Editing an event : `edit-event`
 
 Edits an existing event in the event planner. +
-Format: `edit INDEX [n/NAME] [t/TAG]...`
+Format: `edit-event INDEX [n/NAME] [t/TAG]...`
 
 ****
 * Edits the event at the specified `INDEX`. The index refers to the index number shown in the last event listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -191,9 +191,9 @@ Format: `edit INDEX [n/NAME] [t/TAG]...`
 
 Examples:
 
-* `edit 1 n/IoT Talk t/talk` +
+* `edit-event 1 n/IoT Talk t/talk` +
 Edits the name and tag of the 1st event to be `IoT Talk` and `talk` respectively.
-* `edit 2 n/Graduation Day t/` +
+* `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
 
 === Locating events by name: `find-event`
@@ -211,15 +211,15 @@ Format: `find-event KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 
-* `find Talk` +
+* `find-event Talk` +
 Returns `Talk` and `Food Talk`
-* `find Talk Competition` +
+* `find-event Talk Competition` +
 Returns any event having name `Talk`, or `Competition`
 
 === Deleting an event : `delete-event`
 
 Deletes the specified event from the event planner. +
-Format: `delete INDEX`
+Format: `delete-event INDEX`
 
 ****
 * Deletes the event at the specified `INDEX`.
@@ -405,7 +405,7 @@ Adds a hotkey for a command.
 e.g. `add-event n/AY201718 Graduation t/Graduation`
 * *Add Person* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
 e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
-* *Clear Persons* : `clear`
+* *Clear Persons and Events* : `clear`
 * *Delete Event* : `delete-event INDEX` +
 e.g. `delete-event 3`
 * *Delete Person* : `delete INDEX` +
