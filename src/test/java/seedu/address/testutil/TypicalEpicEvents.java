@@ -21,7 +21,7 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
  */
 public class TypicalEpicEvents {
 
-    public static final EpicEvent GRADUATION = new EpicEventBuilder().withName("AY201718 Graduation Ceremony")
+    public static final EpicEvent GRADUATIONAY18 = new EpicEventBuilder().withName("AY201718 Graduation Ceremony")
             .withTags("graduation").build();
     public static final EpicEvent FOODSEMINAR = new EpicEventBuilder().withName("Food Seminar")
             .withTags("seminar", "food").build();
@@ -41,9 +41,9 @@ public class TypicalEpicEvents {
     public static final EpicEvent IOTTALK = new EpicEventBuilder().withName("IoT Talk").build();
 
     // Manually added - Event's details found in {@code CommandTestUtil}
-    public static final EpicEvent AMY = new EpicEventBuilder().withName(VALID_EVENT_NAME_GRADUATION)
+    public static final EpicEvent GRADUATION = new EpicEventBuilder().withName(VALID_EVENT_NAME_GRADUATION)
             .withTags(VALID_EVENT_TAG_GRADUATION).build();
-    public static final EpicEvent BOB = new EpicEventBuilder().withName(VALID_EVENT_NAME_SEMINAR)
+    public static final EpicEvent SEMINAR = new EpicEventBuilder().withName(VALID_EVENT_NAME_SEMINAR)
             .withTags(VALID_EVENT_TAG_SEMINAR).build();
 
     public static final String KEYWORD_MATCHING_OLYMPIAD = "Olympiad"; // A keyword that matches MEIER
@@ -73,7 +73,7 @@ public class TypicalEpicEvents {
     }
 
     public static List<EpicEvent> getTypicalEvents() {
-        return new ArrayList<>(Arrays.asList(GRADUATION, FOODSEMINAR, IOTSEMINAR, MATHOLYMPIAD, PHYSICSOLYMPIAD,
+        return new ArrayList<>(Arrays.asList(GRADUATIONAY18, FOODSEMINAR, IOTSEMINAR, MATHOLYMPIAD, PHYSICSOLYMPIAD,
                 CAREERTALK, ORIENTATION));
     }
 }
