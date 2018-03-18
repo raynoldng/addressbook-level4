@@ -373,35 +373,25 @@ Exports the list of all persons in the event planner to a csv file.
 
 Imports a list of persons from a csv file and adds them to the event planner.
 
-=== Including privacy settings for participants' information `[coming in v2.0]`
+=== Adding feedback for an event from a participant : `add-feedback` `[coming in v2.0]`
 
-=== Finding a participant by his/her initials `[coming in v2.0]`
+Adds feedback for an event from a participant of the event.
 
-=== Finding a participant via fuzzy search `[coming in v2.0]`
+=== Exporting event details to a csv file : `export-event` `[coming in v2.0]`
 
-=== Adding feedback for event from participant `[coming in v2.0]`
+Exports event details for a single event into a csv file.
 
-=== Setting up attendance marking via Quick Response (QR) codes `[coming in v2.0]`
+=== Registering all persons with a particular tag to an event : `register-by-tag` `[coming in v2.0]`
 
-=== Setting up attendance marking via Radio-frequency identification (RFID) chips `[coming in v2.0]`
+Registers all persons with a particular tag to an event in the event planner.
 
-=== Setting up attendance marking via Near-field communication (NFC) tags `[coming in v2.0]`
+=== Adding automatic email reminder to event participants : `add-reminder` `[coming in v2.0]`
 
-=== Synchronising data across multiple devices `[coming in v2.0]`
+Adds an automatic email reminder at the stipulated time to all event participants.
 
-=== Exporting event details (attendance rate, feedback etc) in a presentable format `[coming in v2.0]`
+=== Adding hotkeys for commands : `add-hotkey` `[coming in v2.0]`
 
-=== Encrypting data files `[coming in v2.0]`
-
-=== Adding all participants with a particular tag to an event `[coming in v2.0]`
-
-=== Setting up automatic email reminders to event participants `[coming in v2.0]`
-
-=== Setting up a lucky draw for event participants `[coming in v2.0]`
-
-=== Setting hotkeys for commands `[coming in v2.0]`
-
-=== Entering commands in natural language `[coming in v2.0]`
+Adds a hotkey for a command.
 // end::automatedemailreminder[]
 
 == FAQ
