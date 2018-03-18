@@ -25,7 +25,7 @@ public class EditEventDescriptorBuilder {
     }
 
     /**
-     * Returns an {@code EditEventDescriptor} with fields containing {@code event's details
+     * Returns an {@code EditEventDescriptor} with fields containing {@code event}'s details
      */
     public EditEventDescriptorBuilder(EpicEvent event) {
         descriptor = new EditEventDescriptor();
