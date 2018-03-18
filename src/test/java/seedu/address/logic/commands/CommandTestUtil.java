@@ -24,6 +24,7 @@ import seedu.address.model.event.EventNameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.PersonNameContainsKeywordsPredicate;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.testutil.EditEventDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -73,6 +74,8 @@ public class CommandTestUtil {
 
     public static final EditPersonCommand.EditPersonDescriptor DESC_AMY;
     public static final EditPersonCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditEventCommand.EditEventDescriptor DESC_GRADUATION;
+    public static final EditEventCommand.EditEventDescriptor DESC_SEMINAR;
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_PERSON_NAME_AMY)
@@ -82,6 +85,10 @@ public class CommandTestUtil {
                 .withPhone(VALID_PERSON_PHONE_BOB).withEmail(VALID_PERSON_EMAIL_BOB)
                 .withAddress(VALID_PERSON_ADDRESS_BOB)
                 .withTags(VALID_PERSON_TAG_HUSBAND, VALID_PERSON_TAG_FRIEND).build();
+        DESC_GRADUATION = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_GRADUATION)
+                .withTags(VALID_EVENT_TAG_GRADUATION).build();
+        DESC_SEMINAR = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_SEMINAR)
+                .withTags(VALID_EVENT_TAG_SEMINAR).build();
     }
 
     /**
