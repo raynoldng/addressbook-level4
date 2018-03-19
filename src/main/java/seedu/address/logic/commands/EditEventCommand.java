@@ -87,7 +87,7 @@ public class EditEventCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-        
+
     }
 
     /**

@@ -243,5 +243,7 @@ public class UndoRedoStackTest {
         public CommandResult executeUndoableCommand() {
             return new CommandResult("");
         }
+        @Override
+        protected void generateOppositeCommand() {}
     }
 }

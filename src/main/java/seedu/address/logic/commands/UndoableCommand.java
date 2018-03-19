@@ -5,13 +5,18 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.EventPlanner;
-import seedu.address.model.ReadOnlyEventPlanner;
 
 /**
  * Represents a command which can be undone and redone.
  */
 public abstract class UndoableCommand extends Command {
+
+    // @@author bayweiheng
+    /**
+     * Represents the Command to be executed to revert the changes made by the UndoableCommand.
+     * We mandate that the oppositeCommand of an UndoableCommand be undoable as well
+     */
+    protected UndoableCommand oppositeCommand;
 
     protected abstract CommandResult executeUndoableCommand() throws CommandException;
 
@@ -20,13 +25,6 @@ public abstract class UndoableCommand extends Command {
      * {@code UndoableCommand}s that require this preprocessing step should override this method.
      */
     protected void preprocessUndoableCommand() throws CommandException {}
-
-    // @@author bayweiheng
-    /**
-     * Represents the Command to be executed to revert the changes made by the UndoableCommand.
-     * We mandate that the oppositeCommand of an UndoableCommand be undoable as well
-     */
-    protected UndoableCommand oppositeCommand;
 
     /**
      * Reverts the EventPlanner to the state before this command
@@ -64,8 +62,8 @@ public abstract class UndoableCommand extends Command {
 
     @Override
     public final CommandResult execute() throws CommandException {
-        generateOppositeCommand();
         preprocessUndoableCommand();
+        generateOppositeCommand();
         return executeUndoableCommand();
     }
 }
