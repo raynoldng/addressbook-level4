@@ -818,6 +818,25 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Value proposition*: streamline attendance taking and registration of event participants, far superior to traditional pen and paper registration
 [appendix]
+
+*Feature Contribution*
+
+- Raynold Ng:
+    * Minor: Creating a pane view for EpicEvent list and implementing the `list-events` command. This allows the user to view the list of events.
+    * Major: Three pane view (persons, events, and event participant). The user should be able to view persons, events and attendees of an event at the same time. That would also allow the user to execute event administration commands as he can view both events and contacts at the same time.
+
+- Wei Liang:
+    * Minor: Adding of EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
+    * Major: Mass registering of persons to events by tag and marking and unmarking of attendance for each event participant. These commands facilitate the registration and attendance portion of the event planner.
+
+- Jiang Yue:
+    * Minor: Adding commands to modify EpicEvents in the eventlist. The commands implemented include `delete-event`, `find-event` and `edit-event`. The commands allow user to locate an event with `find-event` and then to modify the located event by deleting the event or editing the information of the event with `delete-event` and `edit-event` respectively.
+    * Major: Persistent storage and import/export from csv files. The user should be able to have their data retained after the app is closed so that they can continue their edits when then open the app next time. The user should also be able to import or export data from csv files so that the same data can be used across multiple platforms.
+
+- Wei Heng:
+    * Minor: Adding commands for Person-EpicEvents interactions, which includes adding new fields/methods to the EpicEvent class. The commands implemented include `register`, `deregister` and `list-registered`. The commands allow user to register/deregister a person to/from an event, as well as list an event's register in the UI.
+    * Major: Revamp of undo/redo feature. Currently, the entire EventPlanner is saved every time an UndoableCommand is executed, which is a huge drain on memory and violates important non-functional requirements relating to capacity of EventPlanner. Each UndoableCommand will have an UndoableCommand oppositeCommand, which it will execute to reverse the changes made by the original command. This will also allow edit's behavior to be mutable, so we may modify an event/person directly without passing a new copy to every single person/event that is in it/it is in.
+
 == User Stories
 
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
