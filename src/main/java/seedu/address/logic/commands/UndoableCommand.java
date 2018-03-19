@@ -12,17 +12,8 @@ import seedu.address.model.ReadOnlyEventPlanner;
  * Represents a command which can be undone and redone.
  */
 public abstract class UndoableCommand extends Command {
-    private ReadOnlyEventPlanner previousAddressBook;
 
     protected abstract CommandResult executeUndoableCommand() throws CommandException;
-
-    /**
-     * Stores the current state of {@code model#addressBook}.
-     */
-    private void saveAddressBookSnapshot() {
-        requireNonNull(model);
-        this.previousAddressBook = new EventPlanner(model.getEventPlanner());
-    }
 
     /**
      * This method is called before the execution of {@code UndoableCommand}.
@@ -30,16 +21,31 @@ public abstract class UndoableCommand extends Command {
      */
     protected void preprocessUndoableCommand() throws CommandException {}
 
+    // @@author bayweiheng
+    /**
+     * Represents the Command to be executed to revert the changes made by the UndoableCommand.
+     * We mandate that the oppositeCommand of an UndoableCommand be undoable as well
+     */
+    protected UndoableCommand oppositeCommand;
+
     /**
      * Reverts the EventPlanner to the state before this command
      * was executed and updates the filtered person list to
      * show all persons.
      */
     protected final void undo() {
-        requireAllNonNull(model, previousAddressBook);
-        model.resetData(previousAddressBook);
+        requireAllNonNull(model);
+        try {
+            oppositeCommand.executeUndoableCommand();
+        } catch (CommandException ce) {
+            throw new AssertionError("This command should not fail.");
+        }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
+
+    protected abstract void generateOppositeCommand();
+
+    // @@author bayweiheng
 
     /**
      * Executes the command and updates the filtered person
@@ -51,14 +57,14 @@ public abstract class UndoableCommand extends Command {
             executeUndoableCommand();
         } catch (CommandException ce) {
             throw new AssertionError("The command has been successfully executed previously; "
-                    + "it should not fail now");
+                    + "it should not fail now.");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
     public final CommandResult execute() throws CommandException {
-        saveAddressBookSnapshot();
+        generateOppositeCommand();
         preprocessUndoableCommand();
         return executeUndoableCommand();
     }

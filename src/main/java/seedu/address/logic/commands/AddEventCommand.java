@@ -49,6 +49,11 @@ public class AddEventCommand extends UndoableCommand {
     }
 
     @Override
+    protected void generateOppositeCommand() {
+        oppositeCommand = new DeleteEventCommand(toAdd);
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddEventCommand // instanceof handles nulls
