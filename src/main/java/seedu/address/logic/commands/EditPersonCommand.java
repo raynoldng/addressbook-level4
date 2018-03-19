@@ -95,6 +95,11 @@ public class EditPersonCommand extends UndoableCommand {
         editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
     }
 
+    @Override
+    protected void generateOppositeCommand() {
+
+    }
+
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
