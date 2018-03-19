@@ -33,6 +33,10 @@ public class DeletePersonCommand extends UndoableCommand {
         this.targetIndex = targetIndex;
     }
 
+    public DeletePersonCommand(Person personToDelete) {
+        this.personToDelete = personToDelete;
+        this.targetIndex = null;
+    }
 
     @Override
     public CommandResult executeUndoableCommand() {
@@ -55,6 +59,11 @@ public class DeletePersonCommand extends UndoableCommand {
         }
 
         personToDelete = lastShownList.get(targetIndex.getZeroBased());
+    }
+
+    @Override
+    protected void generateOppositeCommand() {
+        oppositeCommand = new AddPersonCommand(personToDelete);
     }
 
     @Override

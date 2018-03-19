@@ -19,9 +19,9 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
 /**
- * Contains unit tests for ListAttendeesCommand.
+ * Contains unit tests for ListRegisteredPersonsCommand.
  */
-public class ListAttendeesCommandTest {
+public class ListRegisteredPersonsCommandTest {
 
     private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
 
@@ -36,16 +36,16 @@ public class ListAttendeesCommandTest {
                 throw new AssertionError("not possible");
             }
         }
-        ListAttendeesCommand command = prepareCommand(mainEvent.getName().toString());
+        ListRegisteredPersonsCommand command = prepareCommand(mainEvent.getName().toString());
         assertCommandSuccess(command, expectedMessage, model.getFilteredPersonList());
     }
 
     /**
-     * Parses {@code userInput} into a {@code ListAttendeesCommand}.
+     * Parses {@code userInput} into a {@code ListRegisteredPersonsCommand}.
      */
-    private ListAttendeesCommand prepareCommand(String eventName) {
-        ListAttendeesCommand command =
-                new ListAttendeesCommand(eventName);
+    private ListRegisteredPersonsCommand prepareCommand(String eventName) {
+        ListRegisteredPersonsCommand command =
+                new ListRegisteredPersonsCommand(eventName);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -56,7 +56,8 @@ public class ListAttendeesCommandTest {
      *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
      *     - the {@code EventPlanner} in model remains the same after executing the {@code command}
      */
-    private void assertCommandSuccess(ListAttendeesCommand command, String expectedMessage, List<Person> expectedList) {
+    private void assertCommandSuccess(
+            ListRegisteredPersonsCommand command, String expectedMessage, List<Person> expectedList) {
         EventPlanner expectedEventPlanner = new EventPlanner(model.getEventPlanner());
         CommandResult commandResult = null;
         try {

@@ -19,4 +19,9 @@ public class ClearCommand extends UndoableCommand {
         model.resetData(new EventPlanner());
         return new CommandResult(MESSAGE_SUCCESS);
     }
+
+    @Override
+    protected void generateOppositeCommand() {
+
+    }
 }

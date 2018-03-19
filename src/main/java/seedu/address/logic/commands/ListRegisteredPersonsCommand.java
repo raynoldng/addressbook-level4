@@ -8,18 +8,18 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
-/** lists all attendees in a given event */
-public class ListAttendeesCommand extends Command {
+/** lists all registered persons in a given event */
+public class ListRegisteredPersonsCommand extends Command {
 
-    public static final String COMMAND_WORD = "list-attendees";
+    public static final String COMMAND_WORD = "list-registered";
 
     public static final String MESSAGE_SUCCESS = "Listed all persons in %1$s";
     public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
 
     private final String eventName;
-    private EpicEvent eventToListAttendeesFor;
+    private EpicEvent eventToListRegisteredPersonsFor;
 
-    public ListAttendeesCommand(String eventName) {
+    public ListRegisteredPersonsCommand(String eventName) {
         this.eventName = eventName;
     }
 
@@ -35,10 +35,10 @@ public class ListAttendeesCommand extends Command {
             throw new CommandException(MESSAGE_EVENT_NOT_FOUND);
         }
 
-        eventToListAttendeesFor = matchedEvents.get(0);
+        eventToListRegisteredPersonsFor = matchedEvents.get(0);
 
         Predicate<Person> isInEvent = person ->
-            eventToListAttendeesFor.hasPerson(person);
+            eventToListRegisteredPersonsFor.hasPerson(person);
 
         model.updateFilteredPersonList(isInEvent);
         return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));

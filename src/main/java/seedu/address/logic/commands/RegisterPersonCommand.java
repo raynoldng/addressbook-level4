@@ -89,6 +89,11 @@ public class RegisterPersonCommand extends UndoableCommand {
     }
 
     @Override
+    protected void generateOppositeCommand() {
+
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof RegisterPersonCommand // instanceof handles nulls
