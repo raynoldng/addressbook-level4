@@ -5,7 +5,7 @@ import seedu.address.logic.commands.ListRegisteredPersonsCommand;
 /**
  * Parses input arguments and creates a new ListRegisteredPersonsCommand object
  */
-public class ListAttendeesCommandParser implements Parser<ListRegisteredPersonsCommand> {
+public class ListRegisteredPersonsCommandParser implements Parser<ListRegisteredPersonsCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the ListRegisteredPersonsCommand

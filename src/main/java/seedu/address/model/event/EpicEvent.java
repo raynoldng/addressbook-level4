@@ -24,7 +24,7 @@ public class EpicEvent {
     private Name name;
 
     private UniqueTagList tags;
-    private final UniquePersonList attendees;
+    private final UniquePersonList registeredPersons;
 
     /**
      * Every field must be present and not null.
@@ -34,7 +34,7 @@ public class EpicEvent {
         this.name = name;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
-        this.attendees = new UniquePersonList();
+        this.registeredPersons = new UniquePersonList();
     }
 
     public Name getName() {
@@ -51,13 +51,13 @@ public class EpicEvent {
 
     /** registers person for this event */
     public void registerPerson(Person person) throws DuplicatePersonException {
-        attendees.add(person);
+        registeredPersons.add(person);
     }
 
     /** deregisters person from this event */
     public void deregisterPerson(Person person) throws PersonNotFoundInEventException {
         try {
-            attendees.remove(person);
+            registeredPersons.remove(person);
         } catch (PersonNotFoundException e) {
             throw new PersonNotFoundInEventException();
         }
@@ -65,7 +65,7 @@ public class EpicEvent {
 
     /** returns true if person is in this event */
     public boolean hasPerson(Person person) {
-        return attendees.contains(person);
+        return registeredPersons.contains(person);
     }
 
     /**
