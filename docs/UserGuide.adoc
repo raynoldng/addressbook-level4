@@ -179,7 +179,7 @@ Format: `list-events`
 === Editing an event : `edit-event`
 
 Edits an existing event in the event planner. +
-Format: `edit INDEX [n/NAME] [t/TAG]...`
+Format: `edit-event INDEX [n/NAME] [t/TAG]...`
 
 ****
 * Edits the event at the specified `INDEX`. The index refers to the index number shown in the last event listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -191,9 +191,9 @@ Format: `edit INDEX [n/NAME] [t/TAG]...`
 
 Examples:
 
-* `edit 1 n/IoT Talk t/talk` +
+* `edit-event 1 n/IoT Talk t/talk` +
 Edits the name and tag of the 1st event to be `IoT Talk` and `talk` respectively.
-* `edit 2 n/Graduation Day t/` +
+* `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
 
 === Locating events by name: `find-event`
@@ -211,15 +211,15 @@ Format: `find-event KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 
-* `find Talk` +
+* `find-event Talk` +
 Returns `Talk` and `Food Talk`
-* `find Talk Competition` +
+* `find-event Talk Competition` +
 Returns any event having name `Talk`, or `Competition`
 
 === Deleting an event : `delete-event`
 
 Deletes the specified event from the event planner. +
-Format: `delete INDEX`
+Format: `delete-event INDEX`
 
 ****
 * Deletes the event at the specified `INDEX`.
@@ -357,43 +357,41 @@ Event planner data are saved in the hard disk automatically after any command th
 There is no need to save manually.
 
 // tag::dataencryption[]
-=== Marking attendance for event participant `[coming in v1.5]`
+=== Marking attendance for event participant : `mark` `[coming in v1.5]`
 
-=== Keeping all participants' and events' data in persistent storage `[coming in v1.5]`
+Marks the attendance of a participant to an event.
 
-=== Importing participant contact information from an csv file `[coming in v1.5]`
+=== Unmarking attendance for event participant : `unmark` `[coming in v1.5]`
 
-=== Exporting participant contact information to an csv file `[coming in v1.5]`
+Unmarks the attendance of a participant to an event.
 
-=== Including privacy settings for participants' information `[coming in v2.0]`
+=== Exporting contact information to a csv file : `export` `[coming in v1.5]`
 
-=== Finding a participant by his/her initials `[coming in v2.0]`
+Exports the list of all persons in the event planner to a csv file.
 
-=== Finding a participant via fuzzy search `[coming in v2.0]`
+=== Importing contact information from a csv file : `import` `[coming in v1.5]`
 
-=== Adding feedback for event from participant `[coming in v2.0]`
+Imports a list of persons from a csv file and adds them to the event planner.
 
-=== Setting up attendance marking via Quick Response (QR) codes `[coming in v2.0]`
+=== Adding feedback for an event from a participant : `add-feedback` `[coming in v2.0]`
 
-=== Setting up attendance marking via Radio-frequency identification (RFID) chips `[coming in v2.0]`
+Adds feedback for an event from a participant of the event.
 
-=== Setting up attendance marking via Near-field communication (NFC) tags `[coming in v2.0]`
+=== Exporting event details to a csv file : `export-event` `[coming in v2.0]`
 
-=== Synchronising data across multiple devices `[coming in v2.0]`
+Exports event details for a single event into a csv file.
 
-=== Exporting event details (attendance rate, feedback etc) in a presentable format `[coming in v2.0]`
+=== Registering all persons with a particular tag to an event : `register-by-tag` `[coming in v2.0]`
 
-=== Encrypting data files `[coming in v2.0]`
+Registers all persons with a particular tag to an event in the event planner.
 
-=== Adding all participants with a particular tag to an event `[coming in v2.0]`
+=== Adding automatic email reminder to event participants : `add-reminder` `[coming in v2.0]`
 
-=== Setting up automatic email reminders to event participants `[coming in v2.0]`
+Adds an automatic email reminder at the stipulated time to all event participants.
 
-=== Setting up a lucky draw for event participants `[coming in v2.0]`
+=== Adding hotkeys for commands : `add-hotkey` `[coming in v2.0]`
 
-=== Setting hotkeys for commands `[coming in v2.0]`
-
-=== Entering commands in natural language `[coming in v2.0]`
+Adds a hotkey for a command.
 // end::automatedemailreminder[]
 
 == FAQ
@@ -403,21 +401,32 @@ There is no need to save manually.
 
 == Command Summary
 
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
-e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 * *Add Event* `add-event n/NAME [t/TAG]...` +
 e.g. `add-event n/AY201718 Graduation t/Graduation`
-* *Clear* : `clear`
-* *Delete* : `delete INDEX` +
+* *Add Person* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
+e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+* *Clear Persons and Events* : `clear`
+* *Delete Event* : `delete-event INDEX` +
+e.g. `delete-event 3`
+* *Delete Person* : `delete INDEX` +
 e.g. `delete 3`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
+* *Deregister Person* : `deregister INDEX EVENT_NAME` +
+e.g. `deregister 1 Computing Seminar`
+* *Edit Event* : `edit-event INDEX [n/NAME] [t/TAG]...` +
+e.g. `edit-event 1 n/IoT Talk t/talk`
+* *Edit Person* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
+* *Find Event* : `find-event KEYWORD [MORE_KEYWORDS]` +
+e.g. `find-event Talk Competition`
+* *Find Person* : `find KEYWORD [MORE_KEYWORDS]` +
 e.g. `find James Jake`
-* *List* : `list`
 * *Help* : `help`
-* *Select* : `select INDEX` +
-e.g.`select 2`
 * *History* : `history`
-* *Undo* : `undo`
+* *List Events* : `list-events`
+* *List Persons* : `list`
 * *Redo* : `redo`
+* *Register Person* : `register INDEX EVENT_NAME` +
+e.g. `register 1 Computing Seminar`
+* *Select Person* : `select INDEX` +
+e.g.`select 2`
+* *Undo* : `undo`
