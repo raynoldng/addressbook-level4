@@ -18,7 +18,7 @@ import seedu.address.model.EventPlanner;
 import seedu.address.storage.XmlAdaptedPerson;
 import seedu.address.storage.XmlAdaptedTag;
 import seedu.address.storage.XmlSerializableEventPlanner;
-import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.EventPlannerBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TestUtil;
 
@@ -130,9 +130,9 @@ public class XmlUtilTest {
                 XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableEventPlanner.class);
         assertEquals(dataToWrite, dataFromFile);
 
-        AddressBookBuilder builder = new AddressBookBuilder(new EventPlanner());
+        EventPlannerBuilder builder = new EventPlannerBuilder(new EventPlanner());
         dataToWrite = new XmlSerializableEventPlanner(
-                builder.withPerson(new PersonBuilder().build()).withTag("Friends").build());
+                builder.withPerson(new PersonBuilder().build()).withPersonTag("Friends").build());
 
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableEventPlanner.class);

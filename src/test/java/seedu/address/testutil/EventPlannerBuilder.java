@@ -7,26 +7,26 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
 
 /**
- * A utility class to help with building Addressbook objects.
+ * A utility class to help with building Eventplanner objects.
  * Example usage: <br>
- *     {@code EventPlanner ab = new AddressBookBuilder().withPerson("John", "Doe").withTag("Friend").build();}
+ *     {@code EventPlanner ab = new EventPlannerBuilder().withPerson("John", "Doe").withPersonTag("Friend").build();}
  */
-public class AddressBookBuilder {
+public class EventPlannerBuilder {
 
     private EventPlanner eventPlanner;
 
-    public AddressBookBuilder() {
+    public EventPlannerBuilder() {
         eventPlanner = new EventPlanner();
     }
 
-    public AddressBookBuilder(EventPlanner eventPlanner) {
+    public EventPlannerBuilder(EventPlanner eventPlanner) {
         this.eventPlanner = eventPlanner;
     }
 
     /**
      * Adds a new {@code Person} to the {@code EventPlanner} that we are building.
      */
-    public AddressBookBuilder withPerson(Person person) {
+    public EventPlannerBuilder withPerson(Person person) {
         try {
             eventPlanner.addPerson(person);
         } catch (DuplicatePersonException dpe) {
@@ -38,7 +38,7 @@ public class AddressBookBuilder {
     /**
      * Parses {@code tagName} into a {@code Tag} and adds it to the {@code EventPlanner} that we are building.
      */
-    public AddressBookBuilder withTag(String tagName) {
+    public EventPlannerBuilder withPersonTag(String tagName) {
         try {
             eventPlanner.addPersonTag(new Tag(tagName));
         } catch (IllegalValueException ive) {
@@ -46,6 +46,8 @@ public class AddressBookBuilder {
         }
         return this;
     }
+
+    //TODO: Allow adding of events and event tags
 
     public EventPlanner build() {
         return eventPlanner;

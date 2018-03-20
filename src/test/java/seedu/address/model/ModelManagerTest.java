@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.person.PersonNameContainsKeywordsPredicate;
-import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.EventPlannerBuilder;
 
 public class ModelManagerTest {
     @Rule
@@ -28,7 +28,7 @@ public class ModelManagerTest {
 
     @Test
     public void equals() {
-        EventPlanner eventPlanner = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
+        EventPlanner eventPlanner = new EventPlannerBuilder().withPerson(ALICE).withPerson(BENSON).build();
         EventPlanner differentEventPlanner = new EventPlanner();
         UserPrefs userPrefs = new UserPrefs();
 
