@@ -345,6 +345,25 @@ The following activity diagram summarizes what happens inside the `UndoRedoStack
 
 image::UndoRedoActivityDiagram.png[width="650"]
 
+==== Changes from previous implementation [major enhancement, in progress]
+
+Instead of saving the entire event planner each time we execute an `UndoableCommand`, each `UndoableCommand` knows how to `undo/redo` itself.
+Each `UndoableCommand` has an `oppositeCommand` field, which is another `UndoableCommand` that, when executed, reverses the changes made by the original command.
+The sequence diagram for the new `undo()` implementation is shown below.
+
+image::UndoSequenceDiagram.png[width="650"]
+
+The `oppositeCommand` is generated in the `execute()` method, after `preprocessUndoableCommand()`. This is because generating the `oppositeCommand`
+requires knowledge of the actual `Person/EpicEvent` objects to be modified. For example, the `oppositeCommand` for a `deletePersonCommand` is an `addPersonCommand`,
+but we only know the person to be deleted after the pre-processing step.
+
+[NOTE]
+Each `UndoableCommand` now requires its individual `generateOppositeCommand()` implementation. Hence, this method is made abstract in
+the abstract class `UndoableCommand`
+
+There was no `Command` that could easily reverse the changes of a `ClearCommand`, hence a new `Command` `RestoreCommand` had to be created. Since the sole purpose
+of this command is be the `oppositeCommand` of a `ClearCommand`, our team decided to not make it directly accessible to the user.
+
 ==== Design Considerations
 
 ===== Aspect: Implementation of `UndoableCommand`
@@ -358,7 +377,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ===== Aspect: How undo & redo executes
 
-* **Alternative 1 (current choice):** Individual command knows how to undo/redo by itself.
+* **Alternative 1 (current choice):** Individual command knows how to undo/redo itself.
 ** Pros: Significantly less memory is used (e.g. for `delete`, just save the person being deleted). Compatible with mutable commands.
 ** Cons: Implementation is more complicated.
 * **Alternative 2:** Saves the entire event planner.
