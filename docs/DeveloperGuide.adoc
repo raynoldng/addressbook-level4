@@ -501,10 +501,10 @@ When deciding on the export option, the following aspects of user experience are
 
 ===== Aspect: Data to be Exported
 
-- Alternative 1 (current choice): Name of the attendees, their phone number, their email address, their home address and their attendance information for the event
+- *Alternative 1 (current choice)*: Name of the attendees, their phone number, their email address, their home address and their attendance information for the event
     * Pros: The information includes almost all the data users need for an event. The parsing of the data is straight forward.
     * Cons: The tags of the attendees are not exported.
-- Alternative 2: All information for attendees including their tags
+- *Alternative 2*: All information for attendees including their tags
     * Pros: More information for users as compared to current implementation.
     * Cons: The attendees may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
 
