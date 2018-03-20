@@ -408,6 +408,14 @@ of this command is be the `oppositeCommand` of a `ClearCommand`, our team decide
 
 // tag::markattendance[]
 
+=== Register/Deregister persons for/from events
+
+The EpicEvent-Person association is unidirectional i.e. an `EpicEvent` maintains references to `Person` objects registered for it, but a `Person` does not
+maintain references to `EpicEvent` objects he/she has registered for. This implementation was chosen to reduce overhead and complications in implementation,
+since all commands v2.0 supports will not require the backward association.
+
+The references are maintained using a `UniquePersonList` inside each `EpicEvent`
+
 === [Proposed] Marking/Unmarking Attendance
 
 The proposed implementation is to use an association class called `Attendance`.
