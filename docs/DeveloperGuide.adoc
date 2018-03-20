@@ -416,6 +416,10 @@ since all commands v2.0 supports will not require the backward association.
 
 The references are maintained using a `UniquePersonList` inside each `EpicEvent`
 
+=== List registered persons for an event
+
+This is done by creating a `Predicate` that tests whether a `Person` is in an `EpicEvent`, then passing it to `updateFilteredPersonList()`
+
 === [Proposed] Marking/Unmarking Attendance
 
 The proposed implementation is to use an association class called `Attendance`.
