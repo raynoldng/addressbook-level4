@@ -238,6 +238,26 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+=== Edit Person/Event feature
+==== Previous Implementation
+
+In https://github.com/se-edu/addressbook-level4[AddressBook-Level4, the `edit` command was performed by creating a new `Person` and passing it to a `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
+
+==== Current Implementation
+
+In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable manner - instead of replacing the to-be-edited `Person/EpicEvent` with the new one, we edit the details of the to-be-edited `Person/EpicEvent` directly.
+
+==== Design Considerations
+
+===== Aspect: Implementation of `edit`
+
+* **Alternative 1 (current choice):** Edit in a mutable manner
+** Pros: Since EPIC has both `EpicEvent` and `Person` objects, which maintain references to one another, editing a `Person/EpicEvent` in this manner automatically updates the `EpicEvent/Person` objects that is associated with it.
+** Cons: Implementation of `undo` will be more difficult.
+* **Alternative 2:** Edit in an immutable manner
+** Pros: Implementation of `undo` is easier, since we can just replace the current `EventPlanner` with the previous one.
+** Cons: Editing a `Person/EpicEvent` will require passing a copy of the newly-created `Person/EpicEvent` to all objects associated with the to-be-edited version, introducing significant overhead
+
 // tag::undoredo[]
 === Undo/Redo feature
 ==== Current Implementation
@@ -337,12 +357,13 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 ===== Aspect: How undo & redo executes
 
-* **Alternative 1 (current choice):** Saves the entire address book.
+* **Alternative 1 (current choice):** Individual command knows how to undo/redo by itself.
+** Pros: Significantly less memory is used (e.g. for `delete`, just save the person being deleted). Compatible with mutable commands.
+** Cons: Implementation is more complicated.
+* **Alternative 2:** Saves the entire address book.
 ** Pros: Implementation is easy.
-** Cons: Performance issues may result due to high memory usage.
-* **Alternative 2:** Individual command knows how to undo/redo by itself.
-** Pros: Significantly less memory is used (e.g. for `delete`, just save the person being deleted).
-** Cons: Implementation is slightly more complicated.
+** Cons: Performance issues may result due to high memory usage. Also, this is incompatible with the mutable `edit` and `edit-event` implementations.
+
 
 ===== Aspect: Type of commands that can be undone/redone
 
