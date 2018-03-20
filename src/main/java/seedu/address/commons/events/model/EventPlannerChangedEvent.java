@@ -15,6 +15,7 @@ public class EventPlannerChangedEvent extends BaseEvent {
     @Override
     public String toString() {
         return "number of persons " + data.getPersonList().size() + ", number of events "
-                + data.getEventList().size() + ", number of tags " + data.getTagList().size();
+                + data.getEventList().size() + ", number of person tags " + data.getPersonTagList().size()
+                + ", number of event tags " + data.getEventTagList().size();
     }
 }
