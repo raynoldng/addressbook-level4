@@ -158,7 +158,7 @@ Selects the 2nd person in the event planner.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
-=== Adding an event: `add-event`
+=== Adding an event: `add-event` [Since v1.2]
 
 Adds an event to the event planner. +
 Format: `add-event n/NAME [t/TAG]...`
@@ -171,12 +171,12 @@ Examples:
 * `add-event n/AY201718 Graduation t/Graduation`
 * `add-event n/Computing Seminar`
 
-=== Listing all events: `list-events`
+=== Listing all events: `list-events` [Since v1.2]
 
 Shows a list of all events in the event planner and changes the focus to events list tab. +
 Format: `list-events`
 
-=== Editing an event : `edit-event`
+=== Editing an event : `edit-event` [Since v1.2]
 
 Edits an existing event in the event planner. +
 Format: `edit-event INDEX [n/NAME] [t/TAG]...`
@@ -196,7 +196,7 @@ Edits the name and tag of the 1st event to be `IoT Talk` and `talk` respectively
 * `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
 
-=== Locating events by name: `find-event`
+=== Locating events by name: `find-event` [Since v1.2]
 
 Finds events whose names contain any of the given keywords. +
 Format: `find-event KEYWORD [MORE_KEYWORDS]`
@@ -216,7 +216,7 @@ Returns `Talk` and `Food Talk`
 * `find-event Talk Competition` +
 Returns any event having name `Talk`, or `Competition`
 
-=== Deleting an event : `delete-event`
+=== Deleting an event : `delete-event` [Since v1.2]
 
 Deletes the specified event from the event planner. +
 Format: `delete-event INDEX`
@@ -236,7 +236,7 @@ Deletes the 2nd event in the event planner.
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
 
-=== Registering a person to an event: `register`
+=== Registering a person to an event: `register` [Since v1.2]
 
 Registers the specified person to an event in the event planner. +
 Format: `register INDEX EVENT_NAME`
@@ -258,7 +258,7 @@ Registers the 2nd person in the event planner to AY201718 Graduation.
 `register 1 Computing Seminar` +
 Registers the 1st person in the results of the `find` command to Computing Seminar.
 
-=== Deregistering a person from an event: `deregister`
+=== Deregistering a person from an event: `deregister` [Since v1.2]
 
 Deregisters the specified person from an event in the event planner. +
 Format: `deregister INDEX EVENT_NAME`
@@ -281,7 +281,7 @@ Deregisters the 2nd person in the event planner from AY201718 Graduation.
 `deregister 1 Computing Seminar` +
 Deregisters the 1st person in the results of the `find` command to Computing Seminar.
 
-=== Listing all persons registered in an event: `list-registered`
+=== Listing all persons registered in an event: `list-registered` [Since v1.2]
 
 Lists all persons registered for the specified event. +
 Format: `list-registered EVENT_NAME`
