@@ -47,6 +47,6 @@
         <email>anna@example.com</email>
         <address>4th street</address>
     </persons>
-    <tags>friends</tags>
-    <tags>owesMoney</tags>
+    <personTags>friends</personTags>
+    <personTags>owesMoney</personTags>
 </addressbook>

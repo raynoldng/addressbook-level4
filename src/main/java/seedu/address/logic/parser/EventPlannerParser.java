@@ -20,8 +20,8 @@ import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.FindPersonCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
-import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListEventCommand;
+import seedu.address.logic.commands.ListPersonCommand;
 import seedu.address.logic.commands.ListRegisteredPersonsCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RegisterPersonCommand;
@@ -81,7 +81,7 @@ public class EventPlannerParser {
             return new ListRegisteredPersonsCommandParser().parse(arguments);
 
         case AddPersonCommand.COMMAND_WORD:
-            return new AddCommandParser().parse(arguments);
+            return new AddPersonCommandParser().parse(arguments);
 
         case EditPersonCommand.COMMAND_WORD:
             return new EditPersonCommandParser().parse(arguments);
@@ -98,8 +98,8 @@ public class EventPlannerParser {
         case FindPersonCommand.COMMAND_WORD:
             return new FindPersonCommandParser().parse(arguments);
 
-        case ListCommand.COMMAND_WORD:
-            return new ListCommand();
+        case ListPersonCommand.COMMAND_WORD:
+            return new ListPersonCommand();
 
         case HistoryCommand.COMMAND_WORD:
             return new HistoryCommand();

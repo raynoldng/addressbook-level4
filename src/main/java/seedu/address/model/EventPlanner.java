@@ -31,7 +31,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
 
     private final UniquePersonList persons;
     private final UniqueEpicEventList events;
-    private final UniqueTagList tags;
+    private final UniqueTagList personTags;
+    private final UniqueTagList eventTags;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -43,7 +44,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     {
         persons = new UniquePersonList();
         events = new UniqueEpicEventList();
-        tags = new UniqueTagList();
+        personTags = new UniqueTagList();
+        eventTags = new UniqueTagList();
     }
 
     public EventPlanner() {}
@@ -65,9 +67,12 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     public void setEvents(List<EpicEvent> events) throws DuplicateEventException {
         this.events.setEvents(events);
     }
+    public void setPersonTags(Set<Tag> tags) {
+        this.personTags.setTags(tags);
+    }
 
-    public void setTags(Set<Tag> tags) {
-        this.tags.setTags(tags);
+    public void setEventTags(Set<Tag> tags) {
+        this.eventTags.setTags(tags);
     }
 
     /**
@@ -75,7 +80,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      */
     public void resetData(ReadOnlyEventPlanner newData) {
         requireNonNull(newData);
-        setTags(new HashSet<>(newData.getTagList()));
+        setPersonTags(new HashSet<>(newData.getPersonTagList()));
+        setEventTags(new HashSet<>(newData.getEventTagList()));
         List<Person> syncedPersonList = newData.getPersonList().stream()
                 .map(this::syncPersonWithMasterTagList)
                 .collect(Collectors.toList());
@@ -99,8 +105,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
 
     /**
      * Adds a person to the event planner
-     * Also checks the new person's tags and updates {@link #tags} with any new tags found,
-     * and updates the Tag objects in the person to point to those in {@link #tags}.
+     * Also checks the new person's tags and updates {@link #personTags} with any new tags found,
+     * and updates the Tag objects in the person to point to those in {@link #personTags}.
      *
      * @throws DuplicatePersonException if an equivalent person already exists.
      */
@@ -139,12 +145,12 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      *  list.
      */
     private Person syncPersonWithMasterTagList(Person person) {
-        final UniqueTagList personTags = new UniqueTagList(person.getTags());
-        final Map<Tag, Tag> masterTagObjects = updateMasterTagList(personTags);
+        final UniqueTagList newPersonTags = new UniqueTagList(person.getTags());
+        final Map<Tag, Tag> masterTagObjects = updateMasterPersonTagList(newPersonTags);
 
         // Rebuild the list of person tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
-        personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
+        newPersonTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Person(
                 person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
     }
@@ -165,8 +171,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
 
     /**
      * Adds an event to the event planner
-     * Also checks the new event's tags and updates {@link #tags} with any new tags found,
-     * and updates the Tag objects in the event to point to those in {@link #tags}.
+     * Also checks the new event's tags and updates {@link #eventTags} with any new tags found,
+     * and updates the Tag objects in the event to point to those in {@link #eventTags}.
      *
      * @throws DuplicateEventException if an equivalent event already exists.
      */
@@ -184,12 +190,12 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      *  list.
      */
     private EpicEvent syncEventWithMasterTagList(EpicEvent event) {
-        final UniqueTagList eventTags = new UniqueTagList(event.getTags());
-        final Map<Tag, Tag> masterTagObjects = updateMasterTagList(eventTags);
+        final UniqueTagList newEventTags = new UniqueTagList(event.getTags());
+        final Map<Tag, Tag> masterTagObjects = updateMasterEventTagList(newEventTags);
 
         // Rebuild the list of event tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
-        eventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
+        newEventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new EpicEvent(event.getName(), correctTagReferences);
     }
 
@@ -246,29 +252,50 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     //// tag-level operations
 
     /**
-     *  Updates the master tag list to include tags in {@code objectTags} that are not in the list.
+     *  Updates the master person tag list to include tags in {@code objectTags} that are not in the list.
      *  @return a mapping of the Tags in the list Tag object in the master list.
      */
-    private Map<Tag, Tag> updateMasterTagList(UniqueTagList objectTags) {
-        tags.mergeFrom(objectTags);
+    private Map<Tag, Tag> updateMasterPersonTagList(UniqueTagList objectTags) {
+        personTags.mergeFrom(objectTags);
 
         // Create map with values = tag object references in the master list
         // used for checking tag references
         final Map<Tag, Tag> masterTagObjects = new HashMap<>();
-        tags.forEach(tag -> masterTagObjects.put(tag, tag));
+        personTags.forEach(tag -> masterTagObjects.put(tag, tag));
 
         return masterTagObjects;
     }
 
-    public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {
-        tags.add(t);
+
+    /**
+     *  Updates the master event tag list to include tags in {@code objectTags} that are not in the list.
+     *  @return a mapping of the Tags in the list Tag object in the master list.
+     */
+    private Map<Tag, Tag> updateMasterEventTagList(UniqueTagList objectTags) {
+        eventTags.mergeFrom(objectTags);
+
+        // Create map with values = tag object references in the master list
+        // used for checking tag references
+        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
+        eventTags.forEach(tag -> masterTagObjects.put(tag, tag));
+
+        return masterTagObjects;
+    }
+
+    public void addPersonTag(Tag t) throws UniqueTagList.DuplicateTagException {
+        personTags.add(t);
+    }
+
+    public void addEventTag(Tag t) throws UniqueTagList.DuplicateTagException {
+        eventTags.add(t);
     }
 
     //// util methods
 
     @Override
     public String toString() {
-        return persons.asObservableList().size() + " persons, " + tags.asObservableList().size() +  " tags";
+        return persons.asObservableList().size() + " persons, " + personTags.asObservableList().size()
+                +  " person tags, " + eventTags.asObservableList().size() + " event tags.";
         // TODO: refine later
     }
 
@@ -283,8 +310,13 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     }
 
     @Override
-    public ObservableList<Tag> getTagList() {
-        return tags.asObservableList();
+    public ObservableList<Tag> getPersonTagList() {
+        return personTags.asObservableList();
+    }
+
+    @Override
+    public ObservableList<Tag> getEventTagList() {
+        return eventTags.asObservableList();
     }
 
     @Override
@@ -293,12 +325,13 @@ public class EventPlanner implements ReadOnlyEventPlanner {
                 || (other instanceof EventPlanner // instanceof handles nulls
                 && this.persons.equals(((EventPlanner) other).persons)
                 && this.events.equals(((EventPlanner) other).events)
-                && this.tags.equalsOrderInsensitive(((EventPlanner) other).tags));
+                && this.personTags.equalsOrderInsensitive(((EventPlanner) other).personTags)
+                && this.eventTags.equalsOrderInsensitive(((EventPlanner) other).eventTags));
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(persons, events, tags);
+        return Objects.hash(persons, events, personTags, eventTags);
     }
 }
