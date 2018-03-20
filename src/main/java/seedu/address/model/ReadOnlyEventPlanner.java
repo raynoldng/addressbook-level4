@@ -23,9 +23,15 @@ public interface ReadOnlyEventPlanner {
     ObservableList<EpicEvent> getEventList();
 
     /**
-     * Returns an unmodifiable view of the tags list.
+     * Returns an unmodifiable view of the person tags list.
      * This list will not contain any duplicate tags.
      */
-    ObservableList<Tag> getTagList();
+    ObservableList<Tag> getPersonTagList();
+
+    /**
+     * Returns an unmodifiable view of the event tags list.
+     * This list will not contain any duplicate tags.
+     */
+    ObservableList<Tag> getEventTagList();
 
 }

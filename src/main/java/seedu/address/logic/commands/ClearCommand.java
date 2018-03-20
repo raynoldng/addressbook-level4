@@ -5,12 +5,12 @@ import static java.util.Objects.requireNonNull;
 import seedu.address.model.EventPlanner;
 
 /**
- * Clears the address book.
+ * Clears the event planner.
  */
 public class ClearCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "clear";
-    public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
+    public static final String MESSAGE_SUCCESS = "Event planner has been cleared!";
 
 
     @Override

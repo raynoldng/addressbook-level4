@@ -20,7 +20,9 @@ public class XmlSerializableEventPlanner {
     @XmlElement
     private List<XmlAdaptedPerson> persons;
     @XmlElement
-    private List<XmlAdaptedTag> tags;
+    private List<XmlAdaptedTag> personTags;
+    @XmlElement
+    private List<XmlAdaptedTag> eventTags;
 
     /**
      * Creates an empty XmlSerializableEventPlanner.
@@ -28,7 +30,8 @@ public class XmlSerializableEventPlanner {
      */
     public XmlSerializableEventPlanner() {
         persons = new ArrayList<>();
-        tags = new ArrayList<>();
+        personTags = new ArrayList<>();
+        eventTags = new ArrayList<>();
     }
 
     /**
@@ -37,7 +40,8 @@ public class XmlSerializableEventPlanner {
     public XmlSerializableEventPlanner(ReadOnlyEventPlanner src) {
         this();
         persons.addAll(src.getPersonList().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
-        tags.addAll(src.getTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
+        personTags.addAll(src.getPersonTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
+        eventTags.addAll(src.getEventTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
     }
 
     /**
@@ -48,8 +52,11 @@ public class XmlSerializableEventPlanner {
      */
     public EventPlanner toModelType() throws IllegalValueException {
         EventPlanner eventPlanner = new EventPlanner();
-        for (XmlAdaptedTag t : tags) {
-            eventPlanner.addTag(t.toModelType());
+        for (XmlAdaptedTag t : personTags) {
+            eventPlanner.addPersonTag(t.toModelType());
+        }
+        for (XmlAdaptedTag t : eventTags) {
+            eventPlanner.addEventTag(t.toModelType());
         }
         for (XmlAdaptedPerson p : persons) {
             eventPlanner.addPerson(p.toModelType());
@@ -68,6 +75,7 @@ public class XmlSerializableEventPlanner {
         }
 
         XmlSerializableEventPlanner otherAb = (XmlSerializableEventPlanner) other;
-        return persons.equals(otherAb.persons) && tags.equals(otherAb.tags);
+        return persons.equals(otherAb.persons) && eventTags.equals(otherAb.eventTags)
+                && personTags.equals(otherAb.personTags);
     }
 }
