@@ -73,7 +73,7 @@ public class XmlUtilTest {
         EventPlanner dataFromFile = XmlUtil.getDataFromFile(VALID_FILE,
                 XmlSerializableEventPlanner.class).toModelType();
         assertEquals(9, dataFromFile.getPersonList().size());
-        assertEquals(0, dataFromFile.getTagList().size());
+        assertEquals(0, dataFromFile.getPersonTagList().size());
     }
 
     @Test

@@ -40,7 +40,7 @@ public class AddressBookBuilder {
      */
     public AddressBookBuilder withTag(String tagName) {
         try {
-            eventPlanner.addTag(new Tag(tagName));
+            eventPlanner.addPersonTag(new Tag(tagName));
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("tagName is expected to be valid.");
         }

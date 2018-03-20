@@ -30,7 +30,8 @@ public class EventPlannerTest {
     @Test
     public void constructor() {
         assertEquals(Collections.emptyList(), eventPlanner.getPersonList());
-        assertEquals(Collections.emptyList(), eventPlanner.getTagList());
+        assertEquals(Collections.emptyList(), eventPlanner.getPersonTagList());
+        assertEquals(Collections.emptyList(), eventPlanner.getEventTagList());
     }
 
     @Test
@@ -51,7 +52,7 @@ public class EventPlannerTest {
         // Repeat ALICE twice
         List<Person> newPersons = Arrays.asList(ALICE, ALICE);
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
-        EventPlannerStub newData = new EventPlannerStub(newPersons, newTags);
+        EventPlannerStub newData = new EventPlannerStub(newPersons, newTags, newTags);
 
         thrown.expect(AssertionError.class);
         eventPlanner.resetData(newData);
@@ -66,7 +67,7 @@ public class EventPlannerTest {
     @Test
     public void getTagList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        eventPlanner.getTagList().remove(0);
+        eventPlanner.getPersonTagList().remove(0);
     }
 
     /**
@@ -75,11 +76,14 @@ public class EventPlannerTest {
     private static class EventPlannerStub implements ReadOnlyEventPlanner {
         private final ObservableList<Person> persons = FXCollections.observableArrayList();
         private final ObservableList<EpicEvent> events = FXCollections.observableArrayList();
-        private final ObservableList<Tag> tags = FXCollections.observableArrayList();
+        private final ObservableList<Tag> personTags = FXCollections.observableArrayList();
+        private final ObservableList<Tag> eventTags = FXCollections.observableArrayList();
 
-        EventPlannerStub(Collection<Person> persons, Collection<? extends Tag> tags) {
+        EventPlannerStub(Collection<Person> persons, Collection<? extends Tag> personTags,
+                         Collection<? extends Tag> eventTags) {
             this.persons.setAll(persons);
-            this.tags.setAll(tags);
+            this.personTags.setAll(personTags);
+            this.eventTags.setAll(eventTags);
         }
 
         @Override
@@ -93,8 +97,13 @@ public class EventPlannerTest {
         }
 
         @Override
-        public ObservableList<Tag> getTagList() {
-            return tags;
+        public ObservableList<Tag> getPersonTagList() {
+            return personTags;
+        }
+
+        @Override
+        public ObservableList<Tag> getEventTagList() {
+            return eventTags;
         }
     }
 
