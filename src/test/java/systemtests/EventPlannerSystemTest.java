@@ -34,7 +34,7 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.FindPersonCommand;
-import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListPersonCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
@@ -140,7 +140,7 @@ public abstract class EventPlannerSystemTest {
      * Displays all persons in the address book.
      */
     protected void showAllPersons() {
-        executeCommand(ListCommand.COMMAND_WORD);
+        executeCommand(ListPersonCommand.COMMAND_WORD);
         assertEquals(getModel().getEventPlanner().getPersonList().size(), getModel().getFilteredPersonList().size());
     }
 
