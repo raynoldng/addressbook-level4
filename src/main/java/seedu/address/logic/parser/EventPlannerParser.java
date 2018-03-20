@@ -81,7 +81,7 @@ public class EventPlannerParser {
             return new ListRegisteredPersonsCommandParser().parse(arguments);
 
         case AddPersonCommand.COMMAND_WORD:
-            return new AddCommandParser().parse(arguments);
+            return new AddPersonCommandParser().parse(arguments);
 
         case EditPersonCommand.COMMAND_WORD:
             return new EditPersonCommandParser().parse(arguments);
