@@ -10,7 +10,7 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/CS2103T-2018-W13-B2/main
+:repoURL: https://github.com/CS2103JAN2018-W13-B2/main/blob/master
 
 By: `Team W13-B2`      Since: `Mar 2018`      Licence: `MIT`
 
@@ -444,6 +444,44 @@ By doing so, a group of persons can be identified by `PersonTag` and thus regist
 by iteratively registering each person.
 
 // end::massregistration[]
+
+
+=== [Proposed] 3 Pane UI
+
+The proposed new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
+
+==== Current Implementation
+
+The UI consists of a `MainWindow` that is made up of parts e.g. `CommandBox`, `ResultDisplay`, `PersonListPanel`, `EpicEventListPanel` and `AttendeeListPanel`. The `ListPanel` s forms the bulk of the UI.
+
+As you can see from the UI component diagram, the three lists extend from the `ListPanel` class. `ListPanel` is a vetically scrollable collection of `Cards`. It is an adapter view that does not know the details, such as type and contents, of the view it contains.
+
+In addition, we define a `ListPanelAdapter` class that acts as the bridge between `ListPanel` and data behind the list.
+
+The sequence diagram below shows how `PersonListPanel` is initialised. `EventsListPanel` and `AttendeeListPanel` are initialised in a similar manner.
+
+
+image::CreatePersonListPanelSequenceDiagram.png[width="650"]
+
+
+[NOTE]
+If no  `EpicEvent` has been selected, `AttendeeList` will be empty
+
+==== Design Considerations
+
+When deciding on the UI, the following aspects of user experience were considered.
+
+===== Aspect: Overall UI Design
+
+- *Alternative 1 (current choice)*: A 3 pane UI consisting of list of persons, events, and attendees for selected event
+    * Pros: The user can view all 3 lists at the same time. He would know what arguments to supply when typing commands as he can read them off the list.
+    * Cons: The UI might become too cluttered as there are too many UI elements. However, given that EPIC is meant for modern computers with large displays, this should not be an issue.
+- *Alternative 2 (previous choice)*: 2 pane UI where the left pane is a 2 tab pane consistings of list of persons and events, and the right pane is the list of attendees.
+    * Pros: Merging the horizontal space for list of persons and events will create more space for list of attendees. The user is likely to be more interested in the attendees details.
+    * Cons: If the user needs to access data for some tabbed pane that is not in focus to fill out a command, this would break his workflow. The user will have to delete his current command, execute a command to set focus to the desired tab, memorize the required details and reenter his previous command.
+- *Alternative 3*: A common list that can display either list of persons, events or attendees for selected event
+    * Pros: We only have to make minimal changes to the UI layout.
+    * Cons: Events, persons, and attendees must be displayed using the same `Card` class. This would result in tight coupling of the display graphics logic  for the three lists.
 
 
 === Logging
