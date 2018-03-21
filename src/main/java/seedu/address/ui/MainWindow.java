@@ -58,15 +58,6 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private TabPane sideTabPane;
-
-    @FXML
-    private Tab epicEventsTab;
-
-    @FXML
-    private Tab personTab;
-
-    @FXML
     private StackPane personListPanelPlaceholder;
 
     @FXML
@@ -137,13 +128,9 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        browserPanel = new BrowserPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
 
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
-
-        tabSingleSelectionModel = sideTabPane.getSelectionModel();
 
         epicEventListPanel = new EpicEventListPanel(logic.getFilteredEventList());
         epicEventListPanelPlaceholder.getChildren().add(epicEventListPanel.getRoot());
@@ -223,13 +210,13 @@ public class MainWindow extends UiPart<Stage> {
 
     @Subscribe
     private void handleFocusOnEpicEventListEvent(FocusOnEpicEventListEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        tabSingleSelectionModel.select(epicEventsTab);
+//        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+//        tabSingleSelectionModel.select(epicEventsTab);
     }
 
     @Subscribe
     private void handleFocusOnPersonListEvent(FocusOnPersonListEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        tabSingleSelectionModel.select(personTab);
+//        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+//        tabSingleSelectionModel.select(personTab);
     }
 }

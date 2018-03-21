@@ -43,9 +43,9 @@ public class HelpCommandSystemTest extends EventPlannerSystemTest {
         getMainMenu().openHelpWindowUsingAccelerator();
         assertHelpWindowOpen();
 
-        getBrowserPanel().click();
-        getMainMenu().openHelpWindowUsingAccelerator();
-        assertHelpWindowNotOpen();
+//        getBrowserPanel().click();
+//        getMainMenu().openHelpWindowUsingAccelerator();
+//        assertHelpWindowNotOpen();
 
         //use menu button
         getMainMenu().openHelpWindowUsingMenu();
@@ -64,7 +64,7 @@ public class HelpCommandSystemTest extends EventPlannerSystemTest {
         assertEquals("", getCommandBox().getInput());
         assertCommandBoxShowsDefaultStyle();
         assertNotEquals(HelpCommand.SHOWING_HELP_MESSAGE, getResultDisplay().getText());
-        assertNotEquals(BrowserPanel.DEFAULT_PAGE, getBrowserPanel().getLoadedUrl());
+//        assertNotEquals(BrowserPanel.DEFAULT_PAGE, getBrowserPanel().getLoadedUrl());
         assertListMatching(getPersonListPanel(), getModel().getFilteredPersonList());
 
         // assert that the status bar too is updated correctly while the help window is open
