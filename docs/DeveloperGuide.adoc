@@ -483,6 +483,31 @@ When deciding on the UI, the following aspects of user experience were considere
     * Pros: We only have to make minimal changes to the UI layout.
     * Cons: Events, persons, and attendees must be displayed using the same `Card` class. This would result in tight coupling of the display graphics logic  for the three lists.
 
+=== [proposed] Export an Event
+
+The proposed export command exports the name of the attendees, their phone number, their email address, their home address and their attendance information of a particular event to a csv file into a file path specified by the user. Having the attendance of a particular event in a csv file would enable the users to analyse the data with other platforms.
+
+==== [proposed] Implementation
+
+The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`. The execution of it then calls the respective storage components. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` which is a kind of `EventPlannerStorage`. The event data is parsed by `CsvUtil` and then exported as file through `CsvFileStorage` using the file path specified by the user.
+
+The sequence diagram below shows how the csv event export is processed in the storage component.
+
+image::ExportEventSequenceDiagram.png[width="650"]
+
+==== Design Considerations
+
+When deciding on the export option, the following aspects of user experience are considered.
+
+===== Aspect: Data to be Exported
+
+- *Alternative 1 (current choice)*: Name of the attendees, their phone number, their email address, their home address and their attendance information for the event
+    * Pros: The information includes almost all the data users need for an event. The parsing of the data is straight forward.
+    * Cons: The tags of the attendees are not exported.
+- *Alternative 2*: All information for attendees including their tags
+    * Pros: More information for users as compared to current implementation.
+    * Cons: The attendees may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
+
 
 === Logging
 
