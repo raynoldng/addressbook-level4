@@ -7,11 +7,10 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.Name;
+import seedu.address.model.attendance.UniqueAttendanceList;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.UniquePersonList;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -24,7 +23,7 @@ public class EpicEvent {
     private Name name;
 
     private UniqueTagList tags;
-    private final UniquePersonList registeredPersons;
+    private final UniqueAttendanceList registeredPersons;
 
     /**
      * Every field must be present and not null.
@@ -34,7 +33,7 @@ public class EpicEvent {
         this.name = name;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
-        this.registeredPersons = new UniquePersonList();
+        this.registeredPersons = new UniqueAttendanceList();
     }
 
     public Name getName() {
@@ -50,7 +49,7 @@ public class EpicEvent {
     }
 
     /** registers person for this event */
-    public void registerPerson(Person person) throws DuplicatePersonException {
+    public void registerPerson(Person person) throws DuplicateAttendanceException {
         registeredPersons.add(person);
     }
 
@@ -58,7 +57,7 @@ public class EpicEvent {
     public void deregisterPerson(Person person) throws PersonNotFoundInEventException {
         try {
             registeredPersons.remove(person);
-        } catch (PersonNotFoundException e) {
+        } catch (PersonNotFoundInEventException e) {
             throw new PersonNotFoundInEventException();
         }
     }
