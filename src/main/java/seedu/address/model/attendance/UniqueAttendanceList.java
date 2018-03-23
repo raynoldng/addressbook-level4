@@ -3,7 +3,6 @@ package seedu.address.model.attendance;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -123,11 +122,6 @@ public class UniqueAttendanceList {
      */
     public ObservableList<Attendance> asObservableList() {
         return FXCollections.unmodifiableObservableList(internalList);
-    }
-
-    @Override
-    public Iterator<Attendance> iterator() {
-        return internalList.iterator();
     }
 
     @Override
