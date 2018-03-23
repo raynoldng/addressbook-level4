@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -210,13 +209,13 @@ public class MainWindow extends UiPart<Stage> {
 
     @Subscribe
     private void handleFocusOnEpicEventListEvent(FocusOnEpicEventListEvent event) {
-//        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-//        tabSingleSelectionModel.select(epicEventsTab);
+    //    logger.info(LogsCenter.getEventHandlingLogMessage(event));
+    //    tabSingleSelectionModel.select(epicEventsTab);
     }
 
     @Subscribe
     private void handleFocusOnPersonListEvent(FocusOnPersonListEvent event) {
-//        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-//        tabSingleSelectionModel.select(personTab);
+    //    logger.info(LogsCenter.getEventHandlingLogMessage(event));
+    //    tabSingleSelectionModel.select(personTab);
     }
 }
