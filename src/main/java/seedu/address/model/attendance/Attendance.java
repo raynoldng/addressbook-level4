@@ -10,7 +10,7 @@ import seedu.address.model.person.Person;
  */
 public class Attendance {
 
-    private final Person attendee;
+    private Person attendee;
     private boolean attended;
 
     /**
@@ -32,10 +32,11 @@ public class Attendance {
     }
 
     /**
-     * Sets the attendance for this attendee
+     * Edits this attendance by transferring the name and tags of the dummyAttendance over
      */
-    public void setAttendance(boolean attended) {
-        this.attended = attended;
+    public void setAttendance(Attendance dummyAttendance) {
+        this.attendee = dummyAttendance.getAttendee();
+        this.attended = dummyAttendance.hasAttended();
     }
 
     @Override
