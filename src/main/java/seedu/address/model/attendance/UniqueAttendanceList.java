@@ -25,6 +25,13 @@ public class UniqueAttendanceList {
     private final ObservableList<Attendance> internalList = FXCollections.observableArrayList();
 
     /**
+     * Returns true if the list contains an equivalent person as the given argument.
+     */
+    public boolean contains(Person toCheck) {
+        return contains(new Attendance(toCheck));
+    }
+
+    /**
      * Returns true if the list contains an equivalent attendee as the given argument.
      */
     public boolean contains(Attendance toCheck) {
@@ -82,12 +89,7 @@ public class UniqueAttendanceList {
      * @throws PersonNotFoundInEventException if no such attendee could be found in the list.
      */
     public boolean remove(Person toRemove) throws PersonNotFoundInEventException {
-        requireNonNull(toRemove);
-        final boolean attendeeFoundAndDeleted = internalList.remove(toRemove);
-        if (!attendeeFoundAndDeleted) {
-            throw new PersonNotFoundInEventException();
-        }
-        return attendeeFoundAndDeleted;
+        return remove(new Attendance(toRemove));
     }
 
     /**
