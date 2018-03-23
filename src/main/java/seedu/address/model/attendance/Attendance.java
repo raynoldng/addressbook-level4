@@ -62,8 +62,8 @@ public class Attendance {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(attendee.getName())
-                .append(" Attendance: ");
-                Boolean.toString(attended);
+                .append(" Attendance: ")
+                .append(Boolean.toString(attended));
         return builder.toString();
     }
 }

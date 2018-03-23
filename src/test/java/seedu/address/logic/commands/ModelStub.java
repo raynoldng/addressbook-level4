@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyEventPlanner;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
@@ -53,14 +54,14 @@ public class ModelStub implements Model {
     }
 
     @Override
-    public void registerPersonForEvent(Person person, EpicEvent event) throws PersonNotFoundException,
-            EventNotFoundException, DuplicatePersonException {
+    public void registerPersonForEvent(Person person, EpicEvent event) throws EventNotFoundException,
+            DuplicateAttendanceException {
         fail("This method should not be called.");
     }
 
     @Override
-    public void deregisterPersonFromEvent(Person person, EpicEvent event) throws PersonNotFoundException,
-            EventNotFoundException, PersonNotFoundInEventException {
+    public void deregisterPersonFromEvent(Person person, EpicEvent event) throws EventNotFoundException,
+            PersonNotFoundInEventException {
         fail("This method should not be called.");
     }
 
