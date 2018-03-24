@@ -37,6 +37,14 @@ public class Person {
         this.tags = new UniqueTagList(tags);
     }
 
+    public Person(Person person) {
+        this.name = person.getName();
+        this.phone = person.getPhone();
+        this.email = person.getEmail();
+        this.address = person.getAddress();
+        this.tags = new UniqueTagList(person.getTags());
+    }
+
     public Name getName() {
         return name;
     }

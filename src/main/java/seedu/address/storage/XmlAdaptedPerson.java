@@ -64,6 +64,7 @@ public class XmlAdaptedPerson {
      * @param source future changes to this will not affect the created XmlAdaptedPerson
      */
     public XmlAdaptedPerson(Person source) {
+        Objects.requireNonNull(source);
         name = source.getName().name;
         phone = source.getPhone().value;
         email = source.getEmail().value;

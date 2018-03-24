@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.Name;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.tag.Tag;
 
@@ -23,6 +24,9 @@ public class XmlAdaptedEpicEvent {
     @XmlElement(required = true)
     private String name;
 
+    @XmlElement(required = true)
+    private List<XmlAdaptedAttendance> attendanceList = new ArrayList<>();
+
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
 
@@ -35,8 +39,13 @@ public class XmlAdaptedEpicEvent {
     /**
      * Constructs an {@code XmlAdaptedEpicEvent} with the given epicEvent details.
      */
-    public XmlAdaptedEpicEvent(String name, List<XmlAdaptedTag> tagged) {
+    public XmlAdaptedEpicEvent(String name, List<XmlAdaptedAttendance> attendanceList, List<XmlAdaptedTag> tagged) {
         this.name = name;
+
+        if (attendanceList != null) {
+            this.attendanceList = new ArrayList<>(attendanceList);
+        }
+
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -49,6 +58,12 @@ public class XmlAdaptedEpicEvent {
      */
     public XmlAdaptedEpicEvent(EpicEvent source) {
         name = source.getName().name;
+
+        attendanceList = new ArrayList<>();
+        for (Attendance attendance : source.getAttendanceList()) {
+            attendanceList.add(new XmlAdaptedAttendance(attendance));
+        }
+
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -64,6 +79,11 @@ public class XmlAdaptedEpicEvent {
         final List<Tag> eventTags = new ArrayList<>();
         for (XmlAdaptedTag tag : tagged) {
             eventTags.add(tag.toModelType());
+        }
+
+        final List<Attendance> attendances = new ArrayList<>();
+        for (XmlAdaptedAttendance attendance : attendanceList) {
+            attendances.add(attendance.toModelType());
         }
 
         if (this.name == null) {
@@ -90,6 +110,7 @@ public class XmlAdaptedEpicEvent {
 
         XmlAdaptedEpicEvent otherEpicEvent = (XmlAdaptedEpicEvent) other;
         return Objects.equals(name, otherEpicEvent.name)
+                && attendanceList.equals(otherEpicEvent.attendanceList)
                 && tagged.equals(otherEpicEvent.tagged);
     }
 }

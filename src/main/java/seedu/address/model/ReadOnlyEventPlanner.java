@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
