@@ -51,6 +51,7 @@ public class AddEventCommand extends UndoableCommand {
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new DeleteEventCommand(toAdd);
+        oppositeCommand.setData(model, history, undoRedoStack);
     }
 
     @Override

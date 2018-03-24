@@ -70,6 +70,7 @@ public class DeletePersonCommand extends UndoableCommand {
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new AddPersonCommand(personToDelete);
+        oppositeCommand.setData(model, history, undoRedoStack);
     }
 
     @Override
