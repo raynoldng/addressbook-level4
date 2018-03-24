@@ -20,6 +20,8 @@ public class XmlSerializableEventPlanner {
     @XmlElement
     private List<XmlAdaptedPerson> persons;
     @XmlElement
+    private List<XmlAdaptedEpicEvent> epicEvents;
+    @XmlElement
     private List<XmlAdaptedTag> personTags;
     @XmlElement
     private List<XmlAdaptedTag> eventTags;
@@ -30,6 +32,7 @@ public class XmlSerializableEventPlanner {
      */
     public XmlSerializableEventPlanner() {
         persons = new ArrayList<>();
+        epicEvents = new ArrayList<>();
         personTags = new ArrayList<>();
         eventTags = new ArrayList<>();
     }
@@ -40,6 +43,7 @@ public class XmlSerializableEventPlanner {
     public XmlSerializableEventPlanner(ReadOnlyEventPlanner src) {
         this();
         persons.addAll(src.getPersonList().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
+        epicEvents.addAll(src.getEventList().stream().map(XmlAdaptedEpicEvent::new).collect(Collectors.toList()));
         personTags.addAll(src.getPersonTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
         eventTags.addAll(src.getEventTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
     }
@@ -48,7 +52,7 @@ public class XmlSerializableEventPlanner {
      * Converts this eventplanner into the model's {@code EventPlanner} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
-     * {@code XmlAdaptedPerson} or {@code XmlAdaptedTag}.
+     * {@code XmlAdaptedPerson}, {@code XmlAdaptedEpicEvent} or {@code XmlAdaptedTag}.
      */
     public EventPlanner toModelType() throws IllegalValueException {
         EventPlanner eventPlanner = new EventPlanner();
@@ -60,6 +64,9 @@ public class XmlSerializableEventPlanner {
         }
         for (XmlAdaptedPerson p : persons) {
             eventPlanner.addPerson(p.toModelType());
+        }
+        for (XmlAdaptedEpicEvent e: epicEvents) {
+            eventPlanner.addEvent(e.toModelType());
         }
         return eventPlanner;
     }
@@ -74,8 +81,9 @@ public class XmlSerializableEventPlanner {
             return false;
         }
 
-        XmlSerializableEventPlanner otherAb = (XmlSerializableEventPlanner) other;
-        return persons.equals(otherAb.persons) && eventTags.equals(otherAb.eventTags)
-                && personTags.equals(otherAb.personTags);
+        XmlSerializableEventPlanner otherEp = (XmlSerializableEventPlanner) other;
+        return persons.equals(otherEp.persons) && epicEvents.equals(otherEp.epicEvents)
+                && eventTags.equals(otherEp.eventTags)
+                && personTags.equals(otherEp.personTags);
     }
 }
