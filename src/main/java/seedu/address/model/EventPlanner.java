@@ -178,12 +178,13 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      * @throws DuplicateEventException if an equivalent event already exists.
      */
     public void addEvent(EpicEvent e) throws DuplicateEventException {
-        syncEventWithMasterTagList(e);
+        EpicEvent event = syncEventWithMasterTagList(e);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any event
-        // in the event list.
-        events.add(e);
-        e.handleAddEvent();
+        // in the event list.;
+        events.add(event);
+        event.setAttendanceList(e.getAttendanceList());
+        event.handleAddEvent();
     }
 
     /**
@@ -198,8 +199,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         // Rebuild the list of event tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
         newEventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        event.setEvent(new EpicEvent(event.getName(), correctTagReferences));
-        return event;
+        return new EpicEvent(event.getName(), correctTagReferences);
     }
 
     /**

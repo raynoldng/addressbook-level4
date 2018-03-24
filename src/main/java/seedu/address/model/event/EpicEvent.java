@@ -3,10 +3,12 @@ package seedu.address.model.event;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.Name;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
@@ -79,6 +81,22 @@ public class EpicEvent {
      */
     public void handleAddEvent() {
         registeredPersons.handleAddEvent();
+    }
+
+    /**
+     * Sets the attendance list using another event's. Used for undoing deleteEvent
+     */
+    public void setAttendanceList(List<Attendance> dummyRegisteredPersons) {
+        try {
+            registeredPersons.setAttendanceList(dummyRegisteredPersons);
+        } catch (DuplicateAttendanceException e) {
+            throw new AssertionError("this should not happen, dummyRegisteredPersons"
+                    + "is a valid Attendance List from another event");
+        }
+    }
+
+    public List<Attendance> getAttendanceList() {
+        return registeredPersons.asObservableList();
     }
 
     /** returns true if person is in this event */
