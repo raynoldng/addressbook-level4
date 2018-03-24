@@ -1,13 +1,10 @@
 package systemtests;
 
-import static guitests.guihandles.WebViewUtil.waitUntilBrowserLoaded;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.ui.BrowserPanel.DEFAULT_PAGE;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
-import static seedu.address.ui.UiPart.FXML_FILE_FOLDER;
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
 
 import java.net.MalformedURLException;
@@ -28,7 +25,6 @@ import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.StatusBarFooterHandle;
-import seedu.address.MainApp;
 import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.index.Index;
@@ -69,7 +65,7 @@ public abstract class EventPlannerSystemTest {
         testApp = setupHelper.setupApplication(this::getInitialData, getDataFileLocation());
         mainWindowHandle = setupHelper.setupMainWindowHandle();
 
-//        waitUntilBrowserLoaded(getBrowserPanel());
+        //        waitUntilBrowserLoaded(getBrowserPanel());
         assertApplicationStartingStateIsCorrect();
     }
 
@@ -109,9 +105,9 @@ public abstract class EventPlannerSystemTest {
         return mainWindowHandle.getMainMenu();
     }
 
-//    public BrowserPanelHandle getBrowserPanel() {
-//        return mainWindowHandle.getBrowserPanel();
-//    }
+    //    public BrowserPanelHandle getBrowserPanel() {
+    //        return mainWindowHandle.getBrowserPanel();
+    //    }
 
     public StatusBarFooterHandle getStatusBarFooter() {
         return mainWindowHandle.getStatusBarFooter();
@@ -133,7 +129,7 @@ public abstract class EventPlannerSystemTest {
 
         mainWindowHandle.getCommandBox().run(command);
 
-//        waitUntilBrowserLoaded(getBrowserPanel());
+        //    waitUntilBrowserLoaded(getBrowserPanel());
     }
 
     /**
@@ -149,7 +145,8 @@ public abstract class EventPlannerSystemTest {
      */
     protected void showPersonsWithName(String keyword) {
         executeCommand(FindPersonCommand.COMMAND_WORD + " " + keyword);
-        assertTrue(getModel().getFilteredPersonList().size() < getModel().getEventPlanner().getPersonList().size());
+        assertTrue(getModel().getFilteredPersonList().size()
+                < getModel().getEventPlanner().getPersonList().size());
     }
 
     /**
@@ -188,7 +185,7 @@ public abstract class EventPlannerSystemTest {
      */
     private void rememberStates() {
         StatusBarFooterHandle statusBarFooterHandle = getStatusBarFooter();
-//        getBrowserPanel().rememberUrl();
+        //    getBrowserPanel().rememberUrl();
         statusBarFooterHandle.rememberSaveLocation();
         statusBarFooterHandle.rememberSyncStatus();
         getPersonListPanel().rememberSelectedPersonCard();
@@ -200,7 +197,7 @@ public abstract class EventPlannerSystemTest {
      * @see BrowserPanelHandle#isUrlChanged()
      */
     protected void assertSelectedCardDeselected() {
-//        assertFalse(getBrowserPanel().isUrlChanged());
+        //    assertFalse(getBrowserPanel().isUrlChanged());
         assertFalse(getPersonListPanel().isAnyCardSelected());
     }
 
@@ -218,7 +215,7 @@ public abstract class EventPlannerSystemTest {
         } catch (MalformedURLException mue) {
             throw new AssertionError("URL expected to be valid.");
         }
-//        assertEquals(expectedUrl, getBrowserPanel().getLoadedUrl());
+        //    assertEquals(expectedUrl, getBrowserPanel().getLoadedUrl());
 
         assertEquals(expectedSelectedCardIndex.getZeroBased(), getPersonListPanel().getSelectedCardIndex());
     }
@@ -229,7 +226,7 @@ public abstract class EventPlannerSystemTest {
      * @see PersonListPanelHandle#isSelectedPersonCardChanged()
      */
     protected void assertSelectedCardUnchanged() {
-//        assertFalse(getBrowserPanel().isUrlChanged());
+        //    assertFalse(getBrowserPanel().isUrlChanged());
         assertFalse(getPersonListPanel().isSelectedPersonCardChanged());
     }
 
@@ -276,7 +273,8 @@ public abstract class EventPlannerSystemTest {
             assertEquals("", getCommandBox().getInput());
             assertEquals("", getResultDisplay().getText());
             assertListMatching(getPersonListPanel(), getModel().getFilteredPersonList());
-//            assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE), getBrowserPanel().getLoadedUrl());
+            //        assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER
+            //        + DEFAULT_PAGE), getBrowserPanel().getLoadedUrl());
             assertEquals("./" + testApp.getStorageSaveLocation(), getStatusBarFooter().getSaveLocation());
             assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
         } catch (Exception e) {

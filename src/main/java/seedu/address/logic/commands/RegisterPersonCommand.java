@@ -9,11 +9,10 @@ import java.util.stream.Collectors;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Registers a person to an event.
@@ -54,11 +53,9 @@ public class RegisterPersonCommand extends UndoableCommand {
         requireAllNonNull(personToRegister, eventToRegisterFor);
         try {
             model.registerPersonForEvent(personToRegister, eventToRegisterFor);
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("The target person cannot be missing");
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");
-        } catch (DuplicatePersonException dpe) {
+        } catch (DuplicateAttendanceException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 

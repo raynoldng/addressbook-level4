@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
@@ -66,7 +67,7 @@ public interface Model {
      * @throws DuplicatePersonException if the person is already registered for the event
      */
     void registerPersonForEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException;
+            throws EventNotFoundException, DuplicateAttendanceException;
 
     /**
      * Deregisters the given person {@code person} from the given event {@code event}
@@ -76,7 +77,7 @@ public interface Model {
      * @throws PersonNotFoundInEventException if the person could not be found in the event
      */
     void deregisterPersonFromEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException;
+            throws EventNotFoundException, PersonNotFoundInEventException;
 
     /**
      * Replaces the given event {@code targetEvent} with {@code editedEvent}.

@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
@@ -116,7 +117,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void registerPersonForEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException {
+            throws EventNotFoundException, DuplicateAttendanceException {
         requireAllNonNull(person, event);
 
         eventPlanner.registerPersonForEvent(person, event);
@@ -125,7 +126,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void deregisterPersonFromEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException {
+            throws EventNotFoundException, PersonNotFoundInEventException {
         requireAllNonNull(person, event);
 
         eventPlanner.deregisterPersonFromEvent(person, event);

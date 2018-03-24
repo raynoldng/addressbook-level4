@@ -13,7 +13,6 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Registers a person to an event.
@@ -54,8 +53,6 @@ public class DeregisterPersonCommand extends UndoableCommand {
         requireAllNonNull(personToDeregister, eventToDeregisterFor);
         try {
             model.deregisterPersonFromEvent(personToDeregister, eventToDeregisterFor);
-        } catch (PersonNotFoundException pnfe) {
-            throw new AssertionError("The target person cannot be missing");
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");
         } catch (PersonNotFoundInEventException dpe) {

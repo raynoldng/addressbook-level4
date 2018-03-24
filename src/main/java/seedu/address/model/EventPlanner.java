@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.UniqueEpicEventList;
 import seedu.address.model.event.exceptions.DuplicateEventException;
@@ -236,7 +237,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      * Registers a particular person to a particular event
      */
     public void registerPersonForEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException, DuplicatePersonException {
+            throws EventNotFoundException, DuplicateAttendanceException {
         events.registerPersonForEvent(person, event);
     }
 
@@ -244,7 +245,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      * Deregisters a particular person from a particular event
      */
     public void deregisterPersonFromEvent(Person person, EpicEvent event)
-            throws PersonNotFoundException, EventNotFoundException, PersonNotFoundInEventException {
+            throws EventNotFoundException, PersonNotFoundInEventException {
         events.deregisterPersonFromEvent(person, event);
     }
 
