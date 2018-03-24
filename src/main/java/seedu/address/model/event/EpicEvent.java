@@ -62,6 +62,14 @@ public class EpicEvent {
         }
     }
 
+    /**
+     * Decrements all this event's registeredPersons' numberOfEventsRegisteredFor.
+     * Called only when this event is being deleted.
+     */
+    public void handleDeleteEvent() {
+        registeredPersons.handleDeleteEvent();
+    }
+
     /** returns true if person is in this event */
     public boolean hasPerson(Person person) {
         return registeredPersons.contains(person);

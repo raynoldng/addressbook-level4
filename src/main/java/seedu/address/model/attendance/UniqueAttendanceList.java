@@ -120,6 +120,16 @@ public class UniqueAttendanceList {
     }
 
     /**
+     * Decrements the numberOfEventsRegisteredFor of all Persons in this AttendanceList by 1.
+     * Called only when the event this AttendanceList belongs to is being deleted
+     */
+    public void handleDeleteEvent() {
+        for (Attendance attendance: internalList) {
+            attendance.getAttendee().decrementNumberOfEventsRegisteredFor();
+        }
+    }
+
+    /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
     public ObservableList<Attendance> asObservableList() {

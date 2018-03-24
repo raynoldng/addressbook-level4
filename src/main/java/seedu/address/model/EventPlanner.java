@@ -206,6 +206,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      */
     public boolean removeEvent(EpicEvent eventKey) throws EventNotFoundException {
         if (events.remove(eventKey)) {
+            eventKey.handleDeleteEvent();
             return true;
         } else {
             throw new EventNotFoundException();
