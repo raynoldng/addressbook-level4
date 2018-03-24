@@ -181,7 +181,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         EpicEvent event = syncEventWithMasterTagList(e);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any event
-        // in the event list.;
+        // in the event list.
         events.add(event);
         event.setAttendanceList(e.getAttendanceList());
         event.handleAddEvent();
