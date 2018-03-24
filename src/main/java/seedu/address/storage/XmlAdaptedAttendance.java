@@ -57,7 +57,7 @@ public class XmlAdaptedAttendance {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Attendance.class.getSimpleName()));
         }
-        final Person attendee = new Person(this.attendee.toModelType());
+        final Person attendee = this.attendee.toModelType();
 
         final boolean hasAttended = this.hasAttended;
 
