@@ -64,10 +64,21 @@ public class EpicEvent {
 
     /**
      * Decrements all this event's registeredPersons' numberOfEventsRegisteredFor.
-     * Called only when this event is being deleted.
+     * Called only when this event is being deleted
      */
     public void handleDeleteEvent() {
         registeredPersons.handleDeleteEvent();
+    }
+
+
+    /**
+     * Increments all this event's registeredPersons' numberOfEventsRegisteredFor.
+     * Called only when this event is being added.
+     * Required to properly maintain numberOfPersonsRegisteredFor for these persons
+     * when an undo of a delete operation is called
+     */
+    public void handleAddEvent() {
+        registeredPersons.handleAddEvent();
     }
 
     /** returns true if person is in this event */
