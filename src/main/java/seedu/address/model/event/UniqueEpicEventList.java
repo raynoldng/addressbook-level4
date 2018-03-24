@@ -77,6 +77,7 @@ public class UniqueEpicEventList {
         }
 
         eventToRegisterFor.registerPerson(person);
+        person.incrementNumberOfEventsRegisteredFor();
     }
 
     /**
@@ -95,6 +96,7 @@ public class UniqueEpicEventList {
         }
 
         eventToRegisterFor.deregisterPerson(person);
+        person.decrementNumberOfEventsRegisteredFor();
     }
 
     /**

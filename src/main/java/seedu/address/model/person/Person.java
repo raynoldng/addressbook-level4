@@ -57,6 +57,14 @@ public class Person {
         return numberOfEventsRegisteredFor;
     }
 
+    public void decrementNumberOfEventsRegisteredFor() {
+        numberOfEventsRegisteredFor--;
+    }
+
+    public void incrementNumberOfEventsRegisteredFor() {
+        numberOfEventsRegisteredFor++;
+    }
+
     /**
      * Edits this person by transferring the fields of dummyPerson over
      */
