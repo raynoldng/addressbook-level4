@@ -25,6 +25,9 @@ public class DeletePersonCommand extends UndoableCommand {
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
+    public static final String MESSAGE_STILL_REGISTERED = "This person is still registered for an event!" +
+            " Please deregister the person from all events first";
+
     private final Index targetIndex;
 
     private Person personToDelete;
@@ -59,6 +62,9 @@ public class DeletePersonCommand extends UndoableCommand {
         }
 
         personToDelete = lastShownList.get(targetIndex.getZeroBased());
+        if (personToDelete.getNumberOfEventsRegisteredFor() > 0) {
+            throw new CommandException(MESSAGE_STILL_REGISTERED);
+        }
     }
 
     @Override
