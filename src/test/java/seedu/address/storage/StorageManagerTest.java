@@ -77,7 +77,7 @@ public class StorageManagerTest {
         // Create a StorageManager while injecting a stub that  throws an exception when the save method is called
         Storage storage = new StorageManager(new XmlEventPlannerStorageExceptionThrowingStub("dummy"),
                                              new JsonUserPrefsStorage("dummy"));
-        storage.handleAddressBookChangedEvent(new EventPlannerChangedEvent(new EventPlanner()));
+        storage.handleEventPlannerChangedEvent(new EventPlannerChangedEvent(new EventPlanner()));
         assertTrue(eventsCollectorRule.eventsCollector.getMostRecent() instanceof DataSavingExceptionEvent);
     }
 
@@ -92,7 +92,7 @@ public class StorageManagerTest {
         }
 
         @Override
-        public void saveEventPlanner(ReadOnlyEventPlanner addressBook, String filePath) throws IOException {
+        public void saveEventPlanner(ReadOnlyEventPlanner eventPlanner, String filePath) throws IOException {
             throw new IOException("dummy exception");
         }
     }

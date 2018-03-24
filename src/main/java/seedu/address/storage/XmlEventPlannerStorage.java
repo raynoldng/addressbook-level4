@@ -45,38 +45,38 @@ public class XmlEventPlannerStorage implements EventPlannerStorage {
                                                                                  FileNotFoundException {
         requireNonNull(filePath);
 
-        File addressBookFile = new File(filePath);
+        File eventPlannerFile = new File(filePath);
 
-        if (!addressBookFile.exists()) {
-            logger.info("EventPlanner file "  + addressBookFile + " not found");
+        if (!eventPlannerFile.exists()) {
+            logger.info("EventPlanner file "  + eventPlannerFile + " not found");
             return Optional.empty();
         }
 
-        XmlSerializableEventPlanner xmlAddressBook = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
+        XmlSerializableEventPlanner xmlEventPlanner = XmlFileStorage.loadDataFromSaveFile(new File(filePath));
         try {
-            return Optional.of(xmlAddressBook.toModelType());
+            return Optional.of(xmlEventPlanner.toModelType());
         } catch (IllegalValueException ive) {
-            logger.info("Illegal values found in " + addressBookFile + ": " + ive.getMessage());
+            logger.info("Illegal values found in " + eventPlannerFile + ": " + ive.getMessage());
             throw new DataConversionException(ive);
         }
     }
 
     @Override
-    public void saveEventPlanner(ReadOnlyEventPlanner addressBook) throws IOException {
-        saveEventPlanner(addressBook, filePath);
+    public void saveEventPlanner(ReadOnlyEventPlanner eventPlanner) throws IOException {
+        saveEventPlanner(eventPlanner, filePath);
     }
 
     /**
      * Similar to {@link #saveEventPlanner(ReadOnlyEventPlanner)}
      * @param filePath location of the data. Cannot be null
      */
-    public void saveEventPlanner(ReadOnlyEventPlanner addressBook, String filePath) throws IOException {
-        requireNonNull(addressBook);
+    public void saveEventPlanner(ReadOnlyEventPlanner eventPlanner, String filePath) throws IOException {
+        requireNonNull(eventPlanner);
         requireNonNull(filePath);
 
         File file = new File(filePath);
         FileUtil.createIfMissing(file);
-        XmlFileStorage.saveDataToFile(file, new XmlSerializableEventPlanner(addressBook));
+        XmlFileStorage.saveDataToFile(file, new XmlSerializableEventPlanner(eventPlanner));
     }
 
 }

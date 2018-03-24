@@ -27,12 +27,12 @@ public interface Storage extends EventPlannerStorage, UserPrefsStorage {
     Optional<ReadOnlyEventPlanner> readEventPlanner() throws DataConversionException, IOException;
 
     @Override
-    void saveEventPlanner(ReadOnlyEventPlanner addressBook) throws IOException;
+    void saveEventPlanner(ReadOnlyEventPlanner eventPlanner) throws IOException;
 
     /**
-     * Saves the current version of the Address Book to the hard disk.
+     * Saves the current version of the Event Planner to the hard disk.
      *   Creates the data file if it is missing.
      * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
      */
-    void handleAddressBookChangedEvent(EventPlannerChangedEvent abce);
+    void handleEventPlannerChangedEvent(EventPlannerChangedEvent abce);
 }

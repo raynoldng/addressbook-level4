@@ -14,7 +14,7 @@ import seedu.address.model.ReadOnlyEventPlanner;
 /**
  * An Immutable EventPlanner that is serializable to XML format
  */
-@XmlRootElement(name = "addressbook")
+@XmlRootElement(name = "eventplanner")
 public class XmlSerializableEventPlanner {
 
     @XmlElement
@@ -45,7 +45,7 @@ public class XmlSerializableEventPlanner {
     }
 
     /**
-     * Converts this addressbook into the model's {@code EventPlanner} object.
+     * Converts this eventplanner into the model's {@code EventPlanner} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      * {@code XmlAdaptedPerson} or {@code XmlAdaptedTag}.
