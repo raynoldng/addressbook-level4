@@ -45,7 +45,7 @@ public class XmlAdaptedEpicEvent {
     /**
      * Converts a given EpicEvent into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created XmlAdaptedPerson
+     * @param source future changes to this will not affect the created XmlAdaptedEpicEvent
      */
     public XmlAdaptedEpicEvent(EpicEvent source) {
         name = source.getName().name;
