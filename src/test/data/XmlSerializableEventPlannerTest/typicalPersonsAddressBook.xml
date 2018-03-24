@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- EventPlanner save file which contains the same Person values as in
 {@code TypicalPersons#getTypicalAddressBook()}-->
-<addressbook>
+<eventplanner>
     <persons>
         <name>Alice Pauline</name>
         <phone>85355255</phone>
@@ -49,4 +49,4 @@
     </persons>
     <personTags>friends</personTags>
     <personTags>owesMoney</personTags>
-</addressbook>
+</eventplanner>
