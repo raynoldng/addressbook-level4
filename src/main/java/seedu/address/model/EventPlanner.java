@@ -183,6 +183,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         // This can cause the tags master list to have additional tags that are not tagged to any event
         // in the event list.
         events.add(event);
+        event.setAttendanceList(e.getAttendanceList());
+        event.handleAddEvent();
     }
 
     /**
@@ -206,6 +208,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      */
     public boolean removeEvent(EpicEvent eventKey) throws EventNotFoundException {
         if (events.remove(eventKey)) {
+            eventKey.handleDeleteEvent();
             return true;
         } else {
             throw new EventNotFoundException();

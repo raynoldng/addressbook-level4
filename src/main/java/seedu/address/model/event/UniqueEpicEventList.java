@@ -62,7 +62,8 @@ public class UniqueEpicEventList {
     }
 
     /**
-     * Registers the person to the event.
+     * Registers the person to the event. Updates the person's numberOfEventsRegisteredFor
+     * upon success.
      *
      * @throws DuplicateAttendanceException if the person is already registered
      * @throws EventNotFoundException if no such event could be found in the list
@@ -77,10 +78,12 @@ public class UniqueEpicEventList {
         }
 
         eventToRegisterFor.registerPerson(person);
+        person.incrementNumberOfEventsRegisteredFor();
     }
 
     /**
-     * Deregisters the person to the event.
+     * Deregisters the person to the event. Updates the person's numberOfEventsRegisteredFor
+     * upon success.
      *
      * @throws PersonNotFoundInEventException if person could not be found in event
      * @throws EventNotFoundException if no such event could be found in the list
@@ -95,6 +98,7 @@ public class UniqueEpicEventList {
         }
 
         eventToRegisterFor.deregisterPerson(person);
+        person.decrementNumberOfEventsRegisteredFor();
     }
 
     /**

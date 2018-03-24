@@ -20,6 +20,7 @@ public class Person {
     private Phone phone;
     private Email email;
     private Address address;
+    private int numberOfEventsRegisteredFor = 0;
 
     private final UniqueTagList tags;
 
@@ -50,6 +51,18 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public int getNumberOfEventsRegisteredFor() {
+        return numberOfEventsRegisteredFor;
+    }
+
+    public void decrementNumberOfEventsRegisteredFor() {
+        numberOfEventsRegisteredFor--;
+    }
+
+    public void incrementNumberOfEventsRegisteredFor() {
+        numberOfEventsRegisteredFor++;
     }
 
     /**

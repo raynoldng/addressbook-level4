@@ -41,9 +41,9 @@ public abstract class UndoableCommand extends Command {
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
-    protected abstract void generateOppositeCommand();
-
     // @@author bayweiheng
+
+    protected abstract void generateOppositeCommand();
 
     /**
      * Executes the command and updates the filtered person
