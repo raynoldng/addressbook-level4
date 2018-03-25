@@ -389,7 +389,8 @@ Each `UndoableCommand` now requires its individual `generateOppositeCommand()` i
 the abstract class `UndoableCommand`
 
 There was no `Command` that could easily reverse the changes of a `ClearCommand`, hence a new `Command` `RestoreCommand` had to be created. Since the sole purpose
-of this command is be the `oppositeCommand` of a `ClearCommand`, our team decided to not make it directly accessible to the user.
+of this command is be the `oppositeCommand` of a `ClearCommand`. This command is not directly accessible to the user, and can only be executed when
+the user undoes a `ClearCommand`.
 
 ==== Design Considerations
 
@@ -419,7 +420,7 @@ of this command is be the `oppositeCommand` of a `ClearCommand`, our team decide
 ** Cons: User might mistakenly think that undo also applies to view modification (e.g. filtering).
 * **Alternative 2:** Include all commands.
 ** Pros: Might be more intuitive for the user.
-** Cons: User has no way of skipping such commands if he or she just want to reset the state of the address * book and not the view.
+** Cons: User has no way of skipping such commands if he or she just want to reset the state of the event planner and not the view.
 **Additional Info:** See the discussion  https://github.com/se-edu/addressbook-level4/issues/390#issuecomment-298936672[here].
 
 
