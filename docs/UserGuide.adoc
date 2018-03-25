@@ -297,14 +297,18 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 ====
 
 // tag::undoredo[]
-=== Undoing previous command : `undo` `[Undergoing revamp, currently unavailable]`
+=== Undoing previous command : `undo`
 
 Restores the event planner to the state before the previous _undoable_ command was executed. +
+There is no guarantee that relative ordering of persons/events will be maintained after the undoing
+of a `delete` or `delete-event` command. +
 Format: `undo`
 
 [NOTE]
 ====
-Undoable commands: those commands that modify the event planner's content (`add`, `delete`, `edit` and `clear`).
+Undoable commands: those commands that modify the event planner's content.
+Currently, the undoable commands are `add`, `delete`, `add-event`, `delete-event`.
+More commands will be added to this list by `v1.5`
 ====
 
 Examples:
@@ -323,7 +327,7 @@ The `undo` command fails as there are no undoable commands executed previously.
 `undo` (reverses the `clear` command) +
 `undo` (reverses the `delete 1` command) +
 
-=== Redoing the previously undone command : `redo` `[Undergoing revamp, currently unavailable]`
+=== Redoing the previously undone command : `redo`
 
 Reverses the most recent `undo` command. +
 Format: `redo`
