@@ -32,7 +32,11 @@ public class ModelManager extends ComponentManager implements Model {
     private final EventPlanner eventPlanner;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<EpicEvent> filteredEvents;
-    private final FilteredList<Attendance> filteredAttendees;
+
+    /*
+    * filteredAttendees cannot be final
+    * */
+    private FilteredList<Attendance> filteredAttendees;
 
     /**
      * Initializes a ModelManager with the given eventPlanner and userPrefs.
@@ -47,7 +51,12 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons = new FilteredList<>(this.eventPlanner.getPersonList());
         filteredEvents = new FilteredList<>(this.eventPlanner.getEventList());
         // TODO replace null with more elegant solution
-        filteredAttendees = null;
+
+        // attempt to populate attendance list with first item in events
+        if(filteredEvents.size() > 0) {
+            EpicEvent firstIndexEvent = filteredEvents.get(0);
+            filteredAttendees = new FilteredList<>(firstIndexEvent.getAttendanceList());
+        }
     }
 
     public ModelManager() {
@@ -169,6 +178,11 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
+    }
+
+    @Override
+    public ObservableList<Attendance> getFilteredAttendanceList() {
+        return FXCollections.unmodifiableObservableList(filteredAttendees);
     }
 
     /**
