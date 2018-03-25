@@ -22,7 +22,7 @@ public class SelectEventCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Event: %1$s";
+    public static final String MESSAGE_SELECT_EVENT_SUCCESS = "Selected Event: %1$s";
 
     private final Index targetIndex;
 
@@ -40,7 +40,7 @@ public class SelectEventCommand extends Command {
         }
 
         EventsCenter.getInstance().post(new JumpToEventListRequestEvent(targetIndex));
-        return new CommandResult(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()));
+        return new CommandResult(String.format(MESSAGE_SELECT_EVENT_SUCCESS, targetIndex.getOneBased()));
 
     }
 
