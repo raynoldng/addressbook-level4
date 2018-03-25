@@ -20,10 +20,22 @@ public class Attendance {
     public Attendance(Person attendee) {
         Objects.requireNonNull(attendee);
         this.attendee = attendee;
-        attended = false;
+        this.attended = false;
+    }
+
+    /**
+     * Person must be not be null
+     * @param attendee
+     * @param hasAttended
+     */
+    public Attendance(Person attendee, boolean hasAttended) {
+        Objects.requireNonNull(attendee);
+        this.attendee = attendee;
+        this.attended = hasAttended;
     }
 
     public Person getAttendee() {
+        Objects.requireNonNull(attendee);
         return attendee;
     }
 

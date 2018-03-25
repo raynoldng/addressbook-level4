@@ -68,20 +68,20 @@ public class StorageManager extends ComponentManager implements Storage {
     }
 
     @Override
-    public void saveEventPlanner(ReadOnlyEventPlanner addressBook) throws IOException {
-        saveEventPlanner(addressBook, eventPlannerStorage.getEventPlannerFilePath());
+    public void saveEventPlanner(ReadOnlyEventPlanner eventPlanner) throws IOException {
+        saveEventPlanner(eventPlanner, eventPlannerStorage.getEventPlannerFilePath());
     }
 
     @Override
-    public void saveEventPlanner(ReadOnlyEventPlanner addressBook, String filePath) throws IOException {
+    public void saveEventPlanner(ReadOnlyEventPlanner eventPlanner, String filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        eventPlannerStorage.saveEventPlanner(addressBook, filePath);
+        eventPlannerStorage.saveEventPlanner(eventPlanner, filePath);
     }
 
 
     @Override
     @Subscribe
-    public void handleAddressBookChangedEvent(EventPlannerChangedEvent event) {
+    public void handleEventPlannerChangedEvent(EventPlannerChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
             saveEventPlanner(event.data);

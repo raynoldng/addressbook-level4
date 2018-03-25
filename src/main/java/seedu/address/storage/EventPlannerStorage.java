@@ -40,6 +40,6 @@ public interface EventPlannerStorage {
     /**
      * @see #saveEventPlanner(ReadOnlyEventPlanner)
      */
-    void saveEventPlanner(ReadOnlyEventPlanner addressBook, String filePath) throws IOException;
+    void saveEventPlanner(ReadOnlyEventPlanner eventPlanner, String filePath) throws IOException;
 
 }
