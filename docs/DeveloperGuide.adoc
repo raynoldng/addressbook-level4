@@ -242,11 +242,25 @@ This section describes some noteworthy details on how certain features are imple
 === Edit Person/Event feature
 ==== Previous Implementation
 
-In https://github.com/se-edu/addressbook-level4[AddressBook-Level4, the `edit` command was performed by creating a new `Person` and passing it to a `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
+In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` command was performed by creating a new `Person` and passing it to a `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
+
+[source,java]
+----
+    int index = internalList.indexOf(personToEdit);
+    Person editedPerson = new Person(name, ...);
+    internalList.set(index, editedPerson);
+----
 
 ==== Current Implementation
 
 In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable manner - instead of replacing the to-be-edited `Person/EpicEvent` with the new one, we edit the details of the to-be-edited `Person/EpicEvent` directly.
+
+[source,java]
+----
+    int index = internalList.indexOf(personToEdit);
+    Person editedPerson = new Person(name, ...);
+    internalList.get(index).setPerson(editedPerson); // setPerson edits internal details using those of the supplied Person
+----
 
 ==== Design Considerations
 
