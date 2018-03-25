@@ -15,7 +15,7 @@ import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
-import seedu.address.commons.events.ui.JumpToListRequestEvent;
+import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.model.event.EpicEvent;
 /**
  * Panel containing the list of events.
@@ -62,7 +62,7 @@ public class EpicEventListPanel extends UiPart<Region> {
     }
 
     @Subscribe
-    private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
+    private void handleJumpToListRequestEvent(JumpToEventListRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         scrollTo(event.targetIndex);
     }
