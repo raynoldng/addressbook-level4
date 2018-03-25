@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
@@ -31,6 +32,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final EventPlanner eventPlanner;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<EpicEvent> filteredEvents;
+    private final FilteredList<Attendance> filteredAttendees;
 
     /**
      * Initializes a ModelManager with the given eventPlanner and userPrefs.
@@ -44,6 +46,8 @@ public class ModelManager extends ComponentManager implements Model {
         this.eventPlanner = new EventPlanner(eventPlanner);
         filteredPersons = new FilteredList<>(this.eventPlanner.getPersonList());
         filteredEvents = new FilteredList<>(this.eventPlanner.getEventList());
+        // TODO replace null with more elegant solution
+        filteredAttendees = null;
     }
 
     public ModelManager() {
