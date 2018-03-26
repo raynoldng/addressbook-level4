@@ -681,7 +681,6 @@ b. Require developers to download those libraries manually (this creates extra w
 * is reasonably comfortable using CLI apps
 
 *Value proposition*: streamline attendance taking and registration of event participants, far superior to traditional pen and paper registration
-[appendix]
 
 *Feature Contribution*:
 
