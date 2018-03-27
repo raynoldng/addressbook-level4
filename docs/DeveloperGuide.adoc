@@ -448,21 +448,39 @@ The references are maintained using a `UniquePersonList` inside each `EpicEvent`
 
 This is done by creating a `Predicate` that tests whether a `Person` is in an `EpicEvent`, then passing it to `updateFilteredPersonList()`
 
-=== [Proposed] Marking/Unmarking Attendance
+=== Marking/Unmarking Attendance
 
-The proposed implementation is to use an association class called `Attendance`.
-An instance of `Attendance` is created every time a person that registers to an event and
+==== Current Implementation
+
+The proposed implementation is to use a class called `Attendance`.
+An instance of `Attendance` is created every time a person registers to an event and
 it is stored inside the `EpicEvent`. The instance stores the corresponding `Person`
 and stores a `boolean` representing whether the person has attended the event.
 This reduces coupling between the `Person` and `EpicEvent` class and allows the event
 to have access to all its attendees so that adding, removing and listing attendees is
 easy to implement.
 
+==== Design Considerations
+
+===== Aspect: Location of instances of `Attendance` objects
+
+* **Alternative 1 (current choice):** Store in `EpicEvent` object
+** Pros: Reduces coupling between `Person` and `EpicEvent and makes it easy for event to keep track of attendance list and easy
+for UI to display the attendance list.
+** Cons: Makes it difficult for `EventPlanner` to track which events a person is registered for so deleting a person requires
+checking through all the events to delete a person properly.
+* **Alternative 2:** Store in `EventPlanner` object
+** Pros: Makes it easy `EventPlanner` to track which events a person is registered to and thus making
+some person commands such as delete persons easier.
+** Cons: Requires `EpicEvent` to search through entire list of `Attendance` of objects in `EventPlanner` to find out
+which persons are registered to itself. This can be very slow if the number of `Attendance` objects is very large.
 // end::markattendance[]
 
 // tag::massregistration[]
 
 === [Proposed] Mass Registration
+
+==== Proposed Implementation
 
 This feature is proposed to allow for mass registration of multiple persons to a single event.
 The proposed implementation is to make use of tags to select groups of persons to register for an event.
