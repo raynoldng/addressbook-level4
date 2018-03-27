@@ -32,15 +32,13 @@ public class AttendanceListPanel extends UiPart<Region> {
 
     public AttendanceListPanel(ObservableList<Attendance> attendanceList) {
         super(FXML);
-        ObservableList<Person> personList = attendanceList.stream().map(a -> a.getAttendee())
-                .collect(Collectors.collectingAndThen(toList(), l -> FXCollections.observableList(l)));
-        setConnections(personList);
+        setConnections(attendanceList);
         registerAsAnEventHandler(this);
     }
 
-    private void setConnections(ObservableList<Person> personList) {
+    private void setConnections(ObservableList<Attendance> attendanceList) {
         ObservableList<PersonCard> mappedList = EasyBind.map(
-                personList, (person) -> new PersonCard(person, personList.indexOf(person) + 1));
+                attendanceList, (attendee) -> new PersonCard(attendee.getAttendee(), attendanceList.indexOf(attendee) + 1));
         attendanceListView.setItems(mappedList);
         attendanceListView.setCellFactory(listView -> new PersonListViewCell());
         setEventHandlerForSelectionChangeEvent();
