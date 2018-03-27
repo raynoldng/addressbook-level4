@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.collections.ObservableList;
 import seedu.address.model.Name;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.UniqueAttendanceList;
@@ -95,7 +96,7 @@ public class EpicEvent {
         }
     }
 
-    public List<Attendance> getAttendanceList() {
+    public ObservableList<Attendance> getAttendanceList() {
         return registeredPersons.asObservableList();
     }
 

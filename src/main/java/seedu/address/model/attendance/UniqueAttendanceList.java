@@ -125,7 +125,7 @@ public class UniqueAttendanceList {
      */
     public void handleDeleteEvent() {
         for (Attendance attendance: internalList) {
-            attendance.getAttendee().decrementNumberOfEventsRegisteredFor();
+            attendance.getPerson().decrementNumberOfEventsRegisteredFor();
         }
     }
 
@@ -137,7 +137,7 @@ public class UniqueAttendanceList {
      */
     public void handleAddEvent() {
         for (Attendance attendance: internalList) {
-            attendance.getAttendee().incrementNumberOfEventsRegisteredFor();
+            attendance.getPerson().incrementNumberOfEventsRegisteredFor();
         }
     }
 

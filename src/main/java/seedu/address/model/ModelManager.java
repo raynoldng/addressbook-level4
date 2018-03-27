@@ -12,6 +12,8 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
+import seedu.address.model.attendance.Attendance;
+import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
@@ -32,6 +34,11 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<EpicEvent> filteredEvents;
 
+    /*
+    * filteredAttendees cannot be final
+    * */
+    private FilteredList<Attendance> filteredAttendees;
+
     /**
      * Initializes a ModelManager with the given eventPlanner and userPrefs.
      */
@@ -44,6 +51,15 @@ public class ModelManager extends ComponentManager implements Model {
         this.eventPlanner = new EventPlanner(eventPlanner);
         filteredPersons = new FilteredList<>(this.eventPlanner.getPersonList());
         filteredEvents = new FilteredList<>(this.eventPlanner.getEventList());
+        // TODO replace null with more elegant solution
+
+        // attempt to populate attendance list with first item in events
+        if (filteredEvents.size() > 0) {
+            EpicEvent firstIndexEvent = filteredEvents.get(0);
+            filteredAttendees = new FilteredList<>(firstIndexEvent.getAttendanceList());
+        } else {
+            filteredAttendees = new FilteredList<Attendance>(new UniqueAttendanceList().asObservableList());
+        }
     }
 
     public ModelManager() {
@@ -165,6 +181,11 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
+    }
+
+    @Override
+    public ObservableList<Attendance> getFilteredAttendanceList() {
+        return FXCollections.unmodifiableObservableList(filteredAttendees);
     }
 
     /**
