@@ -13,6 +13,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
@@ -56,6 +57,8 @@ public class ModelManager extends ComponentManager implements Model {
         if (filteredEvents.size() > 0) {
             EpicEvent firstIndexEvent = filteredEvents.get(0);
             filteredAttendees = new FilteredList<>(firstIndexEvent.getAttendanceList());
+        } else {
+            filteredAttendees = new FilteredList<Attendance>(new UniqueAttendanceList().asObservableList());
         }
     }
 
