@@ -1,8 +1,6 @@
 package seedu.address.ui;
 
-import com.google.common.eventbus.Subscribe;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -10,15 +8,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import org.fxmisc.easybind.EasyBind;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.JumpToPersonListRequestEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
-import seedu.address.model.person.Person;
 
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Panel containing the list of persons.
@@ -38,7 +31,7 @@ public class AttendanceListPanel extends UiPart<Region> {
 
     private void setConnections(ObservableList<Attendance> attendanceList) {
         ObservableList<PersonCard> mappedList = EasyBind.map(
-                attendanceList, (attendee) -> new PersonCard(attendee.getAttendee(), attendanceList.indexOf(attendee) + 1));
+                attendanceList, (attendee) -> new PersonCard(attendee.getPerson(), attendanceList.indexOf(attendee) + 1));
         attendanceListView.setItems(mappedList);
         attendanceListView.setCellFactory(listView -> new PersonListViewCell());
         setEventHandlerForSelectionChangeEvent();

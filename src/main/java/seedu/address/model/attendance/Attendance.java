@@ -34,7 +34,7 @@ public class Attendance {
         this.attended = hasAttended;
     }
 
-    public Person getAttendee() {
+    public Person getPerson() {
         Objects.requireNonNull(attendee);
         return attendee;
     }
@@ -47,7 +47,7 @@ public class Attendance {
      * Edits this attendance by transferring the name and tags of the dummyAttendance over
      */
     public void setAttendance(Attendance dummyAttendance) {
-        this.attendee = dummyAttendance.getAttendee();
+        this.attendee = dummyAttendance.getPerson();
         this.attended = dummyAttendance.hasAttended();
     }
 
@@ -62,7 +62,7 @@ public class Attendance {
         }
 
         Attendance otherAttendance = (Attendance) other;
-        return otherAttendance.getAttendee().equals(this.getAttendee());
+        return otherAttendance.getPerson().equals(this.getPerson());
     }
 
     @Override

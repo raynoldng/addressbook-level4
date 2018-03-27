@@ -42,8 +42,8 @@ public class XmlAdaptedAttendance {
      */
     public XmlAdaptedAttendance(Attendance source) {
         Objects.requireNonNull(source);
-        Objects.requireNonNull(source.getAttendee());
-        attendee = new XmlAdaptedPerson(source.getAttendee());
+        Objects.requireNonNull(source.getPerson());
+        attendee = new XmlAdaptedPerson(source.getPerson());
         hasAttended = source.hasAttended();
     }
 
