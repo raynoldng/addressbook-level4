@@ -53,7 +53,7 @@ public class ModelManager extends ComponentManager implements Model {
         // TODO replace null with more elegant solution
 
         // attempt to populate attendance list with first item in events
-        if(filteredEvents.size() > 0) {
+        if (filteredEvents.size() > 0) {
             EpicEvent firstIndexEvent = filteredEvents.get(0);
             filteredAttendees = new FilteredList<>(firstIndexEvent.getAttendanceList());
         }
