@@ -480,6 +480,8 @@ which persons are registered to itself. This can be very slow if the number of `
 
 === [Proposed] Mass Registration
 
+==== Proposed Implementation
+
 This feature is proposed to allow for mass registration of multiple persons to a single event.
 The proposed implementation is to make use of tags to select groups of persons to register for an event.
 It is proposed that the `Tag` class be split into `PersonTag` and `EpicEventTag` so as to differentiate
