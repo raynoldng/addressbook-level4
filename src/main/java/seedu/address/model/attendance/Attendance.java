@@ -11,7 +11,7 @@ import seedu.address.model.person.Person;
 public class Attendance {
 
     private Person attendee;
-    private boolean attended;
+    private boolean hasAttendedEvent;
 
     /**
      * Person must be not be null
@@ -20,7 +20,7 @@ public class Attendance {
     public Attendance(Person attendee) {
         Objects.requireNonNull(attendee);
         this.attendee = attendee;
-        this.attended = false;
+        this.hasAttendedEvent = false;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Attendance {
     public Attendance(Person attendee, boolean hasAttended) {
         Objects.requireNonNull(attendee);
         this.attendee = attendee;
-        this.attended = hasAttended;
+        this.hasAttendedEvent = hasAttended;
     }
 
     public Person getPerson() {
@@ -40,7 +40,7 @@ public class Attendance {
     }
 
     public boolean hasAttended() {
-        return attended;
+        return hasAttendedEvent;
     }
 
     /**
@@ -48,7 +48,7 @@ public class Attendance {
      */
     public void setAttendance(Attendance dummyAttendance) {
         this.attendee = dummyAttendance.getPerson();
-        this.attended = dummyAttendance.hasAttended();
+        this.hasAttendedEvent = dummyAttendance.hasAttended();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Attendance {
 
     @Override
     public int hashCode() {
-        return Objects.hash(attendee, attended);
+        return Objects.hash(attendee, hasAttendedEvent);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Attendance {
         final StringBuilder builder = new StringBuilder();
         builder.append(attendee.getName())
                 .append(" Attendance: ")
-                .append(Boolean.toString(attended));
+                .append(Boolean.toString(hasAttendedEvent));
         return builder.toString();
     }
 }
