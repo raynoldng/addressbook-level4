@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import com.google.common.eventbus.Subscribe;
 import org.fxmisc.easybind.EasyBind;
 
 import javafx.application.Platform;
@@ -11,6 +12,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
+import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
 
@@ -31,6 +34,10 @@ public class AttendanceListPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    public void updateConnection(ObservableList<Attendance> attendanceList) {
+        setConnections(attendanceList);
+    }
+
     private void setConnections(ObservableList<Attendance> attendanceList) {
         ObservableList<PersonCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new PersonCard(attendee.getPerson(),
@@ -48,6 +55,12 @@ public class AttendanceListPanel extends UiPart<Region> {
                         raise(new PersonPanelSelectionChangedEvent(newValue));
                     }
                 });
+    }
+
+    @Subscribe
+    private void handleEpicEventPanelSelectionChangedEvent(EpicEventPanelSelectionChangedEvent event) {
+        ObservableList<Attendance> attendees = event.getNewSelection().epicEvent.getAttendanceList();
+        updateConnection(attendees);
     }
 
     /**
