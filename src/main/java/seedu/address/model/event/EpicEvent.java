@@ -26,7 +26,7 @@ public class EpicEvent {
     private Name name;
 
     private UniqueTagList tags;
-    private final UniqueAttendanceList registeredPersons;
+    private final UniqueAttendanceList attendanceList;
 
     /**
      * Every field must be present and not null.
@@ -36,7 +36,7 @@ public class EpicEvent {
         this.name = name;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
-        this.registeredPersons = new UniqueAttendanceList();
+        this.attendanceList = new UniqueAttendanceList();
     }
 
     public Name getName() {
@@ -53,35 +53,35 @@ public class EpicEvent {
 
     /** registers person for this event */
     public void registerPerson(Person person) throws DuplicateAttendanceException {
-        registeredPersons.add(person);
+        attendanceList.add(person);
     }
 
     /** deregisters person from this event */
     public void deregisterPerson(Person person) throws PersonNotFoundInEventException {
         try {
-            registeredPersons.remove(person);
+            attendanceList.remove(person);
         } catch (PersonNotFoundInEventException e) {
             throw new PersonNotFoundInEventException();
         }
     }
 
     /**
-     * Decrements all this event's registeredPersons' numberOfEventsRegisteredFor.
+     * Decrements all this event's attendanceList' numberOfEventsRegisteredFor.
      * Called only when this event is being deleted
      */
     public void handleDeleteEvent() {
-        registeredPersons.handleDeleteEvent();
+        attendanceList.handleDeleteEvent();
     }
 
 
     /**
-     * Increments all this event's registeredPersons' numberOfEventsRegisteredFor.
+     * Increments all this event's attendanceList' numberOfEventsRegisteredFor.
      * Called only when this event is being added.
      * Required to properly maintain numberOfPersonsRegisteredFor for these persons
      * when an undo of a delete operation is called
      */
     public void handleAddEvent() {
-        registeredPersons.handleAddEvent();
+        attendanceList.handleAddEvent();
     }
 
     /**
@@ -89,7 +89,7 @@ public class EpicEvent {
      */
     public void setAttendanceList(List<Attendance> dummyRegisteredPersons) {
         try {
-            registeredPersons.setAttendanceList(dummyRegisteredPersons);
+            attendanceList.setAttendanceList(dummyRegisteredPersons);
         } catch (DuplicateAttendanceException e) {
             throw new AssertionError("this should not happen, dummyRegisteredPersons"
                     + "is a valid Attendance List from another event");
@@ -97,12 +97,12 @@ public class EpicEvent {
     }
 
     public ObservableList<Attendance> getAttendanceList() {
-        return registeredPersons.asObservableList();
+        return attendanceList.asObservableList();
     }
 
     /** returns true if person is in this event */
     public boolean hasPerson(Person person) {
-        return registeredPersons.contains(person);
+        return attendanceList.contains(person);
     }
 
     /**
