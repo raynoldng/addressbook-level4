@@ -19,8 +19,6 @@ import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
-import seedu.address.commons.events.ui.FocusOnEpicEventListEvent;
-import seedu.address.commons.events.ui.FocusOnPersonListEvent;
 import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
