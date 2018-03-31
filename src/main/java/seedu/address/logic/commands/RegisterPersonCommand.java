@@ -32,8 +32,8 @@ public class RegisterPersonCommand extends UndoableCommand {
     public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person is already registered for the event";
 
-    private final Index targetIndex;
-    private final String eventName;
+    private Index targetIndex;
+    private String eventName;
 
     private Person personToRegister;
     private EpicEvent eventToRegisterFor;
@@ -46,6 +46,11 @@ public class RegisterPersonCommand extends UndoableCommand {
         requireAllNonNull(targetIndex, eventName);
         this.targetIndex = targetIndex;
         this.eventName = eventName;
+    }
+
+    public RegisterPersonCommand(Person personToRegister, EpicEvent eventToRegisterFor) {
+        this.personToRegister = personToRegister;
+        this.eventToRegisterFor = eventToRegisterFor;
     }
 
     @Override
