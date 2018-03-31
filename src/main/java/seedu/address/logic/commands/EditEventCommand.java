@@ -92,7 +92,7 @@ public class EditEventCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-        oppositeCommand = new EditEventCommand(new EpicEvent(editedEvent), new EpicEvent(eventToEdit));
+        oppositeCommand = new EditEventCommand(editedEvent, new EpicEvent(eventToEdit));
     }
 
     /**

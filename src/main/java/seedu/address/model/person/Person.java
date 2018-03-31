@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
@@ -35,6 +36,15 @@ public class Person {
         this.address = address;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
+    }
+
+    public Person(Person toBeCopied) {
+        requireNonNull(toBeCopied);
+        this.name = new Name(toBeCopied.getName().toString());
+        this.phone = new Phone(toBeCopied.getPhone().toString());
+        this.email = new Email(toBeCopied.getEmail().toString());
+        this.address = new Address(toBeCopied.getAddress().toString());
+        this.tags = new UniqueTagList(toBeCopied.getTags());
     }
 
     public Name getName() {

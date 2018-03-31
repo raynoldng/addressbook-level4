@@ -1,5 +1,6 @@
 package seedu.address.model.event;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
@@ -40,6 +41,7 @@ public class EpicEvent {
     }
 
     public EpicEvent(EpicEvent toBeCopied) {
+        requireNonNull(toBeCopied);
         this.name = new Name(toBeCopied.getName().toString());
         this.tags = new UniqueTagList(toBeCopied.getTags());
         this.attendanceList = new UniqueAttendanceList();
