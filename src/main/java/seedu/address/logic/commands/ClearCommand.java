@@ -20,8 +20,10 @@ public class ClearCommand extends UndoableCommand {
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
+    // @@author bayweiheng
+
     @Override
     protected void generateOppositeCommand() {
-
+        oppositeCommand = new RestoreCommand(new EventPlanner(model.getEventPlanner()));
     }
 }

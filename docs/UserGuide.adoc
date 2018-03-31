@@ -307,8 +307,7 @@ Format: `undo`
 [NOTE]
 ====
 Undoable commands: those commands that modify the event planner's content.
-Currently, the undoable commands are `add`, `delete`, `add-event`, `delete-event`.
-More commands will be added to this list by `v1.5`
+To see the full list of undoable commands, refer to <<List of undoable commands>>
 ====
 
 Examples:
@@ -450,3 +449,15 @@ e.g. `register 1 Computing Seminar`
 * *Select Person* : `select INDEX` +
 e.g.`select 2`
 * *Undo* : `undo`
+
+[appendix]
+== List of undoable commands
+* `add` +
+* `delete` +
+* `add-event` +
+* `delete-event` +
+* `edit` +
+* `edit-event` +
+* `register` +
+* `deregister` +
+* `clear` +

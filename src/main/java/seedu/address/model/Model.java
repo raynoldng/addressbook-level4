@@ -26,7 +26,7 @@ public interface Model {
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyEventPlanner newData);
 
-    /** Returns the EventPlanner. */
+    /** Returns the EventPlanne r. */
     ReadOnlyEventPlanner getEventPlanner();
 
     /** Deletes the given person. */

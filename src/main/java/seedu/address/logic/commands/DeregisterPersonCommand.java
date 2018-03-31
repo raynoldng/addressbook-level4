@@ -32,8 +32,8 @@ public class DeregisterPersonCommand extends UndoableCommand {
     public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
     public static final String MESSAGE_PERSON_NOT_IN_EVENT = "This person was not registered for the event";
 
-    private final Index targetIndex;
-    private final String eventName;
+    private Index targetIndex;
+    private String eventName;
 
     private Person personToDeregister;
     private EpicEvent eventToDeregisterFor;
@@ -46,6 +46,11 @@ public class DeregisterPersonCommand extends UndoableCommand {
         requireAllNonNull(targetIndex, eventName);
         this.targetIndex = targetIndex;
         this.eventName = eventName;
+    }
+
+    public DeregisterPersonCommand(Person personToDeregister, EpicEvent eventToDeregisterFor) {
+        this.personToDeregister = personToDeregister;
+        this.eventToDeregisterFor = eventToDeregisterFor;
     }
 
     @Override
@@ -87,7 +92,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-
+        oppositeCommand = new RegisterPersonCommand(personToDeregister, eventToDeregisterFor);
     }
 
     @Override

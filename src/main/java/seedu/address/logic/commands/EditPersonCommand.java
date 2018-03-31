@@ -52,8 +52,8 @@ public class EditPersonCommand extends UndoableCommand {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the event planner.";
 
-    private final Index index;
-    private final EditPersonDescriptor editPersonDescriptor;
+    private Index index;
+    private EditPersonDescriptor editPersonDescriptor;
 
     private Person personToEdit;
     private Person editedPerson;
@@ -68,6 +68,11 @@ public class EditPersonCommand extends UndoableCommand {
 
         this.index = index;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
+    }
+
+    public EditPersonCommand(Person personToEdit, Person editedPerson) {
+        this.personToEdit = personToEdit;
+        this.editedPerson = editedPerson;
     }
 
     @Override
@@ -97,7 +102,7 @@ public class EditPersonCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-
+        oppositeCommand = new EditPersonCommand(editedPerson, new Person(personToEdit));
     }
 
     /**
