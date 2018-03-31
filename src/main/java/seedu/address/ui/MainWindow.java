@@ -19,8 +19,7 @@ import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
-import seedu.address.commons.events.ui.FocusOnEpicEventListEvent;
-import seedu.address.commons.events.ui.FocusOnPersonListEvent;
+import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
@@ -215,14 +214,10 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     @Subscribe
-    private void handleFocusOnEpicEventListEvent(FocusOnEpicEventListEvent event) {
-    //    logger.info(LogsCenter.getEventHandlingLogMessage(event));
-    //    tabSingleSelectionModel.select(epicEventsTab);
+    private void handleJumpToListRequestEvent(JumpToEventListRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        attendanceListPanel.updateConnection(epicEventListPanel.getEventAttendee(event.targetIndex));
     }
 
-    @Subscribe
-    private void handleFocusOnPersonListEvent(FocusOnPersonListEvent event) {
-    //    logger.info(LogsCenter.getEventHandlingLogMessage(event));
-    //    tabSingleSelectionModel.select(personTab);
-    }
+
 }
