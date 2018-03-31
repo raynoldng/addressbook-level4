@@ -92,8 +92,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-        // TODO: Replace with actual opposite command
-        oppositeCommand = new ClearCommand();
+        oppositeCommand = new RegisterPersonCommand(personToDeregister, eventToDeregisterFor);
     }
 
     @Override
