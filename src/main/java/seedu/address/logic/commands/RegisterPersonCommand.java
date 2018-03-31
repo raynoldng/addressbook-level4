@@ -87,7 +87,8 @@ public class RegisterPersonCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-
+        // TODO: Replace with actual opposite command
+        oppositeCommand = new ClearCommand();
     }
 
     @Override

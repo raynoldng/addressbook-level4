@@ -24,6 +24,6 @@ public class ClearCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-
+        oppositeCommand = new RestoreCommand(model.getEventPlanner());
     }
 }

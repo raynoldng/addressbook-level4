@@ -24,7 +24,6 @@ public class RestoreCommand extends UndoableCommand {
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new ClearCommand();
-        oppositeCommand.setData(model, history, undoRedoStack);
     }
 
 }

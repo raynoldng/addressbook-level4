@@ -97,7 +97,8 @@ public class EditPersonCommand extends UndoableCommand {
 
     @Override
     protected void generateOppositeCommand() {
-
+        // TODO: Replace with actual opposite Command
+        oppositeCommand = new ClearCommand();
     }
 
     /**
