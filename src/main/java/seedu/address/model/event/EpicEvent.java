@@ -39,6 +39,12 @@ public class EpicEvent {
         this.attendanceList = new UniqueAttendanceList();
     }
 
+    public EpicEvent(EpicEvent toBeCopied) {
+        this.name = new Name(toBeCopied.getName().toString());
+        this.tags = new UniqueTagList(toBeCopied.getTags());
+        this.attendanceList = new UniqueAttendanceList();
+    }
+
     public Name getName() {
         return name;
     }
