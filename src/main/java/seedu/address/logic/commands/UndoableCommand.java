@@ -64,7 +64,7 @@ public abstract class UndoableCommand extends Command {
     public final CommandResult execute() throws CommandException {
         preprocessUndoableCommand();
         generateOppositeCommand();
-        oppositeCommand.setData(model ,history, undoRedoStack);
+        oppositeCommand.setData(model, history, undoRedoStack);
         return executeUndoableCommand();
     }
 }

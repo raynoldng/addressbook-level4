@@ -4,6 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.model.ReadOnlyEventPlanner;
 
+/** Restores the event planner to its previous state.
+ * Used only to undo a ClearCommand
+ */
 public class RestoreCommand extends UndoableCommand {
 
     public static final String MESSAGE_SUCCESS = "Event planner has been restored!";

@@ -6,5 +6,4 @@
 
 <suppressions>
   <suppress checks="JavadocType" files=".*Test\.java"/>
-  <suppress checks="*" files="docs/*\.pdf"/>
 </suppressions>
