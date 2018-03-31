@@ -42,8 +42,8 @@ public class EditEventCommand extends UndoableCommand {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists in the address book.";
 
-    private final Index index;
-    private final EditEventDescriptor editEventDescriptor;
+    private Index index;
+    private EditEventDescriptor editEventDescriptor;
 
     private EpicEvent eventToEdit;
     private EpicEvent editedEvent;
@@ -58,6 +58,11 @@ public class EditEventCommand extends UndoableCommand {
 
         this.index = index;
         this.editEventDescriptor = new EditEventDescriptor(editEventDescriptor);
+    }
+
+    public EditEventCommand(EpicEvent eventToEdit, EpicEvent editedEvent) {
+        this.eventToEdit = eventToEdit;
+        this.editedEvent = editedEvent;
     }
 
     @Override
