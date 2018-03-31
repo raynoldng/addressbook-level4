@@ -6,12 +6,14 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 
+
+// @@ author bayweiheng
+
 /**
  * Represents a command which can be undone and redone.
  */
 public abstract class UndoableCommand extends Command {
 
-    // @@author bayweiheng
     /**
      * Represents the Command to be executed to revert the changes made by the UndoableCommand.
      * We mandate that the oppositeCommand of an UndoableCommand be undoable as well
@@ -40,8 +42,6 @@ public abstract class UndoableCommand extends Command {
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
-
-    // @@author bayweiheng
 
     protected abstract void generateOppositeCommand();
 

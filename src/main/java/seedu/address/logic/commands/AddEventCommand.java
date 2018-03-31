@@ -36,7 +36,6 @@ public class AddEventCommand extends UndoableCommand {
         toAdd = event;
     }
 
-
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
@@ -48,11 +47,15 @@ public class AddEventCommand extends UndoableCommand {
         }
     }
 
+    // @@ author bayweiheng
+
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new DeleteEventCommand(toAdd);
         oppositeCommand.setData(model, history, undoRedoStack);
     }
+
+    // @@ author
 
     @Override
     public boolean equals(Object other) {
