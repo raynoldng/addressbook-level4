@@ -102,6 +102,24 @@ public class UniqueEpicEventList {
     }
 
     /**
+     * Toggles the attendance of the person in the event.
+     *
+     * @throws PersonNotFoundInEventException if person could not be found in event
+     * @throws EventNotFoundException if no such event could be found in the list
+     */
+    public void toggleAttendance(Person person, EpicEvent eventToToggleAttendance)
+            throws PersonNotFoundInEventException, EventNotFoundException {
+        requireAllNonNull(person, eventToToggleAttendance);
+
+        int index = internalList.indexOf(eventToToggleAttendance);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        eventToToggleAttendance.toggleAttendance(person);
+    }
+
+    /**
      * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
      *
      * @throws DuplicateEventException if the replacement is equivalent to another existing event in the list.
