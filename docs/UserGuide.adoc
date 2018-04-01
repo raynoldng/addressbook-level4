@@ -286,6 +286,25 @@ Deregisters the 1st person in the results of the `find` command to Computing Sem
 Lists all persons registered for the specified event. +
 Format: `list-registered EVENT_NAME`
 
+=== Toggle attendance for event participant : `toggle` `[Since v1.4]`
+
+Toggles the attendance of a participant to an event from attended to not attended and vice versa. +
+Format: `toggle INDEX`
+
+****
+* Toggles the attendance of the participant at the specified `INDEX`.
+* The index refers to the index number shown in the most recent attendance listing.
+* The index *must be a positive integer* 1, 2, 3, ...
+****
+
+Examples:
+
+* `find-event AY201718 Graduation` +
+`select-event 1` +
+`toggle 1` +
+Toggles the attendance of the 1st person attendee in the attendance list of
+AY201718 Graduation.
+
 === Listing entered commands : `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
@@ -364,17 +383,6 @@ Format: `exit`
 Event planner data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
-// tag::dataencryption[]
-=== Marking attendance for event participant : `mark` `[coming in v1.5]`
-
-Marks the attendance of a participant to an event. +
-Format: `mark INDEX EVENT_NAME`
-
-=== Unmarking attendance for event participant : `unmark` `[coming in v1.5]`
-
-Unmarks the attendance of a participant to an event. +
-Format: `unmark INDEX EVENT_NAME`
-
 === Exporting contact information to a csv file : `export` `[coming in v1.5]`
 
 Exports the list of all persons in the event planner to a csv file. +
@@ -448,6 +456,8 @@ e.g. `find James Jake`
 e.g. `register 1 Computing Seminar`
 * *Select Person* : `select INDEX` +
 e.g.`select 2`
+* *Toggle Attendance* : `toggle INDEX` +
+e.g. `toggle 1`
 * *Undo* : `undo`
 
 [appendix]
@@ -460,4 +470,5 @@ e.g.`select 2`
 * `edit-event` +
 * `register` +
 * `deregister` +
+* `toggle` +
 * `clear` +
