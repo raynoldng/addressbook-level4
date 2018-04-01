@@ -2,6 +2,7 @@ package seedu.address.model.attendance;
 
 import java.util.Objects;
 
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -11,32 +12,41 @@ import seedu.address.model.person.Person;
 public class Attendance {
 
     private Person attendee;
+    private EpicEvent event;
     private boolean hasAttendedEvent;
 
     /**
      * Person must be not be null
      * @param attendee
+     * @param event
      */
-    public Attendance(Person attendee) {
+    public Attendance(Person attendee, EpicEvent event) {
         Objects.requireNonNull(attendee);
         this.attendee = attendee;
+        this.event = event;
         this.hasAttendedEvent = false;
     }
 
     /**
      * Person must be not be null
      * @param attendee
+     * @param event
      * @param hasAttended
      */
-    public Attendance(Person attendee, boolean hasAttended) {
+    public Attendance(Person attendee, EpicEvent event, boolean hasAttended) {
         Objects.requireNonNull(attendee);
         this.attendee = attendee;
+        this.event = event;
         this.hasAttendedEvent = hasAttended;
     }
 
     public Person getPerson() {
         Objects.requireNonNull(attendee);
         return attendee;
+    }
+
+    public EpicEvent getEvent() {
+        return event;
     }
 
     public boolean hasAttended() {
@@ -48,6 +58,7 @@ public class Attendance {
      */
     public void setAttendance(Attendance dummyAttendance) {
         this.attendee = dummyAttendance.getPerson();
+        this.event = dummyAttendance.getEvent();
         this.hasAttendedEvent = dummyAttendance.hasAttended();
     }
 
@@ -62,18 +73,22 @@ public class Attendance {
         }
 
         Attendance otherAttendance = (Attendance) other;
-        return otherAttendance.getPerson().equals(this.getPerson());
+        return otherAttendance.getPerson().equals(this.getPerson())
+                && otherAttendance.getEvent().equals(this.getEvent());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(attendee, hasAttendedEvent);
+        return Objects.hash(attendee, event, hasAttendedEvent);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(attendee.getName())
+        builder.append("Person: ")
+                .append(attendee.getName())
+                .append(" Event: ")
+                .append(event.getName())
                 .append(" Attendance: ")
                 .append(Boolean.toString(hasAttendedEvent));
         return builder.toString();
