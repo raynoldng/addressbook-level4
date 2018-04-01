@@ -73,6 +73,15 @@ public class EpicEvent {
         }
     }
 
+    /** toggles the attendance of a person in this event */
+    public void toggleAttendance(Person person) throws PersonNotFoundInEventException {
+        try {
+            attendanceList.toggleAttendance(person, this);
+        } catch (PersonNotFoundInEventException e) {
+            throw new PersonNotFoundInEventException();
+        }
+    }
+
     /**
      * Decrements all this event's attendanceList' numberOfEventsRegisteredFor.
      * Called only when this event is being deleted
