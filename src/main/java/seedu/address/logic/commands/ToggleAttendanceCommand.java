@@ -1,13 +1,19 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.DeregisterPersonCommand.MESSAGE_PERSON_NOT_IN_EVENT;
 
 import java.util.List;
+import java.util.Objects;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.event.exceptions.EventNotFoundException;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
  * Marks attendance of a participant to an event.
@@ -35,10 +41,20 @@ public class ToggleAttendanceCommand extends UndoableCommand {
         this.attendanceToToggle = attendanceToToggle;
     }
 
+    public Attendance getAttendanceToToggle() {
+        return attendanceToToggle;
+    }
+
     @Override
-    public CommandResult executeUndoableCommand() {
+    public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(attendanceToToggle);
-        attendanceToToggle.toggleAttendance();
+        try {
+            model.toggleAttendance(attendanceToToggle.getPerson(), attendanceToToggle.getEvent());
+        } catch (EventNotFoundException e) {
+            throw new AssertionError("The target event cannot be missing");
+        } catch (PersonNotFoundInEventException e) {
+            throw new CommandException(MESSAGE_PERSON_NOT_IN_EVENT);
+        }
         return new CommandResult(String.format(MESSAGE_SUCCESS, attendanceToToggle.getPerson().getName(),
                 attendanceToToggle.getEvent().getName()));
     }
@@ -63,6 +79,6 @@ public class ToggleAttendanceCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof ToggleAttendanceCommand // instanceof handles nulls
                 && this.targetIndex.equals(((ToggleAttendanceCommand) other).targetIndex) // state check
-                && this.attendanceToToggle.equals(((ToggleAttendanceCommand) other).attendanceToToggle)); // state check
+                && Objects.equals(this.attendanceToToggle, ((ToggleAttendanceCommand) other).attendanceToToggle));
     }
 }
