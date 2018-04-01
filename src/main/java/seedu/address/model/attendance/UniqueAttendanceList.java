@@ -65,25 +65,21 @@ public class UniqueAttendanceList {
     }
 
     /**
-     * Replaces the attendee {@code target} in the list with {@code editedAttendance}.
+     * Toggles the attendance of {@code person} in the list.
      *
-     * @throws DuplicateAttendanceException if the replacement is equivalent to another existing attendee in the list.
-     * @throws PersonNotFoundInEventException if {@code target} could not be found in the list.
+     * @throws PersonNotFoundInEventException if {@code person} could not be found in the list.
      */
-    public void setAttendance(Attendance target, Attendance editedAttendance)
-            throws DuplicateAttendanceException, PersonNotFoundInEventException {
-        requireNonNull(editedAttendance);
+    public void toggleAttendance(Person person, EpicEvent event) throws PersonNotFoundInEventException {
+        requireAllNonNull(person, event);
 
-        int index = internalList.indexOf(target);
+        int index = internalList.indexOf(new Attendance(person, event));
         if (index == -1) {
             throw new PersonNotFoundInEventException();
         }
 
-        if (!target.equals(editedAttendance) && internalList.contains(editedAttendance)) {
-            throw new DuplicateAttendanceException();
-        }
-
-        internalList.get(index).setAttendance(editedAttendance);
+        Attendance currentAttendance = internalList.get(index);
+        internalList.get(index).setAttendance(new Attendance(currentAttendance.getPerson(),
+                currentAttendance.getEvent(), !currentAttendance.hasAttended()));
     }
 
     /**
