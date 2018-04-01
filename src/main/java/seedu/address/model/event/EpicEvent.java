@@ -61,13 +61,13 @@ public class EpicEvent {
 
     /** registers person for this event */
     public void registerPerson(Person person) throws DuplicateAttendanceException {
-        attendanceList.add(person);
+        attendanceList.add(person, this);
     }
 
     /** deregisters person from this event */
     public void deregisterPerson(Person person) throws PersonNotFoundInEventException {
         try {
-            attendanceList.remove(person);
+            attendanceList.remove(person, this);
         } catch (PersonNotFoundInEventException e) {
             throw new PersonNotFoundInEventException();
         }
@@ -110,7 +110,7 @@ public class EpicEvent {
 
     /** returns true if person is in this event */
     public boolean hasPerson(Person person) {
-        return attendanceList.contains(person);
+        return attendanceList.contains(person, this);
     }
 
     /**
