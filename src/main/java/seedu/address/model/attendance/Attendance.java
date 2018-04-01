@@ -22,9 +22,23 @@ public class Attendance {
      */
     public Attendance(Person attendee, EpicEvent event) {
         Objects.requireNonNull(attendee);
+        Objects.requireNonNull(event);
         this.attendee = attendee;
         this.event = event;
         this.hasAttendedEvent = false;
+    }
+
+    /**
+     * Dummy Constructor for debugging purposes
+     * @param attendee
+     * @param hasAttended
+     */
+    public Attendance(Person attendee, boolean hasAttended) {
+        //TODO: Remove this once all methods using this constructor have been removed
+        Objects.requireNonNull(attendee);
+        this.attendee = attendee;
+        this.event = null;
+        this.hasAttendedEvent = hasAttended;
     }
 
     /**
@@ -35,6 +49,7 @@ public class Attendance {
      */
     public Attendance(Person attendee, EpicEvent event, boolean hasAttended) {
         Objects.requireNonNull(attendee);
+        Objects.requireNonNull(event);
         this.attendee = attendee;
         this.event = event;
         this.hasAttendedEvent = hasAttended;
