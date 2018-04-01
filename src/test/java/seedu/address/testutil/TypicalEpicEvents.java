@@ -11,8 +11,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.EventPlanner;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
+import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
@@ -55,18 +57,26 @@ public class TypicalEpicEvents {
      */
     public static EventPlanner getTypicalEventPlanner() {
         EventPlanner ab = new EventPlanner();
-        for (EpicEvent event : getTypicalEvents()) {
-            try {
-                ab.addEvent(event);
-            } catch (DuplicateEventException e) {
-                throw new AssertionError("not possible");
-            }
-        }
         for (Person person : getTypicalPersons()) {
             try {
                 ab.addPerson(person);
             } catch (DuplicatePersonException e) {
                 throw new AssertionError("not possible");
+            }
+        }
+        for (EpicEvent event : getTypicalEvents()) {
+            EpicEvent eventCopy = new EpicEvent(event);
+            try {
+                ab.addEvent(eventCopy);
+            } catch (DuplicateEventException e) {
+                throw new AssertionError("not possible");
+            }
+            for (Person person : getTypicalPersons()) {
+                try {
+                    ab.registerPersonForEvent(person, eventCopy);
+                } catch (EventNotFoundException| DuplicateAttendanceException e) {
+                    throw new AssertionError("not possible");
+                }
             }
         }
         return ab;
