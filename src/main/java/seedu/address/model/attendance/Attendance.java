@@ -46,6 +46,7 @@ public class Attendance {
     }
 
     public EpicEvent getEvent() {
+        Objects.requireNonNull(event);
         return event;
     }
 
