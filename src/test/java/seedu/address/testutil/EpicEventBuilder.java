@@ -1,10 +1,13 @@
 package seedu.address.testutil;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.model.Name;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
+import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -18,6 +21,7 @@ public class EpicEventBuilder {
 
     private Name name;
     private Set<Tag> tags;
+    private List<Person> attendees;
 
     public EpicEventBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -41,6 +45,14 @@ public class EpicEventBuilder {
     }
 
     /**
+     * Sets the {@code attendees} of the {@code EpicEvent} that we are building.
+     */
+    public EpicEventBuilder withAttendees(List<Person> attendees) {
+        this.attendees = attendees;
+        return this;
+    }
+
+    /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EpicEvent} that we are building.
      */
     public EpicEventBuilder withTags(String ... tags) {
@@ -48,8 +60,21 @@ public class EpicEventBuilder {
         return this;
     }
 
+    /**
+     * Builds the {@code EpicEvent} with the {@code Name}, {@code tags}, {@code attendees} set
+     */
     public EpicEvent build() {
-        return new EpicEvent(name, tags);
+        EpicEvent event = new EpicEvent(name, tags);
+        if (attendees != null) {
+            for (Person person : attendees) {
+                try {
+                    event.registerPerson(person);
+                } catch (DuplicateAttendanceException e) {
+                    throw new AssertionError("Same person registered multiple twice");
+                }
+            }
+        }
+        return event;
     }
 
 }
