@@ -67,6 +67,12 @@ public class ModelStub implements Model {
     }
 
     @Override
+    public void toggleAttendance(Person person, EpicEvent event) throws EventNotFoundException,
+            PersonNotFoundInEventException {
+        fail("This method should not be called.");
+    }
+
+    @Override
     public void deletePerson(Person targetPerson) throws PersonNotFoundException {
         fail("This method should not be called.");
     }
