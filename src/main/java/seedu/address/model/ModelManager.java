@@ -149,6 +149,15 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    @Override
+    public void toggleAttendance(Person person, EpicEvent event)
+        throws EventNotFoundException, PersonNotFoundInEventException {
+        requireAllNonNull(person, event);
+
+        eventPlanner.toggleAttendance(person, event);
+        indicateEventPlannerChanged();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
