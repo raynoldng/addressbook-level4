@@ -53,6 +53,10 @@ public class Attendance {
         return hasAttendedEvent;
     }
 
+    public void toggleAttendance() {
+        this.hasAttendedEvent = !this.hasAttendedEvent;
+    }
+
     /**
      * Edits this attendance by transferring the name and tags of the dummyAttendance over
      */
