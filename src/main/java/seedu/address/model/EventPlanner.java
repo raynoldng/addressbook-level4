@@ -199,7 +199,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         // Rebuild the list of event tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
         newEventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        return new EpicEvent(event.getName(), correctTagReferences);
+        return new EpicEvent(event.getName(), event.getUniqueAttendanceList(), correctTagReferences);
     }
 
     /**

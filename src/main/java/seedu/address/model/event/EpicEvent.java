@@ -130,6 +130,10 @@ public class EpicEvent {
         return attendanceList.asObservableList();
     }
 
+    public UniqueAttendanceList getUniqueAttendanceList() {
+        return attendanceList;
+    }
+
     /** returns true if person is in this event */
     public boolean hasPerson(Person person) {
         return attendanceList.contains(person, this);
