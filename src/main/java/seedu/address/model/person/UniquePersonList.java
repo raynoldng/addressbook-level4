@@ -65,6 +65,7 @@ public class UniquePersonList implements Iterable<Person> {
         }
 
         internalList.get(index).setPerson(editedPerson);
+        internalList.set(index, internalList.get(index));
     }
 
     /**
