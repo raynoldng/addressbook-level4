@@ -315,6 +315,10 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         return persons.asObservableList();
     }
 
+    public UniquePersonList getPersonMaseterList() {
+        return persons;
+    }
+
     @Override
     public ObservableList<EpicEvent> getEventList() {
         return events.asObservableList();

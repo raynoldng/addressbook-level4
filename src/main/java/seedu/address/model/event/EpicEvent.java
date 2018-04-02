@@ -15,6 +15,7 @@ import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -38,6 +39,14 @@ public class EpicEvent {
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
         this.attendanceList = new UniqueAttendanceList();
+    }
+
+    public EpicEvent(Name name, UniqueAttendanceList attendanceList, Set<Tag> tags) {
+        requireAllNonNull(name, tags);
+        this.name = name;
+        this.attendanceList = attendanceList;
+        // protect internal tags from changes in the arg list
+        this.tags = new UniqueTagList(tags);
     }
 
     public EpicEvent(EpicEvent toBeCopied) {
@@ -71,6 +80,11 @@ public class EpicEvent {
         } catch (PersonNotFoundInEventException e) {
             throw new PersonNotFoundInEventException();
         }
+    }
+
+    /** replace the person in the attendance list with the given person and the event in the attendance list*/
+    public void replace(Person person) {
+        attendanceList.replace(person, this);
     }
 
     /** toggles the attendance of a person in this event */
