@@ -81,6 +81,16 @@ public interface Model {
             throws EventNotFoundException, PersonNotFoundInEventException;
 
     /**
+     * Toggles the attendance of the given person {@code person} in the given event {@code event}
+     *
+     * @throws PersonNotFoundException if the person could not be found in the list
+     * @throws EventNotFoundException if the event could not be found in the list
+     * @throws PersonNotFoundInEventException if the person could not be found in the event
+     */
+    void toggleAttendance(Person person, EpicEvent event)
+            throws EventNotFoundException, PersonNotFoundInEventException;
+
+    /**
      * Replaces the given event {@code targetEvent} with {@code editedEvent}.
      *
      * @throws DuplicateEventException if updating the event's details causes the event to be equivalent to

@@ -215,6 +215,7 @@ The `Model`,
 * stores the Event Planner data.
 * exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * exposes an unmodifiable `ObservableList<EpicEvent>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* exposes an unmodifiable `ObservableList<Attendance>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
 [[Design-Storage]]
@@ -448,13 +449,13 @@ The references are maintained using a `UniquePersonList` inside each `EpicEvent`
 
 This is done by creating a `Predicate` that tests whether a `Person` is in an `EpicEvent`, then passing it to `updateFilteredPersonList()`
 
-=== Marking/Unmarking Attendance
+=== Toggling Attendance
 
 ==== Current Implementation
 
 The proposed implementation is to use a class called `Attendance`.
 An instance of `Attendance` is created every time a person registers to an event and
-it is stored inside the `EpicEvent`. The instance stores the corresponding `Person`
+it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
 and stores a `boolean` representing whether the person has attended the event.
 This reduces coupling between the `Person` and `EpicEvent` class and allows the event
 to have access to all its attendees so that adding, removing and listing attendees is

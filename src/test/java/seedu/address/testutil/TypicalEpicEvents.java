@@ -22,7 +22,7 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 public class TypicalEpicEvents {
 
     public static final EpicEvent GRADUATIONAY18 = new EpicEventBuilder().withName("AY201718 Graduation Ceremony")
-            .withTags("graduation").build();
+            .withAttendees(getTypicalPersons()).withTags("graduation").build();
     public static final EpicEvent FOODSEMINAR = new EpicEventBuilder().withName("Food Seminar")
             .withTags("seminar", "food").build();
     public static final EpicEvent IOTSEMINAR = new EpicEventBuilder().withName("IoT Seminar")
@@ -55,17 +55,17 @@ public class TypicalEpicEvents {
      */
     public static EventPlanner getTypicalEventPlanner() {
         EventPlanner ab = new EventPlanner();
-        for (EpicEvent event : getTypicalEvents()) {
-            try {
-                ab.addEvent(event);
-            } catch (DuplicateEventException e) {
-                throw new AssertionError("not possible");
-            }
-        }
         for (Person person : getTypicalPersons()) {
             try {
                 ab.addPerson(person);
             } catch (DuplicatePersonException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        for (EpicEvent event : getTypicalEvents()) {
+            try {
+                ab.addEvent(event);
+            } catch (DuplicateEventException e) {
                 throw new AssertionError("not possible");
             }
         }

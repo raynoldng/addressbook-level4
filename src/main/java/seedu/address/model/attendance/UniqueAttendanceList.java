@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 
@@ -27,8 +28,9 @@ public class UniqueAttendanceList {
     /**
      * Returns true if the list contains an equivalent person as the given argument.
      */
-    public boolean contains(Person toCheck) {
-        return contains(new Attendance(toCheck));
+    public boolean contains(Person toCheck, EpicEvent event) {
+        requireAllNonNull(toCheck, event);
+        return contains(new Attendance(toCheck, event));
     }
 
     /**
@@ -44,8 +46,9 @@ public class UniqueAttendanceList {
      *
      * @throws DuplicateAttendanceException if the person to add is a duplicate of an existing person in the list.
      */
-    public void add(Person toAdd) throws DuplicateAttendanceException {
-        add(new Attendance(toAdd));
+    public void add(Person toAdd, EpicEvent event) throws DuplicateAttendanceException {
+        requireAllNonNull(toAdd, event);
+        add(new Attendance(toAdd, event));
     }
 
     /**
@@ -62,25 +65,21 @@ public class UniqueAttendanceList {
     }
 
     /**
-     * Replaces the attendee {@code target} in the list with {@code editedAttendance}.
+     * Toggles the attendance of {@code person} in the list.
      *
-     * @throws DuplicateAttendanceException if the replacement is equivalent to another existing attendee in the list.
-     * @throws PersonNotFoundInEventException if {@code target} could not be found in the list.
+     * @throws PersonNotFoundInEventException if {@code person} could not be found in the list.
      */
-    public void setAttendance(Attendance target, Attendance editedAttendance)
-            throws DuplicateAttendanceException, PersonNotFoundInEventException {
-        requireNonNull(editedAttendance);
+    public void toggleAttendance(Person person, EpicEvent event) throws PersonNotFoundInEventException {
+        requireAllNonNull(person, event);
 
-        int index = internalList.indexOf(target);
+        int index = internalList.indexOf(new Attendance(person, event));
         if (index == -1) {
             throw new PersonNotFoundInEventException();
         }
 
-        if (!target.equals(editedAttendance) && internalList.contains(editedAttendance)) {
-            throw new DuplicateAttendanceException();
-        }
-
-        internalList.get(index).setAttendance(editedAttendance);
+        Attendance currentAttendance = internalList.get(index);
+        internalList.get(index).setAttendance(new Attendance(currentAttendance.getPerson(),
+                currentAttendance.getEvent(), !currentAttendance.hasAttended()));
     }
 
     /**
@@ -88,8 +87,9 @@ public class UniqueAttendanceList {
      *
      * @throws PersonNotFoundInEventException if no such attendee could be found in the list.
      */
-    public boolean remove(Person toRemove) throws PersonNotFoundInEventException {
-        return remove(new Attendance(toRemove));
+    public boolean remove(Person toRemove, EpicEvent event) throws PersonNotFoundInEventException {
+        requireAllNonNull(toRemove, event);
+        return remove(new Attendance(toRemove, event));
     }
 
     /**

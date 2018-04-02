@@ -252,6 +252,13 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         events.deregisterPersonFromEvent(person, event);
     }
 
+    /**
+     * Toggles the attendance of a particular person in a particular event
+     */
+    public void toggleAttendance(Person person, EpicEvent event)
+        throws EventNotFoundException, PersonNotFoundInEventException {
+        events.toggleAttendance(person, event);
+    }
 
     //// tag-level operations
 
