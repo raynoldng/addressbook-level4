@@ -54,22 +54,22 @@ public class TypicalEpicEvents {
      * Returns an {@code EventPlanner} with all the typical events.
      */
     public static EventPlanner getTypicalEventPlanner() {
-        EventPlanner ab = new EventPlanner();
+        EventPlanner ep = new EventPlanner();
         for (Person person : getTypicalPersons()) {
             try {
-                ab.addPerson(person);
+                ep.addPerson(person);
             } catch (DuplicatePersonException e) {
                 throw new AssertionError("not possible");
             }
         }
         for (EpicEvent event : getTypicalEvents()) {
             try {
-                ab.addEvent(event);
+                ep.addEvent(event);
             } catch (DuplicateEventException e) {
                 throw new AssertionError("not possible");
             }
         }
-        return ab;
+        return ep;
     }
 
     public static List<EpicEvent> getTypicalEvents() {
