@@ -455,7 +455,7 @@ This is done by creating a `Predicate` that tests whether a `Person` is in an `E
 
 The proposed implementation is to use a class called `Attendance`.
 An instance of `Attendance` is created every time a person registers to an event and
-it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent`, `Person`
+it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
 and stores a `boolean` representing whether the person has attended the event.
 This reduces coupling between the `Person` and `EpicEvent` class and allows the event
 to have access to all its attendees so that adding, removing and listing attendees is
