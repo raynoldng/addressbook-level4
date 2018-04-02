@@ -113,7 +113,7 @@ public class UniqueAttendanceList {
     public void replace(Person toReplace, EpicEvent event) {
         requireAllNonNull(toReplace, event);
 
-        for (int i = 0; i<internalList.size(); i++) {
+        for (int i = 0; i < internalList.size(); i++) {
             if (toReplace.equals(internalList.get(i).getPerson())) {
                 Attendance currentAttendance = internalList.get(i);
                 internalList.get(i).setAttendance(new Attendance(toReplace, event, currentAttendance.hasAttended()));
