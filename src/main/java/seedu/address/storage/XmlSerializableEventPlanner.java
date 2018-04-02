@@ -10,8 +10,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.ReadOnlyEventPlanner;
-import seedu.address.model.attendance.Attendance;
-import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
