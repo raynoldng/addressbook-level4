@@ -13,6 +13,7 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 
+//@@author william6364
 /**
  * Marks attendance of a participant to an event.
  */

@@ -252,6 +252,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         events.deregisterPersonFromEvent(person, event);
     }
 
+    //@@author william6364
     /**
      * Toggles the attendance of a particular person in a particular event
      */
@@ -300,6 +301,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
     public void addEventTag(Tag t) throws UniqueTagList.DuplicateTagException {
         eventTags.add(t);
     }
+
+    //@@author
 
     //// util methods
 

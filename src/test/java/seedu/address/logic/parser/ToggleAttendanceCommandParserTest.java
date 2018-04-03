@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import seedu.address.logic.commands.ToggleAttendanceCommand;
 
+//@@author william6364
+
 /**
  * Test scope: similar to {@code SelectCommandParserTest}.
  * @see SelectCommandParserTest

@@ -5,6 +5,7 @@ import java.util.Objects;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
+//@@author william6364
 /**
  * Represents the attendance of a person to an event in the event planner.
  * Guarantees: person is immutable and not null
@@ -67,10 +68,6 @@ public class Attendance {
 
     public boolean hasAttended() {
         return hasAttendedEvent;
-    }
-
-    public void toggleAttendance() {
-        this.hasAttendedEvent = !this.hasAttendedEvent;
     }
 
     /**

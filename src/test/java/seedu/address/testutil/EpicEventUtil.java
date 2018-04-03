@@ -6,6 +6,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.address.logic.commands.AddEventCommand;
 import seedu.address.model.event.EpicEvent;
 
+//@@author william6364
+
 /**
  * A utility class for EpicEvent.
  */
