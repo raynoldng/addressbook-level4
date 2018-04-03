@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import static org.junit.Assert.assertEquals;
+import static seedu.address.testutil.TypicalEpicEvents.GRADUATION;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -51,8 +52,21 @@ public class EventPlannerTest {
     public void resetData_withDuplicatePersons_throwsAssertionError() {
         // Repeat ALICE twice
         List<Person> newPersons = Arrays.asList(ALICE, ALICE);
+        List<EpicEvent> newEvents = Arrays.asList();
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
-        EventPlannerStub newData = new EventPlannerStub(newPersons, newTags, newTags);
+        EventPlannerStub newData = new EventPlannerStub(newPersons, newEvents, newTags, newTags);
+
+        thrown.expect(AssertionError.class);
+        eventPlanner.resetData(newData);
+    }
+
+    @Test
+    public void resetData_withDuplicateEvents_throwsAssertionError() {
+        // Repeat GRADUUATIOn twice
+        List<Person> newPersons = Arrays.asList();
+        List<EpicEvent> newEvents = Arrays.asList(GRADUATION, GRADUATION);
+        List<Tag> newTags = new ArrayList<>(GRADUATION.getTags());
+        EventPlannerStub newData = new EventPlannerStub(newPersons, newEvents, newTags, newTags);
 
         thrown.expect(AssertionError.class);
         eventPlanner.resetData(newData);
@@ -79,9 +93,10 @@ public class EventPlannerTest {
         private final ObservableList<Tag> personTags = FXCollections.observableArrayList();
         private final ObservableList<Tag> eventTags = FXCollections.observableArrayList();
 
-        EventPlannerStub(Collection<Person> persons, Collection<? extends Tag> personTags,
+        EventPlannerStub(Collection<Person> persons, Collection<EpicEvent> events, Collection<? extends Tag> personTags,
                          Collection<? extends Tag> eventTags) {
             this.persons.setAll(persons);
+            this.events.setAll(events);
             this.personTags.setAll(personTags);
             this.eventTags.setAll(eventTags);
         }
