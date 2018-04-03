@@ -75,8 +75,10 @@ public class Person {
         numberOfEventsRegisteredFor++;
     }
 
+    //@@author bayweiheng
     /**
-     * Edits this person by transferring the fields of dummyPerson over
+     * Edits this person by transferring the fields of dummyPerson over.
+     * Used for mutable edit command
      */
     public void setPerson(Person dummyPerson) {
         this.name = dummyPerson.getName();
@@ -85,6 +87,7 @@ public class Person {
         this.address = dummyPerson.getAddress();
         this.tags = new UniqueTagList(dummyPerson.getTags());
     }
+    //@@author
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}

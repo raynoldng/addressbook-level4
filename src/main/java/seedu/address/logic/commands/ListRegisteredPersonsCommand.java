@@ -8,7 +8,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
-/** lists all registered persons in a given event */
+//@@author bayweiheng
+
+/** Lists all registered persons in a given event, regardless of whether their attendance is marked */
 public class ListRegisteredPersonsCommand extends Command {
 
     public static final String COMMAND_WORD = "list-registered";

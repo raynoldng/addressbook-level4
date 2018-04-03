@@ -48,7 +48,7 @@ public class AddEventCommand extends UndoableCommand {
         }
     }
 
-    // @@ author bayweiheng
+    //@@author bayweiheng
 
     @Override
     protected void generateOppositeCommand() {

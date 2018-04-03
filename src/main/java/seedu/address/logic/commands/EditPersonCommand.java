@@ -70,10 +70,15 @@ public class EditPersonCommand extends UndoableCommand {
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
+    //@@author bayweiheng
+    /**
+     * Used for generating the oppositeCommand of an EditPersonCommand
+     */
     public EditPersonCommand(Person personToEdit, Person editedPerson) {
         this.personToEdit = personToEdit;
         this.editedPerson = editedPerson;
     }
+    //@@author
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
@@ -100,10 +105,12 @@ public class EditPersonCommand extends UndoableCommand {
         editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
     }
 
+    //@@author bayweiheng
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new EditPersonCommand(editedPerson, new Person(personToEdit));
     }
+    //@@author
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}

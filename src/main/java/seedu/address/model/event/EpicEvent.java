@@ -64,6 +64,7 @@ public class EpicEvent {
         return new EpicEvent(new Name("dummyEvent"), new HashSet<Tag>());
     }
 
+    //@@author bayweiheng
     /**
      * Edits this event by transferring the name and tags of the dummyEvent over
      */
@@ -86,10 +87,12 @@ public class EpicEvent {
         }
     }
 
+    //@@author jiangyue12392
     /** replace the person in the attendance list with the given person and the event in the attendance list*/
     public void replace(Person person) {
         attendanceList.replace(person, this);
     }
+    //@@author
 
     /** toggles the attendance of a person in this event */
     public void toggleAttendance(Person person) throws PersonNotFoundInEventException {
@@ -139,10 +142,14 @@ public class EpicEvent {
         return attendanceList;
     }
 
-    /** returns true if person is in this event */
+    //@@author bayweiheng
+    /** returns true if person is in this event, regardless of whether
+     * his attendance has been marked
+     */
     public boolean hasPerson(Person person) {
         return attendanceList.contains(person, this);
     }
+    //@@author
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}

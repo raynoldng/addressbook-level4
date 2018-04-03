@@ -12,6 +12,7 @@ import org.junit.Test;
 import seedu.address.logic.commands.EditEventCommand.EditEventDescriptor;
 import seedu.address.testutil.EditEventDescriptorBuilder;
 
+//@@author jiangyue12392
 public class EditEventDescriptorTest {
 
     @Test

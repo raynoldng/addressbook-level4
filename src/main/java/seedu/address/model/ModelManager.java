@@ -122,13 +122,14 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    //@@author jiangyue12392
     @Override
     public synchronized void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
         eventPlanner.removeEvent(targetEvent);
         indicateEventPlannerChanged();
     }
 
-
+    //@@author bayweiheng
     @Override
     public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
             throws DuplicateEventException, EventNotFoundException {
@@ -211,7 +212,6 @@ public class ModelManager extends ComponentManager implements Model {
     public ObservableList<Attendance> getFilteredAttendanceList() {
         return FXCollections.unmodifiableObservableList(filteredAttendees);
     }
-
     @Override
     public ObservableEpicEvent getSelectedEpicEvent() {
         return selectedEpicEvent;
@@ -228,6 +228,7 @@ public class ModelManager extends ComponentManager implements Model {
         selectedEpicEvent.setEpicEvent(epicEvent);
     }
 
+    //@@author bayweiheng
     /**
      * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
      * {@code eventPlanner}
@@ -236,6 +237,7 @@ public class ModelManager extends ComponentManager implements Model {
     public ObservableList<EpicEvent> getEventList() {
         return FXCollections.unmodifiableObservableList(eventPlanner.getEventList());
     }
+    //@@author william6364
 
     @Override
     public boolean equals(Object obj) {

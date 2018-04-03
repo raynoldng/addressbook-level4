@@ -17,6 +17,7 @@ import seedu.address.logic.commands.EditEventCommand.EditEventDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 
+//@@author jiangyue12392
 /**
  * Parses input arguments and creates a new EditEventCommand object
  */

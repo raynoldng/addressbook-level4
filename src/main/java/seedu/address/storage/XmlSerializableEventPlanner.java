@@ -51,6 +51,7 @@ public class XmlSerializableEventPlanner {
         eventTags.addAll(src.getEventTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
     }
 
+    //@@author jiangyue12392
     /**
      * Finds and replaces the dummy person in attendance list with the person object in the master list
      */
@@ -59,6 +60,7 @@ public class XmlSerializableEventPlanner {
             event.replace(p);
         }
     }
+    //@@author
 
     /**
      * Converts this eventplanner into the model's {@code EventPlanner} object.
