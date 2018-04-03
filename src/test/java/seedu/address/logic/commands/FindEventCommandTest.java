@@ -25,6 +25,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.EventNameContainsKeywordsPredicate;
 
+//@@author jiangyue12392
 /**
  * Contains integration tests (interaction with the Model) for {@code FindEventCommand}.
  */

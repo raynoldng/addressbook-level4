@@ -29,18 +29,19 @@ public class Attendance {
         this.hasAttendedEvent = false;
     }
 
+    //@@author jiangyue12392
     /**
-     * Dummy Constructor for debugging purposes
+     * Constructor for reconstruction of data from xmlfile
      * @param attendee
      * @param hasAttended
      */
     public Attendance(Person attendee, boolean hasAttended) {
-        //TODO: Remove this once all methods using this constructor have been removed
         Objects.requireNonNull(attendee);
         this.attendee = attendee;
         this.event = null;
         this.hasAttendedEvent = hasAttended;
     }
+    //@@author william6364
 
     /**
      * Person must be not be null

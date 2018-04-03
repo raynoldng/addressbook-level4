@@ -15,6 +15,7 @@ import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.tag.Tag;
 
+//@@author jiangyue12392
 /**
  * JAXB-friendly version of the EpicEvent.
  */

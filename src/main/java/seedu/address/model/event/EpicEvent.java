@@ -81,12 +81,13 @@ public class EpicEvent {
             throw new PersonNotFoundInEventException();
         }
     }
-    //@@author
 
+    //@@author jiangyue12392
     /** replace the person in the attendance list with the given person and the event in the attendance list*/
     public void replace(Person person) {
         attendanceList.replace(person, this);
     }
+    //@@author
 
     /** toggles the attendance of a person in this event */
     public void toggleAttendance(Person person) throws PersonNotFoundInEventException {

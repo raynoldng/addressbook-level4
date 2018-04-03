@@ -31,6 +31,7 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.testutil.EditEventDescriptorBuilder;
 import seedu.address.testutil.EpicEventBuilder;
 
+//@@author jiangyue12392
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests
  * for EditEventCommand.

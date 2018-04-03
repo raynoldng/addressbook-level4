@@ -107,6 +107,7 @@ public class UniqueAttendanceList {
         return attendeeFoundAndDeleted;
     }
 
+    //@@author jiangyue12392
     /**
      * Replaces the person in the attendance list with the given master person list if there is any person that
      * that is in both the master list and the attendance list
@@ -122,6 +123,7 @@ public class UniqueAttendanceList {
         }
 
     }
+    //@@author william6364
 
     public void setAttendanceList(UniqueAttendanceList replacement) {
         this.internalList.setAll(replacement.internalList);

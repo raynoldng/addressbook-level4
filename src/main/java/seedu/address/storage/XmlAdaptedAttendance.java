@@ -8,6 +8,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.person.Person;
 
+//@@author jiangyue12392
 /**
  * JAXB-friendly version of the Attendance.
  */
