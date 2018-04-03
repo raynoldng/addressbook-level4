@@ -28,16 +28,6 @@ public class GuiTestAssert {
         assertEquals(expectedCard.getTags(), actualCard.getTags());
     }
 
-    //@@ author raynoldng
-    /**
-     * Asserts that {@code actualEpicEventCard} displays the same values as {@code expectedEpicEventCard}.
-     */
-    public static void assertEpicEventCardEquals(EpicEventCardHandle expectedCard, EpicEventCardHandle actualCard) {
-        assertEquals(expectedCard.getId(), actualCard.getId());
-        assertEquals(expectedCard.getName(), actualCard.getName());
-        assertEquals(expectedCard.getTags(), actualCard.getTags());
-    }
-
     /**
      * Asserts that {@code actualCard} displays the details of {@code expectedPerson}.
      */
