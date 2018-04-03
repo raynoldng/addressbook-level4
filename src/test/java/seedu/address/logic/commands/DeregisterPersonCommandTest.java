@@ -20,6 +20,9 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
+//@@author bayweiheng
+
+/** Contains unit tests for DeregisterPersonCommand */
 public class DeregisterPersonCommandTest {
 
     private Model model = new ModelManager(getTypicalEventPlanner(),

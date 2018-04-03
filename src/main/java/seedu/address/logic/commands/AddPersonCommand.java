@@ -58,14 +58,14 @@ public class AddPersonCommand extends UndoableCommand {
 
     }
 
-    // @@author bayweiheng
+    //@@author bayweiheng
 
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new DeletePersonCommand(toAdd);
     }
 
-    // @@author
+    //@@author
 
     @Override
     public boolean equals(Object other) {

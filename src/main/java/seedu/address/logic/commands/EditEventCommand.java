@@ -90,10 +90,12 @@ public class EditEventCommand extends UndoableCommand {
         editedEvent = createEditedEvent(eventToEdit, editEventDescriptor);
     }
 
+    //@@author bayweiheng
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new EditEventCommand(editedEvent, new EpicEvent(eventToEdit));
     }
+    //@@author
 
     /**
      * Creates and returns a {@code EpicEvent} with the details of {@code eventToEdit}

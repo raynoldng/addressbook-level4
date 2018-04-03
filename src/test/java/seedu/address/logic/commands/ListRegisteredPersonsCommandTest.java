@@ -18,6 +18,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
+//@@author bayweiheng
 /**
  * Contains unit tests for ListRegisteredPersonsCommand.
  */

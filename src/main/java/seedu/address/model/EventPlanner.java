@@ -234,6 +234,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         events.setEvent(targetEvent, syncedEditedEvent);
     }
 
+
+    //@@author bayweiheng
     /**
      * Registers a particular person to a particular event
      */

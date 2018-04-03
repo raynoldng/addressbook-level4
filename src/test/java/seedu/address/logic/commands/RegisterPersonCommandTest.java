@@ -20,11 +20,15 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
+//@@author bayweiheng
+
+/** Contains unit tests for RegisterPersonCommand */
 public class RegisterPersonCommandTest {
 
     private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
     private Model duplicatedModel = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
 
+    //TODO: Re-code tests after architecture stable
     /*@Test
     public void execute_validIndexUnfilteredList_success() throws Exception {
         Person personToRegister = duplicatedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
