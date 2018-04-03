@@ -10,12 +10,15 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_PHONE_AM
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PERSON_TAG_HUSBAND;
+import static seedu.address.testutil.TypicalEpicEvents.getTypicalEvents;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.EventPlanner;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
@@ -85,6 +88,13 @@ public class TypicalPersons {
             try {
                 ab.addPerson(person);
             } catch (DuplicatePersonException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        for (EpicEvent epicEvent : getTypicalEvents()) {
+            try {
+                ab.addEvent(epicEvent);
+            } catch (DuplicateEventException e) {
                 throw new AssertionError("not possible");
             }
         }
