@@ -29,7 +29,7 @@ public class XmlSerializableEventPlannerTest {
         XmlSerializableEventPlanner dataFromFile = XmlUtil.getDataFromFile(TYPICAL_PERSONS_FILE,
                 XmlSerializableEventPlanner.class);
         EventPlanner eventPlannerFromFile = dataFromFile.toModelType();
-        EventPlanner typicalPersonsEventPlanner = TypicalPersons.getTypicalAddressBook();
+        EventPlanner typicalPersonsEventPlanner = TypicalPersons.getTypicalAddressBookWithoutEvents();
         assertEquals(eventPlannerFromFile, typicalPersonsEventPlanner);
     }
 
