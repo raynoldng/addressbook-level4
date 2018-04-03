@@ -27,7 +27,7 @@ public class AttendanceListPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(AttendanceListPanel.class);
 
     @FXML
-    private ListView<PersonCard> attendanceListView;
+    private ListView<AttendanceCard> attendanceListView;
 
     public AttendanceListPanel(ObservableList<Attendance> attendanceList) {
         super(FXML);
@@ -40,11 +40,11 @@ public class AttendanceListPanel extends UiPart<Region> {
     }
 
     private void setConnections(ObservableList<Attendance> attendanceList) {
-        ObservableList<PersonCard> mappedList = EasyBind.map(
-                attendanceList, (attendee) -> new PersonCard(attendee.getPerson(),
+        ObservableList<AttendanceCard> mappedList = EasyBind.map(
+                attendanceList, (attendee) -> new AttendanceCard(attendee,
                         attendanceList.indexOf(attendee) + 1));
         attendanceListView.setItems(mappedList);
-        attendanceListView.setCellFactory(listView -> new PersonListViewCell());
+        attendanceListView.setCellFactory(listView -> new AttendanceListViewCell());
         setEventHandlerForSelectionChangeEvent();
     }
 
@@ -77,10 +77,10 @@ public class AttendanceListPanel extends UiPart<Region> {
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.
      */
-    class PersonListViewCell extends ListCell<PersonCard> {
+    class AttendanceListViewCell extends ListCell<AttendanceCard> {
 
         @Override
-        protected void updateItem(PersonCard person, boolean empty) {
+        protected void updateItem(AttendanceCard person, boolean empty) {
             super.updateItem(person, empty);
 
             if (empty || person == null) {
