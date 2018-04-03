@@ -60,19 +60,17 @@ public class AttendanceListPanel extends UiPart<Region> {
         super(FXML);
         selectedEpicEventObserver = new EpicEventObserver(selectedEpicEvent);
         selectedEpicEvent.addObserver(selectedEpicEventObserver);
+        setConnections();
         registerAsAnEventHandler(this);
     }
 
     public void updateConnection() {
-        // TODO too many chain calls
-        setConnections(selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent().getAttendanceList());
+        setConnections();
     }
 
-    public void updateConnection(ObservableList<Attendance> attendanceList) {
-        setConnections(attendanceList);
-    }
-
-    private void setConnections(ObservableList<Attendance> attendanceList) {
+    private void setConnections() {
+        EpicEvent selectedEpicEvent = selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent();
+        ObservableList<Attendance> attendanceList = selectedEpicEvent.getAttendanceList();
         ObservableList<PersonCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new PersonCard(attendee.getPerson(),
                         attendanceList.indexOf(attendee) + 1));
