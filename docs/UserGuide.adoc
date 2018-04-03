@@ -17,11 +17,16 @@ By: `Team W13-B2`      Since: `Mar 2018`      Licence: `MIT`
 
 == Introduction
 
-Event Planning isn’t Complicated (EPIC) is for those who *prefer to use a desktop app for event plannings and streamline event registration*. More importantly, EPIC is *optimized for event planners who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, EPIC can get your event planning tasks and registration processes for events done faster than traditional GUI apps or pen and paper registration. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning and registration for large organisations*.
+EPIC is *optimized for event planners who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI).
+If you can type fast, EPIC can get your event planning tasks and registration processes for events done faster than traditional GUI apps or pen and paper registration.
+Interested? Jump to the <<Quick Start>> to get started. Enjoy!
 
 == Quick Start
 
-.  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
+This section walks you through setting up EPIC on your computer, and goes through some example commands you can try.
+
+.  Ensure you have Java version `1.8.0_60` or later installed in your computer.
 +
 [NOTE]
 Having any Java 8 version is not enough. +
@@ -31,7 +36,7 @@ This app will not work with earlier versions of Java 8.
 .  Copy the file to the folder you want to use as the home folder for your Event Planner.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
-image::u-Ui.png[width="790"]
+image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
@@ -44,8 +49,31 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 .  Refer to <<Features>> for details of each command.
 
+[[Layout]]
+== Layout
+
+This section details the layout of the GUI, and common ways to interact with it.
+
+image::Ui.png[width="790"]
+
+* The top of the GUI is the command box, where you can see commands as you are typing them.
+* The main part of the GUI is split into three panes.
+** In the leftmost pane, a list of persons in your organisation is displayed.
+** In the middle pane, a list of events is displayed.
+** In the rightmost pane, a list of registered persons for the selected event is displayed.
+
+[TIP]
+The lists displayed in the panes can be filtered using the `find` or `find-event` commands!
+
+* Clicking on an event in the middle pane selects that event, allowing you to see all persons registered for that event in the rightmost pane,
+as well as perform actions such as toggling attendance. This can also be done with the `select` command in the command box.
+* Clicking on the tick/cross symbol next to a person's details in the rightmost pane allows you to toggle the attendance of the person for the currently selected event.
+This can also be done with the `toggle` command.
+
 [[Features]]
 == Features
+
+This section details the various features EPIC supports.
 
 ====
 *Command Format*
@@ -59,6 +87,8 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 === Viewing help : `help`
 
 Format: `help`
+
+This command opens the help screen in a separate window.
 
 === Adding a person: `add`
 
@@ -75,7 +105,7 @@ Examples:
 
 === Listing all persons : `list`
 
-Shows a list of all persons in the event planner and changes the focus to persons list tab. +
+Shows a list of all persons in the event planner on the left pane. +
 Format: `list`
 
 === Editing a person : `edit`
@@ -84,7 +114,9 @@ Edits an existing person in the event planner. +
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 
 ****
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index *must be a positive integer* 1, 2, 3, ...
+* Edits the person at the specified `INDEX`.
+The index refers to the index number shown in the leftmost pane.
+* The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -100,7 +132,7 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 
 === Locating persons by name: `find`
 
-Finds persons whose names contain any of the given keywords. +
+Finds persons in your organisation whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 ****
@@ -108,7 +140,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Persons matching *at least* one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 ****
 
 Examples:
@@ -124,8 +156,8 @@ Deletes the specified person from the event planner. +
 Format: `delete INDEX`
 
 ****
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
+* Deletes the person at the specified `INDEX` shown.
+The index refers to the index number shown in the leftmost pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
@@ -138,14 +170,15 @@ Deletes the 2nd person in the event planner.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-=== Selecting a person : `select`
+=== Selecting a person : `select` [Deprecated]
 
 Selects the person identified by the index number used in the last person listing. +
 Format: `select INDEX`
 
 ****
-* Selects the person and loads the Google search page the person at the specified `INDEX`.
+* Selects the person.
 * The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the leftmost pane.
 * The index *must be a positive integer* `1, 2, 3, ...`
 ****
 
@@ -173,7 +206,7 @@ Examples:
 
 === Listing all events: `list-events` [Since v1.2]
 
-Shows a list of all events in the event planner and changes the focus to events list tab. +
+Shows a list of all events in the event planner in the middle pane. +
 Format: `list-events`
 
 === Editing an event : `edit-event` [Since v1.2]
@@ -182,7 +215,8 @@ Edits an existing event in the event planner. +
 Format: `edit-event INDEX [n/NAME] [t/TAG]...`
 
 ****
-* Edits the event at the specified `INDEX`. The index refers to the index number shown in the last event listing. The index *must be a positive integer* 1, 2, 3, ...
+* Edits the event at the specified `INDEX`. The index refers to the index number shown in middle pane.
+The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the event will be removed i.e adding of tags is not cumulative.
@@ -223,7 +257,7 @@ Format: `delete-event INDEX`
 
 ****
 * Deletes the event at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the middle pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
@@ -243,7 +277,7 @@ Format: `register INDEX EVENT_NAME`
 
 ****
 * Registers the person at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the leftmost pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 * `EVENT_NAME` must match the name of an event in the EventPlanner exactly.
 ****
@@ -265,7 +299,7 @@ Format: `deregister INDEX EVENT_NAME`
 
 ****
 * Deregisters the person at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
+The index refers to the index number shown in the leftmost pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 * `EVENT_NAME` must match the name of an event in the EventPlanner exactly.
 * The person to be deregistered must be already in the event.
@@ -293,7 +327,7 @@ Format: `toggle INDEX`
 
 ****
 * Toggles the attendance of the participant at the specified `INDEX`.
-* The index refers to the index number shown in the most recent attendance listing.
+The index refers to the index number shown in the rightmost pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
@@ -423,7 +457,8 @@ Format: `add-hotkey HOTKEY COMMAND_NAME`
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
-*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Event Planner folder.
+*A*: Install the app in the other computer and overwrite the empty data file it creates with the data file of your previous Event Planner.
+By default, this file is in data/addressbook.xml.
 
 == Command Summary
 

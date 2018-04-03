@@ -16,9 +16,12 @@ By: `Team W13-B2`      Since: `Mar 2018`      Licence: `MIT`
 
 == Introduction
 
-EPIC is an event planning tool for large organisations hosting many large-scale events (e.g. schools which host competitions, award and graduation ceremonies, seminars and talks). {more to be added}
+EPIC is an event planning tool for large organisations hosting many large-scale events (e.g. schools which host competitions,
+award and graduation ceremonies, seminars and talks). It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
 
 == Setting up
+
+This section details the set-up process for working on the codebase on your computer.
 
 === Prerequisites
 
@@ -38,9 +41,9 @@ IntelliJ by default has Gradle and JavaFx plugins installed. +
 Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
 
 
-=== Setting up the project in your computer
+=== Setting up the project on your computer
 
-Please follow these steps to set up the project in your computer:
+Please follow these steps to set up the project on your computer:
 
 . Fork this repo, and clone the fork to your computer.
 . Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
@@ -115,34 +118,36 @@ Below is a quick overview of each component.
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
-`Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
+`Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. This class has two main responsibilities:
 
-* At app launch: Initializing the components in the correct sequence, and connecting them up with each other.
-* At shut down: Shutting down the components and invoking cleanup method where necessary.
+* At app launch, it initialises the components in the correct sequence, and connects them up with each other.
+* Upon exit, it shuts down the components and invokes cleanup method where necessary.
 
-<<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
+<<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of these classes play important roles at the architecture level.
 
 * `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]) is used by components to communicate with other components using events (i.e. a form of _Event Driven_ design).
 * `LogsCenter` : This class is used by many classes to write log messages to the App's log file.
 
 The rest of the App consists of four components.
 
-* <<Design-Ui,*`UI`*>>: Interfaces with the user
-* <<Design-Logic,*`Logic`*>>: Executes commands
-* <<Design-Model,*`Model`*>>: Holds the data of the App in-memory
-* <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk
+* <<Design-Ui,*`UI`*>>: The UI component is responsible for interfacing with the user.
+* <<Design-Logic,*`Logic`*>>: The Logic component is responsible for the parsing and execution of commands.
+* <<Design-Model,*`Model`*>>: The Model component is responsible for holding application data in-memory.
+* <<Design-Storage,*`Storage`*>>: The Storage component is responsible for persisting application data on the hard disk.
 
-Each of the four components
+Each of the four components:
 
-* Defines its _API_ in an `interface` with the same name as the Component.
-* Exposes its functionality using a `{Component Name}Manager` class.
+* Defines its _API_ in an `interface` with the same name as the component.
+* Exposes its functionality using a `{COMPONENT NAME}Manager` class.
 
-For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
+For example, the `Logic` component (see the class diagram given below)
+defines its API in the `Logic.java` interface and exposes its functionality
+using the `LogicManager.java` class.
 
 .Class Diagram of the Logic Component
 image::LogicClassDiagram.png[width="800"]
 
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the interaction between the components after the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
@@ -150,7 +155,9 @@ image::SDforDeletePerson.png[width="800"]
 [NOTE]
 Note how the `Model` simply raises a `EventPlannerChangedEvent` when the Event Planner data is changed, instead of asking the `Storage` to save the updates to the hard disk.
 
-The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
+The diagram below shows how the `EventsCenter` reacts to that event,
+which eventually results in the updates being saved to the hard disk and the
+status bar of the UI reflecting the 'Last Updated' time.
 
 .Component interactions for `delete 1` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
@@ -170,9 +177,11 @@ image::UiClassDiagram.png[width="800"]
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+The `UI` component uses JavaFx UI framework.
+The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
+For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
-The `UI` component,
+The `UI` component:
 
 * Executes user commands using the `Logic` component.
 * Binds itself to some data in the `Model` so that the UI can auto-update when data in the `Model` change.
@@ -191,12 +200,14 @@ image::LogicCommandClassDiagram.png[width="800"]
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `EventPlannerParser` class to parse the user command.
-.  This results in a `Command` object which is executed by the `LogicManager`.
-.  The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
-.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
+When a command is entered into the command box, the following steps take place:
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+.  `Logic` uses the `EventPlannerParser` class to parse the user command.
+.  A `Command` object is returned by the parser, which is passed to the `LogicManager` to execute.
+.  The command execution may affect the `Model` (e.g. adding a person) and/or raise events.
+.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `UI`.
+
+The Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call is shown below.
 
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
@@ -213,10 +224,11 @@ The `Model`,
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Event Planner data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* exposes an unmodifiable `ObservableList<EpicEvent>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* exposes an unmodifiable `ObservableList<Attendance>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* does not depend on any of the other three components.
+* exposes three unmodifiable `ObservableLists`, one each for `Person`, `EpicEvent` and `Attendance`.
+The UI can be bound to any of these lists so that it automatically updates when the data in the list changes.
+
+[NOTE]
+The Model does not depend on any of the other three components. This reduces coupling between components.
 
 [[Design-Storage]]
 === Storage component
@@ -228,8 +240,8 @@ image::StorageClassDiagram.png[width="800"]
 
 The `Storage` component,
 
-* can save `UserPref` objects in json format and read it back.
-* can save the Event Planner data in xml format and read it back.
+* can save `UserPref` objects in json format and reconstruct the Model from a file of this format.
+* can save the Event Planner data in xml format and reconstruct the Model from a file of this format.
 
 [[Design-Commons]]
 === Common classes
@@ -280,8 +292,10 @@ In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable m
 
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the event planner (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
-`UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
+`UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead.
+The following diagram shows the class diagram for commands:
 
+.Class Diagram for the Logic Component
 image::LogicCommandClassDiagram.png[width="800"]
 
 As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such
@@ -325,11 +339,13 @@ The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th person 
 The current state of the event planner is saved before the `delete 5` command executes.
 The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
 
+.How a delete command modifies the UndoRedoStack
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
 As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute
 `add n/David ...` to add a new person.
 
+.How an add command modifies the UndoRedoStack
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
 
 [NOTE]
@@ -343,6 +359,7 @@ The user now decides that adding the person was a mistake, and decides to undo t
 
 We will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the event planner to the state before the `add` command is executed.
 
+.How an undo command utilises the UndoRedoStack
 image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
 
 [NOTE]
@@ -350,6 +367,7 @@ If the `undoStack` is empty, there are no other commands left to be undone, and 
 
 The following sequence diagram shows how the undo operation works:
 
+.Sequence Diagram for the undo command
 image::UndoRedoSequenceDiagram.png[width="800"]
 
 The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and performs the intention of the original command).
@@ -363,14 +381,17 @@ commands like `delete` if `filteredPersons` had been altered by a `find` or othe
 
 The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. This time the `redoStack` is no longer empty. It will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
 
+.How a clear command modifies the UndoRedoStack
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
+.A list command does not modify the UndoRedoStack
 image::UndoRedoNewCommand3StackDiagram.png[width="800"]
 
 The following activity diagram summarizes what happens inside the `UndoRedoStack` when a user executes a new command:
 
+.Activity Diagram for command execution
 image::UndoRedoActivityDiagram.png[width="650"]
 
 ==== Changes from previous implementation [major enhancement, in progress]
@@ -400,23 +421,23 @@ the user undoes a `ClearCommand`.
 * **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()`
 ** Pros: Undo/redo functionality will now be part of the default behaviour. Classes that deal with `Command` will not have to know that `executeUndoableCommand()` exist.
 ** Cons: New developers will find the template pattern difficult to understand.
-* **Alternative 2:** Just override `execute()`
+* **Alternative 2:** Override `execute()`
 ** Pros: New developers will not have to learn the above template pattern
 ** Cons: Command classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to be undone/redone.
 
 ===== Aspect: How undo & redo executes
 
-* **Alternative 1 (current choice):** Individual command knows how to undo/redo itself.
+* **Alternative 1 (current choice):** Store the minimal knowledge required to undo each command inside itself.
 ** Pros: Significantly less memory is used (e.g. for `delete`, just save the person being deleted). Compatible with mutable commands.
 ** Cons: Implementation is more complicated.
-* **Alternative 2:** Saves the entire event planner.
+* **Alternative 2:** Save the entire event planner after every undoable command.
 ** Pros: Implementation is easy.
 ** Cons: Performance issues may result due to high memory usage. Also, this is incompatible with the mutable `edit` and `edit-event` implementations.
 
 
 ===== Aspect: Type of commands that can be undone/redone
 
-* **Alternative 1 (current choice):** Only include commands that modifies the event planner (`add`, `clear`, `edit`).
+* **Alternative 1 (current choice):** Only include commands that modify the event planner (`add`, `clear`, `edit`).
 ** Pros: Only commands that cannot be easily reverted need to be implemented (the view can easily be re-modified as no data is * lost).
 ** Cons: User might mistakenly think that undo also applies to view modification (e.g. filtering).
 * **Alternative 2:** Include all commands.
@@ -507,7 +528,7 @@ In addition, we define a `ListPanelAdapter` class that acts as the bridge betwee
 
 The sequence diagram below shows how `PersonListPanel` is initialised. `EventsListPanel` and `AttendeeListPanel` are initialised in a similar manner.
 
-
+.Sequence Diagram for Panel initialisation
 image::CreatePersonListPanelSequenceDiagram.png[width="650"]
 
 
@@ -540,6 +561,7 @@ The `export-event` command input is first parsed in `EventPlannerParser` to crea
 
 The sequence diagram below shows how the csv event export is processed in the storage component.
 
+.Sequence Diagram for csv export
 image::ExportEventSequenceDiagram.png[width="650"]
 
 ==== Design Considerations
