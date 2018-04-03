@@ -64,6 +64,21 @@ public class TypicalPersons {
     /**
      * Returns an {@code EventPlanner} with all the typical persons.
      */
+    public static EventPlanner getTypicalAddressBookWithoutEvents() {
+        EventPlanner ab = new EventPlanner();
+        for (Person person : getTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        return ab;
+    }
+
+    /**
+     * Returns an {@code EventPlanner} with all the typical persons.
+     */
     public static EventPlanner getTypicalAddressBook() {
         EventPlanner ab = new EventPlanner();
         for (Person person : getTypicalPersons()) {
