@@ -10,7 +10,6 @@ import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
-import seedu.address.model.event.ObservableEpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
@@ -116,20 +115,5 @@ public class ModelStub implements Model {
     public ObservableList<Attendance> getFilteredAttendanceList() {
         fail("This method should not be called.");
         return null;
-    }
-
-    @Override
-    public ObservableEpicEvent getSelectedEpicEvent() {
-        return null;
-    }
-
-    @Override
-    public void setSelectedEpicEvent(int index) {
-
-    }
-
-    @Override
-    public void setSelectedEpicEvent(EpicEvent epicEvent) {
-
     }
 }

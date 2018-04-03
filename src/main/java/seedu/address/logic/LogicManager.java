@@ -17,7 +17,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
-import seedu.address.model.event.ObservableEpicEvent;
 import seedu.address.model.person.Person;
 
 /**
@@ -74,21 +73,6 @@ public class LogicManager extends ComponentManager implements Logic {
     @Override
     public ObservableList<Attendance> getFilteredAttendanceList() {
         return model.getFilteredAttendanceList();
-    }
-
-    @Override
-    public ObservableEpicEvent getSelectedEpicEvent() {
-        return model.getSelectedEpicEvent();
-    }
-
-    @Override
-    public void setSelectedEpicEvent(int index) {
-        model.setSelectedEpicEvent(index);
-    }
-
-    @Override
-    public void setSelectedEpicEvent(EpicEvent epicEvent) {
-        model.setSelectedEpicEvent(epicEvent);
     }
 
     @Override

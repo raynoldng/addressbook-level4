@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
@@ -134,7 +133,7 @@ public class MainWindow extends UiPart<Stage> {
         epicEventListPanel = new EpicEventListPanel(logic.getFilteredEventList());
         epicEventListPanelPlaceholder.getChildren().add(epicEventListPanel.getRoot());
 
-        attendanceListPanel = new AttendanceListPanel(logic.getSelectedEpicEvent());
+        attendanceListPanel = new AttendanceListPanel(logic.getFilteredAttendanceList());
         attendanceListPanelPlaceholder.getChildren().add(attendanceListPanel.getRoot());
 
         ResultDisplay resultDisplay = new ResultDisplay();
@@ -207,16 +206,9 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     @Subscribe
-    private void handleEpicEventPanelSelectionChangedEvent(EpicEventPanelSelectionChangedEvent event) {
-        logic.setSelectedEpicEvent(event.getNewSelection().epicEvent);
-
-    }
-
-    @Subscribe
     private void handleJumpToListRequestEvent(JumpToEventListRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        logic.setSelectedEpicEvent(event.targetIndex);
-
+        attendanceListPanel.updateConnection(epicEventListPanel.getEventAttendee(event.targetIndex));
     }
 
 
