@@ -22,6 +22,8 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.testutil.EpicEventBuilder;
 
+//@@author william6364
+
 public class AddEventCommandTest {
 
     @Rule

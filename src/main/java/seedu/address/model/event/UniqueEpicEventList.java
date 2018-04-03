@@ -14,6 +14,7 @@ import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 
+//@@author william6364
 /**
  * A list of events that enforces uniqueness between its elements and does not allow nulls.
  *
@@ -47,6 +48,7 @@ public class UniqueEpicEventList {
         internalList.add(toAdd);
     }
 
+    //@@author jiangyue12392
     /**
      * Removes the equivalent event from the list.
      *
@@ -61,6 +63,7 @@ public class UniqueEpicEventList {
         return eventFoundAndDeleted;
     }
 
+    //@@author bayweiheng
     /**
      * Registers the person to the event. Updates the person's numberOfEventsRegisteredFor
      * upon success.
@@ -101,6 +104,7 @@ public class UniqueEpicEventList {
         person.decrementNumberOfEventsRegisteredFor();
     }
 
+    //@@author william6364
     /**
      * Toggles the attendance of the person in the event.
      *
@@ -119,6 +123,7 @@ public class UniqueEpicEventList {
         eventToToggleAttendance.toggleAttendance(person);
     }
 
+    //@@author jiangyue12392
     /**
      * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
      *
@@ -157,6 +162,7 @@ public class UniqueEpicEventList {
         setEvents(replacement);
     }
 
+    //@@author william6364
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

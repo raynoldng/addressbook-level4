@@ -13,6 +13,7 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 
+//@@author william6364
 /**
  * A list of attendance objects that enforces uniqueness between the persons inside the object and does not allow nulls.
  *

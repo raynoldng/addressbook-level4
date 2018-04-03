@@ -7,6 +7,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.ToggleAttendanceCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+//@@author william6364
 /**
  * Parses input arguments and creates a new ToggleAttendanceCommand object
  */

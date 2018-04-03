@@ -149,6 +149,8 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    //@@author william6364
+
     @Override
     public void toggleAttendance(Person person, EpicEvent event)
         throws EventNotFoundException, PersonNotFoundInEventException {
@@ -157,6 +159,8 @@ public class ModelManager extends ComponentManager implements Model {
         eventPlanner.toggleAttendance(person, event);
         indicateEventPlannerChanged();
     }
+
+    //@@author
 
     //=========== Filtered Person List Accessors =============================================================
 
@@ -175,6 +179,7 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    //@@author william6364
     //=========== Filtered Event List Accessors =============================================================
 
     /**
@@ -191,6 +196,7 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
     }
+    //@@author william6364
 
     @Override
     public ObservableList<Attendance> getFilteredAttendanceList() {

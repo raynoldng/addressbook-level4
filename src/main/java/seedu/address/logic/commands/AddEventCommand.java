@@ -8,6 +8,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
 
+//@@author william6364
 /**
  * Adds an event to the event planner.
  */
@@ -54,7 +55,7 @@ public class AddEventCommand extends UndoableCommand {
         oppositeCommand = new DeleteEventCommand(toAdd);
     }
 
-    // @@ author
+    //@@author william6364
 
     @Override
     public boolean equals(Object other) {

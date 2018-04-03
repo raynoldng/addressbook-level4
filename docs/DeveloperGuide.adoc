@@ -496,6 +496,33 @@ checking through all the events to delete a person properly.
 some person commands such as delete persons easier.
 ** Cons: Requires `EpicEvent` to search through entire list of `Attendance` of objects in `EventPlanner` to find out
 which persons are registered to itself. This can be very slow if the number of `Attendance` objects is very large.
+
+==== Aspect: Mutability of `Attendance` objects, specifically when marking attendance
+
+* **Alternative 1 (current choice):** Make `Attendance` objects immutable
+** Pros: Makes it easier to track changes in `Attendance` objects as changes can be detected by a replacement of the
+`Attendance` object in the attendance list.
+** Cons: Makes it more difficult to implement since the entire object has to be replaced whenever
+a change needs to be made, such as when marking attendance.
+* **Alternative 2:** Make `Attendance` objects mutable
+** Pros: Makes it easier to implement marking of attendance since the `hasAttended` property
+inside the object can be directly mutated.
+** Cons: Makes it more difficult to track the changes since mutating the object does not directly
+trigger any events.
+
+==== Aspect: Method of marking attendance
+
+* **Alternative 1 (current choice):** Have one command to toggle attendance from attended to not attended and vice versa
+** Pros: Makes it easier to undo the command since toggling is always valid while marking a participant
+has attended may not always be valid since that person may have already been marked as attended so undoing
+the command has to account for that.
+** Cons: Makes it less intuitive for the user since the result of toggling
+depends on the current state of the attendance.
+* **Alternative 2:** Have two separate commands: one for marking participant as attended and one for marking
+as not attended
+** Pros: Makes it more intuitive for the user since marking as attended and not attended is a direct action.
+** Cons: Makes it harder to undo the command since the command may not be successful if for example the participant
+has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
 // tag::massregistration[]
