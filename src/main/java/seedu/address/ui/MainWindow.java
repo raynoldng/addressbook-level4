@@ -206,6 +206,7 @@ public class MainWindow extends UiPart<Stage> {
         handleHelp();
     }
 
+    // @@author raynoldng
     @Subscribe
     private void handleEpicEventPanelSelectionChangedEvent(EpicEventPanelSelectionChangedEvent event) {
         logic.setSelectedEpicEvent(event.getNewSelection().epicEvent);
@@ -218,6 +219,8 @@ public class MainWindow extends UiPart<Stage> {
         logic.setSelectedEpicEvent(event.targetIndex);
 
     }
+    // @@author
+
 
 
 }

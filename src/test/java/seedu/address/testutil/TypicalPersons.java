@@ -64,6 +64,7 @@ public class TypicalPersons {
 
     private TypicalPersons() {} // prevents instantiation
 
+    // @@author raynoldng
     /**
      * Returns an {@code EventPlanner} with all the typical persons.
      */
@@ -78,6 +79,7 @@ public class TypicalPersons {
         }
         return ab;
     }
+    // @@ author
 
     /**
      * Returns an {@code EventPlanner} with all the typical persons.

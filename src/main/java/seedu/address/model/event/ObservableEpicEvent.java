@@ -1,3 +1,4 @@
+// @@author raynoldng
 package seedu.address.model.event;
 
 import java.util.Observable;

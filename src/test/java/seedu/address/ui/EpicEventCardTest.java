@@ -12,6 +12,7 @@ import guitests.guihandles.EpicEventCardHandle;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.testutil.EpicEventBuilder;
 
+// @@author raynoldng
 public class EpicEventCardTest extends GuiUnitTest {
 
     @Test

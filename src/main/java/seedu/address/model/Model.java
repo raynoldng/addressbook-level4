@@ -113,9 +113,11 @@ public interface Model {
      */
     void updateFilteredEventList(Predicate<EpicEvent> predicate);
 
+    // @@author raynoldng
     ObservableEpicEvent getSelectedEpicEvent();
 
     void setSelectedEpicEvent(int index);
 
     void setSelectedEpicEvent(EpicEvent epicEvent);
+    // @@author
 }

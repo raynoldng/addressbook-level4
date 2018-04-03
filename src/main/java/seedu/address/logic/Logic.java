@@ -28,12 +28,14 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of events */
     ObservableList<EpicEvent> getFilteredEventList();
 
+    // @@author raynoldng
     /** Returns selected EpicEvent **/
     ObservableEpicEvent getSelectedEpicEvent();
 
     void setSelectedEpicEvent(int index);
 
     void setSelectedEpicEvent(EpicEvent epicEvent);
+    // @@author
 
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();

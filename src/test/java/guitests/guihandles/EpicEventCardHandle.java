@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
+// @@author raynoldng
 /**
  * Provides a handle to a person card in the person list panel.
  */

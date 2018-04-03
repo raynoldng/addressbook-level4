@@ -58,6 +58,7 @@ public class LogicManager extends ComponentManager implements Logic {
         return model.getFilteredEventList();
     }
 
+    // @@author raynoldng
     @Override
     public ObservableEpicEvent getSelectedEpicEvent() {
         return model.getSelectedEpicEvent();
@@ -72,6 +73,7 @@ public class LogicManager extends ComponentManager implements Logic {
     public void setSelectedEpicEvent(EpicEvent epicEvent) {
         model.setSelectedEpicEvent(epicEvent);
     }
+    // @@author
 
     @Override
     public ListElementPointer getHistorySnapshot() {
