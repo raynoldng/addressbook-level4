@@ -28,9 +28,6 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of events */
     ObservableList<EpicEvent> getFilteredEventList();
 
-    /** Returns an unmodifiable view of the filtered list of attendance */
-    ObservableList<Attendance> getFilteredAttendanceList();
-
     /** Returns selected EpicEvent **/
     ObservableEpicEvent getSelectedEpicEvent();
 

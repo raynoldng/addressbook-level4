@@ -112,11 +112,6 @@ public class ModelStub implements Model {
         fail("This method should not be called.");
     }
 
-    @Override
-    public ObservableList<Attendance> getFilteredAttendanceList() {
-        fail("This method should not be called.");
-        return null;
-    }
 
     @Override
     public ObservableEpicEvent getSelectedEpicEvent() {

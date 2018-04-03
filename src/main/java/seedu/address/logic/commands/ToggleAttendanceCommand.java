@@ -60,7 +60,7 @@ public class ToggleAttendanceCommand extends UndoableCommand {
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        List<Attendance> lastShownList = model.getFilteredAttendanceList();
+        List<Attendance> lastShownList = model.getSelectedEpicEvent().getEpicEvent().getAttendanceList();
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ATTENDANCE_DISPLAYED_INDEX);
         }

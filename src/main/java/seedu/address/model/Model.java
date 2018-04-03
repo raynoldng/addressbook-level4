@@ -113,8 +113,6 @@ public interface Model {
      */
     void updateFilteredEventList(Predicate<EpicEvent> predicate);
 
-    ObservableList<Attendance> getFilteredAttendanceList();
-
     ObservableEpicEvent getSelectedEpicEvent();
 
     void setSelectedEpicEvent(int index);
