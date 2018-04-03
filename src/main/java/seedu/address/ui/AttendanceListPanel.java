@@ -1,4 +1,3 @@
-// @@author raynoldng
 package seedu.address.ui;
 
 import java.util.Observable;
@@ -20,7 +19,7 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
 
-
+// @@author raynoldng
 /**
  * Panel containing the list of persons.
  */
