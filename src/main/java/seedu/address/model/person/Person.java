@@ -23,7 +23,7 @@ public class Person {
     private Address address;
     private int numberOfEventsRegisteredFor = 0;
 
-    private final UniqueTagList tags;
+    private UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
@@ -83,6 +83,7 @@ public class Person {
         this.phone = dummyPerson.getPhone();
         this.email = dummyPerson.getEmail();
         this.address = dummyPerson.getAddress();
+        this.tags = new UniqueTagList(dummyPerson.getTags());
     }
 
     /**
