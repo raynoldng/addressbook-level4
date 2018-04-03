@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.ReadOnlyEventPlanner;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.model.person.Person;
+import seedu.address.model.person.UniquePersonList;
 
 /**
  * An Immutable EventPlanner that is serializable to XML format
@@ -49,6 +52,15 @@ public class XmlSerializableEventPlanner {
     }
 
     /**
+     * Finds and replaces the dummy person in attendance list with the person object in the master list
+     */
+    void setPersonForAttendance(UniquePersonList persons, EpicEvent event) {
+        for (Person p : persons) {
+            event.replace(p);
+        }
+    }
+
+    /**
      * Converts this eventplanner into the model's {@code EventPlanner} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
@@ -66,7 +78,9 @@ public class XmlSerializableEventPlanner {
             eventPlanner.addPerson(p.toModelType());
         }
         for (XmlAdaptedEpicEvent e: epicEvents) {
-            eventPlanner.addEvent(e.toModelType());
+            EpicEvent newEpicEvent = e.toModelType();
+            setPersonForAttendance(eventPlanner.getPersonMaseterList(), newEpicEvent);
+            eventPlanner.addEvent(newEpicEvent);
         }
         return eventPlanner;
     }

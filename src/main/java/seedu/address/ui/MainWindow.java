@@ -38,7 +38,6 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private BrowserPanel browserPanel;
     private PersonListPanel personListPanel;
     private EpicEventListPanel epicEventListPanel;
     private AttendanceListPanel attendanceListPanel;
@@ -46,9 +45,6 @@ public class MainWindow extends UiPart<Stage> {
     private UserPrefs prefs;
 
     private SingleSelectionModel<Tab> tabSingleSelectionModel;
-
-    @FXML
-    private StackPane browserPlaceholder;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -201,10 +197,6 @@ public class MainWindow extends UiPart<Stage> {
 
     public PersonListPanel getPersonListPanel() {
         return this.personListPanel;
-    }
-
-    void releaseResources() {
-        browserPanel.freeResources();
     }
 
     @Subscribe

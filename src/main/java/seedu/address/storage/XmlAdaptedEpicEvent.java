@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.Name;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.attendance.UniqueAttendanceList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.tag.Tag;
 
@@ -81,7 +82,7 @@ public class XmlAdaptedEpicEvent {
             eventTags.add(tag.toModelType());
         }
 
-        final List<Attendance> attendances = new ArrayList<>();
+        final UniqueAttendanceList attendances = new UniqueAttendanceList();
         for (XmlAdaptedAttendance attendance : attendanceList) {
             attendances.add(attendance.toModelType());
         }
@@ -95,7 +96,7 @@ public class XmlAdaptedEpicEvent {
         final Name name = new Name(this.name);
 
         final Set<Tag> tags = new HashSet<>(eventTags);
-        return new EpicEvent(name, tags);
+        return new EpicEvent(name, attendances, tags);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class ListRegisteredPersonsCommandTest {
     @Test
     public void execute() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 7);
-        EpicEvent mainEvent = model.getEventList().get(0);
+        EpicEvent mainEvent = model.getEventList().get(1);
         for (Person person: model.getFilteredPersonList()) {
             try {
                 model.registerPersonForEvent(person, mainEvent);

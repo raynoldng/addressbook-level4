@@ -106,6 +106,22 @@ public class UniqueAttendanceList {
         return attendeeFoundAndDeleted;
     }
 
+    /**
+     * Replaces the person in the attendance list with the given master person list if there is any person that
+     * that is in both the master list and the attendance list
+     */
+    public void replace(Person toReplace, EpicEvent event) {
+        requireAllNonNull(toReplace, event);
+
+        for (int i = 0; i < internalList.size(); i++) {
+            if (toReplace.equals(internalList.get(i).getPerson())) {
+                Attendance currentAttendance = internalList.get(i);
+                internalList.get(i).setAttendance(new Attendance(toReplace, event, currentAttendance.hasAttended()));
+            }
+        }
+
+    }
+
     public void setAttendanceList(UniqueAttendanceList replacement) {
         this.internalList.setAll(replacement.internalList);
     }

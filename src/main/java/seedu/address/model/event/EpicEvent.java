@@ -40,6 +40,14 @@ public class EpicEvent {
         this.attendanceList = new UniqueAttendanceList();
     }
 
+    public EpicEvent(Name name, UniqueAttendanceList attendanceList, Set<Tag> tags) {
+        requireAllNonNull(name, tags);
+        this.name = name;
+        this.attendanceList = attendanceList;
+        // protect internal tags from changes in the arg list
+        this.tags = new UniqueTagList(tags);
+    }
+
     public EpicEvent(EpicEvent toBeCopied) {
         requireNonNull(toBeCopied);
         this.name = new Name(toBeCopied.getName().toString());
@@ -71,6 +79,11 @@ public class EpicEvent {
         } catch (PersonNotFoundInEventException e) {
             throw new PersonNotFoundInEventException();
         }
+    }
+
+    /** replace the person in the attendance list with the given person and the event in the attendance list*/
+    public void replace(Person person) {
+        attendanceList.replace(person, this);
     }
 
     /** toggles the attendance of a person in this event */
@@ -115,6 +128,10 @@ public class EpicEvent {
 
     public ObservableList<Attendance> getAttendanceList() {
         return attendanceList.asObservableList();
+    }
+
+    public UniqueAttendanceList getUniqueAttendanceList() {
+        return attendanceList;
     }
 
     /** returns true if person is in this event */
