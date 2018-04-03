@@ -22,6 +22,7 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.tag.Tag;
 
+//@@author jiangyue12392
 /**
  * Edits the details of an existing event in the address book.
  */
@@ -95,7 +96,7 @@ public class EditEventCommand extends UndoableCommand {
     protected void generateOppositeCommand() {
         oppositeCommand = new EditEventCommand(editedEvent, new EpicEvent(eventToEdit));
     }
-    //@@author
+    //@@author jiangyue12392
 
     /**
      * Creates and returns a {@code EpicEvent} with the details of {@code eventToEdit}

@@ -113,6 +113,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    //@@author jiangyue12392
     @Override
     public synchronized void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
         eventPlanner.removeEvent(targetEvent);

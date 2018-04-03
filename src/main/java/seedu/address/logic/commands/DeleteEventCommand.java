@@ -11,6 +11,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 
+//@@author jiangyue12392
 /**
  * Deletes an event identified using it's last displayed index from the event planner.
  */
@@ -41,7 +42,7 @@ public class DeleteEventCommand extends UndoableCommand {
         this.eventToDelete = eventToDelete;
         this.targetIndex = null;
     }
-    //@@author
+    //@@author jiangyue12392
 
     @Override
     public CommandResult executeUndoableCommand() {
@@ -71,7 +72,7 @@ public class DeleteEventCommand extends UndoableCommand {
     protected void generateOppositeCommand() {
         oppositeCommand = new AddEventCommand(eventToDelete);
     }
-    //@@author
+    //@@author jiangyue12392
 
     @Override
     public boolean equals(Object other) {
