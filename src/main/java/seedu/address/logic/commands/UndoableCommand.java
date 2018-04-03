@@ -7,18 +7,18 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import seedu.address.logic.commands.exceptions.CommandException;
 
 
-// @@ author bayweiheng
-
 /**
  * Represents a command which can be undone and redone.
  */
 public abstract class UndoableCommand extends Command {
 
+    //@@author bayweiheng
     /**
      * Represents the Command to be executed to revert the changes made by the UndoableCommand.
-     * We mandate that the oppositeCommand of an UndoableCommand be undoable as well
+     * We mandate that the oppositeCommand of an UndoableCommand be undoable as well.
      */
     protected UndoableCommand oppositeCommand;
+    //@@author
 
     protected abstract CommandResult executeUndoableCommand() throws CommandException;
 
@@ -28,10 +28,11 @@ public abstract class UndoableCommand extends Command {
      */
     protected void preprocessUndoableCommand() throws CommandException {}
 
+    //@@author bayweiheng
     /**
-     * Reverts the EventPlanner to the state before this command
-     * was executed and updates the filtered person list to
-     * show all persons.
+     * Undoes the intention of the previous command, and updates the person panel
+     * to show all persons. The relative ordering of Persons/EpicEvents may be altered after undoing of
+     * a delete command.
      */
     protected final void undo() {
         requireAllNonNull(model);
@@ -46,8 +47,7 @@ public abstract class UndoableCommand extends Command {
     protected abstract void generateOppositeCommand();
 
     /**
-     * Executes the command and updates the filtered person
-     * list to show all persons.
+     * Executes the command and updates person panel to show all persons.
      */
     protected final void redo() {
         requireNonNull(model);
@@ -67,4 +67,5 @@ public abstract class UndoableCommand extends Command {
         oppositeCommand.setData(model, history, undoRedoStack);
         return executeUndoableCommand();
     }
+    //@@author
 }
