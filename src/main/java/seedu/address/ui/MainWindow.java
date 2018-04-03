@@ -133,7 +133,8 @@ public class MainWindow extends UiPart<Stage> {
         epicEventListPanel = new EpicEventListPanel(logic.getFilteredEventList());
         epicEventListPanelPlaceholder.getChildren().add(epicEventListPanel.getRoot());
 
-        attendanceListPanel = new AttendanceListPanel(logic.getFilteredAttendanceList());
+//        attendanceListPanel = new AttendanceListPanel(logic.getFilteredAttendanceList());
+        attendanceListPanel = new AttendanceListPanel(logic.getSelectedEpicEvent());
         attendanceListPanelPlaceholder.getChildren().add(attendanceListPanel.getRoot());
 
         ResultDisplay resultDisplay = new ResultDisplay();

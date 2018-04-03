@@ -117,4 +117,6 @@ public interface Model {
     ObservableList<Attendance> getFilteredAttendanceList();
 
     ObservableEpicEvent getSelectedEpicEvent();
+
+    void setSelectedEpicEvent(int index);
 }

@@ -15,5 +15,7 @@ public class ObservableEpicEvent extends Observable {
 
     public void setEpicEvent(EpicEvent epicEvent) {
         this.epicEvent = epicEvent;
+        setChanged();
+        notifyObservers();
     }
 }

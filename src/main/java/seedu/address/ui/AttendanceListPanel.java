@@ -57,9 +57,11 @@ public class AttendanceListPanel extends UiPart<Region> {
     private ListView<PersonCard> attendanceListView;
 
     private final EpicEventObserver selectedEpicEventObserver;
+
     public AttendanceListPanel(ObservableEpicEvent selectedEpicEvent) {
         super(FXML);
         selectedEpicEventObserver = new EpicEventObserver(selectedEpicEvent);
+        selectedEpicEvent.addObserver(selectedEpicEventObserver);
         registerAsAnEventHandler(this);
     }
 
@@ -72,7 +74,8 @@ public class AttendanceListPanel extends UiPart<Region> {
     }
 
     public void updateConnection() {
-        setConnections();
+        // TODO too many chain calls
+        setConnections(selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent().getAttendanceList());
     }
 
     public void updateConnection(ObservableList<Attendance> attendanceList) {
