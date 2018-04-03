@@ -232,6 +232,7 @@ The Model does not depend on any of the other three components. This reduces cou
 
 [[Design-Storage]]
 === Storage component
+The figure below depicts the classes used for storage.
 
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
@@ -761,8 +762,8 @@ b. Require developers to download those libraries manually (this creates extra w
 ** Major: Mass registering of persons to events by tag and marking and unmarking of attendance for each event participant. These commands facilitate the registration and attendance portion of the event planner.
 
 * Jiang Yue:
-** Minor: Adding commands to modify EpicEvents in the eventlist. The commands implemented include `delete-event`, `find-event` and `edit-event`. The commands allow user to locate an event with `find-event` and then to modify the located event by deleting the event or editing the information of the event with `delete-event` and `edit-event` respectively.
-** Major: Persistent storage and import/export from csv files. The user should be able to have their data retained after the app is closed so that they can continue their edits when then open the app next time. The user should also be able to import or export data from csv files so that the same data can be used across multiple platforms.
+** Minor: Persistent storage. The user should be able to have their data retained after the app is closed so that they can continue their edits when they open the app next time.
+** Major: Adding commands to modify EpicEvents in the eventlist. The commands implemented include `delete-event`, `find-event` and `edit-event`. The commands allow user to locate an event with `find-event` and then to modify the located event by deleting the event or editing the information of the event with `delete-event` and `edit-event` respectively.
 
 * Wei Heng:
 ** Minor: Adding commands for Person-EpicEvents interactions, which includes adding new fields/methods to the EpicEvent class. The commands implemented include `register`, `deregister` and `list-registered`. The commands allow user to register/deregister a person to/from an event, as well as list an event's register in the UI.
