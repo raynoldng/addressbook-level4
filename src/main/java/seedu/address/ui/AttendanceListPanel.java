@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Logger;
 
 import org.fxmisc.easybind.EasyBind;
@@ -17,6 +19,8 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.model.event.ObservableEpicEvent;
 
 
 /**
@@ -26,13 +30,49 @@ public class AttendanceListPanel extends UiPart<Region> {
     private static final String FXML = "AttendanceListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(AttendanceListPanel.class);
 
+
+    class EpicEventObserver implements Observer {
+
+        private ObservableEpicEvent observableEpicEvent;
+
+        public EpicEventObserver(ObservableEpicEvent observableEpicEvent) {
+            this.observableEpicEvent = observableEpicEvent;
+        }
+
+        @Override
+        public void update(Observable observable, Object o) {
+            EpicEvent event = (EpicEvent) o;
+            logger.info("FUCK yeah!");
+            updateConnection();
+        }
+
+        public ObservableEpicEvent getObservableEpicEvent() {
+            return observableEpicEvent;
+        }
+    }
+
+
+
     @FXML
     private ListView<PersonCard> attendanceListView;
 
+    private final EpicEventObserver selectedEpicEventObserver;
+    public AttendanceListPanel(ObservableEpicEvent selectedEpicEvent) {
+        super(FXML);
+        selectedEpicEventObserver = new EpicEventObserver(selectedEpicEvent);
+        registerAsAnEventHandler(this);
+    }
+
+    // ignore this for now
     public AttendanceListPanel(ObservableList<Attendance> attendanceList) {
         super(FXML);
+        selectedEpicEventObserver = null;
         setConnections(attendanceList);
         registerAsAnEventHandler(this);
+    }
+
+    public void updateConnection() {
+        setConnections();
     }
 
     public void updateConnection(ObservableList<Attendance> attendanceList) {
