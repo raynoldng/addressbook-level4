@@ -1,10 +1,10 @@
 package seedu.address.ui;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Logger;
 
 import org.fxmisc.easybind.EasyBind;
-
-import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -14,9 +14,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.model.event.ObservableEpicEvent;
 
 
 /**
@@ -29,17 +30,46 @@ public class AttendanceListPanel extends UiPart<Region> {
     @FXML
     private ListView<PersonCard> attendanceListView;
 
-    public AttendanceListPanel(ObservableList<Attendance> attendanceList) {
+    /**
+     * Observer of selectedEpicEvent to update AttendanceListPanel
+     */
+    class EpicEventObserver implements Observer {
+
+        private ObservableEpicEvent observableEpicEvent;
+        /**
+         * Observer that looks for changes to selectedEvent
+         */
+        public EpicEventObserver(ObservableEpicEvent observableEpicEvent) {
+            this.observableEpicEvent = observableEpicEvent;
+        }
+
+        @Override
+        public void update(Observable observable, Object o) {
+            updateConnection();
+        }
+        public ObservableEpicEvent getObservableEpicEvent() {
+            return observableEpicEvent;
+        }
+
+    }
+
+    private final EpicEventObserver selectedEpicEventObserver;
+
+    public AttendanceListPanel(ObservableEpicEvent selectedEpicEvent) {
         super(FXML);
-        setConnections(attendanceList);
+        selectedEpicEventObserver = new EpicEventObserver(selectedEpicEvent);
+        selectedEpicEvent.addObserver(selectedEpicEventObserver);
+        setConnections();
         registerAsAnEventHandler(this);
     }
 
-    public void updateConnection(ObservableList<Attendance> attendanceList) {
-        setConnections(attendanceList);
+    public void updateConnection() {
+        setConnections();
     }
 
-    private void setConnections(ObservableList<Attendance> attendanceList) {
+    private void setConnections() {
+        EpicEvent selectedEpicEvent = selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent();
+        ObservableList<Attendance> attendanceList = selectedEpicEvent.getAttendanceList();
         ObservableList<PersonCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new PersonCard(attendee.getPerson(),
                         attendanceList.indexOf(attendee) + 1));
@@ -58,11 +88,6 @@ public class AttendanceListPanel extends UiPart<Region> {
                 });
     }
 
-    @Subscribe
-    private void handleEpicEventPanelSelectionChangedEvent(EpicEventPanelSelectionChangedEvent event) {
-        ObservableList<Attendance> attendees = event.getNewSelection().epicEvent.getAttendanceList();
-        updateConnection(attendees);
-    }
 
     /**
      * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
