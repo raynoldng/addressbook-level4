@@ -1,37 +1,37 @@
 package guitests.guihandles;
 
+import javafx.scene.control.ListView;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.ui.EpicEventCard;
+
 import java.util.List;
 import java.util.Optional;
 
-import javafx.scene.control.ListView;
-import seedu.address.model.person.Person;
-import seedu.address.ui.PersonCard;
-
 /**
- * Provides a handle for {@code PersonListPanel} containing the list of {@code PersonCard}.
+ * Provides a handle for {@code EpicEventListPanel} containing the list of {@code EpicEventCard}.
  */
-public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
-    public static final String PERSON_LIST_VIEW_ID = "#personListView";
+public class EpicEventListPanelHandle extends NodeHandle<ListView<EpicEventCard>> {
+    public static final String EPIC_EVENT_LIST_VIEW_ID = "#epicEventListView";
 
-    private Optional<PersonCard> lastRememberedSelectedPersonCard;
+    private Optional<EpicEventCard> lastRememberedSelectedEpicEventCard;
 
-    public PersonListPanelHandle(ListView<PersonCard> personListPanelNode) {
-        super(personListPanelNode);
+    public EpicEventListPanelHandle(ListView<EpicEventCard> epicEventListPanelNode) {
+        super(epicEventListPanelNode);
     }
 
     /**
-     * Returns a handle to the selected {@code PersonCardHandle}.
+     * Returns a handle to the selected {@code EpicEventCardHandle}.
      * A maximum of 1 item can be selected at any time.
      * @throws AssertionError if no card is selected, or more than 1 card is selected.
      */
-    public PersonCardHandle getHandleToSelectedCard() {
-        List<PersonCard> personList = getRootNode().getSelectionModel().getSelectedItems();
+    public EpicEventCardHandle getHandleToSelectedCard() {
+        List<EpicEventCard> epicEventList = getRootNode().getSelectionModel().getSelectedItems();
 
-        if (personList.size() != 1) {
-            throw new AssertionError("Person list size expected 1.");
+        if (epicEventList.size() != 1) {
+            throw new AssertionError("Epic Event list size expected 1.");
         }
 
-        return new PersonCardHandle(personList.get(0).getRoot());
+        return new EpicEventCardHandle(epicEventList.get(0).getRoot());
     }
 
     /**
@@ -45,7 +45,7 @@ public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
      * Returns true if a card is currently selected.
      */
     public boolean isAnyCardSelected() {
-        List<PersonCard> selectedCardsList = getRootNode().getSelectionModel().getSelectedItems();
+        List<EpicEventCard> selectedCardsList = getRootNode().getSelectionModel().getSelectedItems();
 
         if (selectedCardsList.size() > 1) {
             throw new AssertionError("Card list size expected 0 or 1.");
@@ -55,14 +55,14 @@ public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
     }
 
     /**
-     * Navigates the listview to display and select the person.
+     * Navigates the listview to display and select the epicEvent.
      */
-    public void navigateToCard(Person person) {
-        List<PersonCard> cards = getRootNode().getItems();
-        Optional<PersonCard> matchingCard = cards.stream().filter(card -> card.person.equals(person)).findFirst();
+    public void navigateToCard(EpicEvent epicEvent) {
+        List<EpicEventCard> cards = getRootNode().getItems();
+        Optional<EpicEventCard> matchingCard = cards.stream().filter(card -> card.epicEvent.equals(epicEvent)).findFirst();
 
         if (!matchingCard.isPresent()) {
-            throw new IllegalArgumentException("Person does not exist.");
+            throw new IllegalArgumentException("Event does not exist.");
         }
 
         guiRobot.interact(() -> {
@@ -73,55 +73,55 @@ public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
     }
 
     /**
-     * Returns the person card handle of a person associated with the {@code index} in the list.
+     * Returns the EpicEvent card handle of a EpicEvent associated with the {@code index} in the list.
      */
-    public PersonCardHandle getPersonCardHandle(int index) {
-        return getPersonCardHandle(getRootNode().getItems().get(index).person);
+    public EpicEventCardHandle getEpicEventCardHandle(int index) {
+        return getEpicEventCardHandle(getRootNode().getItems().get(index).epicEvent);
     }
 
     /**
-     * Returns the {@code PersonCardHandle} of the specified {@code person} in the list.
+     * Returns the {@code EpicEventCardHandle} of the specified {@code epicEvent} in the list.
      */
-    public PersonCardHandle getPersonCardHandle(Person person) {
-        Optional<PersonCardHandle> handle = getRootNode().getItems().stream()
-                .filter(card -> card.person.equals(person))
-                .map(card -> new PersonCardHandle(card.getRoot()))
+    public EpicEventCardHandle getEpicEventCardHandle(EpicEvent epicEvent) {
+        Optional<EpicEventCardHandle> handle = getRootNode().getItems().stream()
+                .filter(card -> card.epicEvent.equals(epicEvent))
+                .map(card -> new EpicEventCardHandle(card.getRoot()))
                 .findFirst();
-        return handle.orElseThrow(() -> new IllegalArgumentException("Person does not exist."));
+        return handle.orElseThrow(() -> new IllegalArgumentException("Epic Event does not exist."));
     }
 
     /**
-     * Selects the {@code PersonCard} at {@code index} in the list.
+     * Selects the {@code EpicEventCard} at {@code index} in the list.
      */
     public void select(int index) {
         getRootNode().getSelectionModel().select(index);
     }
 
     /**
-     * Remembers the selected {@code PersonCard} in the list.
+     * Remembers the selected {@code EpicEventCard} in the list.
      */
-    public void rememberSelectedPersonCard() {
-        List<PersonCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+    public void rememberSelectedEpicEventCard() {
+        List<EpicEventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
 
         if (selectedItems.size() == 0) {
-            lastRememberedSelectedPersonCard = Optional.empty();
+            lastRememberedSelectedEpicEventCard = Optional.empty();
         } else {
-            lastRememberedSelectedPersonCard = Optional.of(selectedItems.get(0));
+            lastRememberedSelectedEpicEventCard = Optional.of(selectedItems.get(0));
         }
     }
 
     /**
-     * Returns true if the selected {@code PersonCard} is different from the value remembered by the most recent
-     * {@code rememberSelectedPersonCard()} call.
+     * Returns true if the selected {@code EpicEventCard} is different from the value remembered by the most recent
+     * {@code rememberSelectedEpicEventCard()} call.
      */
-    public boolean isSelectedPersonCardChanged() {
-        List<PersonCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+    public boolean isSelectedEpicEventCardChanged() {
+        List<EpicEventCard> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
 
         if (selectedItems.size() == 0) {
-            return lastRememberedSelectedPersonCard.isPresent();
+            return lastRememberedSelectedEpicEventCard.isPresent();
         } else {
-            return !lastRememberedSelectedPersonCard.isPresent()
-                    || !lastRememberedSelectedPersonCard.get().equals(selectedItems.get(0));
+            return !lastRememberedSelectedEpicEventCard.isPresent()
+                    || !lastRememberedSelectedEpicEventCard.get().equals(selectedItems.get(0));
         }
     }
 

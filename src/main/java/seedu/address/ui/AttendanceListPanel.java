@@ -30,6 +30,8 @@ public class AttendanceListPanel extends UiPart<Region> {
     private static final String FXML = "AttendanceListPanel.fxml";
     private final Logger logger = LogsCenter.getLogger(AttendanceListPanel.class);
 
+    @FXML
+    private ListView<PersonCard> attendanceListView;
 
     class EpicEventObserver implements Observer {
 
@@ -43,16 +45,11 @@ public class AttendanceListPanel extends UiPart<Region> {
         public void update(Observable observable, Object o) {
             updateConnection();
         }
-
         public ObservableEpicEvent getObservableEpicEvent() {
             return observableEpicEvent;
         }
+
     }
-
-
-
-    @FXML
-    private ListView<PersonCard> attendanceListView;
 
     private final EpicEventObserver selectedEpicEventObserver;
 
