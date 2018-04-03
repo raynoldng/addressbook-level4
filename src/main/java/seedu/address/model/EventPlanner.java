@@ -84,10 +84,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         setPersonTags(new HashSet<>(newData.getPersonTagList()));
         setEventTags(new HashSet<>(newData.getEventTagList()));
         List<Person> syncedPersonList = newData.getPersonList().stream()
-                .map(this::syncPersonWithMasterTagList)
                 .collect(Collectors.toList());
         List<EpicEvent> syncedEventList = newData.getEventList().stream()
-                .map(this::syncEventWithMasterTagList)
                 .collect(Collectors.toList());
 
         try {
