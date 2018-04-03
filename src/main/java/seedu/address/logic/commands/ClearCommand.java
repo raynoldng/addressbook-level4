@@ -12,7 +12,6 @@ public class ClearCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS = "Event planner has been cleared!";
 
-
     @Override
     public CommandResult executeUndoableCommand() {
         requireNonNull(model);
@@ -20,10 +19,11 @@ public class ClearCommand extends UndoableCommand {
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
-    // @@author bayweiheng
+    //@@author bayweiheng
 
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new RestoreCommand(new EventPlanner(model.getEventPlanner()));
     }
+    //@@author
 }

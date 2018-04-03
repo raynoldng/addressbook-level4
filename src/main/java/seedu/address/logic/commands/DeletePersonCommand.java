@@ -25,9 +25,10 @@ public class DeletePersonCommand extends UndoableCommand {
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
+    //@@author bayweiheng
     public static final String MESSAGE_STILL_REGISTERED = "This person is still registered for an event!"
             + " Please deregister the person from all events first";
-
+    //@@author
     private final Index targetIndex;
 
     private Person personToDelete;
@@ -36,10 +37,15 @@ public class DeletePersonCommand extends UndoableCommand {
         this.targetIndex = targetIndex;
     }
 
+    //@@author bayweiheng
+    /**
+     * Used for generating the oppositeCommand of an AddCommand
+     */
     public DeletePersonCommand(Person personToDelete) {
         this.personToDelete = personToDelete;
         this.targetIndex = null;
     }
+    //@@author
 
     @Override
     public CommandResult executeUndoableCommand() {
@@ -53,6 +59,12 @@ public class DeletePersonCommand extends UndoableCommand {
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
     }
 
+    //@@author bayweiheng
+    /**
+     * Finds the person to delete from the supplied index.
+     * If the person is still registered for an event, he/she is not allowed to be deleted,
+     * and an exception will be thrown.
+     */
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();
@@ -71,6 +83,7 @@ public class DeletePersonCommand extends UndoableCommand {
     protected void generateOppositeCommand() {
         oppositeCommand = new AddPersonCommand(personToDelete);
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

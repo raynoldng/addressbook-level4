@@ -33,10 +33,15 @@ public class DeleteEventCommand extends UndoableCommand {
         this.targetIndex = targetIndex;
     }
 
+    //@@author bayweiheng
+    /**
+     * Used for generating the oppositeCommand of an AddEventCommand
+     */
     public DeleteEventCommand(EpicEvent eventToDelete) {
         this.eventToDelete = eventToDelete;
         this.targetIndex = null;
     }
+    //@@author
 
     @Override
     public CommandResult executeUndoableCommand() {
@@ -61,10 +66,12 @@ public class DeleteEventCommand extends UndoableCommand {
         eventToDelete = lastShownList.get(targetIndex.getZeroBased());
     }
 
+    //@@author bayweiheng
     @Override
     protected void generateOppositeCommand() {
         oppositeCommand = new AddEventCommand(eventToDelete);
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

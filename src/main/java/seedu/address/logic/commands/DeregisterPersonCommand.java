@@ -14,6 +14,8 @@ import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
 
+//@@author bayweiheng
+
 /**
  * Registers a person to an event.
  */
