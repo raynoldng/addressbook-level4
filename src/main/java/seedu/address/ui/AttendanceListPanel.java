@@ -41,8 +41,6 @@ public class AttendanceListPanel extends UiPart<Region> {
 
         @Override
         public void update(Observable observable, Object o) {
-            EpicEvent event = (EpicEvent) o;
-            logger.info("FUCK yeah!");
             updateConnection();
         }
 
@@ -62,14 +60,6 @@ public class AttendanceListPanel extends UiPart<Region> {
         super(FXML);
         selectedEpicEventObserver = new EpicEventObserver(selectedEpicEvent);
         selectedEpicEvent.addObserver(selectedEpicEventObserver);
-        registerAsAnEventHandler(this);
-    }
-
-    // ignore this for now
-    public AttendanceListPanel(ObservableList<Attendance> attendanceList) {
-        super(FXML);
-        selectedEpicEventObserver = null;
-        setConnections(attendanceList);
         registerAsAnEventHandler(this);
     }
 
@@ -101,11 +91,6 @@ public class AttendanceListPanel extends UiPart<Region> {
                 });
     }
 
-    @Subscribe
-    private void handleEpicEventPanelSelectionChangedEvent(EpicEventPanelSelectionChangedEvent event) {
-        ObservableList<Attendance> attendees = event.getNewSelection().epicEvent.getAttendanceList();
-        updateConnection(attendees);
-    }
 
     /**
      * Scrolls to the {@code PersonCard} at the {@code index} and selects it.

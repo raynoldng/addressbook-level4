@@ -34,6 +34,10 @@ public interface Logic {
     /** Returns selected EpicEvent **/
     ObservableEpicEvent getSelectedEpicEvent();
 
+    void setSelectedEpicEvent(int index);
+
+    void setSelectedEpicEvent(EpicEvent epicEvent);
+
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();
 }

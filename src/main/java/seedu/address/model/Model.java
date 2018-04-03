@@ -119,4 +119,6 @@ public interface Model {
     ObservableEpicEvent getSelectedEpicEvent();
 
     void setSelectedEpicEvent(int index);
+
+    void setSelectedEpicEvent(EpicEvent epicEvent);
 }

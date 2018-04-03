@@ -223,6 +223,11 @@ public class ModelManager extends ComponentManager implements Model {
         selectedEpicEvent.setEpicEvent(filteredEvents.get(index));
     }
 
+    @Override
+    public void setSelectedEpicEvent(EpicEvent epicEvent) {
+        selectedEpicEvent.setEpicEvent(epicEvent);
+    }
+
     /**
      * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
      * {@code eventPlanner}

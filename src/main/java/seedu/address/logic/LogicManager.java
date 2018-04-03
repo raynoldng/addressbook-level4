@@ -82,6 +82,16 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
+    public void setSelectedEpicEvent(int index) {
+        model.setSelectedEpicEvent(index);
+    }
+
+    @Override
+    public void setSelectedEpicEvent(EpicEvent epicEvent) {
+        model.setSelectedEpicEvent(epicEvent);
+    }
+
+    @Override
     public ListElementPointer getHistorySnapshot() {
         return new ListElementPointer(history.getHistory());
     }
