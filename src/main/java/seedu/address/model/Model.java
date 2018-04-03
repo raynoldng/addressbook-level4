@@ -2,7 +2,6 @@ package seedu.address.model;
 
 import java.util.function.Predicate;
 
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;

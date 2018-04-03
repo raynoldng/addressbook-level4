@@ -1,11 +1,12 @@
 package guitests.guihandles;
 
-import javafx.scene.control.ListView;
-import seedu.address.model.event.EpicEvent;
-import seedu.address.ui.EpicEventCard;
-
 import java.util.List;
 import java.util.Optional;
+
+import javafx.scene.control.ListView;
+
+import seedu.address.model.event.EpicEvent;
+import seedu.address.ui.EpicEventCard;
 
 /**
  * Provides a handle for {@code EpicEventListPanel} containing the list of {@code EpicEventCard}.
@@ -59,7 +60,8 @@ public class EpicEventListPanelHandle extends NodeHandle<ListView<EpicEventCard>
      */
     public void navigateToCard(EpicEvent epicEvent) {
         List<EpicEventCard> cards = getRootNode().getItems();
-        Optional<EpicEventCard> matchingCard = cards.stream().filter(card -> card.epicEvent.equals(epicEvent)).findFirst();
+        Optional<EpicEventCard> matchingCard = cards.stream().filter(card ->
+                card.epicEvent.equals(epicEvent)).findFirst();
 
         if (!matchingCard.isPresent()) {
             throw new IllegalArgumentException("Event does not exist.");

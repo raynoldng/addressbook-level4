@@ -2,6 +2,9 @@ package seedu.address.model.event;
 
 import java.util.Observable;
 
+/**
+ * Wrapper class for EpicEvent to listen for reassignments of selectedEpicEvent
+ */
 public class ObservableEpicEvent extends Observable {
     private EpicEvent epicEvent;
 

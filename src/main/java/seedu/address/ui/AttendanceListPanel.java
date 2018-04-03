@@ -6,8 +6,6 @@ import java.util.logging.Logger;
 
 import org.fxmisc.easybind.EasyBind;
 
-import com.google.common.eventbus.Subscribe;
-
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
@@ -33,10 +30,15 @@ public class AttendanceListPanel extends UiPart<Region> {
     @FXML
     private ListView<PersonCard> attendanceListView;
 
+    /**
+     * Observer of selectedEpicEvent to update AttendanceListPanel
+     */
     class EpicEventObserver implements Observer {
 
         private ObservableEpicEvent observableEpicEvent;
-
+        /**
+         * Observer that looks for changes to selectedEvent
+         */
         public EpicEventObserver(ObservableEpicEvent observableEpicEvent) {
             this.observableEpicEvent = observableEpicEvent;
         }

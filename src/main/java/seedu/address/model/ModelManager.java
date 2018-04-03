@@ -56,10 +56,10 @@ public class ModelManager extends ComponentManager implements Model {
         filteredEvents = new FilteredList<>(this.eventPlanner.getEventList());
         // TODO replace null with more elegant solution
         // TODO add checks for null
-        if(filteredEvents.size() > 0) {
+        if (filteredEvents.size() > 0) {
             selectedEpicEvent = new ObservableEpicEvent(filteredEvents.get(0));
         } else {
-            selectedEpicEvent = new ObservableEpicEvent(null);
+            selectedEpicEvent = new ObservableEpicEvent(EpicEvent.getDummyEpicEvent());
         }
 
         // attempt to populate attendance list with first item in events

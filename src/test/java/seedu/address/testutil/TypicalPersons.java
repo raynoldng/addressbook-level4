@@ -76,7 +76,7 @@ public class TypicalPersons {
                 throw new AssertionError("not possible");
             }
         }
-        for(EpicEvent epicEvent : getTypicalEvents()) {
+        for (EpicEvent epicEvent : getTypicalEvents()) {
             try {
                 ab.addEvent(epicEvent);
             } catch (DuplicateEventException e) {

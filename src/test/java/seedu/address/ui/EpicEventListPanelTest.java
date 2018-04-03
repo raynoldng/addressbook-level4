@@ -1,23 +1,25 @@
 package seedu.address.ui;
 
-import guitests.guihandles.EpicEventCardHandle;
-
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import guitests.guihandles.EpicEventListPanelHandle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import static seedu.address.testutil.EventsUtil.postNow;
-import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
-import seedu.address.model.event.EpicEvent;
-
 import static seedu.address.testutil.TypicalEpicEvents.getTypicalEvents;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
 import static seedu.address.ui.testutil.GuiTestAssert.assertEpicEventCardDisplaysEpicEvent;
 import static seedu.address.ui.testutil.GuiTestAssert.assertEpicEventCardEquals;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import guitests.guihandles.EpicEventCardHandle;
+import guitests.guihandles.EpicEventListPanelHandle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
+import seedu.address.model.event.EpicEvent;
+
 
 //@@ author raynoldng
 /**
@@ -43,13 +45,13 @@ public class EpicEventListPanelTest extends GuiUnitTest {
 
     @Test
     public void display() {
-        for(int i = 0; i < TYPICAL_EVENTS.size(); i++) {
+        for (int i = 0; i < TYPICAL_EVENTS.size(); i++) {
             epicEventListPanelHandle.navigateToCard(TYPICAL_EVENTS.get(i));
             EpicEvent expectedEpicEvent = TYPICAL_EVENTS.get(i);
             EpicEventCardHandle actualCard = epicEventListPanelHandle.getEpicEventCardHandle(i);
 
             assertEpicEventCardDisplaysEpicEvent(expectedEpicEvent, actualCard);
-            assertEquals(Integer.toString(i+1) + ". ", actualCard.getId());
+            assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
         }
     }
 
