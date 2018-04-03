@@ -16,6 +16,7 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
+//@@author jiangyue12392
 /**
  * A utility class containing a list of {@code EpicEvent} objects to be used in tests.
  */
