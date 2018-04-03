@@ -36,7 +36,7 @@
             <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
             <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
         </VBox>
-        <ImageView fitHeight="65.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+        <ImageView fx:id="attendanceToggleImage" fitHeight="65.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <image>
                 <Image url="@/images/green_tick.png" />
             </image>

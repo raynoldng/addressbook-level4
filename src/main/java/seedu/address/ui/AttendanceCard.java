@@ -3,6 +3,7 @@ package seedu.address.ui;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import seedu.address.MainApp;
 import seedu.address.model.attendance.Attendance;
 
 /**
@@ -35,6 +36,10 @@ public class AttendanceCard extends PersonCard {
             attendanceToggleImage.setImage(ICON_NOT_ATTENDED);
             currentIcon = ICON_NOT_ATTENDED;
         }
+    }
+
+    private Image getImage(String imagePath) {
+        return new Image(MainApp.class.getResourceAsStream(imagePath));
     }
 
     private void updateImage() {
