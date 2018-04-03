@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -57,6 +58,10 @@ public class EpicEvent {
 
     public Name getName() {
         return name;
+    }
+
+    public static EpicEvent getDummyEpicEvent() {
+        return new EpicEvent(new Name("dummyEvent"), new HashSet<Tag>());
     }
 
     /**
