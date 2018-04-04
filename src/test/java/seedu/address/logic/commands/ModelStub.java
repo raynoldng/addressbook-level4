@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyEventPlanner;
-import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
@@ -112,11 +111,6 @@ public class ModelStub implements Model {
         fail("This method should not be called.");
     }
 
-    @Override
-    public ObservableList<Attendance> getFilteredAttendanceList() {
-        fail("This method should not be called.");
-        return null;
-    }
 
     @Override
     public ObservableEpicEvent getSelectedEpicEvent() {

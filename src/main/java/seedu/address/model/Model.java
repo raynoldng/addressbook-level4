@@ -3,7 +3,6 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
@@ -113,11 +112,11 @@ public interface Model {
      */
     void updateFilteredEventList(Predicate<EpicEvent> predicate);
 
-    ObservableList<Attendance> getFilteredAttendanceList();
-
+    // @@author raynoldng
     ObservableEpicEvent getSelectedEpicEvent();
 
     void setSelectedEpicEvent(int index);
 
     void setSelectedEpicEvent(EpicEvent epicEvent);
+    // @@author
 }
