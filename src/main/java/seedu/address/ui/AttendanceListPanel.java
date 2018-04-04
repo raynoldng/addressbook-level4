@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import com.google.common.eventbus.Subscribe;
 import org.fxmisc.easybind.EasyBind;
 
 import javafx.application.Platform;
@@ -14,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.AttendanceCardToggleEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
@@ -82,10 +84,17 @@ public class AttendanceListPanel extends UiPart<Region> {
         attendanceListView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
-                        logger.fine("Selection in person list panel changed to : '" + newValue + "'");
+                        logger.fine("Selection in attendance list panel changed to : '" + newValue + "'");
                         raise(new PersonPanelSelectionChangedEvent(newValue));
                     }
                 });
+    }
+
+    @Subscribe
+    private void handleAttendanceCardToggleEvent(AttendanceCardToggleEvent attendanceCardToggleEvent) {
+        AttendanceCard card = attendanceListView.getItems().get(attendanceCardToggleEvent.targetIndex);
+        card.toggleImage();
+        attendanceListView.refresh();
     }
 
 
