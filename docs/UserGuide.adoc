@@ -417,12 +417,12 @@ Format: `exit`
 Event planner data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
-=== Exporting contact information to a csv file : `export` `[coming in v1.5]`
+=== Exporting contact information to a csv file : `export` `[coming in v2.0]`
 
 Exports the list of all persons in the event planner to a csv file. +
 Format: `export FILE_NAME`
 
-=== Importing contact information from a csv file : `import` `[coming in v1.5]`
+=== Importing contact information from a csv file : `import` `[coming in v2.0]`
 
 Imports a list of persons from a csv file and adds them to the event planner. +
 Format: `import FILE_NAME`
