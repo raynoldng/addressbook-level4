@@ -4,8 +4,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
-import com.google.common.eventbus.Subscribe;
 import org.fxmisc.easybind.EasyBind;
+
+import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;

@@ -1,15 +1,16 @@
 package seedu.address.ui;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import seedu.address.model.attendance.Attendance;
 
-import java.util.Arrays;
-import java.util.List;
+import seedu.address.model.attendance.Attendance;
 
 // @@author raynoldng
 /**
@@ -29,9 +30,6 @@ public class AttendanceCard extends PersonCard {
     @FXML
     private ImageView attendanceToggleImage;
 
-    public Attendance getAttendance() {
-        return attendance;
-    }
     private Attendance attendance;
     private IntegerProperty intValue;
 
@@ -42,6 +40,10 @@ public class AttendanceCard extends PersonCard {
 
         intValue.set(attendee.hasAttended() ? 0 : 1);
         attendanceToggleImage.imageProperty().bind(Bindings.createObjectBinding(() -> images.get(intValue.getValue())));
+    }
+
+    public Attendance getAttendance() {
+        return attendance;
     }
 
     public void toggleImage() {
