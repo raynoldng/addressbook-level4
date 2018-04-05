@@ -16,7 +16,9 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.testutil.EpicEventBuilder;
 
 //@@author william6364
-
+/**
+ * Contains integration tests (interaction with the Model) for {@code AddEventCommand}.
+ */
 public class AddEventCommandIntegrationTest {
 
     private Model model;

@@ -4,12 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.TypicalEpicEvents.GRADUATION;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +23,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
+import seedu.address.testutil.EpicEventBuilder;
 
 public class EventPlannerTest {
 
@@ -60,9 +64,10 @@ public class EventPlannerTest {
         eventPlanner.resetData(newData);
     }
 
+    //@@author william6364
     @Test
     public void resetData_withDuplicateEvents_throwsAssertionError() {
-        // Repeat GRADUUATIOn twice
+        // Repeat GRADUATION twice
         List<Person> newPersons = Arrays.asList();
         List<EpicEvent> newEvents = Arrays.asList(GRADUATION, GRADUATION);
         List<Tag> newTags = new ArrayList<>(GRADUATION.getTags());
@@ -72,16 +77,32 @@ public class EventPlannerTest {
         eventPlanner.resetData(newData);
     }
 
+    //@@author
+
     @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
         eventPlanner.getPersonList().remove(0);
     }
 
+    //@@author william6364
+
     @Test
-    public void getTagList_modifyList_throwsUnsupportedOperationException() {
+    public void getEventList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        eventPlanner.getEventList().remove(0);
+    }
+
+    @Test
+    public void getPersonTagList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
         eventPlanner.getPersonTagList().remove(0);
+    }
+
+    @Test
+    public void getEventTagList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        eventPlanner.getEventTagList().remove(0);
     }
 
     /**
