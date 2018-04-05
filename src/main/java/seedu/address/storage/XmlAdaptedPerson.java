@@ -65,7 +65,7 @@ public class XmlAdaptedPerson {
      */
     public XmlAdaptedPerson(Person source) {
         Objects.requireNonNull(source);
-        name = source.getName().name;
+        name = source.getFullName().name;
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;

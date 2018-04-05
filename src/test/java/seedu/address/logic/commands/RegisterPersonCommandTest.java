@@ -35,7 +35,7 @@ public class RegisterPersonCommandTest {
         EpicEvent eventToRegisterFor = duplicatedModel.getFilteredEventList()
                 .get(INDEX_SECOND_EVENT.getZeroBased());
         String eventName = model.getFilteredEventList()
-                .get(INDEX_SECOND_EVENT.getZeroBased()).getName().toString();
+                .get(INDEX_SECOND_EVENT.getZeroBased()).getFullName().toString();
         RegisterPersonCommand registerPersonCommand = prepareCommand(INDEX_FIRST_PERSON, eventName);
 
         String expectedMessage = String.format(RegisterPersonCommand.MESSAGE_SUCCESS,

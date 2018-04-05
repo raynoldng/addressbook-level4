@@ -136,7 +136,7 @@ public class FindPersonCommandSystemTest extends EventPlannerSystemTest {
         /* Case: find while a person is selected -> selected card deselected */
         showAllPersons();
         selectPerson(Index.fromOneBased(1));
-        assertFalse(getPersonListPanel().getHandleToSelectedCard().getName().equals(DANIEL.getName().name));
+        assertFalse(getPersonListPanel().getHandleToSelectedCard().getName().equals(DANIEL.getFullName().name));
         command = FindPersonCommand.COMMAND_WORD + " Daniel";
         ModelHelper.setFilteredList(expectedModel, DANIEL);
         assertCommandSuccess(command, expectedModel);

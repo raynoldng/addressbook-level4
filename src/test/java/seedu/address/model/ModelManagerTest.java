@@ -50,7 +50,7 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(differentEventPlanner, userPrefs)));
 
         // different filteredList -> returns false
-        String[] keywords = ALICE.getName().name.split("\\s+");
+        String[] keywords = ALICE.getFullName().name.split("\\s+");
         modelManager.updateFilteredPersonList(new PersonNameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(eventPlanner, userPrefs)));
 

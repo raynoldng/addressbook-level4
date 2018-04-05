@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.beans.property.SimpleObjectProperty;
 import seedu.address.model.Name;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
@@ -15,7 +16,7 @@ import seedu.address.model.tag.UniqueTagList;
  * Represents a Person in the event planner.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Person {
+public class Person extends SimpleObjectProperty {
 
     private Name name;
     private Phone phone;
@@ -40,14 +41,14 @@ public class Person {
 
     public Person(Person toBeCopied) {
         requireNonNull(toBeCopied);
-        this.name = new Name(toBeCopied.getName().toString());
+        this.name = new Name(toBeCopied.getFullName().toString());
         this.phone = new Phone(toBeCopied.getPhone().toString());
         this.email = new Email(toBeCopied.getEmail().toString());
         this.address = new Address(toBeCopied.getAddress().toString());
         this.tags = new UniqueTagList(toBeCopied.getTags());
     }
 
-    public Name getName() {
+    public Name getFullName() {
         return name;
     }
 
@@ -81,11 +82,12 @@ public class Person {
      * Used for mutable edit command
      */
     public void setPerson(Person dummyPerson) {
-        this.name = dummyPerson.getName();
+        this.name = dummyPerson.getFullName();
         this.phone = dummyPerson.getPhone();
         this.email = dummyPerson.getEmail();
         this.address = dummyPerson.getAddress();
         this.tags = new UniqueTagList(dummyPerson.getTags());
+        fireValueChangedEvent();
     }
     //@@author
 
@@ -108,7 +110,7 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        return otherPerson.getName().equals(this.getName())
+        return otherPerson.getFullName().equals(this.getFullName())
                 && otherPerson.getPhone().equals(this.getPhone())
                 && otherPerson.getEmail().equals(this.getEmail())
                 && otherPerson.getAddress().equals(this.getAddress());
@@ -123,7 +125,7 @@ public class Person {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName())
+        builder.append(getFullName())
                 .append(" Phone: ")
                 .append(getPhone())
                 .append(" Email: ")

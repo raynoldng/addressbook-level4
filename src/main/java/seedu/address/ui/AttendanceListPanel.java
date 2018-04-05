@@ -8,6 +8,7 @@ import org.fxmisc.easybind.EasyBind;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.collections.FXCollections;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +17,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.AttendanceCardToggleEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
@@ -72,12 +72,19 @@ public class AttendanceListPanel extends UiPart<Region> {
 
     private void setConnections() {
         EpicEvent selectedEpicEvent = selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent();
-        ObservableList<Attendance> attendanceList = selectedEpicEvent.getAttendanceList();
+        // Panel auto refresh UI when a perons toggles his attendance or changes his contact info
+        ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(
+            attendance -> new javafx.beans.Observable[] {attendance.getPerson(),
+                    attendance.getHasAttendedEventProperty()}
+        );
+        attendanceList.addAll(selectedEpicEvent.getAttendanceList());
         ObservableList<AttendanceCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new AttendanceCard(attendee,
                         attendanceList.indexOf(attendee) + 1));
+
         attendanceListView.setItems(mappedList);
         attendanceListView.setCellFactory(listView -> new AttendanceListViewCell());
+
         setEventHandlerForSelectionChangeEvent();
     }
 
@@ -90,14 +97,6 @@ public class AttendanceListPanel extends UiPart<Region> {
                     }
                 });
     }
-
-    @Subscribe
-    private void handleAttendanceCardToggleEvent(AttendanceCardToggleEvent attendanceCardToggleEvent) {
-        AttendanceCard card = attendanceListView.getItems().get(attendanceCardToggleEvent.targetIndex);
-        card.toggleImage();
-        attendanceListView.refresh();
-    }
-
 
     /**
      * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
