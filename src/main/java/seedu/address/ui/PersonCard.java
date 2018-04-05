@@ -55,7 +55,7 @@ public class PersonCard extends UiPart<Region> {
     /** initilialize card labels **/
     private void initializeCardDetails(Person person, int displayedIndex) {
         id.setText(displayedIndex + ". ");
-        name.setText(person.getName().name);
+        name.setText(person.getFullName().name);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);

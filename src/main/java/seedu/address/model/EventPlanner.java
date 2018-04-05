@@ -151,7 +151,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         final Set<Tag> correctTagReferences = new HashSet<>();
         newPersonTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Person(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
+                person.getFullName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
     }
 
     /**

@@ -4,6 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import org.fxmisc.easybind.EasyBind;
 
 import com.google.common.eventbus.Subscribe;
@@ -72,7 +74,23 @@ public class AttendanceListPanel extends UiPart<Region> {
 
     private void setConnections() {
         EpicEvent selectedEpicEvent = selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent();
-        ObservableList<Attendance> attendanceList = selectedEpicEvent.getAttendanceList();
+        ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(
+                attendance -> new javafx.beans.Observable[] {attendance.getPerson(),
+                        attendance.getHasAttendedEventProperty()}
+        );
+
+        attendanceList.addListener((ListChangeListener) change -> {
+            while (change.next()) {
+                if(change.wasUpdated()) {
+                    Attendance attendance = attendanceList.get(change.getFrom());
+                    System.out.println("changed: " + attendance);
+                }
+            }
+        });
+
+//        ObservableList<Attendance> attendanceList = selectedEpicEvent.getAttendanceList();
+        attendanceList.addAll(selectedEpicEvent.getAttendanceList());
+
         ObservableList<AttendanceCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new AttendanceCard(attendee,
                         attendanceList.indexOf(attendee) + 1));
@@ -95,7 +113,7 @@ public class AttendanceListPanel extends UiPart<Region> {
     private void handleAttendanceCardToggleEvent(AttendanceCardToggleEvent attendanceCardToggleEvent) {
         AttendanceCard card = attendanceListView.getItems().get(attendanceCardToggleEvent.targetIndex);
         card.toggleImage();
-        attendanceListView.refresh();
+//        attendanceListView.refresh();
     }
 
 

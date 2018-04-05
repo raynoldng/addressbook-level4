@@ -57,7 +57,7 @@ public class ToggleAttendanceCommand extends UndoableCommand {
         } catch (PersonNotFoundInEventException e) {
             throw new CommandException(MESSAGE_PERSON_NOT_IN_EVENT);
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS, attendanceToToggle.getPerson().getName(),
+        return new CommandResult(String.format(MESSAGE_SUCCESS, attendanceToToggle.getPerson().getFullName(),
                 attendanceToToggle.getEvent().getName()));
     }
 

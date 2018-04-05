@@ -2,6 +2,8 @@ package seedu.address.model.attendance;
 
 import java.util.Objects;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
@@ -13,8 +15,12 @@ import seedu.address.model.person.Person;
 public class Attendance {
 
     private Person attendee;
-    private EpicEvent event;
-    private boolean hasAttendedEvent;
+    private EpicEvent event ;
+    private BooleanProperty hasAttendedEventProperty = new SimpleBooleanProperty();
+
+//    private Person attendee;
+//    private EpicEvent event;
+//    private boolean hasAttendedEventProperty;
 
     /**
      * Person must be not be null
@@ -26,8 +32,9 @@ public class Attendance {
         Objects.requireNonNull(event);
         this.attendee = attendee;
         this.event = event;
-        this.hasAttendedEvent = false;
+        this.hasAttendedEventProperty.set(false);
     }
+
 
     //@@author jiangyue12392
     /**
@@ -39,7 +46,7 @@ public class Attendance {
         Objects.requireNonNull(attendee);
         this.attendee = attendee;
         this.event = null;
-        this.hasAttendedEvent = hasAttended;
+        this.hasAttendedEventProperty.set(hasAttended);
     }
     //@@author william6364
 
@@ -54,7 +61,7 @@ public class Attendance {
         Objects.requireNonNull(event);
         this.attendee = attendee;
         this.event = event;
-        this.hasAttendedEvent = hasAttended;
+        this.hasAttendedEventProperty.set(hasAttended);
     }
 
     public Person getPerson() {
@@ -68,7 +75,7 @@ public class Attendance {
     }
 
     public boolean hasAttended() {
-        return hasAttendedEvent;
+        return hasAttendedEventProperty.get();
     }
 
     /**
@@ -77,7 +84,11 @@ public class Attendance {
     public void setAttendance(Attendance dummyAttendance) {
         this.attendee = dummyAttendance.getPerson();
         this.event = dummyAttendance.getEvent();
-        this.hasAttendedEvent = dummyAttendance.hasAttended();
+        this.hasAttendedEventProperty.set(dummyAttendance.hasAttended());
+    }
+
+    public BooleanProperty getHasAttendedEventProperty() {
+        return hasAttendedEventProperty;
     }
 
     @Override
@@ -97,7 +108,7 @@ public class Attendance {
 
     @Override
     public int hashCode() {
-        return Objects.hash(attendee, event, hasAttendedEvent);
+        return Objects.hash(attendee, event, hasAttendedEventProperty);
     }
 
     @Override
@@ -108,7 +119,7 @@ public class Attendance {
                 .append(" Event: ")
                 .append(event.getName())
                 .append(" Attendance: ")
-                .append(Boolean.toString(hasAttendedEvent));
+                .append(Boolean.toString(hasAttendedEventProperty.get()));
         return builder.toString();
     }
 }

@@ -66,7 +66,7 @@ public class ToggleAttendanceCommandTest {
         try {
             CommandResult commandResult = toggleAttendanceCommand.execute();
             assertEquals(String.format(ToggleAttendanceCommand.MESSAGE_SUCCESS,
-                    toggleAttendanceCommand.getAttendanceToToggle().getPerson().getName(),
+                    toggleAttendanceCommand.getAttendanceToToggle().getPerson().getFullName(),
                     toggleAttendanceCommand.getAttendanceToToggle().getEvent().getName()),
                     commandResult.feedbackToUser);
         } catch (CommandException ce) {
