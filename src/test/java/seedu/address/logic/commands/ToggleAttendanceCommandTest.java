@@ -30,7 +30,6 @@ import seedu.address.ui.testutil.EventsCollectorRule;
 /**
  * Contains integration tests (interaction with the Model) for {@code ToggleAttendanceCommand}.
  */
-
 public class ToggleAttendanceCommandTest {
     @Rule
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
