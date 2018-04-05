@@ -92,7 +92,7 @@ public class ToggleAttendanceCommandTest {
             model.deregisterPersonFromEvent(model.getSelectedEpicEvent().getEpicEvent().getAttendanceList()
                     .get(INDEX_FIRST_ATTENDANCE.getZeroBased()).getPerson(),
                     model.getSelectedEpicEvent().getEpicEvent());
-        } catch (EventNotFoundException| PersonNotFoundInEventException e) {
+        } catch (EventNotFoundException | PersonNotFoundInEventException e) {
             throw new AssertionError(
                     "Deregistering of person should not fail");
         }

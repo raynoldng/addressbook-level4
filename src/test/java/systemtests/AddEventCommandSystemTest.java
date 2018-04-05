@@ -10,7 +10,6 @@ import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_SEMINAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.TypicalEpicEvents.CAREERTALK;
 import static seedu.address.testutil.TypicalEpicEvents.GRADUATION;
-import static seedu.address.testutil.TypicalEpicEvents.KEYWORD_MATCHING_OLYMPIAD;
 import static seedu.address.testutil.TypicalEpicEvents.MATHOLYMPIAD;
 import static seedu.address.testutil.TypicalEpicEvents.ORIENTATION;
 import static seedu.address.testutil.TypicalEpicEvents.SEMINAR;
