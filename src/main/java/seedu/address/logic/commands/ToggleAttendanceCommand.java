@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.commands.DeregisterPersonCommand.MESSAGE_PERSON_NOT_IN_EVENT;
 
 import java.util.List;
 import java.util.Objects;

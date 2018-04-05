@@ -18,10 +18,6 @@ public class Attendance {
     private EpicEvent event ;
     private BooleanProperty hasAttendedEventProperty = new SimpleBooleanProperty();
 
-//    private Person attendee;
-//    private EpicEvent event;
-//    private boolean hasAttendedEventProperty;
-
     /**
      * Person must be not be null
      * @param attendee
