@@ -13,5 +13,7 @@ public class Messages {
             "The attendance list index provided is invalid";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d person(s) listed!";
     public static final String MESSAGE_EVENTS_LISTED_OVERVIEW = "%1$d event(s) listed!";
+    public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
+    public static final String MESSAGE_PERSON_NOT_IN_EVENT = "This person was not registered for the event";
 
 }

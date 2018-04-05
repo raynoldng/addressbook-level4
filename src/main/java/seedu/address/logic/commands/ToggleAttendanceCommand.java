@@ -50,9 +50,9 @@ public class ToggleAttendanceCommand extends UndoableCommand {
         try {
             model.toggleAttendance(attendanceToToggle.getPerson(), attendanceToToggle.getEvent());
         } catch (EventNotFoundException e) {
-            throw new AssertionError("The target event cannot be missing");
+            throw new CommandException(Messages.MESSAGE_EVENT_NOT_FOUND);
         } catch (PersonNotFoundInEventException e) {
-            throw new CommandException(MESSAGE_PERSON_NOT_IN_EVENT);
+            throw new CommandException(Messages.MESSAGE_PERSON_NOT_IN_EVENT);
         }
         return new CommandResult(String.format(MESSAGE_SUCCESS, attendanceToToggle.getPerson().getFullName(),
                 attendanceToToggle.getEvent().getName()));
