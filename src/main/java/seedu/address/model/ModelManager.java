@@ -188,7 +188,7 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(predicate);
         filteredEvents.setPredicate(predicate);
     }
-    //@@author
+
     //@@author raynoldng
     @Override
     public void setSelectedEpicEvent(int index) {
