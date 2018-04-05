@@ -4,12 +4,11 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import org.fxmisc.easybind.EasyBind;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.collections.FXCollections;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -74,28 +73,19 @@ public class AttendanceListPanel extends UiPart<Region> {
 
     private void setConnections() {
         EpicEvent selectedEpicEvent = selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent();
+        // Panel auto refresh UI when a perons toggles his attendance or changes his contact info
         ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(
-                attendance -> new javafx.beans.Observable[] {attendance.getPerson(),
-                        attendance.getHasAttendedEventProperty()}
+            attendance -> new javafx.beans.Observable[] {attendance.getPerson(),
+                    attendance.getHasAttendedEventProperty()}
         );
-
-        attendanceList.addListener((ListChangeListener) change -> {
-            while (change.next()) {
-                if(change.wasUpdated()) {
-                    Attendance attendance = attendanceList.get(change.getFrom());
-                    System.out.println("changed: " + attendance);
-                }
-            }
-        });
-
-//        ObservableList<Attendance> attendanceList = selectedEpicEvent.getAttendanceList();
         attendanceList.addAll(selectedEpicEvent.getAttendanceList());
-
         ObservableList<AttendanceCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new AttendanceCard(attendee,
                         attendanceList.indexOf(attendee) + 1));
+
         attendanceListView.setItems(mappedList);
         attendanceListView.setCellFactory(listView -> new AttendanceListViewCell());
+
         setEventHandlerForSelectionChangeEvent();
     }
 
@@ -113,7 +103,6 @@ public class AttendanceListPanel extends UiPart<Region> {
     private void handleAttendanceCardToggleEvent(AttendanceCardToggleEvent attendanceCardToggleEvent) {
         AttendanceCard card = attendanceListView.getItems().get(attendanceCardToggleEvent.targetIndex);
         card.toggleImage();
-//        attendanceListView.refresh();
     }
 
 
