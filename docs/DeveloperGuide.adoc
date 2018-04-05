@@ -526,22 +526,6 @@ as not attended
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
-// tag::massregistration[]
-
-=== [Proposed] Mass Registration
-
-==== Proposed Implementation
-
-This feature is proposed to allow for mass registration of multiple persons to a single event.
-The proposed implementation is to make use of tags to select groups of persons to register for an event.
-It is proposed that the `Tag` class be split into `PersonTag` and `EpicEventTag` so as to differentiate
-the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
-By doing so, a group of persons can be identified by `PersonTag` and thus registered to an event
-by iteratively registering each person.
-
-// end::massregistration[]
-
-
 === [Proposed] 3 Pane UI
 
 The proposed new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
@@ -759,7 +743,7 @@ b. Require developers to download those libraries manually (this creates extra w
 
 * Wei Liang:
 ** Minor: Adding of EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
-** Major: Mass registering of persons to events by tag and marking and unmarking of attendance for each event participant. These commands facilitate the registration and attendance portion of the event planner.
+** Major: Toggling of attendance for each event participant. This facilitates the attendance portion of the event planner.
 
 * Jiang Yue:
 ** Minor: Persistent storage. The user should be able to have their data retained after the app is closed so that they can continue their edits when they open the app next time.
