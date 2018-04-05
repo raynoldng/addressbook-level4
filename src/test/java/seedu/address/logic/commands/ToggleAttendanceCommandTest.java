@@ -7,11 +7,13 @@ import static org.junit.Assert.fail;
 import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlanner;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_ATTENDANCE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_ATTENDANCE;
+import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_ATTENDANCE;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
@@ -22,7 +24,9 @@ import seedu.address.model.UserPrefs;
 import seedu.address.ui.testutil.EventsCollectorRule;
 
 //@@author william6364
-
+/**
+ * Contains integration tests (interaction with the Model) for {@code ToggleAttendanceCommand}.
+ */
 public class ToggleAttendanceCommandTest {
     @Rule
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
@@ -34,6 +38,24 @@ public class ToggleAttendanceCommandTest {
         model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
     }
 
+    @Test
+    public void execute_validIndex_success() {
+        model.setSelectedEpicEvent(0);
+        Index lastAttendanceIndex = Index.fromOneBased(model.getSelectedEpicEvent().getEpicEvent()
+                .getAttendanceList().size());
+        assertExecutionSuccess(INDEX_FIRST_ATTENDANCE);
+        assertExecutionSuccess(INDEX_THIRD_ATTENDANCE);
+        assertExecutionSuccess(lastAttendanceIndex);
+    }
+
+    @Test
+    public void execute_invalidIndex_failure() {
+        model.setSelectedEpicEvent(0);
+        Index outOfBoundsIndex = Index.fromOneBased(model.getSelectedEpicEvent().getEpicEvent()
+                .getAttendanceList().size() + 1);
+
+        assertExecutionFailure(outOfBoundsIndex, Messages.MESSAGE_INVALID_ATTENDANCE_DISPLAYED_INDEX);
+    }
     @Test
     public void equals() {
         ToggleAttendanceCommand toggleAttendanceCommandA = new ToggleAttendanceCommand(INDEX_FIRST_ATTENDANCE);
@@ -62,7 +84,8 @@ public class ToggleAttendanceCommandTest {
      */
     private void assertExecutionSuccess(Index index) {
         ToggleAttendanceCommand toggleAttendanceCommand = prepareCommand(index);
-        boolean initialHasAttended = toggleAttendanceCommand.getAttendanceToToggle().hasAttended();
+        boolean initialHasAttended = model.getSelectedEpicEvent().getEpicEvent()
+                .getAttendanceList().get(index.getZeroBased()).hasAttended();
         try {
             CommandResult commandResult = toggleAttendanceCommand.execute();
             assertEquals(String.format(ToggleAttendanceCommand.MESSAGE_SUCCESS,
@@ -72,7 +95,14 @@ public class ToggleAttendanceCommandTest {
         } catch (CommandException ce) {
             throw new IllegalArgumentException("Execution of command should not fail.", ce);
         }
-        assertTrue(initialHasAttended != toggleAttendanceCommand.getAttendanceToToggle().hasAttended());
+
+        // check if the correct attendance object was toggled
+        assertTrue(toggleAttendanceCommand.getAttendanceToToggle().equals(model.getSelectedEpicEvent().getEpicEvent()
+                .getAttendanceList().get(index.getZeroBased())));
+
+        // check if the toggling occurred correctly
+        assertTrue(initialHasAttended != model.getSelectedEpicEvent().getEpicEvent()
+                .getAttendanceList().get(index.getZeroBased()).hasAttended());
     }
 
     /**
@@ -81,7 +111,6 @@ public class ToggleAttendanceCommandTest {
      */
     private void assertExecutionFailure(Index index, String expectedMessage) {
         ToggleAttendanceCommand toggleAttendanceCommand = prepareCommand(index);
-
         try {
             toggleAttendanceCommand.execute();
             fail("The expected CommandException was not thrown.");
