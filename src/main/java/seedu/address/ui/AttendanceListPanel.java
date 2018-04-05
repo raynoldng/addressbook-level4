@@ -17,7 +17,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.AttendanceCardToggleEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
@@ -98,13 +97,6 @@ public class AttendanceListPanel extends UiPart<Region> {
                     }
                 });
     }
-
-    @Subscribe
-    private void handleAttendanceCardToggleEvent(AttendanceCardToggleEvent attendanceCardToggleEvent) {
-        AttendanceCard card = attendanceListView.getItems().get(attendanceCardToggleEvent.targetIndex);
-        card.toggleImage();
-    }
-
 
     /**
      * Scrolls to the {@code PersonCard} at the {@code index} and selects it.

@@ -6,10 +6,8 @@ import static seedu.address.logic.commands.DeregisterPersonCommand.MESSAGE_PERSO
 import java.util.List;
 import java.util.Objects;
 
-import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.events.ui.AttendanceCardToggleEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.exceptions.EventNotFoundException;
@@ -51,7 +49,6 @@ public class ToggleAttendanceCommand extends UndoableCommand {
         requireNonNull(attendanceToToggle);
         try {
             model.toggleAttendance(attendanceToToggle.getPerson(), attendanceToToggle.getEvent());
-            EventsCenter.getInstance().post(new AttendanceCardToggleEvent(targetIndex.getZeroBased()));
         } catch (EventNotFoundException e) {
             throw new AssertionError("The target event cannot be missing");
         } catch (PersonNotFoundInEventException e) {
