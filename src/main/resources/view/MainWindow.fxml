@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
          minWidth="450" minHeight="600">
   <icons>
@@ -47,25 +49,34 @@
         </StackPane>
 
         <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.333, 0.666" VBox.vgrow="ALWAYS">
-          <VBox fx:id="personList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
+          <VBox fx:id="personList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false" >
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+            <children>
+              <Label styleClass="label-header" alignment="TOP_LEFT" text="People" textAlignment="CENTER" />
+              <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+            </children>
           </VBox>
           <!-- @@author raynoldng -->
           <VBox fx:id="epicEventList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <StackPane fx:id="epicEventListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+            <children>
+              <Label styleClass="label-header" alignment="TOP_LEFT" text="Events" textAlignment="CENTER" />
+              <StackPane fx:id="epicEventListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+            </children>
           </VBox>
 
           <VBox fx:id="attendanceList" minWidth="340" prefWidth="340" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <StackPane fx:id="attendanceListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+            <children>
+              <Label styleClass="label-header" alignment="TOP_LEFT" text="Attendees" textAlignment="CENTER" />
+              <StackPane fx:id="attendanceListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
+            </children>
           </VBox>
           <!-- @@author -->
 
