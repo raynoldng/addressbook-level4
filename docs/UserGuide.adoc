@@ -320,7 +320,7 @@ Deregisters the 1st person in the results of the `find` command to Computing Sem
 Lists all persons registered for the specified event. +
 Format: `list-registered EVENT_NAME`
 
-=== Toggle attendance for event participant : `toggle` `[Since v1.4]`
+=== Toggle attendance for event participant : `toggle` [Since v1.4]
 
 Toggles the attendance of a participant to an event from attended to not attended and vice versa. +
 Format: `toggle INDEX`
@@ -417,37 +417,37 @@ Format: `exit`
 Event planner data are saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
-=== Exporting contact information to a csv file : `export` `[coming in v2.0]`
+=== Exporting contact information to a csv file : `export` [coming in v2.0]
 
 Exports the list of all persons in the event planner to a csv file. +
 Format: `export FILE_NAME`
 
-=== Importing contact information from a csv file : `import` `[coming in v2.0]`
+=== Importing contact information from a csv file : `import` [coming in v2.0]
 
 Imports a list of persons from a csv file and adds them to the event planner. +
 Format: `import FILE_NAME`
 
-=== Adding feedback for an event from a participant : `add-feedback` `[coming in v2.0]`
+=== Adding feedback for an event from a participant : `add-feedback` [coming in v2.0]
 
 Adds feedback for an event from a participant of the event. +
 Format: `add-feedback INDEX EVENT-NAME FEEDBACK`
 
-=== Exporting event details to a csv file : `export-event` `[coming in v2.0]`
+=== Exporting event details to a csv file : `export-event` [coming in v2.0]
 
 Exports event details for a single event into a csv file. +
 Format: `export-event EVENT_NAME FILE_NAME`
 
-=== Registering all persons with a particular tag to an event : `register-by-tag` `[coming in v2.0]`
+=== Registering all persons with a particular tag to an event : `register-by-tag` [coming in v2.0]
 
 Registers all persons with a particular tag to an event in the event planner. +
 Format: `register-by-tag TAG EVENT_NAME`
 
-=== Adding automatic email reminder to event participants : `add-reminder` `[coming in v2.0]`
+=== Adding automatic email reminder to event participants : `add-reminder` [coming in v2.0]
 
 Adds an automatic email reminder at the stipulated time to all event participants. +
 Format: `add-reminder DAYS_OFFSET EVENT_NAME`
 
-=== Adding hotkeys for commands : `add-hotkey` `[coming in v2.0]`
+=== Adding hotkeys for commands : `add-hotkey` [coming in v2.0]
 
 Adds a hotkey for a command. +
 Format: `add-hotkey HOTKEY COMMAND_NAME`

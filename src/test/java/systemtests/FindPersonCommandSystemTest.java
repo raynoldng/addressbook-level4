@@ -143,7 +143,7 @@ public class FindPersonCommandSystemTest extends EventPlannerSystemTest {
         assertSelectedCardDeselected();
 
         /* Case: find person in empty address book -> 0 persons found */
-        deleteAllPersons();
+        clearEventPlanner();
         command = FindPersonCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
         expectedModel = getModel();
         ModelHelper.setFilteredList(expectedModel, DANIEL);

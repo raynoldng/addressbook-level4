@@ -20,7 +20,7 @@ public class ToggleAttendanceCommandParserTest {
     private ToggleAttendanceCommandParser parser = new ToggleAttendanceCommandParser();
 
     @Test
-    public void parse_validArgs_returnsSelectCommand() {
+    public void parse_validArgs_returnsToggleAttendanceCommand() {
         assertParseSuccess(parser, "1", new ToggleAttendanceCommand(INDEX_FIRST_ATTENDANCE));
     }
 

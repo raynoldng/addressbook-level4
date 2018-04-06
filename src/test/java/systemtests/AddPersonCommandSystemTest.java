@@ -115,7 +115,7 @@ public class AddPersonCommandSystemTest extends EventPlannerSystemTest {
         assertCommandSuccess(command, toAdd);
 
         /* Case: add to empty address book -> added */
-        deleteAllPersons();
+        clearEventPlanner();
         assertCommandSuccess(ALICE);
 
         /* Case: add a person with tags, command with parameters in random order -> added */

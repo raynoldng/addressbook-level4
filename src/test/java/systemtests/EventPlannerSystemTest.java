@@ -20,6 +20,7 @@ import org.junit.ClassRule;
 
 import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.CommandBoxHandle;
+import guitests.guihandles.EpicEventListPanelHandle;
 import guitests.guihandles.MainMenuHandle;
 import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
@@ -29,12 +30,15 @@ import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.FindPersonCommand;
+import seedu.address.logic.commands.ListEventCommand;
 import seedu.address.logic.commands.ListPersonCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.SelectEventCommand;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
-import seedu.address.testutil.TypicalPersons;
+import seedu.address.testutil.TypicalEpicEvents;
 import seedu.address.ui.BrowserPanel;
 import seedu.address.ui.CommandBox;
 
@@ -79,7 +83,7 @@ public abstract class EventPlannerSystemTest {
      * Returns the data to be loaded into the file in {@link #getDataFileLocation()}.
      */
     protected EventPlanner getInitialData() {
-        return TypicalPersons.getTypicalAddressBook();
+        return TypicalEpicEvents.getTypicalEventPlanner();
     }
 
     /**
@@ -99,6 +103,10 @@ public abstract class EventPlannerSystemTest {
 
     public PersonListPanelHandle getPersonListPanel() {
         return mainWindowHandle.getPersonListPanel();
+    }
+
+    public EpicEventListPanelHandle getEventListPanel() {
+        return mainWindowHandle.getEventListPanel();
     }
 
     public MainMenuHandle getMainMenu() {
@@ -133,7 +141,7 @@ public abstract class EventPlannerSystemTest {
     }
 
     /**
-     * Displays all persons in the address book.
+     * Displays all persons in the event planner.
      */
     protected void showAllPersons() {
         executeCommand(ListPersonCommand.COMMAND_WORD);
@@ -158,12 +166,39 @@ public abstract class EventPlannerSystemTest {
     }
 
     /**
-     * Deletes all persons in the address book.
+     * Clear the event planner.
      */
-    protected void deleteAllPersons() {
+    protected void clearEventPlanner() {
         executeCommand(ClearCommand.COMMAND_WORD);
         assertEquals(0, getModel().getEventPlanner().getPersonList().size());
     }
+
+    //@@author william6364
+    /**
+     * Displays all events in the event planner.
+     */
+    protected void showAllEvents() {
+        executeCommand(ListEventCommand.COMMAND_WORD);
+        assertEquals(getModel().getEventPlanner().getEventList().size(), getModel().getFilteredEventList().size());
+    }
+    /**
+     * Displays all events with any parts of their names matching {@code keyword} (case-insensitive).
+     */
+    protected void showEventsWithName(String keyword) {
+        executeCommand(FindEventCommand.COMMAND_WORD + " " + keyword);
+        assertTrue(getModel().getFilteredEventList().size()
+                < getModel().getEventPlanner().getEventList().size());
+    }
+
+    /**
+     * Selects the event at {@code index} of the displayed list.
+     */
+    protected void selectEvent(Index index) {
+        executeCommand(SelectEventCommand.COMMAND_WORD + " " + index.getOneBased());
+        assertEquals(index.getZeroBased(), getEventListPanel().getSelectedCardIndex());
+    }
+
+    //@@author
 
     /**
      * Asserts that the {@code CommandBox} displays {@code expectedCommandInput}, the {@code ResultDisplay} displays
@@ -180,8 +215,8 @@ public abstract class EventPlannerSystemTest {
     }
 
     /**
-     * Calls {@code BrowserPanelHandle}, {@code PersonListPanelHandle} and {@code StatusBarFooterHandle} to remember
-     * their current state.
+     * Calls {@code BrowserPanelHandle}, {@code PersonListPanelHandle}, {@code EventListPanelHandle}
+     * and {@code StatusBarFooterHandle} to remember their current state.
      */
     private void rememberStates() {
         StatusBarFooterHandle statusBarFooterHandle = getStatusBarFooter();
@@ -189,6 +224,7 @@ public abstract class EventPlannerSystemTest {
         statusBarFooterHandle.rememberSaveLocation();
         statusBarFooterHandle.rememberSyncStatus();
         getPersonListPanel().rememberSelectedPersonCard();
+        getEventListPanel().rememberSelectedEpicEventCard();
     }
 
     /**
@@ -199,6 +235,7 @@ public abstract class EventPlannerSystemTest {
     protected void assertSelectedCardDeselected() {
         //    assertFalse(getBrowserPanel().isUrlChanged());
         assertFalse(getPersonListPanel().isAnyCardSelected());
+        assertFalse(getEventListPanel().isAnyCardSelected());
     }
 
     /**

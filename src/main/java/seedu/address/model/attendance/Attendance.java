@@ -15,12 +15,8 @@ import seedu.address.model.person.Person;
 public class Attendance {
 
     private Person attendee;
-    private EpicEvent event ;
+    private EpicEvent event;
     private BooleanProperty hasAttendedEventProperty = new SimpleBooleanProperty();
-
-//    private Person attendee;
-//    private EpicEvent event;
-//    private boolean hasAttendedEventProperty;
 
     /**
      * Person must be not be null
@@ -114,12 +110,8 @@ public class Attendance {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Person: ")
-                .append(attendee.getName())
-                .append(" Event: ")
-                .append(event.getName())
-                .append(" Attendance: ")
-                .append(Boolean.toString(hasAttendedEventProperty.get()));
+        builder.append("Person: ").append(attendee.getName()).append(" Event: ").append(event.getName())
+                .append(" Attendance: ").append(Boolean.toString(hasAttendedEventProperty.get()));
         return builder.toString();
     }
 }

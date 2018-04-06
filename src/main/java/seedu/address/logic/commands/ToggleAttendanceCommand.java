@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.commands.DeregisterPersonCommand.MESSAGE_PERSON_NOT_IN_EVENT;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +14,7 @@ import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 
 //@@author william6364
 /**
- * Marks attendance of a participant to an event.
+ * Marks attendance of a participant for an event.
  */
 public class ToggleAttendanceCommand extends UndoableCommand {
 
@@ -23,7 +22,7 @@ public class ToggleAttendanceCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Toggles the attendance of the person identified by the index number used in the last attendee listing"
-            + " to a particular event.\n"
+            + " for a particular event.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
@@ -47,13 +46,15 @@ public class ToggleAttendanceCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(attendanceToToggle);
+
         try {
             model.toggleAttendance(attendanceToToggle.getPerson(), attendanceToToggle.getEvent());
         } catch (EventNotFoundException e) {
-            throw new AssertionError("The target event cannot be missing");
+            throw new CommandException(Messages.MESSAGE_EVENT_NOT_FOUND);
         } catch (PersonNotFoundInEventException e) {
-            throw new CommandException(MESSAGE_PERSON_NOT_IN_EVENT);
+            throw new CommandException(Messages.MESSAGE_PERSON_NOT_IN_EVENT);
         }
+
         return new CommandResult(String.format(MESSAGE_SUCCESS, attendanceToToggle.getPerson().getFullName(),
                 attendanceToToggle.getEvent().getName()));
     }
@@ -61,9 +62,11 @@ public class ToggleAttendanceCommand extends UndoableCommand {
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Attendance> lastShownList = model.getSelectedEpicEvent().getEpicEvent().getAttendanceList();
+
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_ATTENDANCE_DISPLAYED_INDEX);
         }
+
         attendanceToToggle = lastShownList.get(targetIndex.getZeroBased());
     }
 
