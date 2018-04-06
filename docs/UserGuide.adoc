@@ -209,6 +209,15 @@ Examples:
 Shows a list of all events in the event planner in the middle pane. +
 Format: `list-events`
 
+=== Selecting an event: `select-event` [Since v1.4]
+
+Selects the event identified by the index number used in the last event listing.
+Attendance panel will show person registered for the selected event.
+
+Format: `select-event INDEX`
+
+
+
 === Editing an event : `edit-event` [Since v1.2]
 
 Edits an existing event in the event planner. +
