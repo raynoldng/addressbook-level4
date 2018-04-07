@@ -32,7 +32,7 @@ public class XmlAdaptedPerson {
     @XmlElement(required = true)
     private String address;
     @XmlElement(required = true)
-    private int numberOfEventsRegisteredFor;
+    private Integer numberOfEventsRegisteredFor;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -47,7 +47,7 @@ public class XmlAdaptedPerson {
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
-                            int numberOfEventsRegisteredFor, List<XmlAdaptedTag> tagged) {
+                            Integer numberOfEventsRegisteredFor, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -119,10 +119,16 @@ public class XmlAdaptedPerson {
         }
         final Address address = new Address(this.address);
 
+        if (this.numberOfEventsRegisteredFor == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "numberOfEventsRegisteredFor"));
+        }
+        if (this.numberOfEventsRegisteredFor < 0) {
+            throw new IllegalValueException("Number of events registered for must be a positive number!");
+        }
         final int numberOfEventsRegisteredFor = this.numberOfEventsRegisteredFor;
 
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Person(name, phone, email, address, tags);
+        return new Person(name, phone, email, address, numberOfEventsRegisteredFor, tags);
     }
 
     @Override

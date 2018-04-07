@@ -20,7 +20,7 @@ public class XmlAdaptedAttendance {
     private XmlAdaptedPerson attendee;
 
     @XmlElement
-    private boolean hasAttended;
+    private Boolean hasAttended;
 
     /**
      * Constructs an XmlAdaptedAttendance.
@@ -31,7 +31,7 @@ public class XmlAdaptedAttendance {
     /**
      * Constructs an {@code XmlAdaptedAttendance} with the given Attendance details.
      */
-    public XmlAdaptedAttendance(XmlAdaptedPerson attendee, boolean hasAttended) {
+    public XmlAdaptedAttendance(XmlAdaptedPerson attendee, Boolean hasAttended) {
         this.attendee = attendee;
         this.hasAttended = hasAttended;
     }
@@ -56,7 +56,10 @@ public class XmlAdaptedAttendance {
     public Attendance toModelType() throws IllegalValueException {
         if (this.attendee == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    Attendance.class.getSimpleName()));
+                    Person.class.getSimpleName()));
+        }
+        if (this.hasAttended == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Attendance Status"));
         }
         final Person attendee = this.attendee.toModelType();
 
