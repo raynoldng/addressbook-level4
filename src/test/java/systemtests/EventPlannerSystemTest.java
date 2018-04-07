@@ -69,7 +69,6 @@ public abstract class EventPlannerSystemTest {
         testApp = setupHelper.setupApplication(this::getInitialData, getDataFileLocation());
         mainWindowHandle = setupHelper.setupMainWindowHandle();
 
-        //        waitUntilBrowserLoaded(getBrowserPanel());
         assertApplicationStartingStateIsCorrect();
     }
 
@@ -215,12 +214,11 @@ public abstract class EventPlannerSystemTest {
     }
 
     /**
-     * Calls {@code BrowserPanelHandle}, {@code PersonListPanelHandle}, {@code EventListPanelHandle}
+     * Calls {@code PersonListPanelHandle}, {@code EventListPanelHandle}
      * and {@code StatusBarFooterHandle} to remember their current state.
      */
     private void rememberStates() {
         StatusBarFooterHandle statusBarFooterHandle = getStatusBarFooter();
-        //    getBrowserPanel().rememberUrl();
         statusBarFooterHandle.rememberSaveLocation();
         statusBarFooterHandle.rememberSyncStatus();
         getPersonListPanel().rememberSelectedPersonCard();
@@ -228,32 +226,20 @@ public abstract class EventPlannerSystemTest {
     }
 
     /**
-     * Asserts that the previously selected card is now deselected and the browser's url remains displaying the details
-     * of the previously selected person.
+     * Asserts that the previously selected card is now deselected
      * @see BrowserPanelHandle#isUrlChanged()
      */
     protected void assertSelectedCardDeselected() {
-        //    assertFalse(getBrowserPanel().isUrlChanged());
         assertFalse(getPersonListPanel().isAnyCardSelected());
         assertFalse(getEventListPanel().isAnyCardSelected());
     }
 
     /**
-     * Asserts that the browser's url is changed to display the details of the person in the person list panel at
+     * Asserts that the person in the person list panel selected is changed
      * {@code expectedSelectedCardIndex}, and only the card at {@code expectedSelectedCardIndex} is selected.
-     * @see BrowserPanelHandle#isUrlChanged()
      * @see PersonListPanelHandle#isSelectedPersonCardChanged()
      */
     protected void assertSelectedCardChanged(Index expectedSelectedCardIndex) {
-        String selectedCardName = getPersonListPanel().getHandleToSelectedCard().getName();
-        URL expectedUrl;
-        try {
-            expectedUrl = new URL(BrowserPanel.SEARCH_PAGE_URL + selectedCardName.replaceAll(" ", "%20"));
-        } catch (MalformedURLException mue) {
-            throw new AssertionError("URL expected to be valid.");
-        }
-        //    assertEquals(expectedUrl, getBrowserPanel().getLoadedUrl());
-
         assertEquals(expectedSelectedCardIndex.getZeroBased(), getPersonListPanel().getSelectedCardIndex());
     }
 
@@ -263,7 +249,6 @@ public abstract class EventPlannerSystemTest {
      * @see PersonListPanelHandle#isSelectedPersonCardChanged()
      */
     protected void assertSelectedCardUnchanged() {
-        //    assertFalse(getBrowserPanel().isUrlChanged());
         assertFalse(getPersonListPanel().isSelectedPersonCardChanged());
     }
 
