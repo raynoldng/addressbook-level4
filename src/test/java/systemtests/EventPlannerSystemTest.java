@@ -7,8 +7,6 @@ import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +37,6 @@ import seedu.address.logic.commands.SelectEventCommand;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
 import seedu.address.testutil.TypicalEpicEvents;
-import seedu.address.ui.BrowserPanel;
 import seedu.address.ui.CommandBox;
 
 /**
