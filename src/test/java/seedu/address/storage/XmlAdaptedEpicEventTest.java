@@ -14,6 +14,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.Name;
 import seedu.address.testutil.Assert;
 
+//@@author jiangyue12392
 public class XmlAdaptedEpicEventTest {
     private static final String INVALID_NAME = "M@th Olympiad";
     private static final String INVALID_TAG = "#olympiad";

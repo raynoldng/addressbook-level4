@@ -11,6 +11,7 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.Assert;
 
+//@@author jiangyue12392
 public class XmlAdaptedAttendanceTest {
     private static final Attendance VALID_ATTENDANCE = new Attendance(BENSON, false);
 
