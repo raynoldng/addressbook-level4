@@ -1,7 +1,16 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.*;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_GRADUATION;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_SEMINAR;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_GRADUATION;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_SEMINAR;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_GRADUATION;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_SEMINAR;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_GRADUATION;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_SEMINAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -70,7 +79,8 @@ public class EditEventCommandParserTest {
                 Tag.MESSAGE_TAG_CONSTRAINTS);
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC + TAG_EMPTY + TAG_DESC_SEMINAR, Name.MESSAGE_NAME_CONSTRAINTS);
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC + TAG_EMPTY + TAG_DESC_SEMINAR,
+                Name.MESSAGE_NAME_CONSTRAINTS);
     }
 
     @Test
