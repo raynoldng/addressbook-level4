@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import com.google.common.eventbus.Subscribe;
 import javafx.beans.binding.Bindings;
 import javafx.util.Callback;
 import org.fxmisc.easybind.EasyBind;
@@ -17,6 +18,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.AttendancePanelSelectionChangedEvent;
+import seedu.address.commons.events.ui.JumpToAttendanceListRequestEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
@@ -104,7 +107,7 @@ public class AttendanceListPanel extends UiPart<Region> {
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         logger.fine("Selection in attendance list panel changed to : '" + newValue + "'");
-                        raise(new PersonPanelSelectionChangedEvent(newValue));
+                        raise(new AttendancePanelSelectionChangedEvent(newValue));
                     }
                 });
     }
@@ -117,6 +120,12 @@ public class AttendanceListPanel extends UiPart<Region> {
             attendanceListView.scrollTo(index);
             attendanceListView.getSelectionModel().clearAndSelect(index);
         });
+    }
+
+    @Subscribe
+    private void handleJumpToAttendanceListRequestEvent(JumpToAttendanceListRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        scrollTo(event.targetIndex);
     }
 
     /**

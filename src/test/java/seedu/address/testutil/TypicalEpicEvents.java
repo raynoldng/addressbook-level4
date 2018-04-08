@@ -47,6 +47,11 @@ public class TypicalEpicEvents {
     public static final EpicEvent SEMINAR = new EpicEventBuilder().withName(VALID_EVENT_NAME_SEMINAR)
             .withTags(VALID_EVENT_TAG_SEMINAR).build();
 
+    //@@author raynoldng
+    public static final EpicEvent EVENT_WITH_ATTENDEES = new EpicEventBuilder().withName("Event with Attendees")
+            .withAttendees(Arrays.asList(TypicalPersons.ALICE, TypicalPersons.BOB)).build();
+    //@@author
+
     public static final String KEYWORD_MATCHING_OLYMPIAD = "Olympiad"; // A keyword that matches OLYMPIAD
 
     private TypicalEpicEvents() {} // prevents instantiation
