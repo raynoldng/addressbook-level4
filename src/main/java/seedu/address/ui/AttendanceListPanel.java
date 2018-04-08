@@ -4,6 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import javafx.beans.binding.Bindings;
+import javafx.util.Callback;
 import org.fxmisc.easybind.EasyBind;
 
 import javafx.application.Platform;
@@ -69,13 +71,24 @@ public class AttendanceListPanel extends UiPart<Region> {
     }
 
     private void setConnections() {
+
+        /*
+         * There is no clean way to add an extractor to an existing ObservableList.
+         * Using public static <E> ObservableList<E> observableList(List<E> list, Callback<E,Observable[]> extractor)
+         * will not report mutations in the backed list.
+         * As suggested in: https://stackoverflow.com/questions/34602457/add-extractor-to-existing-observablelist
+         * A new ObservableList is created with the extract and then bind to actual attendance List
+         */
+
         EpicEvent selectedEpicEvent = selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent();
-        // Panel auto refresh UI when a perons toggles his attendance or changes his contact info
-        ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(
-            attendance -> new javafx.beans.Observable[] {attendance.getPerson(),
-                    attendance.getHasAttendedEventProperty()}
-        );
-        attendanceList.addAll(selectedEpicEvent.getAttendanceList());
+
+        // callback to listen for changes to the person or attendance status
+        Callback<Attendance, javafx.beans.Observable[]> extractor = attendance -> new javafx.beans.Observable[] {
+                attendance.getPerson(), attendance.getHasAttendedEventProperty()};
+        ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(extractor);
+        ObservableList<Attendance> backedAttendanceList = selectedEpicEvent.getAttendanceList();
+        Bindings.bindContentBidirectional(attendanceList, backedAttendanceList);
+
         ObservableList<AttendanceCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new AttendanceCard(attendee,
                         attendanceList.indexOf(attendee) + 1));

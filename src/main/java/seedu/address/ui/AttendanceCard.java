@@ -46,7 +46,4 @@ public class AttendanceCard extends PersonCard {
         return attendance;
     }
 
-    public void toggleImage() {
-        intValue.set(attendance.hasAttended() ? 1 : 0);
-    }
 }
