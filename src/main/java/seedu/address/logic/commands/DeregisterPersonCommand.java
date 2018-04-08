@@ -34,8 +34,6 @@ public class DeregisterPersonCommand extends UndoableCommand {
             + " in EventPlanner exactly\n"
             + "Example: " + COMMAND_WORD + " 1" + " AY201718 Graduation";
 
-    private static final Logger logger = LogsCenter.getLogger(DeregisterPersonCommand.class);
-
     private Index targetIndex;
     private String eventName;
 
