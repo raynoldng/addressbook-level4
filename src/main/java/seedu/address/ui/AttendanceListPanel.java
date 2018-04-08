@@ -4,6 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import javafx.beans.binding.Bindings;
+import javafx.util.Callback;
 import org.fxmisc.easybind.EasyBind;
 
 import javafx.application.Platform;
@@ -71,11 +73,22 @@ public class AttendanceListPanel extends UiPart<Region> {
     private void setConnections() {
         EpicEvent selectedEpicEvent = selectedEpicEventObserver.getObservableEpicEvent().getEpicEvent();
         // Panel auto refresh UI when a perons toggles his attendance or changes his contact info
-        ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(
-            attendance -> new javafx.beans.Observable[] {attendance.getPerson(),
-                    attendance.getHasAttendedEventProperty()}
-        );
-        attendanceList.addAll(selectedEpicEvent.getAttendanceList());
+//        ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(
+//            attendance -> new javafx.beans.Observable[] {attendance.getPerson(),
+//                    attendance.getHasAttendedEventProperty()}
+//        );
+
+        // My attempt to use obersvables to auto update UI, does not handle register events as
+//        Callback<Attendance, javafx.beans.Observable[]> extractor = attendance -> new javafx.beans.Observable[] {
+//                attendance.getPerson(), attendance.getHasAttendedEventProperty()};
+//        ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(extractor);
+//        ObservableList<Attendance> backedAttendanceList = selectedEpicEvent.getAttendanceList();
+//        Bindings.bindContentBidirectional(attendanceList, backedAttendanceList);
+
+        // This does not work as changes to the backed list will not trigger change events
+        // Original code, handles register and deregister properly but not attendance object change events
+        ObservableList<Attendance> attendanceList = selectedEpicEvent.getAttendanceList();
+
         ObservableList<AttendanceCard> mappedList = EasyBind.map(
                 attendanceList, (attendee) -> new AttendanceCard(attendee,
                         attendanceList.indexOf(attendee) + 1));

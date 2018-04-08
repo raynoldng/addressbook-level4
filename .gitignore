@@ -20,3 +20,5 @@ src/main/resources/docs/
 out/
 docs/*.pdf
 docs/*.html
+*.md
+Collate-GUI.jar
