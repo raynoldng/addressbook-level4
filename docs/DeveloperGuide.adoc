@@ -14,10 +14,16 @@ endif::[]
 
 By: `Team W13-B2`      Since: `Mar 2018`      Licence: `MIT`
 
+Table of Contents:
+
 == Introduction
 
-EPIC is an event planning tool for large organisations hosting many large-scale events (e.g. schools which host competitions,
-award and graduation ceremonies, seminars and talks). It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
+EPIC is an event planning tool for large organisations hosting many large-scale events
+(e.g. schools which host competitions, award and graduation ceremonies, and seminars and talks).
+It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
+
+This Developer Guide will walk you through the software architecture EPIC adopts, the implementation
+of several interesting features EPIC has, as well as prepare you to modify the codebase of EPIC yourself.
 
 == Setting up
 
@@ -25,7 +31,7 @@ This section details the set-up process for working on the codebase on your comp
 
 === Prerequisites
 
-Please ensure that you have the following installed on your machine:
+Please ensure that you have the following installed on your computer:
 
 . *JDK `1.8.0_60`* or later
 +
@@ -59,6 +65,8 @@ This will generate all resources required by the application and tests.
 
 === Verifying the setup
 
+To ensure that EPIC has been set up correctly:
+
 . Run the `seedu.address.MainApp` and try a few commands.
 . <<Testing,Run the tests>> to ensure they all pass.
 
@@ -70,10 +78,13 @@ This project follows https://github.com/oss-generic/process/blob/master/docs/Cod
 
 . Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (macOS).
 . Select `Editor` > `Code Style` > `Java`.
-. Click on the `Imports` tab to set the order.
+. Click on the `Imports` tab. Then,
 
-* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements.
-* For `Import Layout`: The order is `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`, `import all other imports`. Add a `<blank line>` between each `import`.
+* For `Class count to use import with '\*'` and `Names count to use static import with '*'`:
+** Set to `999` to prevent IntelliJ from contracting the import statements.
+* For `Import Layout`:
+** The order should be `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`, `import all other imports`.
+** Check the checkbox: `Add a blank line between each import`.
 
 Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write code.
 
@@ -95,81 +106,43 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based).
 
-==== Getting started with coding
-
-When you are ready to start coding,
-
-1. Get some sense of the overall design by reading <<Design-Architecture>>.
-2. Take a look at <<GetStartedProgramming>>.
-
 == Design
 
 [[Design-Architecture]]
 === Architecture
 
-The *_Architecture Diagram_* given below explains the high-level design of the App.
+The *_Architecture Diagram_* (<<#architecture-diagram>>) given below explains the high-level design of the App.
 
 [#architecture-diagram]
 .Architecture Diagram
 image::Architecture.png[width="600"]
 
-Below is a quick overview of each component.
+The application consists of the Main, Commons, Logic, UI, Model and Storage components. The UI, Logic, Model and Storage
+components form the *core* of the application, with Main and Commons facilitating their initialisation and inter-communication.
 
-[TIP]
-The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
+Below is a quick overview of each component:
 
-`Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. This class has two main responsibilities:
+==== Main
 
-* At app launch, it initialises the components in the correct sequence, and connects them up with each other.
-* Upon exit, it shuts down the components and invokes cleanup method where necessary.
+The Main component only has one class - link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. This class has two main responsibilities:
 
-<<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components. Two of these classes play important roles at the architecture level.
+* At app launch, it initialises the other components in the correct sequence, and connects them up with each other.
+* Upon exit, it shuts down the other components and invokes cleanup methods where necessary.
 
-* `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]) is used by components to communicate with other components using events (i.e. a form of _Event Driven_ design).
-* `LogsCenter` : This class is used by many classes to write log messages to the App's log file.
+==== Commons
 
-The rest of the App consists of four components.
+Commons represents a collection of classes used by multiple other components. Two of these classes play important roles at the architecture level.
 
-* <<Design-Ui,*`UI`*>>: The UI component is responsible for interfacing with the user.
-* <<Design-Logic,*`Logic`*>>: The Logic component is responsible for the parsing and execution of commands.
-* <<Design-Model,*`Model`*>>: The Model component is responsible for holding application data in-memory.
-* <<Design-Storage,*`Storage`*>>: The Storage component is responsible for persisting application data on the hard disk.
-
-Each of the four components:
-
-* Defines its _API_ in an `interface` with the same name as the component.
-* Exposes its functionality using a `{COMPONENT NAME}Manager` class.
-
-For example, the `Logic` component (see the class diagram given below)
-defines its API in the `Logic.java` interface and exposes its functionality
-using the `LogicManager.java` class.
-
-.Class Diagram of the Logic Component
-image::LogicClassDiagram.png[width="800"]
-
-The _Sequence Diagram_ below shows how the interaction between the components after the user issues the command `delete 1`.
-
-.Component interactions for `delete 1` command (part 1)
-image::SDforDeletePerson.png[width="800"]
-
-[NOTE]
-Note how the `Model` simply raises a `EventPlannerChangedEvent` when the Event Planner data is changed, instead of asking the `Storage` to save the updates to the hard disk.
-
-The diagram below shows how the `EventsCenter` reacts to that event,
-which eventually results in the updates being saved to the hard disk and the
-status bar of the UI reflecting the 'Last Updated' time.
-
-.Component interactions for `delete 1` command (part 2)
-image::SDforDeletePersonEventHandling.png[width="800"]
-
-[NOTE]
-Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
-
-The sections below give more details of each component.
+* `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library])
+is used by components to communicate with other components using events (i.e. a form of _Event Driven Design_).
+* `LogsCenter` : This class is used by many classes to write log messages to the application's log file.
 
 [[Design-Ui]]
-=== UI component
+==== UI component
 
+The UI component(<<#UiClassDiagram>>) is responsible for interfacing with the user.
+
+[#UiClassDiagram]
 .Structure of the UI Component
 image::UiClassDiagram.png[width="800"]
 
@@ -177,24 +150,26 @@ image::UiClassDiagram.png[width="800"]
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses JavaFx UI framework.
+The UI component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
 For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
-The `UI` component:
+The UI component:
 
-* Executes user commands using the `Logic` component.
-* Binds itself to some data in the `Model` so that the UI can auto-update when data in the `Model` change.
+* Executes user commands using the Logic component.
+* Binds itself to some data in the Model component so that the UI can auto-update when data in the Model component changes.
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 [[Design-Logic]]
-=== Logic component
+==== Logic component
 
-[[fig-LogicClassDiagram]]
+The Logic component (<<#LGC>>) is responsible for the parsing and execution of commands.
+
+[#LGC]
 .Structure of the Logic Component
 image::LogicClassDiagram.png[width="800"]
 
-.Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>
+.Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in <<#LGC>>
 image::LogicCommandClassDiagram.png[width="800"]
 
 *API* :
@@ -202,25 +177,28 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
 When a command is entered into the command box, the following steps take place:
 
-.  `Logic` uses the `EventPlannerParser` class to parse the user command.
+.  The Logic component uses the `EventPlannerParser` class to parse the user command.
 .  A `Command` object is returned by the parser, which is passed to the `LogicManager` to execute.
-.  The command execution may affect the `Model` (e.g. adding a person) and/or raise events.
-.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `UI`.
+.  The command execution may affect the Model component (e.g. adding a person) and/or raise events.
+.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the UI component.
 
-The Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call is shown below.
+The Sequence Diagram for interactions within the Logic component for the `execute("delete 1")` API call is shown below.
 
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
 
 [[Design-Model]]
-=== Model component
+==== Model component
 
+The Model component (<<#MCD>>) is responsible for holding application data in-memory.
+
+[#MCD]
 .Structure of the Model Component
 image::ModelClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
 
-The `Model`,
+The Model component:
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Event Planner data.
@@ -231,23 +209,58 @@ The UI can be bound to any of these lists so that it automatically updates when 
 The Model does not depend on any of the other three components. This reduces coupling between components.
 
 [[Design-Storage]]
-=== Storage component
-The figure below depicts the classes used for storage.
+==== Storage component
 
+The Storage component (<<SCD>>) is responsible for persisting application data on the hard disk.
+
+[#SCD]
 .Structure of the Storage Component
 image::StorageClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
 
-The `Storage` component,
+The Storage component:
 
 * can save `UserPref` objects in json format and reconstruct the Model from a file of this format.
 * can save the Event Planner data in xml format and reconstruct the Model from a file of this format.
 
-[[Design-Commons]]
-=== Common classes
+==== How components interact
 
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
+Finally, we will conclude the Architecture section with several examples on how the components interact.
+
+Each of the core components (UI, Logic, Model, Storage):
+
+* Defines its _API_ in an `interface` with the same name as the component.
+* Exposes its functionality using a `{COMPONENT NAME}Manager` class.
+
+For example, the Logic component (<<#LgicClassDiagram>>)
+defines its API in the `Logic.java` interface and exposes its functionality
+using the `LogicManager.java` class.
+
+[#LgicClassDiagram]
+.Class Diagram of the Logic Component
+image::LogicClassDiagram.png[width="800"]
+
+The _Sequence Diagram_ below shows how the interaction between the components after the user issues the command `delete 1`.
+
+.Component interactions for `delete 1` command (part 1)
+image::SDforDeletePerson.png[width="800"]
+
+[NOTE]
+Note how the Model component simply raises a `EventPlannerChangedEvent` when the data in EPIC is changed,
+instead of asking the Storage component to save the updates to the hard disk.
+
+The diagram below shows how the `EventsCenter` reacts to that event,
+which eventually results in the updates being saved to the hard disk and the
+status bar of the UI reflecting the 'Last Updated' time.
+
+.Component interactions for `delete 1` command (part 2)
+image::SDforDeletePersonEventHandling.png[width="800"]
+
+[NOTE]
+Note how the event is propagated through the `EventsCenter` to the Storage and UI components without
+the Model component having to be coupled to either of them. This is an example of how the _Event Driven Design_ helps us reduce direct coupling between components.
+
 
 == Implementation
 
@@ -291,12 +304,14 @@ In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable m
 === Undo/Redo feature
 ==== Current Implementation
 
-The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the event planner (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
+The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports
+undoing and redoing of commands that
+modify the state of the event planner (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
-`UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead.
-The following diagram shows the class diagram for commands:
+`UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. <<#UCCD>> shows the class diagram for commands:
 
-.Class Diagram for the Logic Component
+[#UCCD]
+.Class Diagram for commands
 image::LogicCommandClassDiagram.png[width="800"]
 
 As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such
@@ -395,12 +410,14 @@ The following activity diagram summarizes what happens inside the `UndoRedoStack
 .Activity Diagram for command execution
 image::UndoRedoActivityDiagram.png[width="650"]
 
-==== Changes from previous implementation [major enhancement, in progress]
+==== Changes from previous implementation
 
 Instead of saving the entire event planner each time we execute an `UndoableCommand`, each `UndoableCommand` knows how to `undo/redo` itself.
 Each `UndoableCommand` has an `oppositeCommand` field, which is another `UndoableCommand` that, when executed, reverses the changes made by the original command.
-The sequence diagram for the new `undo()` implementation is shown below.
+The sequence diagram for the new `undo()` implementation is shown in <<#SDUndo>>.
 
+[#SDUndo]
+.Sequence Diagram for new undo implementation
 image::UndoSequenceDiagram.png[width="650"]
 
 The `oppositeCommand` is generated in the `execute()` method, after `preprocessUndoableCommand()`. This is because generating the `oppositeCommand`
@@ -412,7 +429,7 @@ Each `UndoableCommand` now requires its individual `generateOppositeCommand()` i
 the abstract class `UndoableCommand`
 
 There was no `Command` that could easily reverse the changes of a `ClearCommand`, hence a new `Command` `RestoreCommand` had to be created. Since the sole purpose
-of this command is be the `oppositeCommand` of a `ClearCommand`. This command is not directly accessible to the user, and can only be executed when
+of this command is to serve as the `oppositeCommand` of a `ClearCommand`, this command is not directly accessible to the user, and can only be executed when
 the user undoes a `ClearCommand`.
 
 ==== Design Considerations
@@ -420,7 +437,7 @@ the user undoes a `ClearCommand`.
 ===== Aspect: Implementation of `UndoableCommand`
 
 * **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()`
-** Pros: Undo/redo functionality will now be part of the default behaviour. Classes that deal with `Command` will not have to know that `executeUndoableCommand()` exist.
+** Pros: Undo/redo functionality will now be part of the default behaviour. Classes that deal with `Command` will not have to know that `executeUndoableCommand()` exists.
 ** Cons: New developers will find the template pattern difficult to understand.
 * **Alternative 2:** Override `execute()`
 ** Pros: New developers will not have to learn the above template pattern
@@ -556,7 +573,7 @@ When deciding on the UI, the following aspects of user experience were considere
 - *Alternative 1 (current choice)*: A 3 pane UI consisting of list of persons, events, and attendees for selected event
     * Pros: The user can view all 3 lists at the same time. He would know what arguments to supply when typing commands as he can read them off the list.
     * Cons: The UI might become too cluttered as there are too many UI elements. However, given that EPIC is meant for modern computers with large displays, this should not be an issue.
-- *Alternative 2 (previous choice)*: 2 pane UI where the left pane is a 2 tab pane consistings of list of persons and events, and the right pane is the list of attendees.
+- *Alternative 2 (previous choice)*: 2 pane UI where the left pane is a 2 tab pane consisting of list of persons and events, and the right pane is the list of attendees.
     * Pros: Merging the horizontal space for list of persons and events will create more space for list of attendees. The user is likely to be more interested in the attendees details.
     * Cons: If the user needs to access data for some tabbed pane that is not in focus to fill out a command, this would break his workflow. The user will have to delete his current command, execute a command to set focus to the desired tab, memorize the required details and reenter his previous command.
 - *Alternative 3*: A common list that can display either list of persons, events or attendees for selected event
@@ -565,14 +582,19 @@ When deciding on the UI, the following aspects of user experience were considere
 
 === [proposed] Export an Event
 
-The proposed export command exports the name of the attendees, their phone number, their email address, their home address and their attendance information of a particular event to a csv file into a file path specified by the user. Having the attendance of a particular event in a csv file would enable the users to analyse the data with other platforms.
+The proposed export command exports the name of the attendees, their phone number,
+their email address, their home address and their attendance information of a particular
+event to a csv file into a file path specified by the user. Having the attendance of a
+particular event in a csv file would enable the users to analyse the data using other tools.
 
 ==== [proposed] Implementation
 
-The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`. The execution of it then calls the respective storage components. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` which is a kind of `EventPlannerStorage`. The event data is parsed by `CsvUtil` and then exported as file through `CsvFileStorage` using the file path specified by the user.
+The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`.
+The execution of it then calls the respective storage components. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` which is a kind of `EventPlannerStorage`. The event data is parsed by `CsvUtil` and then exported as a file through `CsvFileStorage` using the file path specified by the user.
 
-The sequence diagram below shows how the csv event export is processed in the storage component.
+<<#SDCSV>> below shows how the csv event export is processed in the storage component.
 
+[#SDCSV]
 .Sequence Diagram for csv export
 image::ExportEventSequenceDiagram.png[width="650"]
 
@@ -605,9 +627,7 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
 
-[[Implementation-Configuration]]
-=== Configuration
-
+[TIP]
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
 == Documentation

@@ -7,6 +7,8 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.DeregisterPersonCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+//@@author bayweiheng
+
 /**
  * Parses input arguments and creates a new RegisterPersonCommand object
  */

@@ -23,6 +23,10 @@ public class DeregisterPersonCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "deregister";
 
+    public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
+    public static final String MESSAGE_PERSON_NOT_IN_EVENT = "This person was not registered for the event";
+    public static final String MESSAGE_SUCCESS = "Deregistered person %1$s from event %2$s";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deregisters the person identified by the index number used in the last person listing"
             + " from a particular event.\n"
@@ -30,9 +34,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
             + " in EventPlanner exactly\n"
             + "Example: " + COMMAND_WORD + " 1" + " AY201718 Graduation";
 
-    public static final String MESSAGE_SUCCESS = "Deregistered person %1$s from event %2$s";
-    public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
-    public static final String MESSAGE_PERSON_NOT_IN_EVENT = "This person was not registered for the event";
+    private static final Logger logger = LogsCenter.getLogger(DeregisterPersonCommand.class);
 
     private Index targetIndex;
     private String eventName;
