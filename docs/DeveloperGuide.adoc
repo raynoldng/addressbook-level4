@@ -25,7 +25,7 @@ It is targeted at and optimised for event planners who are comfortable with usin
 This Developer Guide will walk you through the software architecture EPIC adopts, the implementation
 of several interesting features EPIC has, as well as prepare you to modify the codebase of EPIC yourself.
 
-== Setting up
+== Setting Up
 
 This section details the set-up process for working on the codebase on your computer.
 
@@ -47,7 +47,7 @@ IntelliJ by default has Gradle and JavaFx plugins installed. +
 Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
 
 
-=== Setting up the project on your computer
+=== Setting Up the Project on Your Computer
 
 Please follow these steps to set up the project on your computer:
 
@@ -63,16 +63,16 @@ Please follow these steps to set up the project on your computer:
 . Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
 This will generate all resources required by the application and tests.
 
-=== Verifying the setup
+=== Verifying the Setup
 
 To ensure that EPIC has been set up correctly:
 
 . Run the `seedu.address.MainApp` and try a few commands.
 . <<Testing,Run the tests>> to ensure they all pass.
 
-=== Configurations to do before writing code
+=== Configurations to Do Before Writing Code
 
-==== Configuring the coding style
+==== Configuring the Coding Style
 
 This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
 
@@ -88,11 +88,11 @@ This project follows https://github.com/oss-generic/process/blob/master/docs/Cod
 
 Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write code.
 
-==== Updating documentation to match your fork
+==== Updating Documentation to Match Your Fork
 
 After forking the repo, links in the documentation will still point to the `CS3103JAN2018-W13-B2/main` repo. If you plan to develop this as a separate product (i.e. instead of contributing to the `CS2103JAN2018-W13-B2/main`) , you should replace the URL in the variable `repoURL` in `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your fork.
 
-==== Setting up CI
+==== Setting Up CI
 
 Set up Travis to perform Continuous Integration (CI) for your fork. See <<UsingTravis#, UsingTravis.adoc>> to learn how to set it up.
 
@@ -138,7 +138,7 @@ is used by components to communicate with other components using events (i.e. a 
 * `LogsCenter` : This class is used by many classes to write log messages to the application's log file.
 
 [[Design-Ui]]
-==== UI component
+==== UI Component
 
 The UI component(<<#UiClassDiagram>>) is responsible for interfacing with the user.
 
@@ -161,7 +161,7 @@ The UI component:
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 [[Design-Logic]]
-==== Logic component
+==== Logic Component
 
 The Logic component (<<#LGC>>) is responsible for the parsing and execution of commands.
 
@@ -188,7 +188,7 @@ The Sequence Diagram for interactions within the Logic component for the `execut
 image::DeletePersonSdForLogic.png[width="800"]
 
 [[Design-Model]]
-==== Model component
+==== Model Component
 
 The Model component (<<#MCD>>) is responsible for holding application data in-memory.
 
@@ -209,7 +209,7 @@ The UI can be bound to any of these lists so that it automatically updates when 
 The Model does not depend on any of the other three components. This reduces coupling between components.
 
 [[Design-Storage]]
-==== Storage component
+==== Storage Component
 
 The Storage component (<<SCD>>) is responsible for persisting application data on the hard disk.
 
@@ -224,7 +224,20 @@ The Storage component:
 * can save `UserPref` objects in json format and reconstruct the Model from a file of this format.
 * can save the Event Planner data in xml format and reconstruct the Model from a file of this format.
 
-==== How components interact
+When EPIC is re-launched, the following steps take place to restore data from the storage file:
+
+.  The `Main` creates an instance of `UserPrefStorage` object to initiate user preference for storage
+.  The `Main` creates an instance of `XmlEventPlannerStorage` object to restore data with storage file path supplied by the instance of `UserPrefStorage` object
+.  The restored data is encapsulated as an `EventPlanner` object inside the `XmlEventPlannerStorage` instance.
+.  An instance of `StorageManager` object is created from both the `XmlEventPlannerStorage` object and the `UserPrefStorage` object.
+.  The `StorageManager` object is used to initiate the model components.
+
+The Sequence Diagram for interactions within the Storage Component to restore data is shown below.
+
+.Interactions Inside the Storage Component to restore data
+image::StorageComponentSequenceDiagram.png[width="800"]
+
+==== How Components Interact
 
 Finally, we will conclude the Architecture section with several examples on how the components interact.
 
@@ -266,7 +279,7 @@ the Model component having to be coupled to either of them. This is an example o
 
 This section describes some noteworthy details on how certain features are implemented.
 
-=== Edit Person/Event feature
+=== Edit Person/Event Feature
 ==== Previous Implementation
 
 In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` command was performed by creating a new `Person` and passing it to a `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
@@ -301,7 +314,7 @@ In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable m
 ** Cons: Editing a `Person/EpicEvent` will require passing a copy of the newly-created `Person/EpicEvent` to all objects associated with the to-be-edited version, introducing significant overhead
 
 // tag::undoredo[]
-=== Undo/Redo feature
+=== Undo/Redo Feature
 ==== Current Implementation
 
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports
@@ -410,7 +423,7 @@ The following activity diagram summarizes what happens inside the `UndoRedoStack
 .Activity Diagram for command execution
 image::UndoRedoActivityDiagram.png[width="650"]
 
-==== Changes from previous implementation
+==== Changes from Previous Implementation
 
 Instead of saving the entire event planner each time we execute an `UndoableCommand`, each `UndoableCommand` knows how to `undo/redo` itself.
 Each `UndoableCommand` has an `oppositeCommand` field, which is another `UndoableCommand` that, when executed, reverses the changes made by the original command.
@@ -443,7 +456,7 @@ the user undoes a `ClearCommand`.
 ** Pros: New developers will not have to learn the above template pattern
 ** Cons: Command classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to be undone/redone.
 
-===== Aspect: How undo & redo executes
+===== Aspect: How Undo and Redo Executes
 
 * **Alternative 1 (current choice):** Store the minimal knowledge required to undo each command inside itself.
 ** Pros: Significantly less memory is used (e.g. for `delete`, just save the person being deleted). Compatible with mutable commands.
@@ -453,7 +466,7 @@ the user undoes a `ClearCommand`.
 ** Cons: Performance issues may result due to high memory usage. Also, this is incompatible with the mutable `edit` and `edit-event` implementations.
 
 
-===== Aspect: Type of commands that can be undone/redone
+===== Aspect: Type of Commands that Can be Undone/Redone
 
 * **Alternative 1 (current choice):** Only include commands that modify the event planner (`add`, `clear`, `edit`).
 ** Pros: Only commands that cannot be easily reverted need to be implemented (the view can easily be re-modified as no data is * lost).
@@ -464,7 +477,7 @@ the user undoes a `ClearCommand`.
 **Additional Info:** See the discussion  https://github.com/se-edu/addressbook-level4/issues/390#issuecomment-298936672[here].
 
 
-===== Aspect: Data structure to support the undo/redo commands
+===== Aspect: Data Structure to Support the Undo/Redo Commands
 
 * **Alternative 1 (current choice):** Use separate stack for undo and redo
 ** Pros: Easy to understand for new Computer Science undergraduates to understand, who are likely to be *  new incoming developers of our project.
@@ -476,7 +489,7 @@ the user undoes a `ClearCommand`.
 
 // tag::markattendance[]
 
-=== Register/Deregister persons for/from events
+=== Register/Deregister Persons for/from Events
 
 The EpicEvent-Person association is unidirectional i.e. an `EpicEvent` maintains references to `Person` objects registered for it, but a `Person` does not
 maintain references to `EpicEvent` objects he/she has registered for. This implementation was chosen to reduce overhead and complications in implementation,
@@ -484,7 +497,7 @@ since all commands v2.0 supports will not require the backward association.
 
 The references are maintained using a `UniquePersonList` inside each `EpicEvent`
 
-=== List registered persons for an event
+=== List Registered Persons for an Event
 
 This is done by creating a `Predicate` that tests whether a `Person` is in an `EpicEvent`, then passing it to `updateFilteredPersonList()`
 
@@ -502,7 +515,7 @@ easy to implement.
 
 ==== Design Considerations
 
-===== Aspect: Location of instances of `Attendance` objects
+===== Aspect: Location of Instances of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Store in `EpicEvent` object
 ** Pros: Reduces coupling between `Person` and `EpicEvent and makes it easy for event to keep track of attendance list and easy
@@ -515,7 +528,7 @@ some person commands such as delete persons easier.
 ** Cons: Requires `EpicEvent` to search through entire list of `Attendance` of objects in `EventPlanner` to find out
 which persons are registered to itself. This can be very slow if the number of `Attendance` objects is very large.
 
-==== Aspect: Mutability of `Attendance` objects, specifically when marking attendance
+==== Aspect: Mutability of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Make `Attendance` objects immutable
 ** Pros: Makes it easier to track changes in `Attendance` objects as changes can be detected by a replacement of the
@@ -528,7 +541,7 @@ inside the object can be directly mutated.
 ** Cons: Makes it more difficult to track the changes since mutating the object does not directly
 trigger any events.
 
-==== Aspect: Method of marking attendance
+==== Aspect: Method of Marking Attendance
 
 * **Alternative 1 (current choice):** Have one command to toggle attendance from attended to not attended and vice versa
 ** Pros: Makes it easier to undo the command since toggling is always valid while marking a participant
@@ -688,7 +701,7 @@ Thanks to the https://github.com/TestFX/TestFX[TestFX] library we use, our GUI t
 
 To run tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
 
-=== Types of tests
+=== Types of Tests
 
 We have two types of tests:
 
@@ -848,7 +861,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 (For all use cases below, the *System* is the `EventPlanner` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: Find person by name
+=== Use Case: Find Person by Name
 
 *MSS*
 
@@ -866,7 +879,7 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: Delete person
+=== Use Case: Delete Person
 
 *MSS*
 
@@ -892,7 +905,7 @@ Use case ends.
 Use case resumes at step 2.
 
 [discrete]
-=== Use case: Edit person
+=== Use Case: Edit Person
 
 *MSS*
 
@@ -925,7 +938,7 @@ Use case resumes at step 2.
 Use case resumes at step 2.
 
 [discrete]
-=== Use case: Mark event attendee's attendance
+=== Use Case: Mark Event Attendee's Attendance
 
 *MSS*
 
@@ -1045,7 +1058,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
-=== Deleting a person
+=== Deleting a Person
 
 . Deleting a person while all persons are listed
 
@@ -1059,7 +1072,7 @@ _{ more test cases ... }_
 
 _{ more test cases ... }_
 
-=== Saving data
+=== Saving Data
 
 . Dealing with missing/corrupted data files
 
