@@ -603,7 +603,7 @@ particular event in a csv file would enable the users to analyse the data using 
 ==== [proposed] Implementation
 
 The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`.
-The execution of it then calls the respective storage components. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` which is a kind of `EventPlannerStorage`. The event data is parsed by `CsvUtil` and then exported as a file through `CsvFileStorage` using the file path specified by the user.
+The execution of it creates a `CsvEventPlannerStorage`. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` where event data is parsed by `CsvUtil` and then exported as a file through `CsvFileStorage` using the file path specified by the user.
 
 <<#SDCSV>> below shows how the csv event export is processed in the storage component.
 
