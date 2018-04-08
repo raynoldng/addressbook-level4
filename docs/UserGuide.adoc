@@ -1,4 +1,4 @@
-= Event Planning isn’t Complicated (EPIC) - User Guide
+= Event Planning isn’t Complicated (EPIC) - User guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -15,12 +15,19 @@ endif::[]
 
 By: `Team W13-B2`      Since: `Mar 2018`      Licence: `MIT`
 
+Table of Contents:
+
 == Introduction
 
-Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning and registration for large organisations*.
-EPIC is *optimized for event planners who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI).
-If you can type fast, EPIC can get your event planning tasks and registration processes for events done faster than traditional GUI apps or pen and paper registration.
-Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning
+and registration for large organisations*.
+EPIC is optimized for event planners who prefer typing to using the mouse.
+If you can type fast, EPIC can get your event planning tasks and registration processes for
+events done faster than traditional (Graphical User Interface) GUI applications
+or pen and paper registration.
+
+This user guide will walk you through setting up EPIC on your computer, navigating within the
+GUI, using the various features EPIC has.
 
 == Quick Start
 
@@ -36,39 +43,49 @@ This app will not work with earlier versions of Java 8.
 .  Copy the file to the folder you want to use as the home folder for your Event Planner.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
+
+.GUI of EPIC
 image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
+
+Some example commands you can try:
 
 * *`list`* : lists all contacts
 * **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Event Planner.
 * **`delete`**`3` : deletes the 3rd contact shown in the current list
 * *`exit`* : exits the app
 
-.  Refer to <<Features>> for details of each command.
+Refer to <<Features>> for details of each command.
 
 [[Layout]]
-== Layout
+== How to use the GUI
 
-This section details the layout of the GUI, and common ways to interact with it.
+This section describes the components of the GUI, and common ways to interact with it.
 
+=== Layout
+
+.Components of the GUI
 image::Ui.png[width="790"]
 
 * The top of the GUI is the command box, where you can see commands as you are typing them.
 * The main part of the GUI is split into three panes.
-** In the leftmost pane, a list of persons in your organisation is displayed.
-** In the middle pane, a list of events is displayed.
-** In the rightmost pane, a list of registered persons for the selected event is displayed.
+** The leftmost pane is the Persons Pane. It displays the list of persons stored in EPIC.
+** The middle pane is the Events Pane. It displays the list of events stored in EPIC.
+** The rightmost pane is the Attendees Pane. It displays the list of registered persons in the selected event.
 
 [TIP]
 The lists displayed in the panes can be filtered using the `find` or `find-event` commands!
 
-* Clicking on an event in the middle pane selects that event, allowing you to see all persons registered for that event in the rightmost pane,
-as well as perform actions such as toggling attendance. This can also be done with the `select` command in the command box.
-* Clicking on the tick/cross symbol next to a person's details in the rightmost pane allows you to toggle the attendance of the person for the currently selected event.
-This can also be done with the `toggle` command.
+=== Interacting with the GUI
+
+* Clicking on an event in the Events Pane selects that event, allowing you to see all persons registered for that event in the Attendees Pane,
+as well as perform actions such as toggling attendance.
+Selecting an event can also be done with the `select` command in the command box.
+* Clicking on the tick/cross symbol next to a person's details in the Attendees Pane allows you to toggle
+that person's attendance for the currently selected event.
+Toggling the attendance can also be done with the `toggle` command.
 
 [[Features]]
 == Features
@@ -86,26 +103,27 @@ This section details the various features EPIC supports.
 
 === Viewing help : `help`
 
+Opens the help screen in a separate window.
 Format: `help`
-
-This command opens the help screen in a separate window.
 
 === Adding a person: `add`
 
-Adds a person to the event planner +
+Adds a person to EPIC. +
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
 
 [TIP]
-A person can have any number of tags (including 0)
+A person can have any number of tags (including 0).
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` +
+Adds the person John Doe to EPIC.
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal` +
+Adds the person Betsy Crowe to EPIC.
 
 === Listing all persons : `list`
 
-Shows a list of all persons in the event planner on the left pane. +
+Shows a list of all persons in EPIC on the Persons Pane. +
 Format: `list`
 
 === Editing a person : `edit`
@@ -115,8 +133,8 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 
 ****
 * Edits the person at the specified `INDEX`.
-The index refers to the index number shown in the leftmost pane.
-* The index *must be a positive integer* 1, 2, 3, ...
+The index refers to the index number shown in the Persons Pane.
+* The index *must be a positive integer*: 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
@@ -132,53 +150,50 @@ Edits the name of the 2nd person to be `Betsy Crower` and clears all existing ta
 
 === Locating persons by name: `find`
 
-Finds persons in your organisation whose names contain any of the given keywords. +
+Finds persons whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 ****
-* The search is case insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case insensitive. e.g `hans` will match `Hans`.
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching *at least* one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Only full words will be matched. e.g. `Han` will not match `Hans`.
+* Persons matching *at least* one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber` and `Bo Yang`.
 ****
 
 Examples:
 
 * `find John` +
-Returns `john` and `John Doe`
+Returns `john` and `John Doe`.
 * `find Betsy Tim John` +
-Returns any person having names `Betsy`, `Tim`, or `John`
+Returns any person having names `Betsy`, `Tim`, or `John`.
 
 === Deleting a person : `delete`
 
-Deletes the specified person from the event planner. +
+Deletes the specified person from EPIC. +
 Format: `delete INDEX`
 
 ****
 * Deletes the person at the specified `INDEX` shown.
-The index refers to the index number shown in the leftmost pane.
-* The index *must be a positive integer* 1, 2, 3, ...
+The index refers to the index number shown in the Persons Pane.
+* The index *must be a positive integer*: 1, 2, 3, ...
 ****
 
 Examples:
 
 * `list` +
 `delete 2` +
-Deletes the 2nd person in the event planner.
+Deletes the 2nd person in EPIC.
 * `find Betsy` +
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-=== Selecting a person : `select` [Deprecated]
+=== Selecting a person : `select`
 
-Selects the person identified by the index number used in the last person listing. +
+Selects the person identified by the index number used in the Persons Pane. +
 Format: `select INDEX`
 
 ****
-* Selects the person.
-* The index refers to the index number shown in the most recent listing.
-The index refers to the index number shown in the leftmost pane.
+* The index refers to the index number shown in the Persons pane.
 * The index *must be a positive integer* `1, 2, 3, ...`
 ****
 
@@ -186,45 +201,46 @@ Examples:
 
 * `list` +
 `select 2` +
-Selects the 2nd person in the event planner.
+Selects the 2nd person.
 * `find Betsy` +
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
-=== Adding an event: `add-event` [Since v1.2]
+=== Adding an event: `add-event`
 
-Adds an event to the event planner. +
+Adds an event to EPIC. +
 Format: `add-event n/NAME [t/TAG]...`
 
 [TIP]
-An event can have any number of tags (including 0)
+An event can have any number of tags (including 0).
 
 Examples:
 
 * `add-event n/AY201718 Graduation t/Graduation`
+Adds the event AY201718 Graduation to EPIC.
 * `add-event n/Computing Seminar`
+Adds the event Computing Seminar to EPIC.
 
-=== Listing all events: `list-events` [Since v1.2]
+=== Listing all events: `list-events`
 
-Shows a list of all events in the event planner in the middle pane. +
+Shows a list of all events in the Events Pane. +
 Format: `list-events`
 
-=== Selecting an event: `select-event` [Since v1.4]
+=== Selecting an event: `select-event`
 
-Selects the event identified by the index number used in the last event listing.
+Selects the event identified by the index number used in the Events Pane.
 Attendance panel will show person registered for the selected event.
 
 Format: `select-event INDEX`
 
 
-
-=== Editing an event : `edit-event` [Since v1.2]
+=== Editing an event : `edit-event`
 
 Edits an existing event in the event planner. +
 Format: `edit-event INDEX [n/NAME] [t/TAG]...`
 
 ****
-* Edits the event at the specified `INDEX`. The index refers to the index number shown in middle pane.
+* Edits the event at the specified `INDEX`. The index refers to the index number shown in the Events Pane.
 The index *must be a positive integer* 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
@@ -279,16 +295,16 @@ Deletes the 2nd event in the event planner.
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
 
-=== Registering a person to an event: `register` [Since v1.2]
+=== Registering a person for an event: `register` [Since v1.2]
 
-Registers the specified person to an event in the event planner. +
+Registers the specified person for an event in the event planner. +
 Format: `register INDEX EVENT_NAME`
 
 ****
 * Registers the person at the specified `INDEX`.
-The index refers to the index number shown in the leftmost pane.
-* The index *must be a positive integer* 1, 2, 3, ...
-* `EVENT_NAME` must match the name of an event in the EventPlanner exactly.
+The index refers to the index number shown in the Persons Pane.
+* The index *must be a positive integer*: 1, 2, 3, ...
+* `EVENT_NAME` must match the name of an event in EPIC exactly.
 ****
 
 
@@ -296,10 +312,10 @@ Examples:
 
 * `list` +
 `register 2 AY201718 Graduation` +
-Registers the 2nd person in the event planner to AY201718 Graduation.
+Registers the 2nd person in the event planner for AY201718 Graduation.
 * `find Betsy` +
 `register 1 Computing Seminar` +
-Registers the 1st person in the results of the `find` command to Computing Seminar.
+Registers the 1st person in the results of the `find` command for Computing Seminar.
 
 === Deregistering a person from an event: `deregister` [Since v1.2]
 
@@ -308,9 +324,9 @@ Format: `deregister INDEX EVENT_NAME`
 
 ****
 * Deregisters the person at the specified `INDEX`.
-The index refers to the index number shown in the leftmost pane.
-* The index *must be a positive integer* 1, 2, 3, ...
-* `EVENT_NAME` must match the name of an event in the EventPlanner exactly.
+The index refers to the index number shown in the Persons Pane.
+* The index *must be a positive integer*: 1, 2, 3, ...
+* `EVENT_NAME` must match the name of an event in EPIC exactly.
 * The person to be deregistered must be already in the event.
 ****
 
@@ -322,14 +338,18 @@ Examples:
 Deregisters the 2nd person in the event planner from AY201718 Graduation.
 * `find Betsy` +
 `deregister 1 Computing Seminar` +
-Deregisters the 1st person in the results of the `find` command to Computing Seminar.
+Deregisters the 1st person in the results of the `find` command from Computing Seminar.
 
-=== Listing all persons registered in an event: `list-registered` [Since v1.2]
+=== Listing all event participants: `list-registered`
 
-Lists all persons registered for the specified event. +
+Lists all participants for the specified event. +
 Format: `list-registered EVENT_NAME`
 
-=== Toggle attendance for event participant : `toggle` [Since v1.4]
+****
+* `EVENT_NAME` must match the name of an event in EPIC exactly.
+****
+
+=== Toggle attendance for event participant : `toggle`
 
 Toggles the attendance of a participant to an event from attended to not attended and vice versa. +
 Format: `toggle INDEX`
@@ -358,8 +378,13 @@ Format: `history`
 Pressing the up and down arrows will display the previous and next input respectively in the command box.
 ====
 
+=== Clearing all entries : `clear`
+
+Clears all entries from EPIC. +
+Format: `clear`
+
 // tag::undoredo[]
-=== Undoing previous command : `undo`
+=== Undoing commands : `undo`
 
 Restores the event planner to the state before the previous _undoable_ command was executed. +
 There is no guarantee that relative ordering of persons/events will be maintained after the undoing
@@ -376,7 +401,8 @@ Examples:
 
 * `delete 1` +
 `list` +
-`undo` (reverses the `delete 1` command) +
+`undo` +
+Undoes the `delete 1` command. Note that `list` is not an undoable command.
 
 * `select 1` +
 `list` +
@@ -385,10 +411,11 @@ The `undo` command fails as there are no undoable commands executed previously.
 
 * `delete 1` +
 `clear` +
-`undo` (reverses the `clear` command) +
-`undo` (reverses the `delete 1` command) +
+`undo` +
+`undo` +
+Undoes the `clear` command, followed by the `delete 1` command.
 
-=== Redoing the previously undone command : `redo`
+=== Redoing commands : `redo`
 
 Reverses the most recent `undo` command. +
 Format: `redo`
@@ -396,8 +423,9 @@ Format: `redo`
 Examples:
 
 * `delete 1` +
-`undo` (reverses the `delete 1` command) +
-`redo` (reapplies the `delete 1` command) +
+`undo` +
+`redo` +
+Redoes the `delete 1` command.
 
 * `delete 1` +
 `redo` +
@@ -405,16 +433,12 @@ The `redo` command fails as there are no `undo` commands executed previously.
 
 * `delete 1` +
 `clear` +
-`undo` (reverses the `clear` command) +
-`undo` (reverses the `delete 1` command) +
-`redo` (reapplies the `delete 1` command) +
-`redo` (reapplies the `clear` command) +
+`undo` +
+`undo` +
+`redo` +
+`redo` +
+Redoes the `delete 1` command, followed by the `clear` command.
 // end::undoredo[]
-
-=== Clearing all entries : `clear`
-
-Clears all entries from the event planner. +
-Format: `clear`
 
 === Exiting the program : `exit`
 
@@ -423,7 +447,7 @@ Format: `exit`
 
 === Saving the data
 
-Event planner data are saved in the hard disk automatically after any command that changes the data. +
+EPIC data is saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
 === Exporting contact information to a csv file : `export` [coming in v2.0]
@@ -465,8 +489,8 @@ Format: `add-hotkey HOTKEY COMMAND_NAME`
 
 == FAQ
 
-*Q*: How do I transfer my data to another Computer? +
-*A*: Install the app in the other computer and overwrite the empty data file it creates with the data file of your previous Event Planner.
+*Q*: How do I transfer my data to another computer? +
+*A*: Install EPIC on the other computer and overwrite the empty data file it creates with your data file.
 By default, this file is in data/addressbook.xml.
 
 == Command Summary

@@ -15,7 +15,6 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
-import seedu.address.ui.UiManager;
 
 //@@author bayweiheng
 
@@ -24,10 +23,11 @@ import seedu.address.ui.UiManager;
  */
 public class DeregisterPersonCommand extends UndoableCommand {
 
-    private static final Logger logger = LogsCenter.getLogger(DeregisterPersonCommand.class);
-
-
     public static final String COMMAND_WORD = "deregister";
+
+    public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
+    public static final String MESSAGE_PERSON_NOT_IN_EVENT = "This person was not registered for the event";
+    public static final String MESSAGE_SUCCESS = "Deregistered person %1$s from event %2$s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deregisters the person identified by the index number used in the last person listing"
@@ -36,9 +36,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
             + " in EventPlanner exactly\n"
             + "Example: " + COMMAND_WORD + " 1" + " AY201718 Graduation";
 
-    public static final String MESSAGE_SUCCESS = "Deregistered person %1$s from event %2$s";
-    public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
-    public static final String MESSAGE_PERSON_NOT_IN_EVENT = "This person was not registered for the event";
+    private static final Logger logger = LogsCenter.getLogger(DeregisterPersonCommand.class);
 
     private Index targetIndex;
     private String eventName;
@@ -65,7 +63,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         requireAllNonNull(personToDeregister, eventToDeregisterFor);
         try {
-            logger.info("Attempt to remove:"+personToDeregister);
+            logger.info("Attempt to remove:" + personToDeregister);
             model.deregisterPersonFromEvent(personToDeregister, eventToDeregisterFor);
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");
