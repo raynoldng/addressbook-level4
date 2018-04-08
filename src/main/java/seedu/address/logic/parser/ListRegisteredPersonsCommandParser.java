@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import seedu.address.logic.commands.ListRegisteredPersonsCommand;
 
+//@@author bayweiheng
+
 /**
  * Parses input arguments and creates a new ListRegisteredPersonsCommand object
  */
