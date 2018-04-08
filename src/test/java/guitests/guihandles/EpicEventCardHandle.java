@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
 
 // @@author raynoldng
 /**
- * Provides a handle to a person card in the person list panel.
+ * Provides a handle to a person card in the event list panel.
  */
 public class EpicEventCardHandle extends NodeHandle<Node> {
     private static final String ID_FIELD_ID = "#id";

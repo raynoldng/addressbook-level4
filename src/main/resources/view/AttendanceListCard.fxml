@@ -35,10 +35,12 @@
             <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
             <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
         </VBox>
-        <ImageView fx:id="attendanceToggleImage" fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+        <ImageView fx:id="attendanceToggleImage" fitHeight="55.0" fitWidth="55.0" pickOnBounds="true"
+                   GridPane.halignment="RIGHT" preserveRatio="true" GridPane.columnIndex="1">
             <GridPane.margin>
                 <Insets right="10.0" />
-            </GridPane.margin></ImageView>
+            </GridPane.margin>
+        </ImageView>
         <rowConstraints>
             <RowConstraints />
         </rowConstraints>

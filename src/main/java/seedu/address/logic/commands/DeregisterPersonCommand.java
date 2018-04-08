@@ -4,10 +4,8 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -36,8 +34,6 @@ public class DeregisterPersonCommand extends UndoableCommand {
             + " in EventPlanner exactly\n"
             + "Example: " + COMMAND_WORD + " 1" + " AY201718 Graduation";
 
-    private static final Logger logger = LogsCenter.getLogger(DeregisterPersonCommand.class);
-
     private Index targetIndex;
     private String eventName;
 
@@ -63,7 +59,6 @@ public class DeregisterPersonCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         requireAllNonNull(personToDeregister, eventToDeregisterFor);
         try {
-            logger.info("Attempt to remove:" + personToDeregister);
             model.deregisterPersonFromEvent(personToDeregister, eventToDeregisterFor);
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");
