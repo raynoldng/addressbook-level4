@@ -4,10 +4,8 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -15,7 +13,6 @@ import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
-import seedu.address.ui.UiManager;
 
 //@@author bayweiheng
 
@@ -23,9 +20,6 @@ import seedu.address.ui.UiManager;
  * Registers a person to an event.
  */
 public class DeregisterPersonCommand extends UndoableCommand {
-
-    private static final Logger logger = LogsCenter.getLogger(DeregisterPersonCommand.class);
-
 
     public static final String COMMAND_WORD = "deregister";
 
@@ -65,7 +59,6 @@ public class DeregisterPersonCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         requireAllNonNull(personToDeregister, eventToDeregisterFor);
         try {
-            logger.info("Attempt to remove:"+personToDeregister);
             model.deregisterPersonFromEvent(personToDeregister, eventToDeregisterFor);
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");

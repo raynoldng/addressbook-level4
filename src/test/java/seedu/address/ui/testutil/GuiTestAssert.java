@@ -40,14 +40,16 @@ public class GuiTestAssert {
         assertEquals(expectedCard.getTags(), actualCard.getTags());
     }
 
-    public static void assertAttendanceCardEquals(AttendanceCardHandle expectedCard, AttendanceCardHandle selectedCard) {
+    public static void assertAttendanceCardEquals(AttendanceCardHandle expectedCard,
+                                                  AttendanceCardHandle selectedCard) {
         assertCardEquals(expectedCard, selectedCard);
     }
 
     /**
      * Asserts that {@code actualEpicEventCard} displays the details of {@code expectedEpicEvent}.
      */
-    public static void assertAttendanceEventCardDisplaysAttendance(Attendance expectedAttendance, AttendanceCardHandle actualCard) {
+    public static void assertAttendanceEventCardDisplaysAttendance(Attendance expectedAttendance,
+                                                                   AttendanceCardHandle actualCard) {
         assertCardDisplaysPerson(expectedAttendance.getPerson(),  actualCard);
     }
 

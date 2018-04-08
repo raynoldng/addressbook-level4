@@ -1,21 +1,25 @@
 package seedu.address.ui;
 
-import guitests.guihandles.AttendanceCardHandle;
-import guitests.guihandles.AttendanceListPanelHandle;
-import javafx.collections.ObservableList;
-import org.junit.Before;
-import org.junit.Test;
-import seedu.address.commons.events.ui.JumpToAttendanceListRequestEvent;
-import seedu.address.model.attendance.Attendance;
-import seedu.address.model.event.ObservableEpicEvent;
-import seedu.address.testutil.TypicalEpicEvents;
-
 import static org.junit.Assert.assertEquals;
+
 import static seedu.address.testutil.EventsUtil.postNow;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.ui.testutil.GuiTestAssert.assertAttendanceCardEquals;
 import static seedu.address.ui.testutil.GuiTestAssert.assertAttendanceEventCardDisplaysAttendance;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import guitests.guihandles.AttendanceCardHandle;
+import guitests.guihandles.AttendanceListPanelHandle;
+
+import javafx.collections.ObservableList;
+
+import seedu.address.commons.events.ui.JumpToAttendanceListRequestEvent;
+import seedu.address.model.attendance.Attendance;
+import seedu.address.model.event.ObservableEpicEvent;
+import seedu.address.testutil.TypicalEpicEvents;
 
 
 //@@author raynoldng
@@ -26,10 +30,10 @@ import static seedu.address.ui.testutil.GuiTestAssert.assertAttendanceEventCardD
 public class AttendanceEventListPanelTest extends GuiUnitTest {
     private static final ObservableEpicEvent selectedEvent =
             new ObservableEpicEvent(TypicalEpicEvents.EVENT_WITH_ATTENDEES);
-    private ObservableList<Attendance> attendanceList = selectedEvent.getEpicEvent().getAttendanceList();
-
     private static final JumpToAttendanceListRequestEvent JUMP_TO_SECOND_ATTENDANCE =
             new JumpToAttendanceListRequestEvent(INDEX_SECOND_PERSON);
+
+    private ObservableList<Attendance> attendanceList = selectedEvent.getEpicEvent().getAttendanceList();
 
     private AttendanceListPanelHandle attendanceListPanelHandle;
 

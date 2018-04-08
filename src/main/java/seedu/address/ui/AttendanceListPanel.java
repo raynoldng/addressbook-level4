@@ -4,23 +4,23 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
-import com.google.common.eventbus.Subscribe;
-import javafx.beans.binding.Bindings;
-import javafx.util.Callback;
 import org.fxmisc.easybind.EasyBind;
 
+import com.google.common.eventbus.Subscribe;
+
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
+import javafx.util.Callback;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.AttendancePanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.JumpToAttendanceListRequestEvent;
-import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
