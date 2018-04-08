@@ -226,8 +226,8 @@ The Storage component:
 
 When EPIC is re-launched, the following steps take place to restore data from the storage file:
 
-.  The `Main` creates an instance of `UserPrefStorage` object to initiate user preference for storage
-.  The `Main` creates an instance of `XmlEventPlannerStorage` object to restore data with storage file path supplied by the instance of `UserPrefStorage` object
+.  The `Main` creates an instance of `UserPrefStorage` object to initiate user preference for storage.
+.  The `Main` creates an instance of `XmlEventPlannerStorage` object to restore data with storage file path supplied by the instance of `UserPrefStorage` object.
 .  The restored data is encapsulated as an `EventPlanner` object inside the `XmlEventPlannerStorage` instance.
 .  An instance of `StorageManager` object is created from both the `XmlEventPlannerStorage` object and the `UserPrefStorage` object.
 .  The `StorageManager` object is used to initiate the model components.
