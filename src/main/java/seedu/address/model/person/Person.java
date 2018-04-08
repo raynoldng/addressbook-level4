@@ -22,7 +22,7 @@ public class Person extends SimpleObjectProperty {
     private Phone phone;
     private Email email;
     private Address address;
-    private int numberOfEventsRegisteredFor = 0;
+    private int numberOfEventsRegisteredFor;
 
     private UniqueTagList tags;
 
@@ -35,6 +35,18 @@ public class Person extends SimpleObjectProperty {
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.numberOfEventsRegisteredFor = 0;
+        // protect internal tags from changes in the arg list
+        this.tags = new UniqueTagList(tags);
+    }
+
+    public Person(Name name, Phone phone, Email email, Address address, int numberOfEvents, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.numberOfEventsRegisteredFor = numberOfEvents;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
@@ -45,6 +57,7 @@ public class Person extends SimpleObjectProperty {
         this.phone = new Phone(toBeCopied.getPhone().toString());
         this.email = new Email(toBeCopied.getEmail().toString());
         this.address = new Address(toBeCopied.getAddress().toString());
+        this.numberOfEventsRegisteredFor = toBeCopied.getNumberOfEventsRegisteredFor();
         this.tags = new UniqueTagList(toBeCopied.getTags());
     }
 

@@ -66,7 +66,6 @@ public class Attendance {
     }
 
     public EpicEvent getEvent() {
-        Objects.requireNonNull(event);
         return event;
     }
 
@@ -98,8 +97,15 @@ public class Attendance {
         }
 
         Attendance otherAttendance = (Attendance) other;
+        if (this.getEvent() == null) {
+            if (otherAttendance.getEvent() != null) {
+                return false;
+            } else {
+                return otherAttendance.getPerson().equals(this.getPerson());
+            }
+        }
         return otherAttendance.getPerson().equals(this.getPerson())
-                && otherAttendance.getEvent().equals(this.getEvent());
+                && this.getEvent().equals(otherAttendance.getEvent());
     }
 
     @Override

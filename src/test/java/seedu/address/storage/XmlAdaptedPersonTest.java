@@ -22,6 +22,7 @@ public class XmlAdaptedPersonTest {
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
+    private static final int INVALID_NUMBEROFEVENTS = -1;
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = BENSON.getFullName().toString();
@@ -106,6 +107,25 @@ public class XmlAdaptedPersonTest {
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
+
+    //@@author jiangyue12392
+    @Test
+    public void toModelType_invalidNumberOfEvents_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        INVALID_NUMBEROFEVENTS, VALID_TAGS);
+        String expectedMessage = "Number of events registered for must be a positive number!";
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullNumberOfEvents_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                null, VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, "numberOfEventsRegisteredFor");
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+    //@@author
 
     @Test
     public void toModelType_invalidTags_throwsIllegalValueException() {
