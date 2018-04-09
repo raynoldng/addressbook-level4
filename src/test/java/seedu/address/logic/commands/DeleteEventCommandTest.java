@@ -4,9 +4,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.assertEventInModel;
+import static seedu.address.logic.commands.CommandTestUtil.assertEventNotInModel;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showEventAtIndex;
+import static seedu.address.logic.commands.CommandTestUtil.tryToExecute;
 import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlanner;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
@@ -84,8 +87,10 @@ public class DeleteEventCommandTest {
         assertCommandFailure(deleteEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
     }
 
-    // TODO: Re-code tests after undo-redo functionality implemented
+    //@@author bayweiheng
     /**
+     * Modified UndoRedo tests for DeleteEventCommand due to changed implementation.
+     */
     @Test
     public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
@@ -93,20 +98,20 @@ public class DeleteEventCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
         DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
-        // delete -> first event deleted
+        // delete -> deletes first event in unfiltered event list
         deleteEventCommand.execute();
         undoRedoStack.push(deleteEventCommand);
 
-        // undo -> reverts event planner back to previous state and filtered event list to show all events
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        // undo -> adds deleted event back to model
+        tryToExecute(undoCommand);
+        assertEventInModel(eventToDelete, model);
 
-        // redo -> same first event deleted again
-        expectedModel.deleteEvent(eventToDelete);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        // redo -> deletes re-added event from model
+        tryToExecute(redoCommand);
+        assertEventNotInModel(eventToDelete, model);
     }
-     */
+    //@@author
 
     @Test
     public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
@@ -124,21 +129,16 @@ public class DeleteEventCommandTest {
         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
     }
 
+    //@@author bayweiheng
     /**
-     * 1. Deletes a {@code Event} from a filtered list.
-     * 2. Undo the deletion.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously deleted event in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the deletion. This ensures {@code RedoCommand} deletes the event object regardless of indexing.
+     * Modified UndoRedo tests for DeleteEventCommand due to changed implementation.
      */
-    // TODO: modify undo/redo function to properly undo/redo the deleteEvent command.
-    /*@Test
+    @Test
     public void executeUndoRedo_validIndexFilteredList_sameEventDeleted() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
         showEventAtIndex(model, INDEX_SECOND_EVENT);
         EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
@@ -146,14 +146,15 @@ public class DeleteEventCommandTest {
         deleteEventCommand.execute();
         undoRedoStack.push(deleteEventCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered event list to show all events
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        // undo -> adds deleted event back to model
+        tryToExecute(undoCommand);
+        assertEventInModel(eventToDelete, model);
 
-        expectedModel.deleteEvent(eventToDelete);
-        assertNotEquals(eventToDelete, model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased()));
-        // redo -> deletes same second event in unfiltered event list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }*/
+        // redo -> deletes re-added event from model
+        tryToExecute(redoCommand);
+        assertEventNotInModel(eventToDelete, model);
+    }
+    //@@author
 
     @Test
     public void equals() throws Exception {
