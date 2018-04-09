@@ -417,7 +417,8 @@ Undoes the `clear` command, followed by the `delete 1` command.
 
 === Redoing commands : `redo`
 
-Reverses the most recent `undo` command. +
+Reverses the most recent `undo` command. This will *fail* if the most recent command
+was neither `undo` nor `redo` (See last example below) +
 Format: `redo`
 
 Examples:
@@ -438,6 +439,13 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` +
 `redo` +
 Redoes the `delete 1` command, followed by the `clear` command.
+
+* `add-event n/MyEvent` +
+`undo` +
+`add-event n/MyEvent` +
+`redo` +
+The `redo` command fails as the most recent command was not an `undo/redo` command. This
+prevents ill-defined behavior like trying to add back an event that already exists.
 // end::undoredo[]
 
 === Exiting the program : `exit`
@@ -540,3 +548,7 @@ e.g. `toggle 1`
 * `deregister` +
 * `toggle` +
 * `clear` +
+
+[appendix]
+== Glossary
+positive integer: A number between 1 and 2,147,483,647
