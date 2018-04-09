@@ -21,9 +21,9 @@ import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.model.event.EpicEvent;
 
 
-//@@ author raynoldng
+//@@author raynoldng
 /**
- * Panel containing the list of persons.
+ * Panel containing the list of events.
  */
 public class EpicEventListPanelTest extends GuiUnitTest {
     private static final ObservableList<EpicEvent> TYPICAL_EVENTS =

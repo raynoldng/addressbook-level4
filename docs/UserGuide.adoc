@@ -1,4 +1,4 @@
-= Event Planning isn’t Complicated (EPIC) - User guide
+= Event Planning isn’t Complicated (EPIC) - User Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -60,7 +60,7 @@ Some example commands you can try:
 Refer to <<Features>> for details of each command.
 
 [[Layout]]
-== How to use the GUI
+== How to Use the GUI
 
 This section describes the components of the GUI, and common ways to interact with it.
 
@@ -101,12 +101,12 @@ This section details the various features EPIC supports.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 ====
 
-=== Viewing help : `help`
+=== Viewing Help : `help`
 
 Opens the help screen in a separate window.
 Format: `help`
 
-=== Adding a person: `add`
+=== Adding a Person: `add`
 
 Adds a person to EPIC. +
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
@@ -121,12 +121,12 @@ Adds the person John Doe to EPIC.
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal` +
 Adds the person Betsy Crowe to EPIC.
 
-=== Listing all persons : `list`
+=== Listing all Persons : `list`
 
 Shows a list of all persons in EPIC on the Persons Pane. +
 Format: `list`
 
-=== Editing a person : `edit`
+=== Editing a Person : `edit`
 
 Edits an existing person in the event planner. +
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
@@ -148,7 +148,7 @@ Edits the phone number and email address of the 1st person to be `91234567` and 
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-=== Locating persons by name: `find`
+=== Locating Persons by Name: `find`
 
 Finds persons whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
@@ -167,7 +167,7 @@ Returns `john` and `John Doe`.
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`.
 
-=== Deleting a person : `delete`
+=== Deleting a Person : `delete`
 
 Deletes the specified person from EPIC. +
 Format: `delete INDEX`
@@ -187,7 +187,7 @@ Deletes the 2nd person in EPIC.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
-=== Selecting a person : `select`
+=== Selecting a Person : `select`
 
 Selects the person identified by the index number used in the Persons Pane. +
 Format: `select INDEX`
@@ -206,7 +206,7 @@ Selects the 2nd person.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
-=== Adding an event: `add-event`
+=== Adding an Event: `add-event`
 
 Adds an event to EPIC. +
 Format: `add-event n/NAME [t/TAG]...`
@@ -221,12 +221,12 @@ Adds the event AY201718 Graduation to EPIC.
 * `add-event n/Computing Seminar`
 Adds the event Computing Seminar to EPIC.
 
-=== Listing all events: `list-events`
+=== Listing all Events: `list-events`
 
 Shows a list of all events in the Events Pane. +
 Format: `list-events`
 
-=== Selecting an event: `select-event`
+=== Selecting an Event: `select-event`
 
 Selects the event identified by the index number used in the Events Pane.
 Attendance panel will show person registered for the selected event.
@@ -234,7 +234,7 @@ Attendance panel will show person registered for the selected event.
 Format: `select-event INDEX`
 
 
-=== Editing an event : `edit-event`
+=== Editing an Event : `edit-event`
 
 Edits an existing event in the event planner. +
 Format: `edit-event INDEX [n/NAME] [t/TAG]...`
@@ -255,7 +255,7 @@ Edits the name and tag of the 1st event to be `IoT Talk` and `talk` respectively
 * `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
 
-=== Locating events by name: `find-event` [Since v1.2]
+=== Locating Events by Name: `find-event` [Since v1.2]
 
 Finds events whose names contain any of the given keywords. +
 Format: `find-event KEYWORD [MORE_KEYWORDS]`
@@ -275,7 +275,7 @@ Returns `Talk` and `Food Talk`
 * `find-event Talk Competition` +
 Returns any event having name `Talk`, or `Competition`
 
-=== Deleting an event : `delete-event` [Since v1.2]
+=== Deleting an Event : `delete-event` [Since v1.2]
 
 Deletes the specified event from the event planner. +
 Format: `delete-event INDEX`
@@ -295,7 +295,7 @@ Deletes the 2nd event in the event planner.
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
 
-=== Registering a person for an event: `register` [Since v1.2]
+=== Registering a Person for an Event: `register` [Since v1.2]
 
 Registers the specified person for an event in the event planner. +
 Format: `register INDEX EVENT_NAME`
@@ -317,7 +317,7 @@ Registers the 2nd person in the event planner for AY201718 Graduation.
 `register 1 Computing Seminar` +
 Registers the 1st person in the results of the `find` command for Computing Seminar.
 
-=== Deregistering a person from an event: `deregister` [Since v1.2]
+=== Deregistering a Person from an Event: `deregister` [Since v1.2]
 
 Deregisters the specified person from an event in the event planner. +
 Format: `deregister INDEX EVENT_NAME`
@@ -340,7 +340,7 @@ Deregisters the 2nd person in the event planner from AY201718 Graduation.
 `deregister 1 Computing Seminar` +
 Deregisters the 1st person in the results of the `find` command from Computing Seminar.
 
-=== Listing all event participants: `list-registered`
+=== Listing all Event Participants: `list-registered`
 
 Lists all participants for the specified event. +
 Format: `list-registered EVENT_NAME`
@@ -349,7 +349,7 @@ Format: `list-registered EVENT_NAME`
 * `EVENT_NAME` must match the name of an event in EPIC exactly.
 ****
 
-=== Toggle attendance for event participant : `toggle`
+=== Toggle Attendance for Event Participant : `toggle`
 
 Toggles the attendance of a participant to an event from attended to not attended and vice versa. +
 Format: `toggle INDEX`
@@ -368,7 +368,7 @@ Examples:
 Toggles the attendance of the 1st person attendee in the attendance list of
 AY201718 Graduation.
 
-=== Listing entered commands : `history`
+=== Listing Entered Commands : `history`
 
 Lists all the commands that you have entered in reverse chronological order. +
 Format: `history`
@@ -378,13 +378,13 @@ Format: `history`
 Pressing the up and down arrows will display the previous and next input respectively in the command box.
 ====
 
-=== Clearing all entries : `clear`
+=== Clearing all Entries : `clear`
 
 Clears all entries from EPIC. +
 Format: `clear`
 
 // tag::undoredo[]
-=== Undoing commands : `undo`
+=== Undoing Commands : `undo`
 
 Restores the event planner to the state before the previous _undoable_ command was executed. +
 There is no guarantee that relative ordering of persons/events will be maintained after the undoing
@@ -415,7 +415,7 @@ The `undo` command fails as there are no undoable commands executed previously.
 `undo` +
 Undoes the `clear` command, followed by the `delete 1` command.
 
-=== Redoing commands : `redo`
+=== Redoing Commands : `redo`
 
 Reverses the most recent `undo` command. This will *fail* if the most recent command
 was neither `undo` nor `redo` (See last example below) +
@@ -448,47 +448,47 @@ The `redo` command fails as the most recent command was not an `undo/redo` comma
 prevents ill-defined behavior like trying to add back an event that already exists.
 // end::undoredo[]
 
-=== Exiting the program : `exit`
+=== Exiting the Program : `exit`
 
 Exits the program. +
 Format: `exit`
 
-=== Saving the data
+=== Saving the Data
 
 EPIC data is saved in the hard disk automatically after any command that changes the data. +
 There is no need to save manually.
 
-=== Exporting contact information to a csv file : `export` [coming in v2.0]
+=== Exporting Contact Information to a CSV File : `export` [coming in v2.0]
 
 Exports the list of all persons in the event planner to a csv file. +
 Format: `export FILE_NAME`
 
-=== Importing contact information from a csv file : `import` [coming in v2.0]
+=== Importing Contact Information from a CSV File : `import` [coming in v2.0]
 
 Imports a list of persons from a csv file and adds them to the event planner. +
 Format: `import FILE_NAME`
 
-=== Adding feedback for an event from a participant : `add-feedback` [coming in v2.0]
+=== Adding Feedback for an Event from a Participant : `add-feedback` [coming in v2.0]
 
 Adds feedback for an event from a participant of the event. +
 Format: `add-feedback INDEX EVENT-NAME FEEDBACK`
 
-=== Exporting event details to a csv file : `export-event` [coming in v2.0]
+=== Exporting Event Details to a CSV file : `export-event` [coming in v2.0]
 
 Exports event details for a single event into a csv file. +
 Format: `export-event EVENT_NAME FILE_NAME`
 
-=== Registering all persons with a particular tag to an event : `register-by-tag` [coming in v2.0]
+=== Registering all Persons with a Particular Tag to an Event : `register-by-tag` [coming in v2.0]
 
 Registers all persons with a particular tag to an event in the event planner. +
 Format: `register-by-tag TAG EVENT_NAME`
 
-=== Adding automatic email reminder to event participants : `add-reminder` [coming in v2.0]
+=== Adding Automatic Email Reminder to Event Participants : `add-reminder` [coming in v2.0]
 
 Adds an automatic email reminder at the stipulated time to all event participants. +
 Format: `add-reminder DAYS_OFFSET EVENT_NAME`
 
-=== Adding hotkeys for commands : `add-hotkey` [coming in v2.0]
+=== Adding Hotkeys for Commands : `add-hotkey` [coming in v2.0]
 
 Adds a hotkey for a command. +
 Format: `add-hotkey HOTKEY COMMAND_NAME`
@@ -537,7 +537,7 @@ e.g. `toggle 1`
 * *Undo* : `undo`
 
 [appendix]
-== List of undoable commands
+== List of Undoable Commands
 * `add` +
 * `delete` +
 * `add-event` +

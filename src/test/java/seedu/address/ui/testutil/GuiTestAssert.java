@@ -5,10 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import guitests.guihandles.AttendanceCardHandle;
 import guitests.guihandles.EpicEventCardHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.person.Person;
 
@@ -38,6 +40,20 @@ public class GuiTestAssert {
         assertEquals(expectedCard.getTags(), actualCard.getTags());
     }
 
+    public static void assertAttendanceCardEquals(AttendanceCardHandle expectedCard,
+                                                  AttendanceCardHandle selectedCard) {
+        assertCardEquals(expectedCard, selectedCard);
+    }
+
+    /**
+     * Asserts that {@code actualEpicEventCard} displays the details of {@code expectedEpicEvent}.
+     */
+    public static void assertAttendanceEventCardDisplaysAttendance(Attendance expectedAttendance,
+                                                                   AttendanceCardHandle actualCard) {
+        assertCardDisplaysPerson(expectedAttendance.getPerson(),  actualCard);
+    }
+
+    //@@ author
     /**
      * Asserts that {@code actualCard} displays the details of {@code expectedPerson}.
      */
