@@ -158,90 +158,90 @@ public class EditEventCommandTest {
 
     //@@author bayweiheng
     /**
-     * Modified UndoRedo tests for EditEventCommand due to changed implementation.
-     */
-     @Test
-     public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
-         UndoRedoStack undoRedoStack = new UndoRedoStack();
-         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-         EpicEvent editedEvent = new EpicEventBuilder().build();
-         EpicEvent eventToEdit = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
+    * Modified UndoRedo tests for EditEventCommand due to changed implementation.
+    */
+    @Test
+    public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
+        UndoRedoStack undoRedoStack = new UndoRedoStack();
+        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+        EpicEvent editedEvent = new EpicEventBuilder().build();
+        EpicEvent eventToEdit = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
 
-         // this is needed since edit Event is now mutable
-         EpicEvent EventToEditCopy = new EpicEvent(eventToEdit);
-         EditEventDescriptor descriptor = new EditEventDescriptorBuilder(editedEvent).build();
-         EditEventCommand editEventCommand = prepareCommand(INDEX_FIRST_EVENT, descriptor);
+        // this is needed since edit Event is now mutable
+        EpicEvent eventToEditCopy = new EpicEvent(eventToEdit);
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder(editedEvent).build();
+        EditEventCommand editEventCommand = prepareCommand(INDEX_FIRST_EVENT, descriptor);
 
-         // edit -> first Event edited
-         editEventCommand.execute();
-         undoRedoStack.push(editEventCommand);
+        // edit -> first Event edited
+        editEventCommand.execute();
+        undoRedoStack.push(editEventCommand);
 
-         // undo -> edits first Event back
-         tryToExecute(undoCommand);
-         assertEventNotInModel(editedEvent, model);
-         assertEventInModel(EventToEditCopy, model);
+        // undo -> edits first Event back
+        tryToExecute(undoCommand);
+        assertEventNotInModel(editedEvent, model);
+        assertEventInModel(eventToEditCopy, model);
 
-         // redo -> same first Event edited again
-         tryToExecute(redoCommand);
-         assertEventNotInModel(EventToEditCopy, model);
-         assertEventInModel(editedEvent, model);
-     }
+        // redo -> same first Event edited again
+        tryToExecute(redoCommand);
+        assertEventNotInModel(eventToEditCopy, model);
+        assertEventInModel(editedEvent, model);
+    }
 
-     @Test
-     public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
-         UndoRedoStack undoRedoStack = new UndoRedoStack();
-         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
-         EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_SEMINAR).build();
-         EditEventCommand editEventCommand = prepareCommand(outOfBoundIndex, descriptor);
-    
-         // execution failed -> editEventCommand not pushed into undoRedoStack
-         assertCommandFailure(editEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
-    
-         // no commands in undoRedoStack -> undoCommand and redoCommand fail
-         assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
-         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-     }
+    @Test
+    public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
+        UndoRedoStack undoRedoStack = new UndoRedoStack();
+        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_SEMINAR).build();
+        EditEventCommand editEventCommand = prepareCommand(outOfBoundIndex, descriptor);
+
+        // execution failed -> editEventCommand not pushed into undoRedoStack
+        assertCommandFailure(editEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
+
+        // no commands in undoRedoStack -> undoCommand and redoCommand fail
+        assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
+        assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
+    }
 
     /**
-     * 1. Edits an {@code EpicEvent} from a filtered list.
-     * 2. Undo the edit.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited EpicEvent in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the edit. This ensures {@code RedoCommand} edits the EpicEvent object regardless of indexing.
-     */
-     @Test
-     public void executeUndoRedo_validIndexFilteredList_sameEventEdited() throws Exception {
-         UndoRedoStack undoRedoStack = new UndoRedoStack();
-         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-         EpicEvent editedEvent = new EpicEventBuilder().build();
-         EditEventDescriptor descriptor = new EditEventDescriptorBuilder(editedEvent).build();
-         EditEventCommand editEventCommand = prepareCommand(INDEX_FIRST_EVENT, descriptor);
+    * 1. Edits an {@code EpicEvent} from a filtered list.
+    * 2. Undo the edit.
+    * 3. The unfiltered list should be shown now. Verify that the index of the previously edited EpicEvent in the
+    * unfiltered list is different from the index at the filtered list.
+    * 4. Redo the edit. This ensures {@code RedoCommand} edits the EpicEvent object regardless of indexing.
+    */
+    @Test
+    public void executeUndoRedo_validIndexFilteredList_sameEventEdited() throws Exception {
+        UndoRedoStack undoRedoStack = new UndoRedoStack();
+        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+        EpicEvent editedEvent = new EpicEventBuilder().build();
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder(editedEvent).build();
+        EditEventCommand editEventCommand = prepareCommand(INDEX_FIRST_EVENT, descriptor);
 
-         showEventAtIndex(model, INDEX_SECOND_EVENT);
-         EpicEvent EventToEdit = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
+        showEventAtIndex(model, INDEX_SECOND_EVENT);
+        EpicEvent eventToEdit = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
 
-         // this is needed since edit event is now mutable
-         EpicEvent EventToEditCopy = new EpicEvent(EventToEdit);
+        // this is needed since edit event is now mutable
+        EpicEvent EventToEditCopy = new EpicEvent(eventToEdit);
 
-         // edit -> edits second event in unfiltered event list / first Event in filtered event list
-         editEventCommand.execute();
-         undoRedoStack.push(editEventCommand);
+        // edit -> edits second event in unfiltered event list / first Event in filtered event list
+        editEventCommand.execute();
+        undoRedoStack.push(editEventCommand);
 
-         // undo -> edits first event back
-         tryToExecute(undoCommand);
-         assertEventNotInModel(editedEvent, model);
-         assertEventInModel(EventToEditCopy, model);
+        // undo -> edits first event back
+        tryToExecute(undoCommand);
+        assertEventNotInModel(editedEvent, model);
+        assertEventInModel(EventToEditCopy, model);
 
-         // redo -> same first event edited again
-         tryToExecute(redoCommand);
-         assertEventNotInModel(EventToEditCopy, model);
-         assertEventInModel(editedEvent, model);
-     }
-     //@@author
+        // redo -> same first event edited again
+        tryToExecute(redoCommand);
+        assertEventNotInModel(EventToEditCopy, model);
+        assertEventInModel(editedEvent, model);
+    }
+    //@@author
 
     @Test
     public void equals() throws Exception {

@@ -221,6 +221,10 @@ public class CommandTestUtil {
         assertTrue(index == -1);
     }
 
+    /**
+     * Attempts to execute the {@code Command}. Prints the error message and throws an AssertionError
+     * upon failure.
+     */
     public static void tryToExecute(Command command) {
         try {
             command.execute();
