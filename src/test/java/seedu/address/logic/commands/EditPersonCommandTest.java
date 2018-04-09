@@ -209,11 +209,10 @@ public class EditPersonCommandTest {
     /**
      * 1. Edits a {@code Person} from a filtered list.
      * 2. Undo the edit.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited person in the
+     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited Person in the
      * unfiltered list is different from the index at the filtered list.
      * 4. Redo the edit. This ensures {@code RedoCommand} edits the person object regardless of indexing.
      */
-
     //@@author bayweiheng
     /**
      * Modified UndoRedo tests for EditPersonCommand due to changed implementation.

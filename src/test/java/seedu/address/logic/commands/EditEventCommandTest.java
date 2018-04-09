@@ -11,7 +11,12 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 //import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 //import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
+import static seedu.address.logic.commands.CommandTestUtil.assertEventInModel;
+import static seedu.address.logic.commands.CommandTestUtil.assertEventNotInModel;
+import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
+import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showEventAtIndex;
+import static seedu.address.logic.commands.CommandTestUtil.tryToExecute;
 import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlanner;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
@@ -151,81 +156,92 @@ public class EditEventCommandTest {
         assertCommandFailure(editEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
     }
 
-    //TODO: Undo/Redo Test for editEventCommand
+    //@@author bayweiheng
     /**
+     * Modified UndoRedo tests for EditEventCommand due to changed implementation.
+     */
      @Test
      public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
-     UndoRedoStack undoRedoStack = new UndoRedoStack();
-     UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-     RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-     Person editedPerson = new PersonBuilder().build();
-     Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-     EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-     EditPersonCommand editPersonCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
-     Model expectedModel = new ModelManager(new EventPlanner(model.getEventPlanner()), new UserPrefs());
+         UndoRedoStack undoRedoStack = new UndoRedoStack();
+         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+         EpicEvent editedEvent = new EpicEventBuilder().build();
+         EpicEvent eventToEdit = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
 
-     // edit -> first person edited
-     editPersonCommand.execute();
-     undoRedoStack.push(editPersonCommand);
+         // this is needed since edit Event is now mutable
+         EpicEvent EventToEditCopy = new EpicEvent(eventToEdit);
+         EditEventDescriptor descriptor = new EditEventDescriptorBuilder(editedEvent).build();
+         EditEventCommand editEventCommand = prepareCommand(INDEX_FIRST_EVENT, descriptor);
 
-     // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-     assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+         // edit -> first Event edited
+         editEventCommand.execute();
+         undoRedoStack.push(editEventCommand);
 
-     // redo -> same first person edited again
-     expectedModel.updatePerson(personToEdit, editedPerson);
-     assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+         // undo -> edits first Event back
+         tryToExecute(undoCommand);
+         assertEventNotInModel(editedEvent, model);
+         assertEventInModel(EventToEditCopy, model);
+
+         // redo -> same first Event edited again
+         tryToExecute(redoCommand);
+         assertEventNotInModel(EventToEditCopy, model);
+         assertEventInModel(editedEvent, model);
      }
 
      @Test
      public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
-     UndoRedoStack undoRedoStack = new UndoRedoStack();
-     UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-     RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-     Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-     EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_PERSON_NAME_BOB).build();
-     EditPersonCommand editPersonCommand = prepareCommand(outOfBoundIndex, descriptor);
-
-     // execution failed -> editPersonCommand not pushed into undoRedoStack
-     assertCommandFailure(editPersonCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-
-     // no commands in undoRedoStack -> undoCommand and redoCommand fail
-     assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
-     assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-     }*/
+         UndoRedoStack undoRedoStack = new UndoRedoStack();
+         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
+         EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_SEMINAR).build();
+         EditEventCommand editEventCommand = prepareCommand(outOfBoundIndex, descriptor);
+    
+         // execution failed -> editEventCommand not pushed into undoRedoStack
+         assertCommandFailure(editEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
+    
+         // no commands in undoRedoStack -> undoCommand and redoCommand fail
+         assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
+         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
+     }
 
     /**
-     * 1. Edits a {@code Person} from a filtered list.
+     * 1. Edits an {@code EpicEvent} from a filtered list.
      * 2. Undo the edit.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited person in the
+     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited EpicEvent in the
      * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the edit. This ensures {@code RedoCommand} edits the person object regardless of indexing.
+     * 4. Redo the edit. This ensures {@code RedoCommand} edits the EpicEvent object regardless of indexing.
      */
-
-    /**
      @Test
-     public void executeUndoRedo_validIndexFilteredList_samePersonEdited() throws Exception {
-     UndoRedoStack undoRedoStack = new UndoRedoStack();
-     UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-     RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-     Person editedPerson = new PersonBuilder().build();
-     EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-     EditPersonCommand editPersonCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
-     Model expectedModel = new ModelManager(new EventPlanner(model.getEventPlanner()), new UserPrefs());
+     public void executeUndoRedo_validIndexFilteredList_sameEventEdited() throws Exception {
+         UndoRedoStack undoRedoStack = new UndoRedoStack();
+         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+         EpicEvent editedEvent = new EpicEventBuilder().build();
+         EditEventDescriptor descriptor = new EditEventDescriptorBuilder(editedEvent).build();
+         EditEventCommand editEventCommand = prepareCommand(INDEX_FIRST_EVENT, descriptor);
 
-     showPersonAtIndex(model, INDEX_SECOND_PERSON);
-     Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-     // edit -> edits second person in unfiltered person list / first person in filtered person list
-     editPersonCommand.execute();
-     undoRedoStack.push(editPersonCommand);
+         showEventAtIndex(model, INDEX_SECOND_EVENT);
+         EpicEvent EventToEdit = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
 
-     // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-     assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+         // this is needed since edit event is now mutable
+         EpicEvent EventToEditCopy = new EpicEvent(EventToEdit);
 
-     expectedModel.updatePerson(personToEdit, editedPerson);
-     assertNotEquals(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), personToEdit);
-     // redo -> edits same second person in unfiltered person list
-     assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-     }*/
+         // edit -> edits second event in unfiltered event list / first Event in filtered event list
+         editEventCommand.execute();
+         undoRedoStack.push(editEventCommand);
+
+         // undo -> edits first event back
+         tryToExecute(undoCommand);
+         assertEventNotInModel(editedEvent, model);
+         assertEventInModel(EventToEditCopy, model);
+
+         // redo -> same first event edited again
+         tryToExecute(redoCommand);
+         assertEventNotInModel(EventToEditCopy, model);
+         assertEventInModel(editedEvent, model);
+     }
+     //@@author
 
     @Test
     public void equals() throws Exception {
