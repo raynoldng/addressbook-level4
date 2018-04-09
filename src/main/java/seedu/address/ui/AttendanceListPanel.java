@@ -4,6 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import javafx.beans.InvalidationListener;
+import javafx.scene.control.Label;
 import org.fxmisc.easybind.EasyBind;
 
 import com.google.common.eventbus.Subscribe;
@@ -32,10 +34,15 @@ import seedu.address.model.event.ObservableEpicEvent;
  */
 public class AttendanceListPanel extends UiPart<Region> {
     private static final String FXML = "AttendanceListPanel.fxml";
+    private static final String ATTENDANCE_STATUS = "Attendees";
+    private static final String ATTENDANCE_STATUS_FORMAT = "Attendees (%d/%d)";
     private final Logger logger = LogsCenter.getLogger(AttendanceListPanel.class);
 
     @FXML
     private ListView<AttendanceCard> attendanceListView;
+
+    @FXML
+    private Label attendanceStatus;
 
     /**
      * Observer of selectedEpicEvent to update AttendanceListPanel
@@ -67,6 +74,7 @@ public class AttendanceListPanel extends UiPart<Region> {
         selectedEpicEventObserver = new EpicEventObserver(selectedEpicEvent);
         selectedEpicEvent.addObserver(selectedEpicEventObserver);
         setConnections();
+        updateAttendanceStatus();
         registerAsAnEventHandler(this);
     }
 
@@ -101,6 +109,19 @@ public class AttendanceListPanel extends UiPart<Region> {
         attendanceListView.setCellFactory(listView -> new AttendanceListViewCell());
 
         setEventHandlerForSelectionChangeEvent();
+
+        attendanceList.addListener((InvalidationListener) change -> {
+            updateAttendanceStatus();
+        });
+    }
+
+    private void updateAttendanceStatus() {
+        int total = attendanceListView.getItems().size();
+        int numAttended = (int) attendanceListView.getItems().stream()
+                .filter(attendanceCard -> attendanceCard.getAttendance().hasAttended())
+                .count();
+        attendanceStatus.setText(String.format(ATTENDANCE_STATUS_FORMAT, numAttended, total));
+
     }
 
     private void setEventHandlerForSelectionChangeEvent() {
