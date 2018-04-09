@@ -4,17 +4,17 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
-import javafx.beans.InvalidationListener;
-import javafx.scene.control.Label;
 import org.fxmisc.easybind.EasyBind;
 
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
@@ -115,6 +115,7 @@ public class AttendanceListPanel extends UiPart<Region> {
         });
     }
 
+    /** Update attendance header text **/
     private void updateAttendanceStatus() {
         int total = attendanceListView.getItems().size();
         int numAttended = (int) attendanceListView.getItems().stream()
