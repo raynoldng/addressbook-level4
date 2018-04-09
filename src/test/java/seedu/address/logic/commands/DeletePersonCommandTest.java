@@ -5,9 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.assertPersonInModel;
+import static seedu.address.logic.commands.CommandTestUtil.assertPersonNotInModel;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.CommandTestUtil.tryToExecute;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -81,8 +84,10 @@ public class DeletePersonCommandTest {
         assertCommandFailure(deletePersonCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
-    // TODO: Re-code tests after undo-redo functionality implemented
+    //@@author bayweiheng
     /**
+     * Modified UndoRedo tests for DeletePersonCommand due to changed implementation.
+     */
     @Test
     public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
@@ -90,20 +95,20 @@ public class DeletePersonCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         DeletePersonCommand deletePersonCommand = prepareCommand(INDEX_FIRST_PERSON);
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
-        // delete -> first person deleted
+        // delete -> deletes first person in unfiltered event list
         deletePersonCommand.execute();
         undoRedoStack.push(deletePersonCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        // undo -> adds deleted person back to model
+        tryToExecute(undoCommand);
+        assertPersonInModel(personToDelete, model);
 
-        // redo -> same first person deleted again
-        expectedModel.deletePerson(personToDelete);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        // redo -> deletes re-added event from model
+        tryToExecute(redoCommand);
+        assertPersonNotInModel(personToDelete, model);
     }
-     */
+    //@@author
 
     @Test
     public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
@@ -121,12 +126,9 @@ public class DeletePersonCommandTest {
         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
     }
 
+    //@@author bayweiheng
     /**
-     * 1. Deletes a {@code Person} from a filtered list.
-     * 2. Undo the deletion.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously deleted person in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the deletion. This ensures {@code RedoCommand} deletes the person object regardless of indexing.
+     * Modified UndoRedo tests for DeletePersonCommand due to changed implementation.
      */
     @Test
     public void executeUndoRedo_validIndexFilteredList_samePersonDeleted() throws Exception {
@@ -134,7 +136,6 @@ public class DeletePersonCommandTest {
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         DeletePersonCommand deletePersonCommand = prepareCommand(INDEX_FIRST_PERSON);
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
@@ -142,17 +143,15 @@ public class DeletePersonCommandTest {
         deletePersonCommand.execute();
         undoRedoStack.push(deletePersonCommand);
 
-        // TODO: Re-code tests after undo-redo functionality implemented
-        /**
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        // undo -> adds deleted person back to model
+        tryToExecute(undoCommand);
+        assertPersonInModel(personToDelete, model);
 
-        expectedModel.deletePerson(personToDelete);
-        assertNotEquals(personToDelete, model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()));
-        // redo -> deletes same second person in unfiltered person list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-         */
+        // redo -> deletes re-added event from model
+        tryToExecute(redoCommand);
+        assertPersonNotInModel(personToDelete, model);
     }
+    //@@author
 
     @Test
     public void equals() throws Exception {
