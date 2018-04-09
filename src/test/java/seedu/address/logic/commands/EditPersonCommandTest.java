@@ -12,7 +12,12 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 //import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 //import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
+import static seedu.address.logic.commands.CommandTestUtil.assertPersonInModel;
+import static seedu.address.logic.commands.CommandTestUtil.assertPersonNotInModel;
+import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
+import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.logic.commands.CommandTestUtil.tryToExecute;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
@@ -151,7 +156,10 @@ public class EditPersonCommandTest {
         assertCommandFailure(editPersonCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 
+    //@@author bayweiheng
     /**
+     * Modified UndoRedo tests for EditPersonCommand due to changed implementation.
+     */
     @Test
     public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
@@ -159,21 +167,27 @@ public class EditPersonCommandTest {
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
         Person editedPerson = new PersonBuilder().build();
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        // this is needed since edit person is now mutable
+        Person personToEditCopy = new Person(personToEdit);
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditPersonCommand editPersonCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
-        Model expectedModel = new ModelManager(new EventPlanner(model.getEventPlanner()), new UserPrefs());
 
         // edit -> first person edited
         editPersonCommand.execute();
         undoRedoStack.push(editPersonCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        // undo -> edits first person back
+        tryToExecute(undoCommand);
+        assertPersonNotInModel(editedPerson, model);
+        assertPersonInModel(personToEditCopy, model);
 
         // redo -> same first person edited again
-        expectedModel.updatePerson(personToEdit, editedPerson);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        tryToExecute(redoCommand);
+        assertPersonNotInModel(personToEditCopy, model);
+        assertPersonInModel(editedPerson, model);
     }
+    //@@author
 
     @Test
     public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
@@ -190,7 +204,7 @@ public class EditPersonCommandTest {
         // no commands in undoRedoStack -> undoCommand and redoCommand fail
         assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
         assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-    }*/
+    }
 
     /**
      * 1. Edits a {@code Person} from a filtered list.
@@ -200,7 +214,10 @@ public class EditPersonCommandTest {
      * 4. Redo the edit. This ensures {@code RedoCommand} edits the person object regardless of indexing.
      */
 
+    //@@author bayweiheng
     /**
+     * Modified UndoRedo tests for EditPersonCommand due to changed implementation.
+     */
     @Test
     public void executeUndoRedo_validIndexFilteredList_samePersonEdited() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
@@ -209,22 +226,28 @@ public class EditPersonCommandTest {
         Person editedPerson = new PersonBuilder().build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
         EditPersonCommand editPersonCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
-        Model expectedModel = new ModelManager(new EventPlanner(model.getEventPlanner()), new UserPrefs());
 
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        // this is needed since edit person is now mutable
+        Person personToEditCopy = new Person(personToEdit);
+
         // edit -> edits second person in unfiltered person list / first person in filtered person list
         editPersonCommand.execute();
         undoRedoStack.push(editPersonCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        // undo -> edits first person back
+        tryToExecute(undoCommand);
+        assertPersonNotInModel(editedPerson, model);
+        assertPersonInModel(personToEditCopy, model);
 
-        expectedModel.updatePerson(personToEdit, editedPerson);
-        assertNotEquals(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), personToEdit);
-        // redo -> edits same second person in unfiltered person list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }*/
+        // redo -> same first person edited again
+        tryToExecute(redoCommand);
+        assertPersonNotInModel(personToEditCopy, model);
+        assertPersonInModel(editedPerson, model);
+    }
+    //@@author
 
     @Test
     public void equals() throws Exception {
