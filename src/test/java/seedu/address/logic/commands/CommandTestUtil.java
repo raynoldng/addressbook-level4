@@ -187,4 +187,52 @@ public class CommandTestUtil {
         redoCommand.setData(model, new CommandHistory(), undoRedoStack);
         return redoCommand;
     }
+
+    // @@author bayweiheng
+    /**
+     * Returns true if the {@code Person} is in the {@code model} and false otherwise
+     */
+    public static void assertPersonInModel(Person person, Model model) {
+        int index = model.getFilteredPersonList().indexOf(person);
+        assertTrue(index != -1);
+    }
+
+    /**
+     * Returns true if the {@code Person} is not in the {@code model} and false otherwise
+     */
+    public static void assertPersonNotInModel(Person person, Model model) {
+        int index = model.getFilteredPersonList().indexOf(person);
+        assertTrue(index == -1);
+    }
+
+    /**
+     * Returns true if the {@code EpicEvent} is in the {@code model} and false otherwise
+     */
+    public static void assertEventInModel(EpicEvent event, Model model) {
+        int index = model.getFilteredEventList().indexOf(event);
+        assertTrue(index != -1);
+    }
+
+    /**
+     * Returns true if the {@code EpicEvent} is not in the {@code model} and false otherwise
+     */
+    public static void assertEventNotInModel(EpicEvent event, Model model) {
+        int index = model.getFilteredEventList().indexOf(event);
+        assertTrue(index == -1);
+    }
+
+    /**
+     * Attempts to execute the {@code Command}. Prints the error message and throws an AssertionError
+     * upon failure.
+     */
+    public static void tryToExecute(Command command) {
+        try {
+            command.execute();
+        } catch (CommandException e) {
+            System.out.println(e.getMessage());
+            throw new AssertionError("Failure when trying to execute command");
+        }
+    }
+
+    //@@author
 }
