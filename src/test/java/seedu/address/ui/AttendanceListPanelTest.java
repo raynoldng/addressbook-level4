@@ -18,8 +18,12 @@ import javafx.collections.ObservableList;
 
 import seedu.address.commons.events.ui.JumpToAttendanceListRequestEvent;
 import seedu.address.model.attendance.Attendance;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
+import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
+import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalEpicEvents;
+import seedu.address.testutil.TypicalPersons;
 
 
 //@@author raynoldng
@@ -27,7 +31,7 @@ import seedu.address.testutil.TypicalEpicEvents;
 /**
  * Panel containing the list of attendees.
  */
-public class AttendanceEventListPanelTest extends GuiUnitTest {
+public class AttendanceListPanelTest extends GuiUnitTest {
     private static final ObservableEpicEvent selectedEvent =
             new ObservableEpicEvent(TypicalEpicEvents.EVENT_WITH_ATTENDEES);
     private static final JumpToAttendanceListRequestEvent JUMP_TO_SECOND_ATTENDANCE =
@@ -68,6 +72,4 @@ public class AttendanceEventListPanelTest extends GuiUnitTest {
         AttendanceCardHandle selectedCard = attendanceListPanelHandle.getHandleToSelectedCard();
         assertAttendanceCardEquals(expectedCard, selectedCard);
     }
-
-
 }
