@@ -11,14 +11,14 @@ public class AttendanceCardHandle extends PersonCardHandle {
 
     private static final String IMAGEVIEW_FIELD_ID = "#attendanceToggleImage";
 
-    public ImageView getAttendanceToggleImage() {
-        return attendanceToggleImage;
-    }
-
     private final ImageView attendanceToggleImage;
 
     public AttendanceCardHandle(Node cardNode) {
         super(cardNode);
         attendanceToggleImage = getChildNode(IMAGEVIEW_FIELD_ID);
+    }
+
+    public ImageView getAttendanceToggleImage() {
+        return attendanceToggleImage;
     }
 }

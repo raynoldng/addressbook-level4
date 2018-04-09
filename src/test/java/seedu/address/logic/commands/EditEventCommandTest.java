@@ -225,7 +225,7 @@ public class EditEventCommandTest {
         EpicEvent eventToEdit = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
 
         // this is needed since edit event is now mutable
-        EpicEvent EventToEditCopy = new EpicEvent(eventToEdit);
+        EpicEvent eventToEditCopy = new EpicEvent(eventToEdit);
 
         // edit -> edits second event in unfiltered event list / first Event in filtered event list
         editEventCommand.execute();
@@ -234,11 +234,11 @@ public class EditEventCommandTest {
         // undo -> edits first event back
         tryToExecute(undoCommand);
         assertEventNotInModel(editedEvent, model);
-        assertEventInModel(EventToEditCopy, model);
+        assertEventInModel(eventToEditCopy, model);
 
         // redo -> same first event edited again
         tryToExecute(redoCommand);
-        assertEventNotInModel(EventToEditCopy, model);
+        assertEventNotInModel(eventToEditCopy, model);
         assertEventInModel(editedEvent, model);
     }
     //@@author

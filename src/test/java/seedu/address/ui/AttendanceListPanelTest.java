@@ -18,12 +18,8 @@ import javafx.collections.ObservableList;
 
 import seedu.address.commons.events.ui.JumpToAttendanceListRequestEvent;
 import seedu.address.model.attendance.Attendance;
-import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
-import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
-import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalEpicEvents;
-import seedu.address.testutil.TypicalPersons;
 
 
 //@@author raynoldng

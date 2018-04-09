@@ -1,36 +1,34 @@
 package seedu.address.ui;
 
-import guitests.guihandles.AttendanceCardHandle;
-import guitests.guihandles.EpicEventCardHandle;
-import javafx.collections.ObservableList;
-import org.junit.Test;
-import seedu.address.model.attendance.Attendance;
-import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
-import seedu.address.model.event.EpicEvent;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.EpicEventBuilder;
-import seedu.address.testutil.TypicalEpicEvents;
-import seedu.address.testutil.TypicalPersons;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import static seedu.address.ui.testutil.GuiTestAssert.assertAttendanceEventCardDisplaysAttendance;
-import static seedu.address.ui.testutil.GuiTestAssert.assertEpicEventCardDisplaysEpicEvent;
+
+import org.junit.Test;
+
+import guitests.guihandles.AttendanceCardHandle;
+
+import seedu.address.model.attendance.Attendance;
+import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
+import seedu.address.model.event.EpicEvent;
+import seedu.address.testutil.TypicalEpicEvents;
+import seedu.address.testutil.TypicalPersons;
+
+
 
 // @@author raynoldng
 public class AttendanceCardTest extends GuiUnitTest {
-
-    private static int INDEX_ZERO = 0;
 
     @Test
     public void display() {
         EpicEvent event = TypicalEpicEvents.EVENT_WITH_ATTENDEES;
 
-        Attendance AliceAttendance = event.getAttendanceList().get(0);
-        AttendanceCard attendanceCard = new AttendanceCard(AliceAttendance, INDEX_ZERO);
+        Attendance aliceAttendance = event.getAttendanceList().get(0);
+        AttendanceCard attendanceCard = new AttendanceCard(aliceAttendance, 0);
         uiPartRule.setUiPart(attendanceCard);
-        assertAttendanceCardDisplay(attendanceCard, AliceAttendance, 0);
+        assertAttendanceCardDisplay(attendanceCard, aliceAttendance, 0);
     }
 
     @Test
@@ -44,11 +42,11 @@ public class AttendanceCardTest extends GuiUnitTest {
         }
         // there should only be one attendee
         assertEquals(event.getAttendanceList().size(), 2);
-        Attendance AliceAttendance = event.getAttendanceList().get(0);
-        Attendance BobAttendance = event.getAttendanceList().get(1);
+        Attendance aliceAttendance = event.getAttendanceList().get(0);
+        Attendance bobAttendance = event.getAttendanceList().get(1);
 
-        AttendanceCard attendanceCard = new AttendanceCard(AliceAttendance, 0);
-        AttendanceCard copy = new AttendanceCard(AliceAttendance, 0);
+        AttendanceCard attendanceCard = new AttendanceCard(aliceAttendance, 0);
+        AttendanceCard copy = new AttendanceCard(aliceAttendance, 0);
 
         // same attendance, same index -> return true
         assertTrue(attendanceCard.equals(copy));
@@ -63,10 +61,10 @@ public class AttendanceCardTest extends GuiUnitTest {
         assertFalse(attendanceCard.equals(0));
 
         // different card, same index -> returns false
-        assertFalse(attendanceCard.equals(new AttendanceCard(BobAttendance, 0)));
+        assertFalse(attendanceCard.equals(new AttendanceCard(bobAttendance, 0)));
 
         // same event, different index -> returns false
-        assertFalse(attendanceCard.equals(new AttendanceCard(AliceAttendance, 1)));
+        assertFalse(attendanceCard.equals(new AttendanceCard(aliceAttendance, 1)));
     }
 
     /**
