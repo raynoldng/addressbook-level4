@@ -1,0 +1,60 @@
+= Raynold Ng - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: Event Planning isn’t Complicated (EPIC)
+
+---
+
+== Overview
+
+Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning
+and registration for large organisations*.
+EPIC is optimized for event planners who prefer typing to using the mouse.
+
+== Summary of contributions
+
+* *Major enhancement*: overhauled UI to a three panel system and binds UI elements to data in the Model component and ensuring that updates to data is reflected in the UI.
+** What it does: A three panel system displaying stored persons, events and attendees offers an intuitive user experience.
+** Justification: The previous UI of a Person panel and browser panel does not meet the needs of EPIC's use case.
+** Highlights: Leveraged several patterns such as the Model View Controller (MVC) Pattern, Observer Pattern and JavaFx Beans Convention to elegantly trigger UI updates upon data changes.
+* *Minor enhancement*: added the `list-event` command that lists all events stored in EPIC
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/functional/raynoldng.md[Functional code]] [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/test/raynoldng.md[Test code]]
+
+* *Other contributions*:
+
+** Project management:
+*** Managed release `v.1.4.1`  on GitHub
+** Enhancements to existing features:
+*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
+*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
+** Documentation:
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2103JAN2018-W13-B2/main/pull/44[#44]
+*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W10-B3/main/issues/118#event-1562496445[1], https://github.com/CS2103JAN2018-W10-B3/main/issues/110#issuecomment-379736418[2])
+
+_{you can add/remove categories in the list above}_
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=uilayout]
+include::../UserGuide.adoc[tag=selectevent]
+
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=uicomponent]
+
+include::../DeveloperGuide.adoc[tag=threepaneui]
+

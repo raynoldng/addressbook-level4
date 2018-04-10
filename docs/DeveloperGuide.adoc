@@ -18,11 +18,12 @@ Table of Contents:
 
 == Introduction
 
-EPIC is an event planning tool for large organisations hosting many large-scale events
-(e.g. schools which host competitions, award and graduation ceremonies, and seminars and talks).
-It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
+EPIC is a Java application and event planning tool for large organization hosting many large-scale events (e.g. schools which host competitions, award and graduation ceremonies, and seminars and talks).
 
-This Developer Guide will walk you through the software architecture EPIC adopts, the implementation
+It provides a basic suite of operations for managing the attendance for multiple events. Attendees can be drawn from a common attendance list. It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
+
+
+This Developer Guide provides a high level introduction and view of EPIC. We will walk you through the software architecture EPIC adopts, the implementation
 of several interesting features EPIC has, as well as prepare you to modify the codebase of EPIC yourself.
 
 == Setting Up
@@ -72,9 +73,11 @@ To ensure that EPIC has been set up correctly:
 
 === Configurations to Do Before Writing Code
 
+For the best developer experience, we recommend the following configurations before you start coding.
+
 ==== Configuring the Coding Style
 
-This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
+This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify:
 
 . Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (macOS).
 . Select `Editor` > `Code Style` > `Java`.
@@ -106,12 +109,10 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based).
 
-== Design
-
 [[Design-Architecture]]
-=== Architecture
+== Architecture
 
-The *_Architecture Diagram_* (<<#architecture-diagram>>) given below explains the high-level design of the App.
+EPIC incoporates the core architectural principles of object-oriented, Java-based applications. It consists of lossly coupled components written in Java. The *_Architecture Diagram_* (<<#architecture-diagram>>) given below explains the high-level design of the App.
 
 [#architecture-diagram]
 .Architecture Diagram
@@ -122,7 +123,7 @@ components form the *core* of the application, with Main and Commons facilitatin
 
 Below is a quick overview of each component:
 
-==== Main
+=== Main
 
 The Main component only has one class - link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. This class has two main responsibilities:
 
@@ -138,9 +139,40 @@ is used by components to communicate with other components using events (i.e. a 
 * `LogsCenter` : This class is used by many classes to write log messages to the application's log file.
 
 [[Design-Ui]]
-==== UI Component
+// tag::uicomponent[]
+=== UI Component
 
-The UI component(<<#UiClassDiagram>>) is responsible for interfacing with the user.
+The UI component is responsible for interfacing with the user. The UI component:
+
+* Executes user commands using the Logic component.
+* Binds itself to some data in the Model component so that the UI can auto-update when data in the Model component changes.
+* Responds to events raised from various parts of the App and updates the UI accordingly.
+
+====  Functional Overview
+
+The UI consists of a `MainWindow` that contains the 5 main layout regions (<<#GUIOverview>>):
+
+[#GUIOverview]
+.Overview of the Graphical User Interface of EPIC
+image::GUI.png[width="800"]
+
+. Command Box: text box to receive user inputs.
+. Result Display: status bar that displays the result of user commands.
+. People List Panel: panel that lists all persons.
+. Event List Panel: panel that lists all events.
+. Attendance List Panel: panel that lists all attendees in the user selected event.
+. Person Card: card that lists a peron's contact information.
+. Event Card: card that lists an event's details.
+. Attendance Card: card that lists an attendee's contact information and displays if the attendee has attended or not.
+
+[NOTE]
+If no  `EpicEvent` has been selected, `AttendeeList` will be empty
+
+
+==== Technical Overview
+
+The UI component (<<#UiClassDiagram>>) is responsible for interfacing with the user. The UI component uses the JavaFx UI framework. The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+
 
 [#UiClassDiagram]
 .Structure of the UI Component
@@ -148,20 +180,14 @@ image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The UI component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
 For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
-
-The UI component:
-
-* Executes user commands using the Logic component.
-* Binds itself to some data in the Model component so that the UI can auto-update when data in the Model component changes.
-* Responds to events raised from various parts of the App and updates the UI accordingly.
+// end::uicomponent[]
 
 [[Design-Logic]]
-==== Logic Component
+=== Logic Component
 
 The Logic component (<<#LGC>>) is responsible for the parsing and execution of commands.
 
@@ -188,7 +214,7 @@ The Sequence Diagram for interactions within the Logic component for the `execut
 image::DeletePersonSdForLogic.png[width="800"]
 
 [[Design-Model]]
-==== Model Component
+=== Model Component
 
 The Model component (<<#MCD>>) is responsible for holding application data in-memory.
 
@@ -209,7 +235,7 @@ The UI can be bound to any of these lists so that it automatically updates when 
 The Model does not depend on any of the other three components. This reduces coupling between components.
 
 [[Design-Storage]]
-==== Storage Component
+=== Storage Component
 
 The Storage component (<<SCD>>) is responsible for persisting application data on the hard disk.
 
@@ -237,7 +263,7 @@ The Sequence Diagram for interactions within the Storage Component to restore da
 .Interactions Inside the Storage Component to restore data
 image::StorageComponentSequenceDiagram.png[width="800"]
 
-==== How Components Interact
+=== How Components Interact
 
 Finally, we will conclude the Architecture section with several examples on how the components interact.
 
@@ -291,6 +317,7 @@ In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` 
     internalList.set(index, editedPerson);
 ----
 
+[#edit-curr-implementation]
 ==== Current Implementation
 
 In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable manner - instead of replacing the to-be-edited `Person/EpicEvent` with the new one, we edit the details of the to-be-edited `Person/EpicEvent` directly.
@@ -556,30 +583,60 @@ as not attended
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
-=== [Proposed] 3 Pane UI
+// tag::threepaneui[]
+=== Three Pane UI
 
 The proposed new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
 
+In addition, `edit` and `edit-command` commands are now implemented in a mutable manner (see <<edit-curr-implementation>>). As a result, the `ObservableList` that wraps the people and event data will no longer be notified to changes. The new UI must be notified of changes to data so it can refresh itself to reflect such changes. The UI will also have to respond to new commands such as the `select-event` and `toggle`. The `select-event` could invoke a change in the contents of the Attendance Panel and `toggle` will toggle the attendance status and is reflected in the UI in the form of the attendance icon change.
+
 ==== Current Implementation
 
-The UI consists of a `MainWindow` that is made up of parts e.g. `CommandBox`, `ResultDisplay`, `PersonListPanel`, `EpicEventListPanel` and `AttendeeListPanel`. The `ListPanel` s forms the bulk of the UI.
+The UI now consists of 3 list panels: `PersonListPanel`, `EpicEventListPanel` and `AttendanceListPanel`. Each panel is a list of `PersonCard`, `EpicEventCard` and `AttendanceCard` respectively. Since the `AttendanceCard` has the same UI as `PersonCard` with the addition of the toggle icon, it extends `PersonCard`. The `model` maintains a `selectedEpicEvent` variable whose attendees will be displayed in the `AttendancePanel`.
 
-As you can see from the UI component diagram, the three lists extend from the `ListPanel` class. `ListPanel` is a vetically scrollable collection of `Cards`. It is an adapter view that does not know the details, such as type and contents, of the view it contains.
+In order to get the `AttendanceListPanel` to instantly update its elements, we employ the JavaFx Bean Pattern. We listen to changes to object properties by using the JavaBeans API to represent the properties.
 
-In addition, we define a `ListPanelAdapter` class that acts as the bridge between `ListPanel` and data behind the list.
+The `Person` class is implemented this way:
 
-The sequence diagram below shows how `PersonListPanel` is initialised. `EventsListPanel` and `AttendeeListPanel` are initialised in a similar manner.
+[source,java]
+----
+public class Person extends SimpleObjectProperty {
 
-.Sequence Diagram for Panel initialisation
-image::CreatePersonListPanelSequenceDiagram.png[width="650"]
+    // ... Person logic ...
 
+    /**
+     * Edits this person by transferring the fields of dummyPerson over.
+     * Used for mutable edit command
+     */
+    public void setPerson(Person dummyPerson) {
+        // ... setPerson logic ...
+        fireValueChangedEvent();
+    }
+}
+----
 
-[NOTE]
-If no  `EpicEvent` has been selected, `AttendeeList` will be empty
+This way, editing `Person` calls `fireValueChangedEvent()` which informs JavaFx of the content change and triggers an UI refresh.
+
+To listen to changes in attendance. We enable the `AttendanceList` to report changes on the element by providing an properties extractor. First, we use the JavaBeans API to represent properties of `Attendance` that we want to listen to, which is the `hasAttendedEventProperty`, a `BooleanProperty` object.
+
+We then use an Extractor which is a Callback containing an array of `Observables` which are then observed by the `ObservableList`.
+
+[source,java]
+----
+Callback<Attendance, javafx.beans.Observable[]> extractor = attendance -> new javafx.beans.Observable[] {
+                attendance.getPerson(), attendance.getHasAttendedEventProperty()};
+----
+
+By using the JavaBeans API to handle UI updates, the programmer does not have to care about manually refreshing the UI upon data updates.
+
+//.Sequence Diagram for Panel initialisation
+//image::CreatePersonListPanelSequenceDiagram.png[width="650"]
+// end::threepaneui[]
+
 
 ==== Design Considerations
 
-When deciding on the UI, the following aspects of user experience were considered.
+When deciding on the UI, the following aspects of user experience were considered:
 
 ===== Aspect: Overall UI Design
 
@@ -592,6 +649,29 @@ When deciding on the UI, the following aspects of user experience were considere
 - *Alternative 3*: A common list that can display either list of persons, events or attendees for selected event
     * Pros: We only have to make minimal changes to the UI layout.
     * Cons: Events, persons, and attendees must be displayed using the same `Card` class. This would result in tight coupling of the display graphics logic  for the three lists.
+
+===== Aspect: Updating UI when Data Changes
+
+Previously, changes to `Person` would create a new `Person` object that would replace the previous object, triggering a UI refresh. Now that such changes to `Peron`, `EpicEvent` and `Attendance` objects only mutate it, the `ListView` is unable to listen to such changes.
+
+- Alternative 1 (current choice): Use the JavaFx Beans Convention
+    * Pros: Using the JavaBeans API to represent a property of an object allows property changes to be propagated to property change listeners. This is an elegant way to get the `ListView` to instantly update its elements.
+    * Cons: Using the JavaBeans API to represent object properties introduces coupling between the Model and UI components.
+- Alternative 2: Force all commands that change data to invoke a UI refresh
+    * Pros: It is straight forward to force a `ListView` UI refresh by invoking its `refresh()` method.
+    * Cons: We will have to ensure that any action that could modify data force a UI refresh. In addition, constantly invoking a UI refresh could become a resource hog.
+
+==== Binding Data to Attendance Panel
+
+- Alternative 1 (current choice): Wrap the selected `EpicEvent` in an `EpicEventObservable` object to listen for changes
+    * Pros: We can listen to changes in the `EpicEventObservable` object to trigger a UI update.
+    * Cons: Creating a new class introduces more code bloat.
+- Alternative 1 (current choice): Bind `ObservableEpicEvent` to the Attendance Panel
+    * Pros: As `ObservableEpicEvent` extends `Observable`, it can listen to when the selected event changes and update the Attendance Panel accordingly.
+    * Cons: More code has to be written and maintained as we are introducing an additional layer of abstraction.
+- Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
+    * Pros: Binding data to the Attendance Panel is straight forward and the approach used to data to the People and Events Panels can be used here too.
+    * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`, increasing coupling between the `MainWindow` and `AttendanceListPanel`. It is a violation of Single Responsibility Principle as the `MainWindow` should only be concerned with displaying the main layout.
 
 === [proposed] Export an Event
 
