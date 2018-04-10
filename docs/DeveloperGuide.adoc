@@ -311,6 +311,7 @@ In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` 
     internalList.set(index, editedPerson);
 ----
 
+[#edit-curr-implementation]
 ==== Current Implementation
 
 In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable manner - instead of replacing the to-be-edited `Person/EpicEvent` with the new one, we edit the details of the to-be-edited `Person/EpicEvent` directly.
@@ -576,13 +577,16 @@ as not attended
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
-=== [Proposed] 3 Pane UI
+=== Three Pane UI
 
-The proposed new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
+The proposed new UI is a 3 pane UI consisting of list of people, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
+
+In addition, `edit` and `edit-command` commands are now implemented in a mutable manner (see <<edit-curr-implementation>>). As a result, the `ObservableList` that wraps the people and event data will no longer be notified to changes. The new UI must be notified of changes to data so it can refresh itself to reflect such changes. The UI will also have to respond to new commands such as the `select-event` and `toggle`. The `select-event` will invoke a change in the contents of the Attendance Panel and `toggle` will toggle the attendance status and is reflected in the UI in the form of the attendance icon change.
 
 ==== Current Implementation
 
-The UI consists of a `MainWindow` that is made up of parts e.g. `CommandBox`, `ResultDisplay`, `PersonListPanel`, `EpicEventListPanel` and `AttendeeListPanel`. The `ListPanel` s forms the bulk of the UI.
+The UI now consists of 3 list panels: `PersonListPanel`, `EpicEventListPanel` and `AttendanceListPanel`. The `model` maintains a `selectedEpicEvent` variable whose attendees will be displayed in the `AttendancePanel`.
+
 
 As you can see from the UI component diagram, the three lists extend from the `ListPanel` class. `ListPanel` is a vetically scrollable collection of `Cards`. It is an adapter view that does not know the details, such as type and contents, of the view it contains.
 
@@ -612,6 +616,24 @@ When deciding on the UI, the following aspects of user experience were considere
 - *Alternative 3*: A common list that can display either list of persons, events or attendees for selected event
     * Pros: We only have to make minimal changes to the UI layout.
     * Cons: Events, persons, and attendees must be displayed using the same `Card` class. This would result in tight coupling of the display graphics logic  for the three lists.
+
+===== Aspect: Updating UI when Data Changes
+
+Previously, changes to `Person` would create a new `Person` object that would replace the previous object, triggering a UI refresh. Now that such changes to `Peron`, `EpicEvent` and `Attendance` objects only mutate, the `ListView` is unable to listen to such changes.
+
+- Alternative 1 (current choice): Use the JavaFx Beans Convention
+    * Pros: Using the JavaBeans API to represent a property of an object allows property changes to be propagated to property change listeners. This is an elegant way to get the `ListView` to instantly update its elements.
+    * Cons: Using the JavaBeans API to represent object properties introduces coupling between the Model and UI components.
+- Alternative 2: Force all commands that change data to invoke a UI refresh
+    * Pros: It is straight forward to force a `ListView` UI refresh by invoking its `refresh()` method.
+    * Cons: We will have to ensure that any action that could modify data force a UI refresh. In addition, constantly invoking a UI refresh could become a resource hog.
+
+==== Binding Data to Attendance Panel
+
+- Alternative 1 (current choice):
+- Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
+    * Pros: Binding data to the Attendance Panel is straight forward and the approach used to data to the People and Events Panels can be used here too.
+    * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`
 
 === [proposed] Export an Event
 
