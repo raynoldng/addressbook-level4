@@ -1,0 +1,151 @@
+= Jiang Yue - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: EPIC
+
+---
+
+== Overview
+
+EPIC is an event planning tool for large organisations hosting many large-scale events (e.g. schools which host competitions, award and graduation ceremonies, and seminars and talks). It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
+
+== Summary of contributions
+
+* *Major enhancement*: added *commands to modify EpicEvents in the event list*
+** What it does: allows the user to locate an event with `find-event` command and then to modify the located event by deleting the event or editing the information of the event with `delete-event` and `edit-event` respectively.
+** Justification: These commands are essential to our product because EPIC is targeting at event planners who manage many events. Hence, event planners should be able to find the event they want to modify from multiple events easily and edit or delete an existing event as needed.
+** Highlights: This enhancement provides several basic functions for EPIC so that further enhancements that interact with events in EIPC can build on it.
+
+* *Minor enhancement*: maintained the persistent storage of EPIC so that data is retained after EPIC being closed and users can continue their edits when they open the app next time.
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/functional/jiangyue12392.md[Functional code]] [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/test/jiangyue12392.md[Test code]]
+
+* *Other contributions*:
+
+** Enhancements to existing features:
+*** Wrote additional tests for existing features to increase coverage from 88% to 90% (Pull requests https://github.com/CS2103JAN2018-W13-B2/main/pull/138[#138])
+** Documentation:
+*** Updated Storage class diagram in the User Guide: https://github.com/CS2103JAN2018-W13-B2/main/pull/116[#116]
+** Community:
+*** PRs reviewed (with non-trivial review comments): https://github.com/CS2103JAN2018-W13-B2/main/pull/15[#15], https://github.com/CS2103JAN2018-W13-B2/main/pull/17[#17]
+*** Reported bugs and suggestions for other teams in the class (https://github.com/CS2103JAN2018-W14-B2/main/issues/185[#185], https://github.com/CS2103JAN2018-W14-B2/main/issues/186[#186], https://github.com/CS2103JAN2018-W14-B2/main/issues/189[#189], https://github.com/CS2103JAN2018-W14-B2/main/issues/191[#191])
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+=== Editing an Event : `edit-event`
+
+Edits an existing event in the event planner. +
+Format: `edit-event INDEX [n/NAME] [t/TAG]...`
+
+****
+* Edits the event at the specified `INDEX`. The index refers to the index number shown in the Events Pane.
+The index *must be a positive integer* 1, 2, 3, ...
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* When editing tags, the existing tags of the event will be removed i.e adding of tags is not cumulative.
+* You can remove all the event's tags by typing `t/` without specifying any tags after it.
+****
+
+Examples:
+
+* `edit-event 1 n/IoT Talk t/talk` +
+Edits the name and tag of the 1st event to be `IoT Talk` and `talk` respectively.
+* `edit-event 2 n/Graduation Day t/` +
+Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
+
+=== Locating Events by Name: `find-event`
+
+Finds events whose names contain any of the given keywords. +
+Format: `find-event KEYWORD [MORE_KEYWORDS]`
+
+****
+* The search is case insensitive. e.g `talks` will match `Talks`
+* The order of the keywords does not matter. e.g. `Food Talk` will match `Talk Food`
+* Only the name is searched.
+* Only full words will be matched e.g. `Talk` will not match `Talks`
+* Events matching at least one keyword will be returned (i.e. `OR` search). e.g. `Talk` will return `Food Talk`, `IoT Talk`
+****
+
+Examples:
+
+* `find-event Talk` +
+Returns `IoT Talk` and `Food Talk`
+* `find-event Talk Competition` +
+Returns any event having name `Talk`, or `Competition`
+
+=== Deleting an Event : `delete-event`
+
+Deletes the specified event from the event planner. +
+Format: `delete-event INDEX`
+
+****
+* Deletes the event at the specified `INDEX`.
+The index refers to the index number shown in the middle pane.
+* The index *must be a positive integer* 1, 2, 3, ...
+****
+
+Examples:
+
+* `list-events` +
+`delete-event 2` +
+Deletes the 2nd event in the event planner.
+* `find-event Talk` +
+`delete-event 1` +
+Deletes the 1st event in the results of the `find-event` command.
+
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+When EPIC is re-launched, the following steps take place to restore data from the storage file:
+
+.  The `Main` creates an instance of `UserPrefStorage` object to initiate user preference for storage.
+.  The `Main` creates an instance of `XmlEventPlannerStorage` object to restore data with storage file path supplied by the instance of `UserPrefStorage` object.
+.  The restored data is encapsulated as an `EventPlanner` object inside the `XmlEventPlannerStorage` instance.
+.  An instance of `StorageManager` object is created from both the `XmlEventPlannerStorage` object and the `UserPrefStorage` object.
+.  The `StorageManager` object is used to initiate the model components.
+
+The Sequence Diagram for interactions within the Storage Component to restore data is shown below.
+
+.Interactions Inside the Storage Component to restore data
+image::StorageComponentSequenceDiagram.png[width="800"]
+
+=== [proposed] Export an Event
+
+The proposed export command exports the name of the attendees, their phone number,
+their email address, their home address and their attendance information of a particular
+event to a csv file into a file path specified by the user. Having the attendance of a
+particular event in a csv file would enable the users to analyse the data using other tools.
+
+==== [proposed] Implementation
+
+The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`.
+The execution of it creates a `CsvEventPlannerStorage`. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` where event data is parsed by `CsvUtil` and then exported as a file through `CsvFileStorage` using the file path specified by the user.
+
+<<#SDCSV>> below shows how the csv event export is processed in the storage component.
+
+[#SDCSV]
+.Sequence Diagram for csv export
+image::ExportEventSequenceDiagram.png[width="650"]
+
+==== Design Considerations
+
+When deciding on the export option, the following aspects of user experience are considered.
+
+===== Aspect: Data to be Exported
+
+- *Alternative 1 (current choice)*: Name of the attendees, their phone number, their email address, their home address and their attendance information for the event
+    * Pros: The information includes almost all the data users need for an event. The parsing of the data is straight forward.
+    * Cons: The tags of the attendees are not exported.
+- *Alternative 2*: All information for attendees including their tags
+    * Pros: More information for users as compared to current implementation.
+    * Cons: The attendees may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
