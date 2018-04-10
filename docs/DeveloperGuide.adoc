@@ -149,7 +149,7 @@ image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The UI component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
@@ -160,6 +160,22 @@ The UI component:
 * Executes user commands using the Logic component.
 * Binds itself to some data in the Model component so that the UI can auto-update when data in the Model component changes.
 * Responds to events raised from various parts of the App and updates the UI accordingly.
+
+The modular architecture also provides you with the flexibility to change and configure existing UI elements without manipulating a large complex single-component repository.
+
+====  Functional Overview
+
+The UI consists of a `MainWindow` that contains the X main layout regions:
+
+. Command Box: text box to receive user inputs
+. Result Display: status bar that displays the result of user commands
+. People List Panel: panel that lists all persons
+. Event List Panel: panel that lists all events
+. Attendance List Panel: panel that lists all attendees for user selected event
+
+==== Technical Overview
+
+<insert image>
 
 [[Design-Logic]]
 === Logic Component
