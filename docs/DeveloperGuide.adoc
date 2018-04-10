@@ -164,6 +164,10 @@ image::GUI.png[width="800"]
 . Event Card: card that lists an event's details.
 . Attendance Card: card that lists an attendee's contact information and displays if the attendee has attended or not.
 
+[NOTE]
+If no  `EpicEvent` has been selected, `AttendeeList` will be empty
+
+
 ==== Technical Overview
 
 The UI component (<<#UiClassDiagram>>) is responsible for interfacing with the user. The UI component uses the JavaFx UI framework. The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
@@ -587,6 +591,15 @@ In addition, `edit` and `edit-command` commands are now implemented in a mutable
 
 The UI now consists of 3 list panels: `PersonListPanel`, `EpicEventListPanel` and `AttendanceListPanel`. The `model` maintains a `selectedEpicEvent` variable whose attendees will be displayed in the `AttendancePanel`.
 
+// 3 panel UI
+
+// 3 different cards include class diagram (TODO: make card abstract?)
+// Attendance card is has a bind property
+
+// Binding data to attendance list and observableepicevent (observer pattern)
+
+// Using the Beans Pattern
+
 
 As you can see from the UI component diagram, the three lists extend from the `ListPanel` class. `ListPanel` is a vetically scrollable collection of `Cards`. It is an adapter view that does not know the details, such as type and contents, of the view it contains.
 
@@ -597,9 +610,6 @@ The sequence diagram below shows how `PersonListPanel` is initialised. `EventsLi
 .Sequence Diagram for Panel initialisation
 image::CreatePersonListPanelSequenceDiagram.png[width="650"]
 
-
-[NOTE]
-If no  `EpicEvent` has been selected, `AttendeeList` will be empty
 
 ==== Design Considerations
 
@@ -630,10 +640,12 @@ Previously, changes to `Person` would create a new `Person` object that would re
 
 ==== Binding Data to Attendance Panel
 
-- Alternative 1 (current choice):
+- Alternative 1 (current choice): Bind `ObservableEpicEvent` to the Attendance Panel
+    * Pros: As `ObservableEpicEvent` extends `Observable`, it can listen to when the selected event changes and update the Attendance Panel accordingly.
+    * Cons: More code has to be written and maintained as we are introducing an additional layer of abstraction.
 - Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
     * Pros: Binding data to the Attendance Panel is straight forward and the approach used to data to the People and Events Panels can be used here too.
-    * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`
+    * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`, increasing coupling between the `MainWindow` and `AttendanceListPanel`. It is a violation of Single Responsibility Principle as the `MainWindow` should only be concerned with displaying the main layout.
 
 === [proposed] Export an Event
 
