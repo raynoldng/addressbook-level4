@@ -54,30 +54,21 @@
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <children>
-              <Label styleClass="label-header" alignment="TOP_LEFT" text="People" textAlignment="CENTER" />
-              <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-            </children>
+            <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
           <!-- @@author raynoldng -->
           <VBox fx:id="epicEventList" minWidth="200" prefWidth="340" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <children>
-              <Label styleClass="label-header" alignment="TOP_LEFT" text="Events" textAlignment="CENTER" />
-              <StackPane fx:id="epicEventListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-            </children>
+            <StackPane fx:id="epicEventListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
 
           <VBox fx:id="attendanceList" minWidth="280" prefWidth="340" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <children>
-              <Label styleClass="label-header" alignment="TOP_LEFT" text="Attendees" textAlignment="CENTER" />
-              <StackPane fx:id="attendanceListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-            </children>
+            <StackPane fx:id="attendanceListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
           </VBox>
           <!-- @@author -->
 
