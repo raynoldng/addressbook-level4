@@ -31,7 +31,8 @@ GUI, using the various features EPIC has.
 
 == Quick Start
 
-This section walks you through setting up EPIC on your computer, and goes through some example commands you can try.
+This section walks you through setting up EPIC on your computer, provides an overview of the UI
+and goes through some example commands you can try.
 
 .  Ensure you have Java version `1.8.0_60` or later installed in your computer.
 +
@@ -44,12 +45,12 @@ This app will not work with earlier versions of Java 8.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
 
-.GUI of EPIC
-image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
+.GUI of EPIC
+image::Ui.png[width="790"]
 Some example commands you can try:
 
 * *`list`* : lists all contacts
@@ -66,14 +67,17 @@ This section describes the components of the GUI, and common ways to interact wi
 
 === Layout
 
-.Components of the GUI
-image::Ui.png[width="790"]
+The UI consists of the 5 main layout regions (Figure 2):
 
-* The top of the GUI is the command box, where you can see commands as you are typing them.
-* The main part of the GUI is split into three panes.
-** The leftmost pane is the Persons Pane. It displays the list of persons stored in EPIC.
-** The middle pane is the Events Pane. It displays the list of events stored in EPIC.
-** The rightmost pane is the Attendees Pane. It displays the list of registered persons in the selected event.
+.Components of the GUI
+image::Ui_annotated.png[width="790"]
+
+. Command Box: text box to receive user inputs.
+. Result Display: status bar that displays the result of user commands.
+. People List Panel: panel that lists all persons stored in EPIC.
+. Event List Panel: panel that lists all events stored in EPIC.
+. Attendance List Panel: panel that lists all attendees in the selected event.
+
 
 [TIP]
 The lists displayed in the panes can be filtered using the `find` or `find-event` commands!
@@ -233,6 +237,8 @@ Attendance panel will show person registered for the selected event.
 
 Format: `select-event INDEX`
 
+[TIP]
+By default, the first event in the Event List Panel is the selected event.
 
 === Editing an Event : `edit-event`
 

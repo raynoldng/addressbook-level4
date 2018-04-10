@@ -159,7 +159,7 @@ image::GUI.png[width="800"]
 . Result Display: status bar that displays the result of user commands.
 . People List Panel: panel that lists all persons.
 . Event List Panel: panel that lists all events.
-. Attendance List Panel: panel that lists all attendees for user selected event.
+. Attendance List Panel: panel that lists all attendees in the user selected event.
 . Person Card: card that lists a peron's contact information.
 . Event Card: card that lists an event's details.
 . Attendance Card: card that lists an attendee's contact information and displays if the attendee has attended or not.
