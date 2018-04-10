@@ -20,7 +20,7 @@
 
 .label-header {
     -fx-font-size: 20pt;
-    -fx-padding: 0 0 0 5;
+    -fx-padding: 0 0 5 5;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
