@@ -241,7 +241,7 @@ public class EditEventCommandTest {
         assertEventNotInModel(eventToEditCopy, model);
         assertEventInModel(editedEvent, model);
     }
-    //@@author
+    //@@author jiangyue12392
 
     @Test
     public void equals() throws Exception {

@@ -20,7 +20,7 @@ Responsibilities: Logic
 
 === Jiang Yue
 image::jiangyue12392.png[width="150", align="left"]
-{empty}[http://github.com/jiangyue12392[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/jiangyue12392[github]] [<<jiangyue#, portfolio>>]
 
 Role: Developer, Deliverables and Deadline, Code Quality +
 Responsibilities: Storage

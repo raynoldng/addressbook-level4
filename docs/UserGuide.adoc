@@ -264,7 +264,7 @@ Edits the name and tag of the 1st event to be `IoT Talk` and `talk` respectively
 * `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
 
-=== Locating Events by Name: `find-event` [Since v1.2]
+=== Locating Events by Name: `find-event`
 
 Finds events whose names contain any of the given keywords. +
 Format: `find-event KEYWORD [MORE_KEYWORDS]`
@@ -280,11 +280,11 @@ Format: `find-event KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 * `find-event Talk` +
-Returns `Talk` and `Food Talk`
+Returns `IoT Talk` and `Food Talk`
 * `find-event Talk Competition` +
 Returns any event having name `Talk`, or `Competition`
 
-=== Deleting an Event : `delete-event` [Since v1.2]
+=== Deleting an Event : `delete-event`
 
 Deletes the specified event from the event planner. +
 Format: `delete-event INDEX`
@@ -304,7 +304,7 @@ Deletes the 2nd event in the event planner.
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
 
-=== Registering a Person for an Event: `register` [Since v1.2]
+=== Registering a Person for an Event: `register`
 
 Registers the specified person for an event in the event planner. +
 Format: `register INDEX EVENT_NAME`
@@ -326,7 +326,7 @@ Registers the 2nd person in the event planner for AY201718 Graduation.
 `register 1 Computing Seminar` +
 Registers the 1st person in the results of the `find` command for Computing Seminar.
 
-=== Deregistering a Person from an Event: `deregister` [Since v1.2]
+=== Deregistering a Person from an Event: `deregister`
 
 Deregisters the specified person from an event in the event planner. +
 Format: `deregister INDEX EVENT_NAME`
