@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<eventplanner>
+    <persons>
+        <name>Alice Pauline</name>
+        <phone>85355255</phone>
+        <email>alice@example.com</email>
+        <address>123, Jurong West Ave 6, #08-111</address>
+        <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Benson Meier</name>
+        <phone>98765432</phone>
+        <email>johnd@example.com</email>
+        <address>311, Clementi Ave 2, #02-25</address>
+        <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+        <tagged>owesMoney</tagged>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Carl Kurz</name>
+        <phone>95352563</phone>
+        <email>heinz@example.com</email>
+        <address>wall street</address>
+        <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Daniel Meier</name>
+        <phone>87652533</phone>
+        <email>cornelia@example.com</email>
+        <address>10th street</address>
+        <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Elle Meyer</name>
+        <phone>9482224</phone>
+        <email>werner@example.com</email>
+        <address>michegan ave</address>
+        <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Fiona Kunz</name>
+        <phone>9482427</phone>
+        <email>lydia@example.com</email>
+        <address>little tokyo</address>
+        <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Akshay</name>
+        <phone>12345678</phone>
+        <email>akshay@gmail.com</email>
+        <address>AkshayPlace</address>
+        <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+        <tagged>impersonator</tagged>
+    </persons>
+    <persons>
+        <name>Akshay Head TA</name>
+        <phone>87654321</phone>
+        <email>therealakshay@gmail.com</email>
+        <address>AkshayPalace</address>
+        <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+    </persons>
+    <epicEvents>
+        <name>Food Seminar</name>
+        <attendanceList>
+            <attendee>
+                <name>Alice Pauline</name>
+                <phone>85355255</phone>
+                <email>alice@example.com</email>
+                <address>123, Jurong West Ave 6, #08-111</address>
+                <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>true</hasAttended>
+        </attendanceList>
+        <attendanceList>
+            <attendee>
+                <name>Benson Meier</name>
+                <phone>98765432</phone>
+                <email>johnd@example.com</email>
+                <address>311, Clementi Ave 2, #02-25</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>owesMoney</tagged>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <attendanceList>
+            <attendee>
+                <name>Daniel Meier</name>
+                <phone>87652533</phone>
+                <email>cornelia@example.com</email>
+                <address>10th street</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>true</hasAttended>
+        </attendanceList>
+        <attendanceList>
+            <attendee>
+                <name>Elle Meyer</name>
+                <phone>9482224</phone>
+                <email>werner@example.com</email>
+                <address>michegan ave</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <attendanceList>
+            <attendee>
+                <name>Carl Kurz</name>
+                <phone>95352563</phone>
+                <email>heinz@example.com</email>
+                <address>wall street</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <tagged>seminar</tagged>
+        <tagged>food</tagged>
+    </epicEvents>
+    <epicEvents>
+        <name>IoT Seminar</name>
+        <attendanceList>
+            <attendee>
+                <name>Akshay</name>
+                <phone>12345678</phone>
+                <email>akshay@gmail.com</email>
+                <address>AkshayPlace</address>
+                <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+                <tagged>impersonator</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <tagged>seminar</tagged>
+        <tagged>IoT</tagged>
+    </epicEvents>
+    <epicEvents>
+        <name>Math Olympiad</name>
+        <attendanceList>
+            <attendee>
+                <name>Fiona Kunz</name>
+                <phone>9482427</phone>
+                <email>lydia@example.com</email>
+                <address>little tokyo</address>
+                <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <tagged>competition</tagged>
+        <tagged>math</tagged>
+    </epicEvents>
+    <epicEvents>
+        <name>Physics Olympiad</name>
+        <tagged>physics</tagged>
+        <tagged>competition</tagged>
+    </epicEvents>
+    <epicEvents>
+        <name>Career Talk</name>
+        <attendanceList>
+            <attendee>
+                <name>Elle Meyer</name>
+                <phone>9482224</phone>
+                <email>werner@example.com</email>
+                <address>michegan ave</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <attendanceList>
+            <attendee>
+                <name>Benson Meier</name>
+                <phone>98765432</phone>
+                <email>johnd@example.com</email>
+                <address>311, Clementi Ave 2, #02-25</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>owesMoney</tagged>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <tagged>career</tagged>
+        <tagged>talk</tagged>
+    </epicEvents>
+    <epicEvents>
+        <name>Orientation</name>
+        <attendanceList>
+            <attendee>
+                <name>Carl Kurz</name>
+                <phone>95352563</phone>
+                <email>heinz@example.com</email>
+                <address>wall street</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <attendanceList>
+            <attendee>
+                <name>Daniel Meier</name>
+                <phone>87652533</phone>
+                <email>cornelia@example.com</email>
+                <address>10th street</address>
+                <numberOfEventsRegisteredFor>2</numberOfEventsRegisteredFor>
+                <tagged>friends</tagged>
+            </attendee>
+            <hasAttended>true</hasAttended>
+        </attendanceList>
+        <tagged>graduation</tagged>
+    </epicEvents>
+    <epicEvents>
+        <name>Carnival</name>
+        <attendanceList>
+            <attendee>
+                <name>Akshay Head TA</name>
+                <phone>87654321</phone>
+                <email>therealakshay@gmail.com</email>
+                <address>AkshayPalace</address>
+                <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+            </attendee>
+            <hasAttended>false</hasAttended>
+        </attendanceList>
+        <tagged>fun</tagged>
+    </epicEvents>
+    <personTags>owesMoney</personTags>
+    <personTags>impersonator</personTags>
+    <personTags>friends</personTags>
+    <eventTags>career</eventTags>
+    <eventTags>graduation</eventTags>
+    <eventTags>seminar</eventTags>
+    <eventTags>physics</eventTags>
+    <eventTags>competition</eventTags>
+    <eventTags>talk</eventTags>
+    <eventTags>math</eventTags>
+    <eventTags>food</eventTags>
+    <eventTags>fun</eventTags>
+    <eventTags>IoT</eventTags>
+</eventplanner>

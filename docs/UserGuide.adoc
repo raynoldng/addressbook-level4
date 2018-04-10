@@ -386,7 +386,7 @@ Format: `clear`
 // tag::undoredo[]
 === Undoing Commands : `undo`
 
-Restores the event planner to the state before the previous _undoable_ command was executed. +
+Restores EPIC to the state before the previous _undoable_ command was executed. +
 There is no guarantee that relative ordering of persons/events will be maintained after the undoing
 of a `delete` or `delete-event` command. +
 Format: `undo`
@@ -460,12 +460,12 @@ There is no need to save manually.
 
 === Exporting Contact Information to a CSV File : `export` [coming in v2.0]
 
-Exports the list of all persons in the event planner to a csv file. +
+Exports the list of all persons in EPIC to a csv file. +
 Format: `export FILE_NAME`
 
 === Importing Contact Information from a CSV File : `import` [coming in v2.0]
 
-Imports a list of persons from a csv file and adds them to the event planner. +
+Imports a list of persons from a csv file and adds them to EPIC. +
 Format: `import FILE_NAME`
 
 === Adding Feedback for an Event from a Participant : `add-feedback` [coming in v2.0]
@@ -480,13 +480,14 @@ Format: `export-event EVENT_NAME FILE_NAME`
 
 === Registering all Persons with a Particular Tag to an Event : `register-by-tag` [coming in v2.0]
 
-Registers all persons with a particular tag to an event in the event planner. +
+Registers all persons with a particular tag to an event in EPIC. +
 Format: `register-by-tag TAG EVENT_NAME`
 
 === Adding Automatic Email Reminder to Event Participants : `add-reminder` [coming in v2.0]
 
 Adds an automatic email reminder at the stipulated time to all event participants. +
 Format: `add-reminder DAYS_OFFSET EVENT_NAME`
+
 
 === Adding Hotkeys for Commands : `add-hotkey` [coming in v2.0]
 
