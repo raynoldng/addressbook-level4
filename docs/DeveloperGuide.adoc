@@ -579,7 +579,7 @@ has already been marked as attended when the user tries to mark the participant 
 
 === Three Pane UI
 
-The proposed new UI is a 3 pane UI consisting of list of people, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
+The proposed new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
 
 In addition, `edit` and `edit-command` commands are now implemented in a mutable manner (see <<edit-curr-implementation>>). As a result, the `ObservableList` that wraps the people and event data will no longer be notified to changes. The new UI must be notified of changes to data so it can refresh itself to reflect such changes. The UI will also have to respond to new commands such as the `select-event` and `toggle`. The `select-event` will invoke a change in the contents of the Attendance Panel and `toggle` will toggle the attendance status and is reflected in the UI in the form of the attendance icon change.
 
@@ -619,7 +619,7 @@ When deciding on the UI, the following aspects of user experience were considere
 
 ===== Aspect: Updating UI when Data Changes
 
-Previously, changes to `Person` would create a new `Person` object that would replace the previous object, triggering a UI refresh. Now that such changes to `Peron`, `EpicEvent` and `Attendance` objects only mutate, the `ListView` is unable to listen to such changes.
+Previously, changes to `Person` would create a new `Person` object that would replace the previous object, triggering a UI refresh. Now that such changes to `Peron`, `EpicEvent` and `Attendance` objects only mutate it, the `ListView` is unable to listen to such changes.
 
 - Alternative 1 (current choice): Use the JavaFx Beans Convention
     * Pros: Using the JavaBeans API to represent a property of an object allows property changes to be propagated to property change listeners. This is an elegant way to get the `ListView` to instantly update its elements.
@@ -630,7 +630,9 @@ Previously, changes to `Person` would create a new `Person` object that would re
 
 ==== Binding Data to Attendance Panel
 
-- Alternative 1 (current choice):
+- Alternative 1 (current choice): Wrap the selected `EpicEvent` in an `EpicEventObservable` object to listen for changes
+    * Pros: We can listen to changes in the `EpicEventObservable` object to trigger a UI update.
+    * Cons: Creating a new class introduces more code bloat.
 - Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
     * Pros: Binding data to the Attendance Panel is straight forward and the approach used to data to the People and Events Panels can be used here too.
     * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`
