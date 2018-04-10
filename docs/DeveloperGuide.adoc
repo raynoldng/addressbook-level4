@@ -18,11 +18,12 @@ Table of Contents:
 
 == Introduction
 
-EPIC is an event planning tool for large organisations hosting many large-scale events
-(e.g. schools which host competitions, award and graduation ceremonies, and seminars and talks).
-It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
+EPIC is a Java application and event planning tool for large organization hosting many large-scale events (e.g. schools which host competitions, award and graduation ceremonies, and seminars and talks).
 
-This Developer Guide will walk you through the software architecture EPIC adopts, the implementation
+It provides a basic suite of operations for managing the attendance for multiple events. Attendees can be drawn from a common attendance list. It is targeted at and optimised for event planners who are comfortable with using a Command Line Interface (CLI).
+
+
+This Developer Guide provides a high level introduction and view of EPIC. We will walk you through the software architecture EPIC adopts, the implementation
 of several interesting features EPIC has, as well as prepare you to modify the codebase of EPIC yourself.
 
 == Setting Up
@@ -72,9 +73,11 @@ To ensure that EPIC has been set up correctly:
 
 === Configurations to Do Before Writing Code
 
+For the best developer experience, we recommend the following configurations before you start coding.
+
 ==== Configuring the Coding Style
 
-This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
+This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify:
 
 . Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (macOS).
 . Select `Editor` > `Code Style` > `Java`.
@@ -106,12 +109,10 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based).
 
-== Design
-
 [[Design-Architecture]]
-=== Architecture
+== Architecture
 
-The *_Architecture Diagram_* (<<#architecture-diagram>>) given below explains the high-level design of the App.
+EPIC incoporates the core architectural principles of object-oriented, Java-based applications. It consists of lossly coupled components written in Java. The *_Architecture Diagram_* (<<#architecture-diagram>>) given below explains the high-level design of the App.
 
 [#architecture-diagram]
 .Architecture Diagram
@@ -122,7 +123,7 @@ components form the *core* of the application, with Main and Commons facilitatin
 
 Below is a quick overview of each component:
 
-==== Main
+=== Main
 
 The Main component only has one class - link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. This class has two main responsibilities:
 
@@ -138,7 +139,7 @@ is used by components to communicate with other components using events (i.e. a 
 * `LogsCenter` : This class is used by many classes to write log messages to the application's log file.
 
 [[Design-Ui]]
-==== UI Component
+=== UI Component
 
 The UI component(<<#UiClassDiagram>>) is responsible for interfacing with the user.
 
@@ -161,7 +162,7 @@ The UI component:
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 [[Design-Logic]]
-==== Logic Component
+=== Logic Component
 
 The Logic component (<<#LGC>>) is responsible for the parsing and execution of commands.
 
@@ -188,7 +189,7 @@ The Sequence Diagram for interactions within the Logic component for the `execut
 image::DeletePersonSdForLogic.png[width="800"]
 
 [[Design-Model]]
-==== Model Component
+=== Model Component
 
 The Model component (<<#MCD>>) is responsible for holding application data in-memory.
 
@@ -209,7 +210,7 @@ The UI can be bound to any of these lists so that it automatically updates when 
 The Model does not depend on any of the other three components. This reduces coupling between components.
 
 [[Design-Storage]]
-==== Storage Component
+=== Storage Component
 
 The Storage component (<<SCD>>) is responsible for persisting application data on the hard disk.
 
@@ -237,7 +238,7 @@ The Sequence Diagram for interactions within the Storage Component to restore da
 .Interactions Inside the Storage Component to restore data
 image::StorageComponentSequenceDiagram.png[width="800"]
 
-==== How Components Interact
+=== How Components Interact
 
 Finally, we will conclude the Architecture section with several examples on how the components interact.
 
