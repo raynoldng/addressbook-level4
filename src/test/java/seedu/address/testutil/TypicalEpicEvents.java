@@ -50,7 +50,7 @@ public class TypicalEpicEvents {
     //@@author raynoldng
     public static final EpicEvent EVENT_WITH_ATTENDEES = new EpicEventBuilder().withName("Event with Attendees")
             .withAttendees(Arrays.asList(TypicalPersons.ALICE, TypicalPersons.BOB)).build();
-    //@@author
+    //@@author jiangyue12392
 
     public static final String KEYWORD_MATCHING_OLYMPIAD = "Olympiad"; // A keyword that matches OLYMPIAD
 
