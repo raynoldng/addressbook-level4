@@ -139,6 +139,7 @@ is used by components to communicate with other components using events (i.e. a 
 * `LogsCenter` : This class is used by many classes to write log messages to the application's log file.
 
 [[Design-Ui]]
+// tag::uicomponent[]
 === UI Component
 
 The UI component is responsible for interfacing with the user. The UI component:
@@ -183,6 +184,7 @@ image::UiClassDiagram.png[width="800"]
 The UI component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
 For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+// end::uicomponent[]
 
 [[Design-Logic]]
 === Logic Component
@@ -581,6 +583,7 @@ as not attended
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
+// tag::threepaneui[]
 === Three Pane UI
 
 The proposed new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
@@ -591,12 +594,6 @@ In addition, `edit` and `edit-command` commands are now implemented in a mutable
 
 The UI now consists of 3 list panels: `PersonListPanel`, `EpicEventListPanel` and `AttendanceListPanel`. Each panel is a list of `PersonCard`, `EpicEventCard` and `AttendanceCard` respectively. Since the `AttendanceCard` has the same UI as `PersonCard` with the addition of the toggle icon, it extends `PersonCard`. The `model` maintains a `selectedEpicEvent` variable whose attendees will be displayed in the `AttendancePanel`.
 
-// 3 different cards include class diagram (TODO: make card abstract?)
-
-// Attendance card is has a bind property
-
-
-// Binding data to attendance list and observableepicevent (observer pattern)
 In order to get the `AttendanceListPanel` to instantly update its elements, we employ the JavaFx Bean Pattern. We listen to changes to object properties by using the JavaBeans API to represent the properties.
 
 The `Person` class is implemented this way:
@@ -634,6 +631,7 @@ By using the JavaBeans API to handle UI updates, the programmer does not have to
 
 //.Sequence Diagram for Panel initialisation
 //image::CreatePersonListPanelSequenceDiagram.png[width="650"]
+// end::threepaneui[]
 
 
 ==== Design Considerations
