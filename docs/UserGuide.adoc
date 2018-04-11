@@ -214,6 +214,7 @@ Selects the 2nd person.
 `select 1` +
 Selects the 1st person in the results of the `find` command.
 
+//tag::addevent[]
 === Adding an Event: `add-event`
 
 Adds an event to EPIC. +
@@ -228,6 +229,7 @@ Examples:
 Adds the event AY201718 Graduation to EPIC.
 * `add-event n/Computing Seminar`
 Adds the event Computing Seminar to EPIC.
+//end::addevent[]
 
 === Listing all Events: `list-events`
 
@@ -371,6 +373,7 @@ Format: `list-registered EVENT_NAME`
 
 // end::list-registered[]
 
+//tag::toggle[]
 === Toggle Attendance for Event Participant : `toggle`
 
 Toggles the attendance of a participant to an event from attended to not attended and vice versa. +
@@ -389,6 +392,7 @@ Examples:
 `toggle 1` +
 Toggles the attendance of the 1st person attendee in the attendance list of
 AY201718 Graduation.
+//end::toggle[]
 
 === Listing Entered Commands : `history`
 
