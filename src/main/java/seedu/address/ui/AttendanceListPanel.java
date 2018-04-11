@@ -80,6 +80,7 @@ public class AttendanceListPanel extends UiPart<Region> {
 
     public void updateConnection() {
         setConnections();
+        updateAttendanceStatus();
     }
 
     private void setConnections() {
