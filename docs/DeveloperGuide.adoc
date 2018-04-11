@@ -213,6 +213,7 @@ The Sequence Diagram for interactions within the Logic component for the `execut
 .Interactions Inside the Logic Component for the `delete 1` Command
 image::DeletePersonSdForLogic.png[width="800"]
 
+// tag::modelcomponent[]
 [[Design-Model]]
 === Model Component
 
@@ -233,6 +234,7 @@ The UI can be bound to any of these lists so that it automatically updates when 
 
 [NOTE]
 The Model does not depend on any of the other three components. This reduces coupling between components.
+// end::modelcomponent[]
 
 [[Design-Storage]]
 === Storage Component
@@ -590,6 +592,23 @@ as not attended
 ** Cons: Makes it harder to undo the command since the command may not be successful if for example the participant
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
+
+// tag::massregistration[]
+
+=== [Proposed] Mass Registration
+
+==== Proposed Implementation
+
+This feature is proposed to allow for mass registration of multiple persons to a single event.
+The proposed implementation is to make use of tags to select groups of persons to register for an event.
+It is proposed that the `Tag` class be split into `PersonTag` and `EpicEventTag` so as to differentiate
+the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
+By doing so, a group of persons can be identified by `PersonTag` and thus registered to an event
+by iteratively registering each person.
+
+// end::massregistration[]
+
+
 
 // tag::threepaneui[]
 === Three Pane UI
