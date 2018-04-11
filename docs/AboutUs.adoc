@@ -11,7 +11,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 === Bay Wei Heng
 image::bayweiheng.png[width="150", align="left"]
-{empty}[https://github.com/bayweiheng[github]] [<<johndoe#, portfolio>>]
+{empty}[https://github.com/bayweiheng[github]] [<<bayweiheng#, portfolio>>]
 
 Roles: Documentation, Scheduling and Tracking, Third-Party Tools +
 Responsibilities: Logic
@@ -38,7 +38,7 @@ Responsibilities: Model
 
 === Raynold Ng
 image::raynoldng.png[width="150", align="left"]
-{empty}[http://github.com/raynoldng[github]] [<<johndoe#, portfolio>>]
+{empty}[http://github.com/raynoldng[github]] [<<raynoldng#, portfolio>>]
 
 Role: Developer +
 Responsibilities: Dev Ops, UI, Integration
