@@ -14,7 +14,8 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 
 == Summary of contributions
 
-* *Major enhancement*: overhauled UI to a three panel system and binds UI elements to data in the Model component and ensuring that updates to data is reflected in the UI.
+* *Major enhancement*: overhauled UI to a three panel system that
+binds UI elements to data in the Model component and ensures that updates to data are reflected in the UI.
 ** What it does: A three panel system displaying stored persons, events and attendees offers an intuitive user experience.
 ** Justification: The previous UI of a Person panel and browser panel does not meet the needs of EPIC's use case.
 ** Highlights: Leveraged several patterns such as the Model View Controller (MVC) Pattern, Observer Pattern and JavaFx Beans Convention to elegantly trigger UI updates upon data changes.
@@ -25,7 +26,7 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 * *Other contributions*:
 
 ** Project management:
-*** Managed release `v.1.4.1`  on GitHub
+*** Managed release https://github.com/CS2103JAN2018-W13-B2/main/releases/tag/1.4.1[v.1.4.1]  on GitHub
 ** Enhancements to existing features:
 *** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
 *** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
@@ -34,8 +35,6 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2103JAN2018-W13-B2/main/pull/44[#44]
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W10-B3/main/issues/118#event-1562496445[1], https://github.com/CS2103JAN2018-W10-B3/main/issues/110#issuecomment-379736418[2])
-
-_{you can add/remove categories in the list above}_
 
 == Contributions to the User Guide
 

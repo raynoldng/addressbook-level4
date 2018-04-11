@@ -41,7 +41,7 @@ Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
 .  Download the latest `EPIC.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Event Planner.
+.  Copy the file to the folder you want to use as the home folder for EPIC.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
 
@@ -54,7 +54,7 @@ image::Ui.png[width="790"]
 Some example commands you can try:
 
 * *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Event Planner.
+* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to EPIC.
 * **`delete`**`3` : deletes the 3rd contact shown in the current list
 * *`exit`* : exits the app
 
@@ -79,9 +79,10 @@ image::Ui_annotated.png[width="790"]
 . Attendance List Panel: panel that lists all attendees in the selected event.
 // end::uilayout[]
 
-
 [TIP]
 The lists displayed in the panes can be filtered using the `find` or `find-event` commands!
+
+// tag::uiinteractions[]
 
 === Interacting with the GUI
 
@@ -91,6 +92,8 @@ Selecting an event can also be done with the `select` command in the command box
 * Clicking on the tick/cross symbol next to a person's details in the Attendees Pane allows you to toggle
 that person's attendance for the currently selected event.
 Toggling the attendance can also be done with the `toggle` command.
+
+// end::uiinteractions[]
 
 [[Features]]
 == Features
@@ -133,7 +136,7 @@ Format: `list`
 
 === Editing a Person : `edit`
 
-Edits an existing person in the event planner. +
+Edits an existing person in EPIC. +
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 
 ****
@@ -245,7 +248,7 @@ By default, the first event in the Event List Panel is the selected event.
 
 === Editing an Event : `edit-event`
 
-Edits an existing event in the event planner. +
+Edits an existing event in the EPIC. +
 Format: `edit-event INDEX [n/NAME] [t/TAG]...`
 
 ****
@@ -286,7 +289,7 @@ Returns any event having name `Talk`, or `Competition`
 
 === Deleting an Event : `delete-event`
 
-Deletes the specified event from the event planner. +
+Deletes the specified event from EPIC. +
 Format: `delete-event INDEX`
 
 ****
@@ -299,14 +302,16 @@ Examples:
 
 * `list-events` +
 `delete-event 2` +
-Deletes the 2nd event in the event planner.
+Deletes the 2nd event in EPIC.
 * `find-event Talk` +
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
 
+// tag::register[]
+
 === Registering a Person for an Event: `register`
 
-Registers the specified person for an event in the event planner. +
+Registers the specified person for an event in EPIC. +
 Format: `register INDEX EVENT_NAME`
 
 ****
@@ -316,19 +321,22 @@ The index refers to the index number shown in the Persons Pane.
 * `EVENT_NAME` must match the name of an event in EPIC exactly.
 ****
 
-
 Examples:
 
 * `list` +
 `register 2 AY201718 Graduation` +
-Registers the 2nd person in the event planner for AY201718 Graduation.
+Registers the 2nd person in EPIC for AY201718 Graduation.
 * `find Betsy` +
 `register 1 Computing Seminar` +
 Registers the 1st person in the results of the `find` command for Computing Seminar.
 
+// end::register[]
+
+// tag::deregister[]
+
 === Deregistering a Person from an Event: `deregister`
 
-Deregisters the specified person from an event in the event planner. +
+Deregisters the specified person from an event in the EPIC. +
 Format: `deregister INDEX EVENT_NAME`
 
 ****
@@ -339,15 +347,18 @@ The index refers to the index number shown in the Persons Pane.
 * The person to be deregistered must be already in the event.
 ****
 
-
 Examples:
 
 * `list` +
 `deregister 2 AY201718 Graduation` +
-Deregisters the 2nd person in the event planner from AY201718 Graduation.
+Deregisters the 2nd person in EPIC from AY201718 Graduation.
 * `find Betsy` +
 `deregister 1 Computing Seminar` +
 Deregisters the 1st person in the results of the `find` command from Computing Seminar.
+
+// end::deregister[]
+
+// tag::list-registered[]
 
 === Listing all Event Participants: `list-registered`
 
@@ -357,6 +368,8 @@ Format: `list-registered EVENT_NAME`
 ****
 * `EVENT_NAME` must match the name of an event in EPIC exactly.
 ****
+
+// end::list-registered[]
 
 === Toggle Attendance for Event Participant : `toggle`
 
@@ -402,7 +415,7 @@ Format: `undo`
 
 [NOTE]
 ====
-Undoable commands: those commands that modify the event planner's content.
+Undoable commands: those commands that modify EPIC's content.
 To see the full list of undoable commands, refer to <<List of undoable commands>>
 ====
 
