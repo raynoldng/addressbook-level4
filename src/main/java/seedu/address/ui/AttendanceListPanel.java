@@ -78,6 +78,9 @@ public class AttendanceListPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    /**
+     * Updates list view data and refreshes attendance panel header.
+     */
     public void updateConnection() {
         setConnections();
         updateAttendanceStatus();
