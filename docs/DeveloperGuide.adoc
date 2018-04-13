@@ -112,7 +112,7 @@ Having both Travis and AppVeyor ensures your App works on both Unix-based platfo
 [[Design-Architecture]]
 == Architecture
 
-EPIC incoporates the core architectural principles of object-oriented, Java-based applications. It consists of lossly coupled components written in Java. The *_Architecture Diagram_* (<<#architecture-diagram>>) given below explains the high-level design of the App.
+EPIC incorporates the core architectural principles of object-oriented, Java-based applications. It consists of loosely coupled components written in Java. The *_Architecture Diagram_* (<<#architecture-diagram>>) given below explains the high-level design of the App.
 
 [#architecture-diagram]
 .Architecture Diagram
@@ -130,7 +130,7 @@ The Main component only has one class - link:{repoURL}/src/main/java/seedu/addre
 * At app launch, it initialises the other components in the correct sequence, and connects them up with each other.
 * Upon exit, it shuts down the other components and invokes cleanup methods where necessary.
 
-==== Commons
+=== Commons
 
 Commons represents a collection of classes used by multiple other components. Two of these classes play important roles at the architecture level.
 
@@ -142,11 +142,11 @@ is used by components to communicate with other components using events (i.e. a 
 // tag::uicomponent[]
 === UI Component
 
-The UI component is responsible for interfacing with the user. The UI component:
+The UI component is responsible for interfacing with the user. The UI component has three main responsibilities:
 
-* Executes user commands using the Logic component.
-* Binds itself to some data in the Model component so that the UI can auto-update when data in the Model component changes.
-* Responds to events raised from various parts of the App and updates the UI accordingly.
+* It executes user commands using the Logic component.
+* It binds itself to some data in the Model component so that the UI can auto-update when data in the Model component changes.
+* It responds to events raised from various parts of the App and updates the UI accordingly.
 
 ====  Functional Overview
 
@@ -171,7 +171,7 @@ If no  `EpicEvent` has been selected, `AttendeeList` will be empty
 
 ==== Technical Overview
 
-The UI component (<<#UiClassDiagram>>) is responsible for interfacing with the user. The UI component uses the JavaFx UI framework. The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI component (<<#UiClassDiagram>>) uses the JavaFx UI framework. The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 
 [#UiClassDiagram]
@@ -181,7 +181,6 @@ image::UiClassDiagram.png[width="800"]
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
 
-The UI component uses JavaFx UI framework.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
 For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 // end::uicomponent[]
@@ -225,11 +224,11 @@ image::ModelClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
 
-The Model component:
+The Model component has the following responsibilities:
 
-* stores a `UserPref` object that represents the user's preferences.
-* stores the Event Planner data.
-* exposes three unmodifiable `ObservableLists`, one each for `Person`, `EpicEvent` and `Attendance`.
+* It stores a `UserPref` object that represents the user's preferences.
+* It stores the Event Planner data.
+* It exposes three unmodifiable `ObservableLists`, one each for `Person`, `EpicEvent` and `Attendance`.
 The UI can be bound to any of these lists so that it automatically updates when the data in the list changes.
 
 [NOTE]
@@ -247,10 +246,10 @@ image::StorageClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
 
-The Storage component:
+The Storage component has the following functions:
 
-* can save `UserPref` objects in json format and reconstruct the Model from a file of this format.
-* can save the Event Planner data in xml format and reconstruct the Model from a file of this format.
+* It can save `UserPref` objects in json format and reconstruct the Model from a file of this format.
+* It can save the Event Planner data in xml format and reconstruct the Model from a file of this format.
 
 When EPIC is re-launched, the following steps take place to restore data from the storage file:
 
@@ -269,20 +268,16 @@ image::StorageComponentSequenceDiagram.png[width="800"]
 
 Finally, we will conclude the Architecture section with several examples on how the components interact.
 
-Each of the core components (UI, Logic, Model, Storage):
+Each of the core components (UI, Logic, Model, Storage) has the following functions:
 
-* Defines its _API_ in an `interface` with the same name as the component.
-* Exposes its functionality using a `{COMPONENT NAME}Manager` class.
+* It defines its _API_ in an `interface` with the same name as the component.
+* It exposes its functionality using a `{COMPONENT NAME}Manager` class.
 
-For example, the Logic component (<<#LgicClassDiagram>>)
+For example, the Logic component
 defines its API in the `Logic.java` interface and exposes its functionality
 using the `LogicManager.java` class.
 
-[#LgicClassDiagram]
-.Class Diagram of the Logic Component
-image::LogicClassDiagram.png[width="800"]
-
-The _Sequence Diagram_ below shows how the interaction between the components after the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with one another after the user issues the command `delete 1`.
 
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
