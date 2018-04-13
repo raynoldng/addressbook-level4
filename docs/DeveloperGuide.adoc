@@ -504,7 +504,7 @@ the user undoes a `ClearCommand`.
 ** Pros: Only commands that cannot be easily reverted need to be implemented (the view can easily be re-modified as no data is * lost).
 ** Cons: User might mistakenly think that undo also applies to view modification (e.g. filtering).
 * **Alternative 2:** Include all commands.
-** Pros: Might be more intuitive for the user.
+** Pros: It might be more intuitive for the user.
 ** Cons: User has no way of skipping such commands if he or she just want to reset the state of the event planner and not the view.
 **Additional Info:** See the discussion  https://github.com/se-edu/addressbook-level4/issues/390#issuecomment-298936672[here].
 
@@ -537,12 +537,12 @@ This is done by creating a `Predicate` that tests whether a `Person` is in an `E
 
 ==== Current Implementation
 
-The proposed implementation is to use a class called `Attendance`.
+The implementation uses a class called `Attendance`.
 An instance of `Attendance` is created every time a person registers to an event and
 it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
 and stores a `boolean` representing whether the person has attended the event.
 This reduces coupling between the `Person` and `EpicEvent` class and allows the event
-to have access to all its attendees so that adding, removing and listing attendees is
+to have access to all its attendees so that adding, removing and listing attendees are
 easy to implement.
 
 ==== Design Considerations
@@ -550,41 +550,41 @@ easy to implement.
 ===== Aspect: Location of Instances of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Store in `EpicEvent` object
-** Pros: Reduces coupling between `Person` and `EpicEvent and makes it easy for event to keep track of attendance list and easy
-for UI to display the attendance list.
-** Cons: Makes it difficult for `EventPlanner` to track which events a person is registered for so deleting a person requires
+** Pros: There is less coupling between `Person` and `EpicEvent and it is easier for event to keep track of attendance list.
+It is also easier for UI to display the attendance list.
+** Cons: It is more difficult for `EventPlanner` to track which events a person is registered for so deleting a person requires
 checking through all the events to delete a person properly.
 * **Alternative 2:** Store in `EventPlanner` object
-** Pros: Makes it easy `EventPlanner` to track which events a person is registered to and thus making
+** Pros: It is easier for `EventPlanner` to track which events a person is registered to and thus making
 some person commands such as delete persons easier.
-** Cons: Requires `EpicEvent` to search through entire list of `Attendance` of objects in `EventPlanner` to find out
+** Cons: An `EpicEvent` needs to search through the entire list of `Attendance` objects in `EventPlanner` to find out
 which persons are registered to itself. This can be very slow if the number of `Attendance` objects is very large.
 
 ==== Aspect: Mutability of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Make `Attendance` objects immutable
-** Pros: Makes it easier to track changes in `Attendance` objects as changes can be detected by a replacement of the
+** Pros: It is easier to track changes in `Attendance` objects as changes can be detected by a replacement of the
 `Attendance` object in the attendance list.
-** Cons: Makes it more difficult to implement since the entire object has to be replaced whenever
+** Cons: It is more difficult to implement since the entire object has to be replaced whenever
 a change needs to be made, such as when marking attendance.
 * **Alternative 2:** Make `Attendance` objects mutable
-** Pros: Makes it easier to implement marking of attendance since the `hasAttended` property
+** Pros: It is easier to implement marking of attendance since the `hasAttended` property
 inside the object can be directly mutated.
-** Cons: Makes it more difficult to track the changes since mutating the object does not directly
+** Cons: It is more difficult to track the changes since mutating the object does not directly
 trigger any events.
 
 ==== Aspect: Method of Marking Attendance
 
 * **Alternative 1 (current choice):** Have one command to toggle attendance from attended to not attended and vice versa
-** Pros: Makes it easier to undo the command since toggling is always valid while marking a participant
+** Pros: It is easier to undo the command since toggling is always valid while marking a participant
 has attended may not always be valid since that person may have already been marked as attended so undoing
 the command has to account for that.
-** Cons: Makes it less intuitive for the user since the result of toggling
+** Cons: It is less intuitive for the user since the result of toggling
 depends on the current state of the attendance.
 * **Alternative 2:** Have two separate commands: one for marking participant as attended and one for marking
 as not attended
-** Pros: Makes it more intuitive for the user since marking as attended and not attended is a direct action.
-** Cons: Makes it harder to undo the command since the command may not be successful if for example the participant
+** Pros: It is more intuitive for the user since marking as attended and not attended is a direct action.
+** Cons: It is harder to undo the command since the command may not be successful if for example the participant
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
@@ -608,7 +608,7 @@ by iteratively registering each person.
 // tag::threepaneui[]
 === Three Pane UI
 
-The proposed new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
+The new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
 
 In addition, `edit` and `edit-command` commands are now implemented in a mutable manner (see <<edit-curr-implementation>>). As a result, the `ObservableList` that wraps the people and event data will no longer be notified to changes. The new UI must be notified of changes to data so it can refresh itself to reflect such changes. The UI will also have to respond to new commands such as the `select-event` and `toggle`. The `select-event` could invoke a change in the contents of the Attendance Panel and `toggle` will toggle the attendance status and is reflected in the UI in the form of the attendance icon change.
 
@@ -697,10 +697,10 @@ Previously, changes to `Person` would create a new `Person` object that would re
 
 === [proposed] Export an Event
 
-The proposed export command exports the name of the attendees, their phone number,
-their email address, their home address and their attendance information of a particular
-event to a csv file into a file path specified by the user. Having the attendance of a
-particular event in a csv file would enable the users to analyse the data using other tools.
+The proposed export command exports the names of the attendees, their phone numbers,
+their email addresses, their home addresses and their attendance information of a particular
+event to a csv file into a file path specified by the user. Having all the information of a
+particular event in a csv file would enable the user to analyse the data using other tools.
 
 ==== [proposed] Implementation
 
@@ -715,7 +715,7 @@ image::ExportEventSequenceDiagram.png[width="650"]
 
 ==== Design Considerations
 
-When deciding on the export option, the following aspects of user experience are considered.
+When deciding on the export options, the following aspects of user experience are considered.
 
 ===== Aspect: Data to be Exported
 
@@ -726,6 +726,14 @@ When deciding on the export option, the following aspects of user experience are
     * Pros: More information for users as compared to current implementation.
     * Cons: The attendees may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
 
+==== Aspect: Format of Exported Files
+
+- *Alternative 1 (current choice)*: csv files
+    * Pros: The format can be imported and then processed by most data processing software in the market.
+    * Cons: The files are not reader friendly if they are open directly as a text file.
+- *Alternative 2*: excel files
+    * Pros: Excel files are well formatted when opened with Microsoft Excel software.
+    * Cons: Even though Microsoft Excel software is used by many people, some may prefer other data processing software that supports csv files but not excel files.
 
 === Logging
 
