@@ -1,8 +1,10 @@
 package systemtests;
 
+import static guitests.guihandles.AttendanceListPanelHeaderHandle.ATTENDANCE_STATUS_FORMAT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ATTENDEES;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
@@ -16,6 +18,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 
+import guitests.guihandles.AttendanceListPanelHandle;
+import guitests.guihandles.AttendanceListPanelHeaderHandle;
 import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.CommandBoxHandle;
 import guitests.guihandles.EpicEventListPanelHandle;
@@ -24,6 +28,7 @@ import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.StatusBarFooterHandle;
+
 import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.index.Index;
@@ -105,13 +110,18 @@ public abstract class EventPlannerSystemTest {
         return mainWindowHandle.getEventListPanel();
     }
 
+    public AttendanceListPanelHandle getAttendanceListPanel() {
+        return mainWindowHandle.getAttendanceListPanel();
+    }
+
+    public AttendanceListPanelHeaderHandle getAttendanceListPanelHeader() {
+        return mainWindowHandle.getAttendanceListPanelHeader();
+    }
+
     public MainMenuHandle getMainMenu() {
         return mainWindowHandle.getMainMenu();
     }
 
-    //    public BrowserPanelHandle getBrowserPanel() {
-    //        return mainWindowHandle.getBrowserPanel();
-    //    }
 
     public StatusBarFooterHandle getStatusBarFooter() {
         return mainWindowHandle.getStatusBarFooter();
@@ -126,6 +136,7 @@ public abstract class EventPlannerSystemTest {
      * Method returns after UI components have been updated.
      */
     protected void executeCommand(String command) {
+
         rememberStates();
         // Injects a fixed clock before executing a command so that the time stamp shown in the status bar
         // after each command is predictable and also different from the previous command.
@@ -152,6 +163,7 @@ public abstract class EventPlannerSystemTest {
         assertTrue(getModel().getFilteredPersonList().size()
                 < getModel().getEventPlanner().getPersonList().size());
     }
+
 
     /**
      * Selects the person at {@code index} of the displayed list.
@@ -210,6 +222,30 @@ public abstract class EventPlannerSystemTest {
         assertListMatching(getPersonListPanel(), expectedModel.getFilteredPersonList());
     }
 
+    //@@author raynoldng
+    /**
+     * Asserts that the {@code AttendanceListPanel} displays the expected message, i.e.: filtered if so and attendance
+     * count is displayed correctly
+     */
+    protected void assertAttendanceListHeaderDisplaysExpected(Model expectedModel) {
+        boolean isFiltered = expectedModel.getSelectedEpicEvent().getFilteredAttendees().getPredicate()
+                != PREDICATE_SHOW_ALL_ATTENDEES;
+
+        if (isFiltered) {
+            assert(getAttendanceListPanelHeader().getText().contains("(filtered)"));
+        }
+
+        int numAttended = (int) expectedModel.getSelectedEpicEvent().getFilteredAttendees().stream()
+                .filter(attendance -> attendance.hasAttended())
+                .count();
+        int total = expectedModel.getSelectedEpicEvent().getFilteredAttendees().size();
+        String expected = String.format(ATTENDANCE_STATUS_FORMAT, isFiltered ? "(filtered)" : "", numAttended,
+                total);
+        assertEquals(expected, getAttendanceListPanelHeader().getText());
+
+    }
+    //@@author
+
     /**
      * Calls {@code PersonListPanelHandle}, {@code EventListPanelHandle}
      * and {@code StatusBarFooterHandle} to remember their current state.
@@ -241,12 +277,28 @@ public abstract class EventPlannerSystemTest {
     }
 
     /**
-     * Asserts that the browser's url and the selected card in the person list panel remain unchanged.
-     * @see BrowserPanelHandle#isUrlChanged()
+     * Asserts that the selected card in the person list panel remain unchanged.
      * @see PersonListPanelHandle#isSelectedPersonCardChanged()
      */
     protected void assertSelectedCardUnchanged() {
         assertFalse(getPersonListPanel().isSelectedPersonCardChanged());
+    }
+
+    /**
+     * Asserts that the event in the event list panel selected is changed
+     * {@code expectedSelectedCardIndex}, and only the card at {@code expectedSelectedCardIndex} is selected.
+     * @see PersonListPanelHandle#isSelectedPersonCardChanged()
+     */
+    protected void assertSelectedEpicEventCardChanged(Index expectedSelectedCardIndex) {
+        assertEquals(expectedSelectedCardIndex.getZeroBased(), getEventListPanel().getSelectedCardIndex());
+    }
+
+    /**
+     * Asserts that the selected card in the events list panel remain unchanged.
+     * @see PersonListPanelHandle#isSelectedPersonCardChanged()
+     */
+    protected void assertSelectedEpicEventCardUnchanged() {
+        assertFalse(getEventListPanel().isSelectedEpicEventCardChanged());
     }
 
     /**
