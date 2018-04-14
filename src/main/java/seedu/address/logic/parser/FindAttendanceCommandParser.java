@@ -8,12 +8,11 @@ import seedu.address.logic.commands.FindAttendanceCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
 
-
-
+//@@author raynoldng
 /**
  * Parses input arguments and creates a new FindPersonCommand object
  */
-public class FindAttendeeCommandParser implements Parser<FindAttendanceCommand> {
+public class FindAttendanceCommandParser implements Parser<FindAttendanceCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindAttendanceCommand

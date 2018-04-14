@@ -82,7 +82,7 @@ public class EventPlannerParser {
             return new ListAttendanceCommand();
 
         case FindAttendanceCommand.COMMAND_WORD:
-            return new FindAttendeeCommandParser().parse(arguments);
+            return new FindAttendanceCommandParser().parse(arguments);
 
         case RegisterPersonCommand.COMMAND_WORD:
             return new RegisterCommandParser().parse(arguments);
