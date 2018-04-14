@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import guitests.guihandles.AttendanceListPanelHandle;
+import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -36,6 +38,7 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SelectEventCommand;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
+import seedu.address.model.event.EpicEvent;
 import seedu.address.testutil.TypicalEpicEvents;
 import seedu.address.ui.CommandBox;
 
@@ -105,13 +108,12 @@ public abstract class EventPlannerSystemTest {
         return mainWindowHandle.getEventListPanel();
     }
 
+    public AttendanceListPanelHandle getAttendanceListPanelHandle() {return mainWindowHandle.getAttendanceListPanel(); }
+
     public MainMenuHandle getMainMenu() {
         return mainWindowHandle.getMainMenu();
     }
 
-    //    public BrowserPanelHandle getBrowserPanel() {
-    //        return mainWindowHandle.getBrowserPanel();
-    //    }
 
     public StatusBarFooterHandle getStatusBarFooter() {
         return mainWindowHandle.getStatusBarFooter();
@@ -126,6 +128,7 @@ public abstract class EventPlannerSystemTest {
      * Method returns after UI components have been updated.
      */
     protected void executeCommand(String command) {
+
         rememberStates();
         // Injects a fixed clock before executing a command so that the time stamp shown in the status bar
         // after each command is predictable and also different from the previous command.
@@ -152,6 +155,7 @@ public abstract class EventPlannerSystemTest {
         assertTrue(getModel().getFilteredPersonList().size()
                 < getModel().getEventPlanner().getPersonList().size());
     }
+
 
     /**
      * Selects the person at {@code index} of the displayed list.
@@ -182,6 +186,11 @@ public abstract class EventPlannerSystemTest {
      */
     protected void showEventsWithName(String keyword) {
         executeCommand(FindEventCommand.COMMAND_WORD + " " + keyword);
+        ObservableList<EpicEvent> A = getModel().getFilteredEventList();
+        ObservableList<EpicEvent> B = getModel().getEventPlanner().getEventList();
+        int a = getModel().getFilteredEventList().size();
+        int b = getModel().getEventPlanner().getEventList().size();
+        System.out.println(a + " vs " + b);
         assertTrue(getModel().getFilteredEventList().size()
                 < getModel().getEventPlanner().getEventList().size());
     }
@@ -241,12 +250,28 @@ public abstract class EventPlannerSystemTest {
     }
 
     /**
-     * Asserts that the browser's url and the selected card in the person list panel remain unchanged.
-     * @see BrowserPanelHandle#isUrlChanged()
+     * Asserts that the selected card in the person list panel remain unchanged.
      * @see PersonListPanelHandle#isSelectedPersonCardChanged()
      */
     protected void assertSelectedCardUnchanged() {
         assertFalse(getPersonListPanel().isSelectedPersonCardChanged());
+    }
+
+    /**
+     * Asserts that the event in the event list panel selected is changed
+     * {@code expectedSelectedCardIndex}, and only the card at {@code expectedSelectedCardIndex} is selected.
+     * @see PersonListPanelHandle#isSelectedPersonCardChanged()
+     */
+    protected void assertSelectedEpicEventCardChanged(Index expectedSelectedCardIndex) {
+        assertEquals(expectedSelectedCardIndex.getZeroBased(), getEventListPanel().getSelectedCardIndex());
+    }
+
+    /**
+     * Asserts that the selected card in the events list panel remain unchanged.
+     * @see PersonListPanelHandle#isSelectedPersonCardChanged()
+     */
+    protected void assertSelectedEpicEventCardUnchanged() {
+        assertFalse(getEventListPanel().isSelectedEpicEventCardChanged());
     }
 
     /**
