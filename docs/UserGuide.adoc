@@ -5,7 +5,7 @@
 :sectnums:
 :imagesDir: images
 :stylesDir: stylesheets
-:xrefstyle: full
+:xrefstyle: short
 :experimental:
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -325,12 +325,16 @@ The index refers to the index number shown in the Persons Pane.
 
 Examples:
 
-* `list` +
-`register 2 AY201718 Graduation` +
-Registers the 2nd person in EPIC for AY201718 Graduation.
 * `find Betsy` +
 `register 1 Computing Seminar` +
 Registers the 1st person in the results of the `find` command for Computing Seminar.
+* `list` +
+`register 2 AY201718 Graduation` +
+Registers the 2nd person in EPIC for AY201718 Graduation. (see <<#register>> below for UI changes) +
+
+[#register]
+.UI changes for register command
+image::RegisterUGDiagram.png[width="600"]
 
 // end::register[]
 
@@ -425,21 +429,25 @@ To see the full list of undoable commands, refer to <<List of undoable commands>
 
 Examples:
 
-* `delete 1` +
-`list` +
-`undo` +
-Undoes the `delete 1` command. Note that `list` is not an undoable command.
-
 * `select 1` +
 `list` +
 `undo` +
-The `undo` command fails as there are no undoable commands executed previously.
+The `undo` command fails since neither `list` nor `select` is undoable.
 
 * `delete 1` +
 `clear` +
 `undo` +
 `undo` +
 Undoes the `clear` command, followed by the `delete 1` command.
+
+* `delete 1` +
+`list` +
+`undo` +
+Undoes the `delete 1` command. (see <<#undo>> below for UI changes). +
+
+[#undo]
+.UI changes for undo command
+image::RegisterUGDiagram.png[width="600"]
 
 === Redoing Commands : `redo`
 
