@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
@@ -10,6 +11,7 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonNameContainsKeywordsPredicate;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -118,5 +120,7 @@ public interface Model {
     void setSelectedEpicEvent(int index);
 
     void setSelectedEpicEvent(EpicEvent epicEvent);
+
+    void updateFilteredAttendanceList(AttendanceNameContainsKeywordsPredicate predicate);
     // @@author
 }

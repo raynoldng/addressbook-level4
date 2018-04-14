@@ -102,7 +102,7 @@ public class AttendanceListPanel extends UiPart<Region> {
         Callback<Attendance, javafx.beans.Observable[]> extractor = attendance -> new javafx.beans.Observable[] {
                 attendance.getPerson(), attendance.getHasAttendedEventProperty()};
         ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(extractor);
-        ObservableList<Attendance> backedAttendanceList = selectedEpicEvent.getAttendanceList();
+        ObservableList<Attendance> backedAttendanceList = selectedEpicEventObserver.getObservableEpicEvent().getFilteredAttendees();
         Bindings.bindContentBidirectional(attendanceList, backedAttendanceList);
 
         ObservableList<AttendanceCard> mappedList = EasyBind.map(

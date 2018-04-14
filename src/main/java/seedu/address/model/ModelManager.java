@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
+import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
@@ -19,6 +20,7 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.event.exceptions.EventNotFoundException;
 import seedu.address.model.event.exceptions.PersonNotFoundInEventException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonNameContainsKeywordsPredicate;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -198,6 +200,13 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void setSelectedEpicEvent(EpicEvent epicEvent) {
         selectedEpicEvent.setEpicEvent(epicEvent);
+    }
+
+    @Override
+    public void updateFilteredAttendanceList(AttendanceNameContainsKeywordsPredicate predicate) {
+        requireNonNull(predicate);
+        selectedEpicEvent.getFilteredAttendees().setPredicate(predicate);
+//        filteredPersons.setPredicate(predicate);
     }
 
     @Override
