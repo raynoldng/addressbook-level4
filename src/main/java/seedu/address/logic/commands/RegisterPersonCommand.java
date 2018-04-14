@@ -27,7 +27,7 @@ public class RegisterPersonCommand extends UndoableCommand {
             + ": Registers the person identified by the index number used in the last person listing"
             + " to a particular event.\n"
             + "Parameters: INDEX (must be a positive integer), EVENT_NAME (must match an event's name"
-            + " in EventPlanner exactly\n"
+            + " in EPIC exactly)\n"
             + "Example: " + COMMAND_WORD + " 1" + " AY201718 Graduation";
 
     public static final String MESSAGE_SUCCESS = "Registered person %1$s for event %2$s";

@@ -1,6 +1,9 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import seedu.address.logic.commands.ListRegisteredPersonsCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
 
 //@@author bayweiheng
 
@@ -13,8 +16,13 @@ public class ListRegisteredPersonsCommandParser implements Parser<ListRegistered
      * Parses the given {@code String} of arguments in the context of the ListRegisteredPersonsCommand
      * and returns an ListRegisteredPersonsCommand object for execution.
      */
-    public ListRegisteredPersonsCommand parse(String args) {
+    public ListRegisteredPersonsCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
+
+        if(trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListRegisteredPersonsCommand.MESSAGE_USAGE));
+        }
+
         return new ListRegisteredPersonsCommand(trimmedArgs);
     }
 

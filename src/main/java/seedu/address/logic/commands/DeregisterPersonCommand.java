@@ -31,7 +31,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
             + ": Deregisters the person identified by the index number used in the last person listing"
             + " from a particular event.\n"
             + "Parameters: INDEX (must be a positive integer), EVENT_NAME (must match an event's name"
-            + " in EventPlanner exactly\n"
+            + " in EPIC exactly)\n"
             + "Example: " + COMMAND_WORD + " 1" + " AY201718 Graduation";
 
     private Index targetIndex;
