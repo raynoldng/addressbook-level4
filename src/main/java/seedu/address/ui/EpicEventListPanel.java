@@ -35,10 +35,6 @@ public class EpicEventListPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
-    public ObservableList<Attendance> getEventAttendee(int index) {
-        return epicEventListView.getItems().get(index).epicEvent.getAttendanceList();
-    }
-
     private void setConnections(ObservableList<EpicEvent> epicEventList) {
         ObservableList<EpicEventCard> mappedList = EasyBind.map(
                 epicEventList, (event) -> new EpicEventCard(event, epicEventList.indexOf(event) + 1));
