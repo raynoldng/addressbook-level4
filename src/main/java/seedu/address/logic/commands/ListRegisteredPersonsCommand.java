@@ -15,6 +15,11 @@ public class ListRegisteredPersonsCommand extends Command {
 
     public static final String COMMAND_WORD = "list-registered";
 
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Lists the persons registered for the specified event on the Persons Pane.\n"
+            + "Parameters: EVENT_NAME\n"
+            + "Example: " + COMMAND_WORD + " IoT Seminar";
+
     public static final String MESSAGE_SUCCESS = "Listed all persons in %1$s";
     public static final String MESSAGE_EVENT_NOT_FOUND = "The event specified cannot be found";
 
