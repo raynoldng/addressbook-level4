@@ -1,9 +1,9 @@
 package seedu.address.model.attendance;
 
-import seedu.address.commons.util.StringUtil;
-
 import java.util.List;
 import java.util.function.Predicate;
+
+import seedu.address.commons.util.StringUtil;
 
 //@@author raynoldng
 /**
@@ -21,7 +21,8 @@ public class AttendanceNameContainsKeywordsPredicate implements Predicate<Attend
         System.out.println("attendee: " + attendee);
         System.out.println("checking attendee: " + attendee.getPerson().getName());
         return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(attendee.getPerson().getFullName().name, keyword));
+                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(attendee.getPerson().getFullName().name,
+                        keyword));
     }
 
     @Override

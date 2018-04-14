@@ -12,8 +12,8 @@ public class FindAttendaneeCommand extends Command {
     public static final String COMMAND_WORD = "find-attendance";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-sensitive) in the selected event and displays them as a list with index" +
-            " numbers.\nParameters: KEYWORD [MORE_KEYWORDS]...\n"
+            + "the specified keywords (case-sensitive) in the selected event and displays them as a list with index"
+            + " numbers.\nParameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 
     private final AttendanceNameContainsKeywordsPredicate predicate;

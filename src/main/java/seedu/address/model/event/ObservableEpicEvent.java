@@ -1,10 +1,10 @@
 // @@author raynoldng
 package seedu.address.model.event;
 
+import java.util.Observable;
+
 import javafx.collections.transformation.FilteredList;
 import seedu.address.model.attendance.Attendance;
-
-import java.util.Observable;
 
 /**
  * Wrapper class for EpicEvent to listen for reassignments of selectedEpicEvent
