@@ -17,7 +17,7 @@ public class ListRegisteredPersonsCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Lists the persons registered for the specified event on the Persons Pane.\n"
-            + "Parameters: EVENT_NAME\n"
+            + "Parameters: EVENT_NAME (must match an event's name in EPIC exactly)\n"
             + "Example: " + COMMAND_WORD + " IoT Seminar";
 
     public static final String MESSAGE_SUCCESS = "Listed all persons in %1$s";
