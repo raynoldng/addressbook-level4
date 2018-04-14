@@ -519,19 +519,63 @@ the user undoes a `ClearCommand`.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag::markattendance[]
+// tag:: registerpersons[]
 
 === Register/Deregister Persons for/from Events
 
-The EpicEvent-Person association is unidirectional i.e. an `EpicEvent` maintains references to `Person` objects registered for it, but a `Person` does not
-maintain references to `EpicEvent` objects he/she has registered for. This implementation was chosen to reduce overhead and complications in implementation,
-since all commands v2.0 supports will not require the backward association.
+==== Current Implementation
 
-The references are maintained using a `UniquePersonList` inside each `EpicEvent`
+Each `EpicEvent` class maintains a `UniqueAttendanceList`, which contains references to the `Persons`
+registered for that event. The association between `EpicEvent` and `Person` is unidirectional i.e.
+a `Person` does not maintain references to the `EpicEvents` he/she has registered for.
+
+When a `register` command is called, we first find the `PersonToRegister` using the index provided,
+and the `EventToRegisterFor` using the name provided. Then, we call `registerPersonForEvent()` through
+the `ModelManager`, which eventually calls the `registerPerson()` method of the `EpicEvent`.
+
+This method not only adds the reference of the `Person` of the `EpicEvent`, but also increments a counter inside
+the `Person`. This counter is used to check whether a `Person` is still registered for some event
+when the user attempts to delete that `Person`.
+
+The entire process is illustrated using the sequence diagram (<<#registerseq>>) below.
+
+[#registerseq]
+.Sequence Diagram for the `register` command
+
+==== Design Considerations
+
+===== Aspect: Association Links between EpicEvent and Person
+
+* **Alternative 1 (current choice):** Make the EpicEvent-Person association unidirectional
+** Pros: Implementation of the association is easier.
+** Cons: Some features might need the backward association link in future.
+* **Alternative 2:** Make the EpicEvent-Person association bidirectional
+** Pros: Features needing the backward association link can be more easily implemented - there is no
+need to implement the link later.
+** Cons: Implementation of the association is much more complicated. Violates the `You Aren't Gonna Need It (YAGNI)` principle.
+
+==== Aspect: Deletion of Persons still Registered for an Event
+
+* **Alternative 1 (current choice):** Disallow deletion of persons still registered for an event
+** Pros: Ensures that person's details will be safeguarded until they are no longer required.
+** Cons: Implementation is more complicated.
+* **Alternative 2:** Allow deletion of persons still registered for an event
+** Pros: User will not have to deregister persons/delete events before a person can be deleted.
+Implementation is easier.
+** Cons: User might absentmindedly delete a person when his/her details are still required
+(by an upcoming event he/she is registered for).
 
 === List Registered Persons for an Event
 
-This is done by creating a `Predicate` that tests whether a `Person` is in an `EpicEvent`, then passing it to `updateFilteredPersonList()`
+==== Current Implementation
+
+A new feature in Java 8, `Predicate` supports the filtering of lists in a functional style.
+To list the persons registered for an event, we create a `Predicate` that tests whether a `Person`
+is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
+
+// end::registerpersons[]
+
+// tag::markattendance[]
 
 === Toggling Attendance
 
