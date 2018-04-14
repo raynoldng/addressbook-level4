@@ -23,7 +23,7 @@ public class AttendanceCardTest extends GuiUnitTest {
 
     @Test
     public void display() {
-        EpicEvent event = TypicalEpicEvents.EVENT_WITH_ATTENDEES;
+        EpicEvent event = TypicalEpicEvents.GRADUATIONAY18;
 
         Attendance aliceAttendance = event.getAttendanceList().get(0);
         AttendanceCard attendanceCard = new AttendanceCard(aliceAttendance, 0);

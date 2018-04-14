@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyEventPlanner;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
@@ -119,11 +120,16 @@ public class ModelStub implements Model {
 
     @Override
     public void setSelectedEpicEvent(int index) {
-
+        fail("This method should not be called.");
     }
 
     @Override
     public void setSelectedEpicEvent(EpicEvent epicEvent) {
+        fail("This method should not be called.");
+    }
 
+    @Override
+    public void updateFilteredAttendanceList(Predicate<Attendance> predicate) {
+        fail("This method should not be called.");
     }
 }

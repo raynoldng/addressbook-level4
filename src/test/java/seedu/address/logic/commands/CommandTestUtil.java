@@ -13,12 +13,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
+import seedu.address.model.attendance.Attendance;
+import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.EventNameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -127,6 +130,21 @@ public class CommandTestUtil {
             assertEquals(expectedEventPlanner, actualModel.getEventPlanner());
             assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
         }
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the attendee at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void showAttendeeAtIndex(Model model, Index targetIndex) {
+        FilteredList<Attendance> attendanceFilteredList = model.getSelectedEpicEvent().getFilteredAttendees();
+        assertTrue(targetIndex.getZeroBased() < attendanceFilteredList.size());
+
+        Attendance attendee = attendanceFilteredList.get(targetIndex.getZeroBased());
+        final String[] splitName = attendee.getPerson().getFullName().name.split("\\s+");
+        model.updateFilteredAttendanceList(new AttendanceNameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+
+        assertEquals(1, attendanceFilteredList.size());
     }
 
     /**
