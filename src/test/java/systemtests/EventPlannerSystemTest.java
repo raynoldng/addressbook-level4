@@ -186,11 +186,6 @@ public abstract class EventPlannerSystemTest {
      */
     protected void showEventsWithName(String keyword) {
         executeCommand(FindEventCommand.COMMAND_WORD + " " + keyword);
-        ObservableList<EpicEvent> A = getModel().getFilteredEventList();
-        ObservableList<EpicEvent> B = getModel().getEventPlanner().getEventList();
-        int a = getModel().getFilteredEventList().size();
-        int b = getModel().getEventPlanner().getEventList().size();
-        System.out.println(a + " vs " + b);
         assertTrue(getModel().getFilteredEventList().size()
                 < getModel().getEventPlanner().getEventList().size());
     }

@@ -96,6 +96,7 @@ public class TestApp extends MainApp {
     public Model getModel() {
         Model copy = new ModelManager((model.getEventPlanner()), new UserPrefs());
         ModelHelper.setFilteredList(copy, model.getFilteredPersonList());
+        ModelHelper.setEpicEventFilteredList(copy, model.getFilteredEventList());
         return copy;
     }
 
