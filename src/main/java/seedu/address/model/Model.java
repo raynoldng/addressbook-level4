@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
@@ -22,6 +23,9 @@ public interface Model {
 
     /** {@code Predicate} that always evaluate to true. */
     Predicate<EpicEvent> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true. */
+    Predicate<Attendance> PREDICATE_SHOW_ALL_ATTENDEES = unused -> true;
 
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyEventPlanner newData);
@@ -118,5 +122,7 @@ public interface Model {
     void setSelectedEpicEvent(int index);
 
     void setSelectedEpicEvent(EpicEvent epicEvent);
+
+    void updateFilteredAttendanceList(Predicate<Attendance> predicate);
     // @@author
 }

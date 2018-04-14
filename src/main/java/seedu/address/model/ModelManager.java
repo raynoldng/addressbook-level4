@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
@@ -198,6 +199,12 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void setSelectedEpicEvent(EpicEvent epicEvent) {
         selectedEpicEvent.setEpicEvent(epicEvent);
+    }
+
+    @Override
+    public void updateFilteredAttendanceList(Predicate<Attendance> predicate) {
+        requireNonNull(predicate);
+        selectedEpicEvent.getFilteredAttendees().setPredicate(predicate);
     }
 
     @Override

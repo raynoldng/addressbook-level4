@@ -34,8 +34,7 @@ import seedu.address.model.event.ObservableEpicEvent;
  */
 public class AttendanceListPanel extends UiPart<Region> {
     private static final String FXML = "AttendanceListPanel.fxml";
-    private static final String ATTENDANCE_STATUS = "Attendees";
-    private static final String ATTENDANCE_STATUS_FORMAT = "Attendees (%d/%d)";
+    private static final String ATTENDANCE_STATUS_FORMAT = "Attendees%s: (%d/%d)";
     private final Logger logger = LogsCenter.getLogger(AttendanceListPanel.class);
 
     @FXML
@@ -102,7 +101,8 @@ public class AttendanceListPanel extends UiPart<Region> {
         Callback<Attendance, javafx.beans.Observable[]> extractor = attendance -> new javafx.beans.Observable[] {
                 attendance.getPerson(), attendance.getHasAttendedEventProperty()};
         ObservableList<Attendance> attendanceList = FXCollections.observableArrayList(extractor);
-        ObservableList<Attendance> backedAttendanceList = selectedEpicEvent.getAttendanceList();
+        ObservableList<Attendance> backedAttendanceList = selectedEpicEventObserver.getObservableEpicEvent()
+                .getFilteredAttendees();
         Bindings.bindContentBidirectional(attendanceList, backedAttendanceList);
 
         ObservableList<AttendanceCard> mappedList = EasyBind.map(
@@ -122,10 +122,14 @@ public class AttendanceListPanel extends UiPart<Region> {
     /** Update attendance header text **/
     private void updateAttendanceStatus() {
         int total = attendanceListView.getItems().size();
+        ObservableList<Attendance> actualList = selectedEpicEventObserver.getObservableEpicEvent()
+                .getEpicEvent().getAttendanceList();
+        boolean isFiltered = actualList.size() != total;
         int numAttended = (int) attendanceListView.getItems().stream()
                 .filter(attendanceCard -> attendanceCard.getAttendance().hasAttended())
                 .count();
-        attendanceStatus.setText(String.format(ATTENDANCE_STATUS_FORMAT, numAttended, total));
+        attendanceStatus.setText(String.format(ATTENDANCE_STATUS_FORMAT, isFiltered ? "(filtered)" : "", numAttended,
+                total));
 
     }
 
