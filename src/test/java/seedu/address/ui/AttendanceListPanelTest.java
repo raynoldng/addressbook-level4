@@ -29,7 +29,7 @@ import seedu.address.testutil.TypicalEpicEvents;
  */
 public class AttendanceListPanelTest extends GuiUnitTest {
     private static final ObservableEpicEvent selectedEvent =
-            new ObservableEpicEvent(TypicalEpicEvents.EVENT_WITH_ATTENDEES);
+            new ObservableEpicEvent(TypicalEpicEvents.GRADUATIONAY18);
     private static final JumpToAttendanceListRequestEvent JUMP_TO_SECOND_ATTENDANCE =
             new JumpToAttendanceListRequestEvent(INDEX_SECOND_PERSON);
 

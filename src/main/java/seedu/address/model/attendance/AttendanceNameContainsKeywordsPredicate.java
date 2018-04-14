@@ -18,8 +18,6 @@ public class AttendanceNameContainsKeywordsPredicate implements Predicate<Attend
 
     @Override
     public boolean test(Attendance attendee) {
-        System.out.println("attendee: " + attendee);
-        System.out.println("checking attendee: " + attendee.getPerson().getName());
         return keywords.stream()
                 .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(attendee.getPerson().getFullName().name,
                         keyword));
