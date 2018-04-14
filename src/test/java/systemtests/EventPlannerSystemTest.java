@@ -1,8 +1,10 @@
 package systemtests;
 
+import static guitests.guihandles.AttendanceListPanelHeaderHandle.ATTENDANCE_STATUS_FORMAT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ATTENDEES;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.address.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.address.ui.testutil.GuiTestAssert.assertListMatching;
@@ -12,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import guitests.guihandles.AttendanceListPanelHandle;
+import guitests.guihandles.AttendanceListPanelHeaderHandle;
 import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
@@ -108,7 +111,11 @@ public abstract class EventPlannerSystemTest {
         return mainWindowHandle.getEventListPanel();
     }
 
-    public AttendanceListPanelHandle getAttendanceListPanelHandle() {return mainWindowHandle.getAttendanceListPanel(); }
+    public AttendanceListPanelHandle getAttendanceListPanel() {return mainWindowHandle.getAttendanceListPanel(); }
+
+    public AttendanceListPanelHeaderHandle getAttendanceListPanelHeader() {
+        return mainWindowHandle.getAttendanceListPanelHeader();
+    }
 
     public MainMenuHandle getMainMenu() {
         return mainWindowHandle.getMainMenu();
@@ -213,6 +220,30 @@ public abstract class EventPlannerSystemTest {
         assertEquals(expectedModel.getEventPlanner(), testApp.readStorageAddressBook());
         assertListMatching(getPersonListPanel(), expectedModel.getFilteredPersonList());
     }
+
+    //@@author raynoldng
+    /**
+     * Asserts that the {@code AttendanceListPanel} displays the expected message, i.e.: filtered if so and attendance
+     * count is displayed correctly
+     */
+    protected void assertAttendanceListHeaderDisplaysExpected(Model expectedModel) {
+        boolean isFiltered = expectedModel.getSelectedEpicEvent().getFilteredAttendees().getPredicate()
+                != PREDICATE_SHOW_ALL_ATTENDEES;
+
+        if (isFiltered) {
+            assert(getAttendanceListPanelHeader().getText().contains("(filtered)"));
+        }
+
+        int numAttended = (int) expectedModel.getSelectedEpicEvent().getFilteredAttendees().stream()
+                .filter(attendance -> attendance.hasAttended())
+                .count();
+        int total = expectedModel.getSelectedEpicEvent().getFilteredAttendees().size();
+        String expected = String.format(ATTENDANCE_STATUS_FORMAT, isFiltered ? "(filtered)" : "", numAttended,
+                total);
+        assertEquals(expected, getAttendanceListPanelHeader().getText());
+
+    }
+    //@@author
 
     /**
      * Calls {@code PersonListPanelHandle}, {@code EventListPanelHandle}

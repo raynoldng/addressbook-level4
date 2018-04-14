@@ -10,6 +10,7 @@ public class MainWindowHandle extends StageHandle {
     private final PersonListPanelHandle personListPanel;
     private final EpicEventListPanelHandle eventListPanel;
     private final AttendanceListPanelHandle attendanceListPanel;
+    private final AttendanceListPanelHeaderHandle attendanceListPanelHeader;
     private final ResultDisplayHandle resultDisplay;
     private final CommandBoxHandle commandBox;
     private final StatusBarFooterHandle statusBarFooter;
@@ -23,6 +24,8 @@ public class MainWindowHandle extends StageHandle {
         eventListPanel = new EpicEventListPanelHandle(getChildNode(EpicEventListPanelHandle.EPIC_EVENT_LIST_VIEW_ID));
         attendanceListPanel = new AttendanceListPanelHandle(getChildNode(
                 AttendanceListPanelHandle.ATTENDANCE_LIST_VIEW_ID));
+        attendanceListPanelHeader = new AttendanceListPanelHeaderHandle(getChildNode(
+                AttendanceListPanelHeaderHandle.ATTENDANCE_STATUS_ID));
         resultDisplay = new ResultDisplayHandle(getChildNode(ResultDisplayHandle.RESULT_DISPLAY_ID));
         commandBox = new CommandBoxHandle(getChildNode(CommandBoxHandle.COMMAND_INPUT_FIELD_ID));
         statusBarFooter = new StatusBarFooterHandle(getChildNode(StatusBarFooterHandle.STATUS_BAR_PLACEHOLDER));
@@ -54,4 +57,6 @@ public class MainWindowHandle extends StageHandle {
     }
 
     public AttendanceListPanelHandle getAttendanceListPanel() { return attendanceListPanel; }
+
+    public AttendanceListPanelHeaderHandle getAttendanceListPanelHeader() { return attendanceListPanelHeader; }
 }

@@ -27,6 +27,8 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
 
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ATTENDEES;
+
 
 // @@author raynoldng
 /**
@@ -122,9 +124,8 @@ public class AttendanceListPanel extends UiPart<Region> {
     /** Update attendance header text **/
     private void updateAttendanceStatus() {
         int total = attendanceListView.getItems().size();
-        ObservableList<Attendance> actualList = selectedEpicEventObserver.getObservableEpicEvent()
-                .getEpicEvent().getAttendanceList();
-        boolean isFiltered = actualList.size() != total;
+        boolean isFiltered = selectedEpicEventObserver.getObservableEpicEvent().getFilteredAttendees().getPredicate()
+                != PREDICATE_SHOW_ALL_ATTENDEES;
         int numAttended = (int) attendanceListView.getItems().stream()
                 .filter(attendanceCard -> attendanceCard.getAttendance().hasAttended())
                 .count();

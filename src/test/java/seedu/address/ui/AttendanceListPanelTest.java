@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.ui.testutil.GuiTestAssert.assertAttendanceCardEquals;
 import static seedu.address.ui.testutil.GuiTestAssert.assertAttendanceEventCardDisplaysAttendance;
 
+import javafx.scene.control.Label;
 import org.junit.Before;
 import org.junit.Test;
 

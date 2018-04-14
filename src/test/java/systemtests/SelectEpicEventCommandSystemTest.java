@@ -122,7 +122,6 @@ public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
         Model expectedModel = getModel();
         String expectedResultMessage = String.format(
                 MESSAGE_SELECT_EVENT_SUCCESS, expectedSelectedCardIndex.getOneBased());
-        System.out.println("expected: " + expectedResultMessage);
         int preExecutionSelectedCardIndex = getEventListPanel().getSelectedCardIndex();
 
         executeCommand(command);

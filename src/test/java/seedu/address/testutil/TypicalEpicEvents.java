@@ -40,9 +40,11 @@ public class TypicalEpicEvents {
             .withTags("competition", "physics").build();
     public static final EpicEvent CAREERTALK = new EpicEventBuilder().withName("Career Talk")
             .withTags("talk", "career").build();
-    public static final EpicEvent ORIENTATION = new EpicEventBuilder().withName("Orientation").build();
+    public static final EpicEvent ORIENTATION = new EpicEventBuilder().withName("Orientation")
+            .withAttendees(Arrays.asList(CARL)).build();
 
     public static final int GRADUATIONAY18_INDEX = 0;
+    public static final int ORIENTATION_INDEX = 6;
 
     // Manually added
     public static final EpicEvent SOCORIENTATION = new EpicEventBuilder().withName("SOC Orientation")

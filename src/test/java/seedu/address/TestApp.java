@@ -2,6 +2,7 @@ package seedu.address;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import javafx.stage.Screen;
@@ -16,6 +17,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.attendance.Attendance;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlSerializableEventPlanner;
 import seedu.address.testutil.TestUtil;
@@ -98,6 +100,8 @@ public class TestApp extends MainApp {
         ModelHelper.setFilteredList(copy, model.getFilteredPersonList());
         ModelHelper.setEpicEventFilteredList(copy, model.getFilteredEventList());
         copy.setSelectedEpicEvent(model.getSelectedEpicEvent().getEpicEvent());
+        Predicate prevPredicate = model.getSelectedEpicEvent().getFilteredAttendees().getPredicate();
+        copy.getSelectedEpicEvent().getFilteredAttendees().setPredicate(prevPredicate);
         return copy;
     }
 
