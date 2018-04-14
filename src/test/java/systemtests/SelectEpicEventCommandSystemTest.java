@@ -1,22 +1,24 @@
 package systemtests;
 
-import org.junit.Test;
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.SelectEventCommand;
-import seedu.address.logic.commands.SelectEventCommand;
-import seedu.address.logic.commands.UndoCommand;
-import seedu.address.model.Model;
-
 import static org.junit.Assert.assertTrue;
+
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.SelectEventCommand.MESSAGE_SELECT_EVENT_SUCCESS;
 import static seedu.address.testutil.TypicalEpicEvents.KEYWORD_MATCHING_OLYMPIAD;
 import static seedu.address.testutil.TypicalEpicEvents.getTypicalEvents;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_ATTENDANCE;
+
+import org.junit.Test;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.SelectEventCommand;
+import seedu.address.logic.commands.UndoCommand;
+import seedu.address.model.Model;
+import seedu.address.model.event.EpicEvent;
+
 
 public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
     @Test
@@ -108,8 +110,9 @@ public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
      * 3. Result display box displays the success message of executing select command with the
      * {@code expectedSelectedCardIndex} of the selected person.<br>
      * 4. {@code Model}, {@code Storage} and {@code EpicEventListPanel} remain unchanged.<br>
-     * 5. Selected card is at {@code expectedSelectedCardIndex} and the browser url is updated accordingly.<br>
+     * 5. Selected card is at {@code expectedSelectedCardIndex} <br>
      * 6. Status bar remains unchanged.<br>
+     * 7. Selected Epic Event has been updated accordingly.<br>
      * Verifications 1, 3 and 4 are performed by
      * {@code EventPlannerSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
      * @see EventPlannerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
@@ -130,6 +133,12 @@ public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
         } else {
             assertSelectedEpicEventCardChanged(expectedSelectedCardIndex);
         }
+
+        EpicEvent expectedEpicEvent = expectedModel.getFilteredEventList()
+                .get(expectedSelectedCardIndex.getZeroBased());
+        EpicEvent selectedEpicEvent = getModel().getSelectedEpicEvent().getEpicEvent();
+
+        assertTrue(expectedEpicEvent.equals(selectedEpicEvent));
 
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarUnchanged();

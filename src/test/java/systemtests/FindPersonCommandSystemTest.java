@@ -82,8 +82,7 @@ public class FindPersonCommandSystemTest extends EventPlannerSystemTest {
 
         /* Case: find same persons in address book after deleting 1 of them -> 1 person found */
         executeCommand(DeletePersonCommand.COMMAND_WORD + " 1");
-        // TODO fix failing test case
-        // assertFalse(getModel().getEventPlanner().getPersonList().contains(BENSON));
+        assertFalse(getModel().getEventPlanner().getPersonList().contains(BENSON));
         command = FindPersonCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
         expectedModel = getModel();
         ModelHelper.setFilteredList(expectedModel, DANIEL);
@@ -170,8 +169,7 @@ public class FindPersonCommandSystemTest extends EventPlannerSystemTest {
                 MESSAGE_PERSONS_LISTED_OVERVIEW, expectedModel.getFilteredPersonList().size());
 
         executeCommand(command);
-        // TODO fix failing test case
-        //assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarUnchanged();
     }

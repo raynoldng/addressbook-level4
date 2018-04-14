@@ -4,6 +4,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_GRAD
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_NAME_SEMINAR;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_GRADUATION;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EVENT_TAG_SEMINAR;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.CARL;
+import static seedu.address.testutil.TypicalPersons.DANIEL;
+import static seedu.address.testutil.TypicalPersons.ELLE;
+import static seedu.address.testutil.TypicalPersons.FIONA;
+import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
 import java.util.ArrayList;
@@ -23,7 +29,7 @@ import seedu.address.model.person.exceptions.DuplicatePersonException;
 public class TypicalEpicEvents {
 
     public static final EpicEvent GRADUATIONAY18 = new EpicEventBuilder().withName("AY201718 Graduation Ceremony")
-            .withAttendees(getTypicalPersons()).withTags("graduation").build();
+            .withAttendees(Arrays.asList(ALICE, CARL, DANIEL, ELLE, FIONA, GEORGE)).withTags("graduation").build();
     public static final EpicEvent FOODSEMINAR = new EpicEventBuilder().withName("Food Seminar")
             .withTags("seminar", "food").build();
     public static final EpicEvent IOTSEMINAR = new EpicEventBuilder().withName("IoT Seminar")
