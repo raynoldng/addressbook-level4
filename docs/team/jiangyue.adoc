@@ -119,12 +119,30 @@ The Sequence Diagram for interactions within the Storage Component to restore da
 .Interactions Inside the Storage Component to restore data
 image::StorageComponentSequenceDiagram.png[width="800"]
 
-=== [proposed] Export an Event
+=== Find Event Feature
+The find-event command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
 
-The proposed export command exports the name of the attendees, their phone number,
-their email address, their home address and their attendance information of a particular
-event to a csv file into a file path specified by the user. Having the attendance of a
-particular event in a csv file would enable the users to analyse the data using other tools.
+<<#SDFEC>> below shows how the `find-event` command is processed in the Logic component.
+
+[#SDFEC]
+.Sequence Diagram for find-event command
+image::FindEventCommandSequenceDiagram.png[width="650"]
+==== Current Implementation
+The `find-event` command input is passed into an `EventPlannerParser` object. The `EventPlannerParser` reads the command word “find-events” and creates a `FindEventCommandParser` object that further parses the command input and creates a `FindEventCommand`. The `FindEventCommand` filters the the event list based on the keywords and updates Model components on changes in the filtered event list.
+
+==== Design Considerations
+
+===== Aspect: Keyword Matching Pattern
+
+* **Alternative 1 (current choice):** Match any of the keywords
+** Pros: The user can find multiple events given multiple keywords for events.
+** Cons: The user cannot pin-point an event if the keyword used for matching is also inside other event names.
+* **Alternative 2:** Match all the keywords
+** Pros: The find events function will be more targeted and precise.
+** Cons: The users cannot find different types of events at the same time.
+* **Alternative 3:** Fuzzy search
+** Pros: The user can find an event even if he/she has forgotten the name of the event.
+** Cons: It is harder to implement the find function.
 
 ==== [proposed] Implementation
 
@@ -139,7 +157,7 @@ image::ExportEventSequenceDiagram.png[width="650"]
 
 ==== Design Considerations
 
-When deciding on the export option, the following aspects of user experience are considered.
+When deciding on the export options, the following aspects of user experience are considered.
 
 ===== Aspect: Data to be Exported
 
@@ -149,3 +167,12 @@ When deciding on the export option, the following aspects of user experience are
 - *Alternative 2*: All information for attendees including their tags
     * Pros: More information for users as compared to current implementation.
     * Cons: The attendees may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
+
+==== Aspect: Format of Exported Files
+
+- *Alternative 1 (current choice)*: csv files
+    * Pros: The format can be imported and then processed by most data processing software in the market.
+    * Cons: The files are not reader friendly if they are open directly as a text file.
+- *Alternative 2*: excel files
+    * Pros: Excel files are well formatted when opened with Microsoft Excel software.
+    * Cons: Even though Microsoft Excel software is used by many people, some may prefer other data processing software that supports csv files but not excel files.
