@@ -302,6 +302,34 @@ the Model component having to be coupled to either of them. This is an example o
 
 This section describes some noteworthy details on how certain features are implemented.
 
+// tag::find-eventfeature[]
+
+=== Find Event Feature
+The find-event command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
+
+<<#SDFEC>> below shows how the `find-event` command is processed in the Logic component.
+
+[#SDFEC]
+.Sequence Diagram for find-event command
+image::FindEventCommandSequenceDiagram.png[width="650"]
+==== Current Implementation
+The `find-event` command input is passed into an `EventPlannerParser` object. The `EventPlannerParser` reads the command word “find-events” and creates a `FindEventCommandParser` object that further parses the command input and creates a `FindEventCommand`. The `FindEventCommand` filters the the event list based on the keywords and updates Model components on changes in the filtered event list.
+
+==== Design Considerations
+
+===== Aspect: Keyword Matching Pattern
+
+* **Alternative 1 (current choice):** Match any of the keywords
+** Pros: The user can find multiple events given multiple keywords for events.
+** Cons: The user cannot pin-point an event if the keyword used for matching is also inside other event names.
+* **Alternative 2:** Match all the keywords
+** Pros: The find events function will be more targeted and precise.
+** Cons: The users cannot find different types of events at the same time.
+* **Alternative 3:** Fuzzy search
+** Pros: The user can find an event even if he/she has forgotten the name of the event.
+** Cons: It is harder to implement the find function.
+// end::edit-eventfeature[]
+
 // tag::editfeature[]
 
 === Edit Person/Event Feature
