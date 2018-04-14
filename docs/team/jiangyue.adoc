@@ -31,6 +31,7 @@ EPIC is an event planning tool for large organisations hosting many large-scale 
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2103JAN2018-W13-B2/main/pull/15[#15], https://github.com/CS2103JAN2018-W13-B2/main/pull/17[#17]
 *** Reported bugs and suggestions for other teams in the class (https://github.com/CS2103JAN2018-W14-B2/main/issues/185[#185], https://github.com/CS2103JAN2018-W14-B2/main/issues/186[#186], https://github.com/CS2103JAN2018-W14-B2/main/issues/189[#189], https://github.com/CS2103JAN2018-W14-B2/main/issues/191[#191])
 
+<<<
 == Contributions to the User Guide
 
 
@@ -99,7 +100,7 @@ Deletes the 2nd event in the event planner.
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
 
-
+<<<
 == Contributions to the Developer Guide
 
 |===
@@ -143,6 +144,13 @@ The `find-event` command input is passed into an `EventPlannerParser` object. Th
 * **Alternative 3:** Fuzzy search
 ** Pros: The user can find an event even if he/she has forgotten the name of the event.
 ** Cons: It is harder to implement the find function.
+
+=== [proposed] Export an Event
+
+The proposed export command exports the names of the attendees, their phone numbers,
+their email addresses, their home addresses and their attendance information of a particular
+event to a csv file into a file path specified by the user. Having all the information of a
+particular event in a csv file would enable the user to analyse the data using other tools.
 
 ==== [proposed] Implementation
 
