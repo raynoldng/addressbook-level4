@@ -3,7 +3,7 @@ package systemtests;
 import org.junit.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.SelectEventCommand;
 import seedu.address.logic.commands.SelectEventCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
@@ -13,9 +13,10 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.SelectCommand.MESSAGE_SELECT_PERSON_SUCCESS;
 import static seedu.address.logic.commands.SelectEventCommand.MESSAGE_SELECT_EVENT_SUCCESS;
 import static seedu.address.testutil.TypicalEpicEvents.KEYWORD_MATCHING_OLYMPIAD;
+import static seedu.address.testutil.TypicalEpicEvents.getTypicalEvents;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_ATTENDANCE;
 
 public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
     @Test
@@ -26,31 +27,31 @@ public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
          * -> selected
          */
 
-//        String command = "   " + SelectEventCommand.COMMAND_WORD + " " + INDEX_FIRST_ATTENDANCE.getOneBased() + "   ";
-//        assertCommandSuccess(command, INDEX_FIRST_ATTENDANCE);
-//
-//        /* Case: select the last card in the event list -> selected */
-//        Index epicEventCount = Index.fromOneBased(getTypicalEvents().size());
-//        command = SelectEventCommand.COMMAND_WORD + " " + epicEventCount.getOneBased();
-//        assertCommandSuccess(command, epicEventCount);
-//
-//        /* Case: undo previous selection -> rejected */
-//        command = UndoCommand.COMMAND_WORD;
-//        String expectedResultMessage = UndoCommand.MESSAGE_FAILURE;
-//        assertCommandFailure(command, expectedResultMessage);
-//
-//        /* Case: redo selecting last card in the list -> rejected */
-//        command = RedoCommand.COMMAND_WORD;
-//        expectedResultMessage = RedoCommand.MESSAGE_FAILURE;
-//        assertCommandFailure(command, expectedResultMessage);
-//
-//        /* Case: select the middle card in the person list -> selected */
-//        Index middleIndex = Index.fromOneBased(epicEventCount.getOneBased() / 2);
-//        command = SelectEventCommand.COMMAND_WORD + " " + middleIndex.getOneBased();
-//        assertCommandSuccess(command, middleIndex);
-//
-//        /* Case: select the current selected card -> selected */
-//        assertCommandSuccess(command, middleIndex);
+        String command = "   " + SelectEventCommand.COMMAND_WORD + " " + INDEX_FIRST_ATTENDANCE.getOneBased() + "   ";
+        assertCommandSuccess(command, INDEX_FIRST_ATTENDANCE);
+
+        /* Case: select the last card in the event list -> selected */
+        Index epicEventCount = Index.fromOneBased(getTypicalEvents().size());
+        command = SelectEventCommand.COMMAND_WORD + " " + epicEventCount.getOneBased();
+        assertCommandSuccess(command, epicEventCount);
+
+        /* Case: undo previous selection -> rejected */
+        command = UndoCommand.COMMAND_WORD;
+        String expectedResultMessage = UndoCommand.MESSAGE_FAILURE;
+        assertCommandFailure(command, expectedResultMessage);
+
+        /* Case: redo selecting last card in the list -> rejected */
+        command = RedoCommand.COMMAND_WORD;
+        expectedResultMessage = RedoCommand.MESSAGE_FAILURE;
+        assertCommandFailure(command, expectedResultMessage);
+
+        /* Case: select the middle card in the person list -> selected */
+        Index middleIndex = Index.fromOneBased(epicEventCount.getOneBased() / 2);
+        command = SelectEventCommand.COMMAND_WORD + " " + middleIndex.getOneBased();
+        assertCommandSuccess(command, middleIndex);
+
+        /* Case: select the current selected card -> selected */
+        assertCommandSuccess(command, middleIndex);
 
         /* ------------------------ Perform select operations on the shown filtered list ---------------------------- */
 
@@ -58,46 +59,46 @@ public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
          * -> rejected
          */
         showEventsWithName(KEYWORD_MATCHING_OLYMPIAD);
-//        int invalidIndex = getModel().getEventPlanner().getEventList().size();
-//        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " " + invalidIndex,
-//                MESSAGE_INVALID_EVENT_DISPLAYED_IND
-// EX);
+        int invalidIndex = getModel().getEventPlanner().getEventList().size();
+        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " " + invalidIndex,
+                MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
 
-//        /* Case: filtered person list, select index within bounds of address book and person list -> selected */
-//        Index validIndex = Index.fromOneBased(1);
-//        assertTrue(validIndex.getZeroBased() < getModel().getFilteredPersonList().size());
-//        command = SelectCommand.COMMAND_WORD + " " + validIndex.getOneBased();
-//        assertCommandSuccess(command, validIndex);
+        /* Case: filtered event list, select index within bounds of event planner and person list -> selected */
+        Index validIndex = Index.fromOneBased(1);
+        assertTrue(validIndex.getZeroBased() < getModel().getFilteredEventList().size());
+        command = SelectEventCommand.COMMAND_WORD + " " + validIndex.getOneBased();
+        assertCommandSuccess(command, validIndex);
 
-//        /* ----------------------------------- Perform invalid select operations ------------------------------------ */
-//
-//        /* Case: invalid index (0) -> rejected */
-//        assertCommandFailure(SelectCommand.COMMAND_WORD + " " + 0,
-//                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
-//
-//        /* Case: invalid index (-1) -> rejected */
-//        assertCommandFailure(SelectCommand.COMMAND_WORD + " " + -1,
-//                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
-//
-//        /* Case: invalid index (size + 1) -> rejected */
-//        invalidIndex = getModel().getFilteredPersonList().size() + 1;
-//        assertCommandFailure(SelectCommand.COMMAND_WORD + " " + invalidIndex, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-//
-//        /* Case: invalid arguments (alphabets) -> rejected */
-//        assertCommandFailure(SelectCommand.COMMAND_WORD + " abc",
-//                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
-//
-//        /* Case: invalid arguments (extra argument) -> rejected */
-//        assertCommandFailure(SelectCommand.COMMAND_WORD + " 1 abc",
-//                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectCommand.MESSAGE_USAGE));
-//
-//        /* Case: mixed case command word -> rejected */
-//        assertCommandFailure("SeLeCt 1", MESSAGE_UNKNOWN_COMMAND);
-//
-//        /* Case: select from empty address book -> rejected */
-//        clearEventPlanner();
-//        assertCommandFailure(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased(),
-//                MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        /* ----------------------------------- Perform invalid select operations ------------------------------------ */
+
+        /* Case: invalid index (0) -> rejected */
+        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " " + 0,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectEventCommand.MESSAGE_USAGE));
+
+        /* Case: invalid index (-1) -> rejected */
+        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " " + -1,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectEventCommand.MESSAGE_USAGE));
+
+        /* Case: invalid index (size + 1) -> rejected */
+        invalidIndex = getModel().getFilteredEventList().size() + 1;
+        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " " + invalidIndex,
+                 MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
+
+        /* Case: invalid arguments (alphabets) -> rejected */
+        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " abc",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectEventCommand.MESSAGE_USAGE));
+
+        /* Case: invalid arguments (extra argument) -> rejected */
+        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " 1 abc",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, SelectEventCommand.MESSAGE_USAGE));
+
+        /* Case: mixed case command word -> rejected */
+        assertCommandFailure("SeLeCt 1", MESSAGE_UNKNOWN_COMMAND);
+
+        /* Case: select from empty event planner -> rejected */
+        clearEventPlanner();
+        assertCommandFailure(SelectEventCommand.COMMAND_WORD + " " + INDEX_FIRST_ATTENDANCE.getOneBased(),
+                MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
     }
 
     /**
@@ -106,7 +107,7 @@ public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
      * 2. Command box has the default style class.<br>
      * 3. Result display box displays the success message of executing select command with the
      * {@code expectedSelectedCardIndex} of the selected person.<br>
-     * 4. {@code Model}, {@code Storage} and {@code PersonListPanel} remain unchanged.<br>
+     * 4. {@code Model}, {@code Storage} and {@code EpicEventListPanel} remain unchanged.<br>
      * 5. Selected card is at {@code expectedSelectedCardIndex} and the browser url is updated accordingly.<br>
      * 6. Status bar remains unchanged.<br>
      * Verifications 1, 3 and 4 are performed by
