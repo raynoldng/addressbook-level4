@@ -330,11 +330,14 @@ Examples:
 Registers the 1st person in the results of the `find` command for Computing Seminar.
 * `list` +
 `register 2 AY201718 Graduation` +
-Registers the 2nd person in EPIC for AY201718 Graduation. (see <<#register>> below for UI changes) +
+Registers the 2nd person in EPIC for AY201718 Graduation. See the figures below for UI changes. +
 
 [#register]
-.UI changes for register command
-image::RegisterUGDiagram.png[width="600"]
+.Before the `register` command is executed
+image::RegisterUIBefore.png[width="790"]
+
+.After the `register` command is executed
+image::RegisterUIAfter.png[width="790"]
 
 // end::register[]
 
@@ -417,7 +420,7 @@ Format: `clear`
 === Undoing Commands : `undo`
 
 Restores EPIC to the state before the previous _undoable_ command was executed. +
-There is no guarantee that relative ordering of persons/events will be maintained after the undoing
+There is no guarantee that the relative order of persons/events will be preserved after the undoing
 of a `delete` or `delete-event` command. +
 Format: `undo`
 
@@ -440,14 +443,20 @@ The `undo` command fails since neither `list` nor `select` is undoable.
 `undo` +
 Undoes the `clear` command, followed by the `delete 1` command.
 
-* `delete 1` +
-`list` +
+* `delete 2` +
 `undo` +
-Undoes the `delete 1` command. (see <<#undo>> below for UI changes). +
+Undoes the `delete 2` command. See the figures below for UI changes. In particular,
+<<#undoafter>> shows that relative order of persons might not be preserved. +
 
-[#undo]
-.UI changes for undo command
-image::RegisterUGDiagram.png[width="600"]
+.Before the `delete 2` command is executed
+image::DeleteUIBefore.png[width="790"]
+
+.After the `delete 2` command is executed
+image::UndoUIBefore.png[width="790"]
+
+[#undoafter]
+.After the `undo` command is executed
+image::UndoUIAfter.png[width="790"]
 
 === Redoing Commands : `redo`
 
