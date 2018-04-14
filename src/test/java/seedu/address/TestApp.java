@@ -17,7 +17,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyEventPlanner;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.attendance.Attendance;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlSerializableEventPlanner;
 import seedu.address.testutil.TestUtil;

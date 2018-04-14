@@ -1,21 +1,5 @@
 package systemtests;
 
-import javafx.collections.transformation.FilteredList;
-import org.junit.Test;
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.DeletePersonCommand;
-import seedu.address.logic.commands.FindAttendanceCommand;
-import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.SelectEventCommand;
-import seedu.address.logic.commands.UndoCommand;
-import seedu.address.model.Model;
-import seedu.address.model.attendance.Attendance;
-import seedu.address.model.tag.Tag;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertFalse;
 import static seedu.address.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.TypicalEpicEvents.GRADUATIONAY18;
@@ -24,10 +8,15 @@ import static seedu.address.testutil.TypicalEpicEvents.ORIENTATION_INDEX;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.DANIEL;
-import static seedu.address.testutil.TypicalPersons.ELLE;
-import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.HOON;
-import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
+
+import org.junit.Test;
+
+import javafx.collections.transformation.FilteredList;
+
+import seedu.address.logic.commands.FindAttendanceCommand;
+import seedu.address.model.Model;
+import seedu.address.model.attendance.Attendance;
 
 //@@author raynoldng
 public class FindAttendanceCommandSystemTest extends EventPlannerSystemTest {
@@ -59,7 +48,7 @@ public class FindAttendanceCommandSystemTest extends EventPlannerSystemTest {
         command = FindAttendanceCommand.COMMAND_WORD + " Hoon";
         ModelHelper.setFilteredAttendanceList(expectedModel, hoonOrientationAttendance);
         assertCommandSuccess(command, expectedModel);
-        
+
         /* Case: mixed case command word -> rejected */
         command = "FiNd-AttendAnCe Meier";
         assertCommandFailure(command, MESSAGE_UNKNOWN_COMMAND);

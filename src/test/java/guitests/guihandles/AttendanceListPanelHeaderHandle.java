@@ -3,6 +3,9 @@ package guitests.guihandles;
 import javafx.scene.control.Label;
 
 //@@author raynoldng
+/**
+ *  Handle to header text of attendance list panel to check for content correctness
+ */
 public class AttendanceListPanelHeaderHandle extends NodeHandle<Label> {
 
     public static final String ATTENDANCE_STATUS_ID = "#attendanceStatus";

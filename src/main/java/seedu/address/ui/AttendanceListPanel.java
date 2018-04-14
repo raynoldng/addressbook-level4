@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ATTENDEES;
+
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
@@ -27,7 +29,6 @@ import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.ObservableEpicEvent;
 
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ATTENDEES;
 
 
 // @@author raynoldng

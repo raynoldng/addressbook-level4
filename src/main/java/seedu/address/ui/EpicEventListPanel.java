@@ -17,7 +17,6 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
-import seedu.address.model.attendance.Attendance;
 import seedu.address.model.event.EpicEvent;
 /**
  * Panel containing the list of events.

@@ -3,11 +3,9 @@ package guitests.guihandles;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 import seedu.address.model.attendance.Attendance;
-import seedu.address.model.event.UniqueEpicEventList;
 import seedu.address.ui.AttendanceCard;
 
 

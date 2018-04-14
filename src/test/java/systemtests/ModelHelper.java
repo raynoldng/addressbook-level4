@@ -27,6 +27,13 @@ public class ModelHelper {
         model.updateFilteredPersonList(predicate.orElse(PREDICATE_MATCHING_NO_PERSONS));
     }
 
+    /**
+     * @see ModelHelper#setFilteredList(Model, List)
+     */
+    public static void setFilteredList(Model model, Person... toDisplay) {
+        setFilteredList(model, Arrays.asList(toDisplay));
+    }
+
     //@@author raynoldng
     public static void setEpicEventFilteredList(Model model, List<EpicEvent> toDisplay) {
         Optional<Predicate<EpicEvent>> predicate =
@@ -45,12 +52,6 @@ public class ModelHelper {
     }
     //@@author
 
-    /**
-     * @see ModelHelper#setFilteredList(Model, List)
-     */
-    public static void setFilteredList(Model model, Person... toDisplay) {
-        setFilteredList(model, Arrays.asList(toDisplay));
-    }
 
 
 

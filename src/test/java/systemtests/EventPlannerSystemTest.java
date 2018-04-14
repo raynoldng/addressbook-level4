@@ -13,14 +13,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import guitests.guihandles.AttendanceListPanelHandle;
-import guitests.guihandles.AttendanceListPanelHeaderHandle;
-import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 
+import guitests.guihandles.AttendanceListPanelHandle;
+import guitests.guihandles.AttendanceListPanelHeaderHandle;
 import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.CommandBoxHandle;
 import guitests.guihandles.EpicEventListPanelHandle;
@@ -29,6 +28,7 @@ import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.StatusBarFooterHandle;
+
 import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.index.Index;
@@ -41,7 +41,6 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SelectEventCommand;
 import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
-import seedu.address.model.event.EpicEvent;
 import seedu.address.testutil.TypicalEpicEvents;
 import seedu.address.ui.CommandBox;
 
@@ -111,7 +110,9 @@ public abstract class EventPlannerSystemTest {
         return mainWindowHandle.getEventListPanel();
     }
 
-    public AttendanceListPanelHandle getAttendanceListPanel() {return mainWindowHandle.getAttendanceListPanel(); }
+    public AttendanceListPanelHandle getAttendanceListPanel() {
+        return mainWindowHandle.getAttendanceListPanel();
+    }
 
     public AttendanceListPanelHeaderHandle getAttendanceListPanelHeader() {
         return mainWindowHandle.getAttendanceListPanelHeader();

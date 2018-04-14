@@ -56,7 +56,11 @@ public class MainWindowHandle extends StageHandle {
         return mainMenu;
     }
 
-    public AttendanceListPanelHandle getAttendanceListPanel() { return attendanceListPanel; }
+    public AttendanceListPanelHandle getAttendanceListPanel() {
+        return attendanceListPanel;
+    }
 
-    public AttendanceListPanelHeaderHandle getAttendanceListPanelHeader() { return attendanceListPanelHeader; }
+    public AttendanceListPanelHeaderHandle getAttendanceListPanelHeader() {
+        return attendanceListPanelHeader;
+    }
 }
