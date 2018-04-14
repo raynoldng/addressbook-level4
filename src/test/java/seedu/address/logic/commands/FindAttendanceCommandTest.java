@@ -1,25 +1,9 @@
 package seedu.address.logic.commands;
 
-import org.junit.Before;
-import org.junit.Test;
-import seedu.address.logic.CommandHistory;
-import seedu.address.logic.UndoRedoStack;
-import seedu.address.model.EventPlanner;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.model.attendance.Attendance;
-import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.PersonNameContainsKeywordsPredicate;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import static seedu.address.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.address.testutil.TypicalEpicEvents.GRADUATIONAY18;
 import static seedu.address.testutil.TypicalEpicEvents.GRADUATIONAY18_INDEX;
@@ -28,12 +12,27 @@ import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.testutil.TypicalPersons.FIONA;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import seedu.address.logic.CommandHistory;
+import seedu.address.logic.UndoRedoStack;
+import seedu.address.model.EventPlanner;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
+import seedu.address.model.attendance.Attendance;
+import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
+
 //@@author raynoldng
 /**
  * Contains integration tests (interaction with the Model) for {@code FindAttendanceCommand}.
  */
 public class FindAttendanceCommandTest {
-//    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private Model model;
 
     @Before
