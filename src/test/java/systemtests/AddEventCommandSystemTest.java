@@ -14,8 +14,6 @@ import static seedu.address.testutil.TypicalEpicEvents.KEYWORD_MATCHING_OLYMPIAD
 import static seedu.address.testutil.TypicalEpicEvents.MATHOLYMPIAD;
 import static seedu.address.testutil.TypicalEpicEvents.ORIENTATION;
 import static seedu.address.testutil.TypicalEpicEvents.SEMINAR;
-import static seedu.address.testutil.TypicalPersons.IDA;
-import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
 
