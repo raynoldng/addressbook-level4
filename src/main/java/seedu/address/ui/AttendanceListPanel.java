@@ -1,7 +1,5 @@
 package seedu.address.ui;
 
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ATTENDEES;
-
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
@@ -125,14 +123,14 @@ public class AttendanceListPanel extends UiPart<Region> {
     /** Update attendance header text **/
     private void updateAttendanceStatus() {
         int total = attendanceListView.getItems().size();
-        boolean isFiltered = selectedEpicEventObserver.getObservableEpicEvent().getFilteredAttendees().getPredicate()
-                != PREDICATE_SHOW_ALL_ATTENDEES;
+        ObservableList<Attendance> actualList = selectedEpicEventObserver.getObservableEpicEvent()
+                .getEpicEvent().getAttendanceList();
+        boolean isFiltered = actualList.size() != total;
         int numAttended = (int) attendanceListView.getItems().stream()
                 .filter(attendanceCard -> attendanceCard.getAttendance().hasAttended())
                 .count();
         attendanceStatus.setText(String.format(ATTENDANCE_STATUS_FORMAT, isFiltered ? "(filtered)" : "", numAttended,
                 total));
-
     }
 
     private void setEventHandlerForSelectionChangeEvent() {
@@ -154,6 +152,7 @@ public class AttendanceListPanel extends UiPart<Region> {
             attendanceListView.getSelectionModel().clearAndSelect(index);
         });
     }
+
 
     @Subscribe
     private void handleJumpToAttendanceListRequestEvent(JumpToAttendanceListRequestEvent event) {

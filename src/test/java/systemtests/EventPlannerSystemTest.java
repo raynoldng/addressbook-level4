@@ -264,7 +264,6 @@ public abstract class EventPlannerSystemTest {
      */
     protected void assertSelectedCardDeselected() {
         assertFalse(getPersonListPanel().isAnyCardSelected());
-        assertFalse(getEventListPanel().isAnyCardSelected());
     }
 
     /**
