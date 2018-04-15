@@ -40,7 +40,7 @@ Responsibilities: Model
 image::raynoldng.png[width="150", align="left"]
 {empty}[http://github.com/raynoldng[github]] [<<raynoldng#, portfolio>>]
 
-Role: Developer +
+Role: Developer, Testing, UI/UX +
 Responsibilities: Dev Ops, UI, Integration
 
 '''
