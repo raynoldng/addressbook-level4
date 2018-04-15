@@ -1,60 +1,74 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static seedu.address.testutil.TypicalEpicEvents.getTypicalEventPlanner;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.TreeSet;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.EventPlanner;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyEventPlanner;
+import seedu.address.model.ModelManager;
+import seedu.address.model.Name;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.event.EpicEvent;
-import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.testutil.EpicEventBuilder;
+import seedu.address.ui.testutil.EventsCollectorRule;
 
 //@@author william6364
 
 public class AddEventCommandTest {
-
     @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
-    @Test
-    public void constructor_nullEvent_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new AddEventCommand(null);
+    private Model model;
+
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+        model.setSelectedEpicEvent(INDEX_FIRST_EVENT.getZeroBased());
     }
 
+    /**
+     * Executes a {@code AddEventCommand} with the given {@code index},
+     * and checks that the event is correctly added
+     */
     @Test
-    public void execute_eventAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingEventAdded modelStub = new ModelStubAcceptingEventAdded();
-        EpicEvent validEvent = new EpicEventBuilder().build();
-
-        CommandResult commandResult = getAddEventCommandForEpicEvent(validEvent, modelStub).execute();
-
-        assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, validEvent), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validEvent), modelStub.eventsAdded);
+    public void execute_eventAcceptedByModel_addSuccessful() {
+        EpicEvent event = new EpicEvent(new Name("New Event"), new TreeSet<>());
+        AddEventCommand addEventCommand = prepareCommand(event);
+        try {
+            CommandResult commandResult = addEventCommand.execute();
+            assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, event), commandResult.feedbackToUser);
+        } catch (CommandException ce) {
+            throw new IllegalArgumentException("Execution of command should not fail.", ce);
+        }
+        assertTrue(model.getEventList().contains(event));
     }
 
+    /**
+     * Executes an {@code AddEventCommand} with a duplicate event and checks that a {@code CommandException}
+     * is thrown with the {@code expectedMessage}.
+     */
     @Test
-    public void execute_duplicateEvent_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingDuplicateEventException();
-        EpicEvent validEvent = new EpicEventBuilder().build();
-
-        thrown.expect(CommandException.class);
-        thrown.expectMessage(AddEventCommand.MESSAGE_DUPLICATE_EVENT);
-
-        getAddEventCommandForEpicEvent(validEvent, modelStub).execute();
+    public void execute_duplicateEvent_throwsCommandException() {
+        AddEventCommand addEventCommand = prepareCommand(model.getEventList().get(0));
+        try {
+            addEventCommand.execute();
+            fail("The expected CommandException was not thrown.");
+        } catch (CommandException ce) {
+            assertEquals(AddEventCommand.MESSAGE_DUPLICATE_EVENT, ce.getMessage());
+            assertTrue(eventsCollectorRule.eventsCollector.isEmpty());
+        }
     }
 
     @Test
@@ -82,44 +96,11 @@ public class AddEventCommandTest {
     }
 
     /**
-     * Generates a new AddEventCommand with the details of the given event.
+     * Returns a {@code AddEventCommand} with parameters {@code event}.
      */
-    private AddEventCommand getAddEventCommandForEpicEvent(EpicEvent event, Model model) {
-        AddEventCommand command = new AddEventCommand(event);
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
-
-    /**
-     * A Model stub that always throw a DuplicateEventException when trying to add a event.
-     */
-    private class ModelStubThrowingDuplicateEventException extends ModelStub {
-        @Override
-        public void addEvent(EpicEvent person) throws DuplicateEventException {
-            throw new DuplicateEventException();
-        }
-
-        @Override
-        public ReadOnlyEventPlanner getEventPlanner() {
-            return new EventPlanner();
-        }
-    }
-
-    /**
-     * A Model stub that always accept the event being added.
-     */
-    private class ModelStubAcceptingEventAdded extends ModelStub {
-        final ArrayList<EpicEvent> eventsAdded = new ArrayList<>();
-
-        @Override
-        public void addEvent(EpicEvent event) throws DuplicateEventException {
-            requireNonNull(event);
-            eventsAdded.add(event);
-        }
-
-        @Override
-        public ReadOnlyEventPlanner getEventPlanner() {
-            return new EventPlanner();
-        }
+    private AddEventCommand prepareCommand(EpicEvent event) {
+        AddEventCommand addEventCommand = new AddEventCommand(event);
+        addEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return addEventCommand;
     }
 }

@@ -16,6 +16,7 @@ classes/
 /bin/
 src/main/resources/docs/
 out/
+preferences.json
 docs/*.pdf
 docs/*.html
 *.md
