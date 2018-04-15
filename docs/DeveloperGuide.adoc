@@ -145,8 +145,8 @@ is used by components to communicate with other components using events (i.e. a 
 The UI component is responsible for interfacing with the user. The UI component has three main responsibilities:
 
 * It executes user commands using the Logic component.
-* It binds itself to some data in the Model component so that the UI can auto-update when data in the Model component changes.
-* It responds to events raised from various parts of the App and updates the UI accordingly.
+* It binds itself to some data in the Model component so that the it can auto-update itself when data in the Model component changes.
+* It responds to events raised from various parts of the App and updates itself accordingly.
 
 ====  Functional Overview
 
@@ -305,7 +305,7 @@ This section describes some noteworthy details on how certain features are imple
 // tag::find-eventfeature[]
 
 === Find Event Feature
-The find-event command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
+The `find-event` command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
 
 <<#SDFEC>> below shows how the `find-event` command is processed in the Logic component.
 
@@ -660,21 +660,36 @@ as not attended
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
-// tag::massregistration[]
+// tag::findregistrant[]
+=== Find Registrant Feature
 
-=== [Proposed] Mass Registration
+The `find-registrant` command enables users to filter registrants of an event with keywords. Only registrants
+whose names contain any of the given keywords will be listed. The user can further toggle the attendance of the registants with the `toggle` command.
 
-==== Proposed Implementation
+<<#SDSEC>> below shows how the `find-registrant` command is processed in the Logic component.
 
-This feature is proposed to allow for mass registration of multiple persons to a single event.
-The proposed implementation is to make use of tags to select groups of persons to register for an event.
-It is proposed that the `Tag` class be split into `PersonTag` and `EpicEventTag` so as to differentiate
-the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
-By doing so, a group of persons can be identified by `PersonTag` and thus registered to an event
-by iteratively registering each person.
+[#SDSEC]
+.Seqeuence Diagram for `find-registrant` command
+image::FindAttendanceSequenceDiagram.png[width="650"]
 
-// end::massregistration[]
+==== Current Implementation
 
+The `find-registrant` command is passed to the `EventPlannerParser` object when then reads the parses the input and returns a `FindRegistrantCommand` object. When the `FindRegistrantCommand` object is exceuted, the Model filters the list of registrants and the Attendance List Panel that is bind to the list of registrants is updated.
+
+==== Design Considerations
+
+===== Aspect: Keyword Matching Pattern
+
+* **Alternative 1 (current choice)**: Match any of the keywords
+** Pros: The user can find multiple registrants using multiple keywords.
+** Cons: If the user will not be able to search by full name as other registrants might be matched as well
+* **Alternative 2**: Match all keywords
+** Pros: The user can search by full name.
+** Cons: Matching all keywords might be too restrictive and would not a useful filter to narrow down registrants.
+* **Alternative 3** Fuzzy Search
+** Pros: The user can filter registrants with approximate keywords
+** Cons: It is harder to implement fuzzy search
+// end::findregistrant[]
 
 
 // tag::threepaneui[]
@@ -725,8 +740,6 @@ By using the JavaBeans API to handle UI updates, the programmer does not have to
 
 //.Sequence Diagram for Panel initialisation
 //image::CreatePersonListPanelSequenceDiagram.png[width="650"]
-// end::threepaneui[]
-
 
 ==== Design Considerations
 
@@ -766,6 +779,42 @@ Previously, changes to `Person` would create a new `Person` object that would re
 - Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
     * Pros: Binding data to the Attendance Panel is straight forward and the approach used to data to the People and Events Panels can be used here too.
     * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`, increasing coupling between the `MainWindow` and `AttendanceListPanel`. It is a violation of Single Responsibility Principle as the `MainWindow` should only be concerned with displaying the main layout.
+// end::threepaneui[]
+
+=== Logging
+
+We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
+
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
+* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
+* Currently log messages are output through: `Console` and to a `.log` file.
+
+*Logging Levels*
+
+* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
+* `WARNING` : Can continue, but with caution
+* `INFO` : Information showing the noteworthy actions by the App
+* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+
+[TIP]
+Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
+
+// tag::massregistration[]
+
+=== [Proposed] Mass Registration
+
+==== Proposed Implementation
+
+This feature is proposed to allow for mass registration of multiple persons to a single event.
+The proposed implementation is to make use of tags to select groups of persons to register for an event.
+It is proposed that the `Tag` class be split into `PersonTag` and `EpicEventTag` so as to differentiate
+the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
+By doing so, a group of persons can be identified by `PersonTag` and thus registered to an event
+by iteratively registering each person.
+
+// end::massregistration[]
+
+
 
 === [proposed] Export an Event
 
@@ -807,23 +856,6 @@ When deciding on the export options, the following aspects of user experience ar
     * Pros: Excel files are well formatted when opened with Microsoft Excel software.
     * Cons: Even though Microsoft Excel software is used by many people, some may prefer other data processing software that supports csv files but not excel files.
 
-=== Logging
-
-We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
-
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
-* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
-* Currently log messages are output through: `Console` and to a `.log` file.
-
-*Logging Levels*
-
-* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
-* `WARNING` : Can continue, but with caution
-* `INFO` : Information showing the noteworthy actions by the App
-* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
-
-[TIP]
-Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
 == Documentation
 

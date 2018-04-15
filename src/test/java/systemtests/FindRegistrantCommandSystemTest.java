@@ -14,12 +14,12 @@ import org.junit.Test;
 
 import javafx.collections.transformation.FilteredList;
 
-import seedu.address.logic.commands.FindAttendanceCommand;
+import seedu.address.logic.commands.FindRegistrantCommand;
 import seedu.address.model.Model;
 import seedu.address.model.attendance.Attendance;
 
 //@@author raynoldng
-public class FindAttendanceCommandSystemTest extends EventPlannerSystemTest {
+public class FindRegistrantCommandSystemTest extends EventPlannerSystemTest {
 
     @Test
     public void find() {
@@ -30,13 +30,13 @@ public class FindAttendanceCommandSystemTest extends EventPlannerSystemTest {
         Model expectedModel = getModel();
 
         /* Case: find person where person list is not displaying the person we are finding -> 1 person found */
-        String command = FindAttendanceCommand.COMMAND_WORD + " Carl";
+        String command = FindRegistrantCommand.COMMAND_WORD + " Carl";
         Attendance carlAttendance = new Attendance(CARL, GRADUATIONAY18);
         ModelHelper.setFilteredAttendanceList(expectedModel, carlAttendance);
         assertCommandSuccess(command, expectedModel);
 
         /* Case: find multiple persons in address book, 2 keywords -> 2 persons found */
-        command = FindAttendanceCommand.COMMAND_WORD + " Benson Daniel";
+        command = FindRegistrantCommand.COMMAND_WORD + " Benson Daniel";
         Attendance bensonAttendance = new Attendance(BENSON, GRADUATIONAY18);
         Attendance danielAttendance = new Attendance(DANIEL, GRADUATIONAY18);
         ModelHelper.setFilteredAttendanceList(expectedModel, bensonAttendance, danielAttendance);
@@ -45,7 +45,7 @@ public class FindAttendanceCommandSystemTest extends EventPlannerSystemTest {
         /* Case: switch to event that has only has registered */
         getModel().setSelectedEpicEvent(ORIENTATION_INDEX);
         Attendance hoonOrientationAttendance = new Attendance(HOON, ORIENTATION);
-        command = FindAttendanceCommand.COMMAND_WORD + " Hoon";
+        command = FindRegistrantCommand.COMMAND_WORD + " Hoon";
         ModelHelper.setFilteredAttendanceList(expectedModel, hoonOrientationAttendance);
         assertCommandSuccess(command, expectedModel);
 
