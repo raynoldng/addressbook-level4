@@ -93,7 +93,7 @@ The lists displayed in the panes can be filtered using the `find`, `find-event` 
 
 === Interacting with the GUI
 
-* Clicking on an event in the Events Pane selects that event, allowing you to see all registrants for that event in the Attendance Pane,
+* Clicking on an event in the Events Pane *selects* that event, allowing you to see all registrants for that event in the Attendance Pane,
 as well as perform actions such as toggling attendance.
 Selecting an event can also be done with the `select` command in the command box.
 
