@@ -1,6 +1,8 @@
 = Raynold Ng - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
+:xrefstyle: short
+:experimental:
 
 == PROJECT: Event Planning isn’t Complicated (EPIC)
 
@@ -16,7 +18,7 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 
 == Summary of contributions
 
-* *Major enhancement*: overhauled UI to a three panel system that displays all persons, events and attendees of selected
+* *Major enhancement*: overhauled UI to a three panel system that displays all persons, events and attendees of the selected
 event in their respective panels.
 ** What it does: A three panel system displaying stored persons, events and attendees. It auto updates itself when there
 are changes to data.
