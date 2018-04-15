@@ -79,7 +79,7 @@ The UI consists of the 5 main layout regions (<<#layout-of-epic>>):
 .Components of the GUI
 image::Ui_annotated.png[width="750"]
 
-. Command Box: text box to receive user inputs.
+. Command Box: text box to receive user input.
 . Result Display: status bar that displays the result of user commands.
 . Persons Pane: pane that lists all persons stored in EPIC.
 . Events Pane: pane that lists all events stored in EPIC.
@@ -246,13 +246,13 @@ Format: `list-events`
 === Selecting an Event: `select-event`
 
 Selects the event identified by the index number used in the Events List Pane.
-The Attendance List Panel will display the persons registered for that event.
+The Attendance Pane will display the persons registered for that event.
 
 Format: `select-event INDEX`
 
 
 [TIP]
-By default, the first event in the Event List Panel is the selected event.
+By default, the first event in the Events Pane is the selected event.
 // end::selectevent[]
 
 // tag::editevent[]
@@ -395,7 +395,7 @@ Deregisters the 1st person in the results of the `find` command from Computing S
 
 === Listing all Event Registrants: `list-registered`
 
-Lists all registrants for the specified event. +
+Lists all registrants for the specified event in the Persons Pane. +
 Format: `list-registered EVENT_NAME`
 
 ****
@@ -406,7 +406,7 @@ Format: `list-registered EVENT_NAME`
 
 // tag::attendance-search[]
 
-=== Listing all Event Participants: `find-registrant`
+=== Finding Event Registrants: `find-registrant`
 
 Finds registrants whose names contain any of the given keywords.
 
@@ -418,19 +418,19 @@ Format: `find-registrant KEYWORD [MORE_KEYWORDS]`
 * Only full words will be matched. e.g. Han will not match Hans.
 ****
 
-If your event contains too many participants, it can be difficult to find information quickly. The
-`find-registrant` command can be used to narrow down participants by their name. Only persons whose
-names contain any of the given keys are displayed.
+If your event contains too many registrants, it can be difficult to find information quickly. The
+`find-registrant` command can be used to narrow down registrants by their name. Only persons whose
+names contain any of the given keywords are displayed.
 
-In our example, we'll apply a filter to display only participants from the IoT Talk Event with the
+In our example, we'll apply a filter to display only registrants from the IoT Talk event with the
 name "Alex".
 
 . Select the IoT Event by executing `select-event 1`. Observe that Alex Yeoh is registered
-. Execute `find-registrant alex`, this filters the attendance panel, hiding anyone whose name does
+. Execute `find-registrant alex`. This command filters the Attendance Pane, hiding anyone whose name does
 not contain the word alex (case-insensitive).
-. To remove the filter, execute `list-attendance`.
+. To remove the filter, execute `list-registrants`.
 
-When a filter is applied, the header of the attendance panel will display `filtered`, and the attendance statistic will
+When a filter is applied, the header of the Attendance Pane will display `filtered`, and the attendance statistic will
 be computed based on the filtered list. See <<#findregistrants>> below for UI changes. +
 
 [#findregistrants]
@@ -438,15 +438,15 @@ be computed based on the filtered list. See <<#findregistrants>> below for UI ch
 image::FindRegistrantsUG.png[width="790"]
 
 ****
-* The search is case insensitive. e.g hans will match Hans.
+* The search is case-insensitive. e.g hans will match Hans.
 * Only the name is searched.
 * Only full words will be matched. e.g. Han will not match Hans.
 ****
 
-=== Listing all Event Participants: `list-attendance`
+=== Listing all Event Registrants: `list-registrants`
 
-Lists all participants for the specified event, removing any filter. +
-Format: `list-registered EVENT_NAME`
+Lists all registrants for the selected event in the Attendance Pane, removing any filter. +
+Format: `list-registrants EVENT_NAME`
 // end::attendance-search[]
 
 

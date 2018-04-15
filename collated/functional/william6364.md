@@ -35,9 +35,6 @@ public class AddEventCommand extends UndoableCommand {
         try {
             model.addEvent(toAdd);
             model.visuallySelectEpicEvent(toAdd);
-```
-###### \java\seedu\address\logic\commands\AddEventCommand.java
-``` java
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicateEventException e) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);

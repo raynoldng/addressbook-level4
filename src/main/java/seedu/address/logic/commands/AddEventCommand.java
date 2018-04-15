@@ -43,7 +43,6 @@ public class AddEventCommand extends UndoableCommand {
         try {
             model.addEvent(toAdd);
             model.visuallySelectEpicEvent(toAdd);
-            // @@author william6364
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicateEventException e) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);

@@ -158,15 +158,15 @@ image::GUI.png[width="750"]
 
 . Command Box: text box to receive user inputs.
 . Result Display: status bar that displays the result of user commands.
-. People List Panel: pane that lists all persons.
-. Event List Panel: pane that lists all events.
-. Attendance List Panel: pane that lists all registrants in the user selected event.
+. Persons Pane: pane that lists all persons.
+. Events Pane: pane that lists all events.
+. Attendance Pane: pane that lists all registrants in the user selected event.
 . Person Card: a card that lists a person's contact information.
 . Event Card: a card that lists an event's details.
 . Attendance Card: a card that lists a registrant's contact information and displays if the registrant has attended or not.
 
 [NOTE]
-If no  `EpicEvent` has been selected, the Attendance List Panel will be empty
+If no  `EpicEvent` has been selected, the Attendance Panewill be empty
 
 
 ==== Technical Overview
@@ -726,9 +726,9 @@ image::FindRegistrantSequenceDiagram.png[width="650"]
 
 ==== Current Implementation
 
-The `find-registrant` command is passed to the `EventPlannerParser` object when then reads the parses the input and
+The `find-registrant` command is passed to the `EventPlannerParser` object which then reads the parses the input and
 returns a `FindRegistrantCommand` object. When the `FindRegistrantCommand` object is executed, the Model filters the
-list of registrants and the Attendance List Panel is updated.
+list of registrants and the Attendance Paneis updated.
 
 ==== Design Considerations
 
@@ -736,11 +736,11 @@ list of registrants and the Attendance List Panel is updated.
 
 * **Alternative 1 (current choice)**: Match any of the keywords
 ** Pros: The user can find multiple registrants using multiple keywords.
-** Cons: If the user will not be able to search by full name as other registrants might be matched as well.
+** Cons: The user will not be able to search by full name as other registrants might be matched as well.
 * **Alternative 2**: Match all keywords
 ** Pros: The user can search by full name.
-** Cons: Matching all keywords might be too restrictive and would not a useful filter to narrow down registrants.
-* **Alternative 3** Fuzzy Search
+** Cons: Matching all keywords might be too restrictive and would not be a useful filter to narrow down registrants.
+* **Alternative 3**: Fuzzy Search
 ** Pros: The user can filter registrants with approximate keywords.
 ** Cons: It is harder to implement fuzzy search.
 // end::findregistrant[]
@@ -753,11 +753,11 @@ The new UI is a three-pane UI consisting of a list of persons, events, and regis
  view all three panes will allow the user to read off the desired command parameters without having to switch between
   lists.
 
-In addition, `edit` and `edit-command` commands are now implemented in a mutable manner
+In addition, `edit` and `edit-event` commands are now implemented in a mutable manner
  (see <<edit-curr-implementation>>). As a result, the `ObservableList` that wraps the people and event data will no
  longer be notified of changes. The new UI must be notified of changes to data so it can refresh itself to reflect
  such changes. The UI will also have to respond to new commands such as the `select-event` and `toggle`.
- The `select-event` could invoke a change in the contents of the Attendance List Panel and `toggle` will toggle the
+ The `select-event` could invoke a change in the contents of the Attendance Pane and `toggle` will toggle the
  attendance status and is reflected in the UI in the form of the attendance icon change.
 
 ==== Current Implementation
@@ -789,7 +789,7 @@ This way, editing `Person` calls `fireValueChangedEvent()` which informs JavaFX 
 
 To listen to changes in attendance. We enable the `AttendanceList` to report changes on the element by providing a properties extractor. First, we use the JavaBeans API to represent properties of `Attendance` that we want to listen to, which is the `hasAttendedEventProperty`, a `BooleanProperty` object.
 
-We then use an Extractor which is a Callback containing an array of `Observables` which are then observed by the `ObservableList`.
+We use an Extractor which is a Callback containing an array of `Observables` which are then observed by the `ObservableList`.
 
 [source,java]
 ----
@@ -811,9 +811,9 @@ When deciding on the UI, the following aspects of user experience were considere
 - *Alternative 1 (current choice)*: A three-pane UI consisting of list of persons, events, and registrants for the selected event
     * Pros: The user can view all 3 lists at the same time. He would know what arguments to supply when typing commands as he can read them off the list.
     * Cons: The UI might become too cluttered as there are too many UI elements. However, given that EPIC is meant for modern computers with large displays, this should not be an issue.
-- *Alternative 2 (previous choice)*: two-pane UI where the left pane is a 2 tab pane consisting of a list of persons and events, and the right pane is a list of registrants.
-    * Pros: Merging the horizontal space for the list of persons and events will create more space for list of registrants. The user is likely to be more interested in the registrants' details.
-    * Cons: If the user needs to access data for some tabbed pane that is not in focus to fill out a command, this would break his workflow. The user will have to delete his current command, execute a command to set focus to the desired tab, memorize the required details and reenter his previous command.
+- *Alternative 2 (previous choice)*: two-pane UI where the left pane is a 2 tab pane consisting of a list of persons and events, and the right pane is a list of registrants
+    * Pros: Merging the horizontal space for the list of persons and events will create more space for the list of registrants. The user is likely to be more interested in the registrants' details.
+    * Cons: If the user needs to access data for some tabbed pane that is not in focus to fill out a command, he would have to delete his current command, execute a command to set focus to the desired tab. He must then memorize the required details and reenter his previous command. This would break his workflow and be a great inconvenience.
 - *Alternative 3*: A common list that can display either list of persons, events or registrants for the selected event
     * Pros: We only have to make minimal changes to the UI layout.
     * Cons: Events, persons, and registrants must be displayed using the same `Card` class. This would result in tight coupling of the display graphics logic  for the three lists.
@@ -822,23 +822,20 @@ When deciding on the UI, the following aspects of user experience were considere
 
 Previously, changes to `Person` would create a new `Person` object that would replace the previous object, triggering a UI refresh. Now that such changes to `Peron`, `EpicEvent` and `Attendance` objects only mutate it, the `ListView` is unable to listen to such changes.
 
-- Alternative 1 (current choice): Use the JavaFX Beans Convention
+- **Alternative 1 (current choice)**: Use the JavaFX Beans Convention
     * Pros: Using the JavaBeans API to represent a property of an object allows property changes to be propagated to property change listeners. This is an elegant way to get the `ListView` to instantly update its elements.
     * Cons: Using the JavaBeans API to represent object properties introduces coupling between the Model and UI components.
 - Alternative 2: Force all commands that change data to invoke a UI refresh
     * Pros: It is straightforward to force a `ListView` UI refresh by invoking its `refresh()` method.
-    * Cons: We will have to ensure that any action that could modify data force a UI refresh. In addition, constantly invoking a UI refresh could become a resource hog.
+    * Cons: We will have to ensure that any action that could modify data forces a UI refresh. In addition, constantly invoking a UI refresh could become a resource hog.
 
-==== Binding Data to Attendance Panel
+==== Binding Data to Attendance Pane
 
-- Alternative 1 (current choice): Wrap the selected `EpicEvent` in an `EpicEventObservable` object to listen for changes
-    * Pros: We can listen to changes in the `EpicEventObservable` object to trigger a UI update.
-    * Cons: Creating a new class introduces more code bloat.
-- Alternative 1 (current choice): Bind `ObservableEpicEvent` to the Attendance Panel
-    * Pros: As `ObservableEpicEvent` extends `Observable`, it can listen to when the selected event changes and update the Attendance Panel accordingly.
+- **Alternative 1 (current choice)**: Bind `ObservableEpicEvent` to the Attendance Pane
+    * Pros: As `ObservableEpicEvent` extends `Observable`, it can listen to when the selected event changes and update the Attendance Pane accordingly.
     * Cons: More code has to be written and maintained as we are introducing an additional layer of abstraction.
-- Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
-    * Pros: Binding data to the Attendance Panel is straightforward and the approach used to data to the People and Events Panels can be used here too.
+- Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Pane
+    * Pros: Binding data to the Attendance Pane is straightforward and the approach used to bind data to the People and Events Panels can be used here too.
     * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`, increasing coupling between the `MainWindow` and `AttendanceListPanel`. It is a violation of Single Responsibility Principle as the `MainWindow` should only be concerned with displaying the main layout.
 // end::threepaneui[]
 
@@ -919,7 +916,7 @@ When deciding on the export options, the following aspects of the user experienc
     * Cons: The files are not reader friendly if they are opened directly as a text file.
 - *Alternative 2*: excel files
     * Pros: Excel files are well-formatted when opened with Microsoft Excel.
-    * Cons: Even though Microsoft Excel is used by many people, some may prefer other data processing applications that supports csv files but not excel files.
+    * Cons: Even though Microsoft Excel is used by many people, some may prefer other data processing applications that support csv files but not excel files.
 
 // end::exporteventdevguide[]
 
@@ -1046,13 +1043,13 @@ b. Require developers to download those libraries manually (this creates extra w
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-*Value proposition*: streamline attendance taking and registration of event participants, far superior to traditional pen and paper registration
+*Value proposition*: streamline attendance taking and registration of event registrants, far superior to traditional pen and paper registration
 
 *Feature Contribution*:
 
 * Raynold Ng:
 ** Minor: Add commands for searching list of registrants and displaying all registrants. This allows the user to filter list of registrants from a list of keywords.
-** Major: Implemented a three pane view (persons, events, and event participant). The user should be able to view persons, events and registrants of an event at the same time. That would also allow the user to execute event administration commands as he can view both events and contacts at the same time.
+** Major: Implemented a three pane view (persons, events, and event registrant). The user should be able to view persons, events and registrants of an event at the same time. That would also allow the user to execute event administration commands as he can view both events and contacts at the same time.
 
 * Wei Liang:
 ** Minor: Add EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
@@ -1078,19 +1075,19 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *`|new user |see an onboarding guide |familiarize myself with the application
 
-|`* * *` |event planner |add a new participant |
+|`* * *` |event planner |add a new registrant |
 
-|`* * *` |event planner |delete a participant |remove a participant that has withdrawn from the event
+|`* * *` |event planner |delete a registrant |remove a registrant that has withdrawn from the event
 
-|`* * *` |event planner |list all participants for the event |
+|`* * *` |event planner |list all registrants for the event |
 
-|`* * *` |event planner |edit a participant’s details |update a participant’s details upon request
+|`* * *` |event planner |edit a registrant’s details |update a registrant’s details upon request
 
-|`* * *` |event planner |mark attendance for a participant |know who attended the event
+|`* * *` |event planner |mark attendance for a registrant |know who attended the event
 
-|`* * *` |event planner |find a participant by name |locate a participant without going through the entire list of participants
+|`* * *` |event planner |find a registrant by name |locate a registrant without going through the entire list of registrants
 
-|`* * *` |event planner |have all participant’s data in persistent storage |close the program without losing my data
+|`* * *` |event planner |have all registrant’s data in persistent storage |close the program without losing my data
 
 |`* *` |event planner |set privacy settings |meet PDPA guideline
 
@@ -1098,33 +1095,33 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |event planner |add the same user to multiple events |use the same, stored information across multiple events
 
-|`* *` |event planner managing large events |import participant contact information from csv |quickly add participants without manual typing
+|`* *` |event planner managing large events |import registrant contact information from csv |quickly add registrants without manual typing
 
-|`* *` |event planner managing large events |export participant contact information as csv |use the data for other applications (e.g. presentation, data analysis)
+|`* *` |event planner managing large events |export registrant contact information as csv |use the data for other applications (e.g. presentation, data analysis)
 
-|`* *` |event planner managing many participants |find a participant by his/her initials |find persons quickly
+|`* *` |event planner managing many registrants |find a registrant by his/her initials |find persons quickly
 
-|`* *` |event planner |manage participants based on tags |mass register/delete participants belonging to a certain group
+|`* *` |event planner |manage registrants based on tags |mass register/delete registrants belonging to a certain group
 
-|`*` |participant |mark my attendance by scanning a QR code |make the process of marking attendance quicker
+|`*` |registrant |mark my attendance by scanning a QR code |make the process of marking attendance quicker
 
-|`*` |participant |mark my attendance by scanning a card with an RFID chip |make the process of marking attendance quicker
+|`*` |registrant |mark my attendance by scanning a card with an RFID chip |make the process of marking attendance quicker
 
 |`*` |event planner |fuzzy search contacts |find the relevant contact even if I do not know his/her complete name
 
-|`*` |participant |mark my attendance by scanning an NFC tag |make the process of marking attendance quicker
+|`*` |registrant |mark my attendance by scanning an NFC tag |make the process of marking attendance quicker
 
-|`*` |participant |see where I should be seated at the venue when I mark my attendance |find my seating location quicker
+|`*` |registrant |see where I should be seated at the venue when I mark my attendance |find my seating location quicker
 
-|`*` |event planner |synchronize application data across multiple devices |collaboratively edit participant information
+|`*` |event planner |synchronize application data across multiple devices |collaboratively edit registrant information
 
-|`*` |participant |add feedback for the event |
+|`*` |registrant |add feedback for the event |
 
-|`*` |event planner |send out a mass email to all participants |send out information such as event details and QR codes quickly
+|`*` |event planner |send out a mass email to all registrants |send out information such as event details and QR codes quickly
 
 |`*` |event planner |make my edits synchronized in real time across all devices |parallelize the registration and attendance taking process
 
-|`*` |event planner |automatically email a reminder to all participants near the event date |ensure participants do not accidentally forget about the event
+|`*` |event planner |automatically email a reminder to all registrants near the event date |ensure registrants do not accidentally forget about the event
 
 |`*` |event planner |type commands in natural language |do without memorising the syntax for every command
 
@@ -1132,7 +1129,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |event planner |export event details (attendance rate, feedback etc) in a presentable format |do an after action review of the event
 
-|`*` |event planner |conduct a lucky draw for event participants |
+|`*` |event planner |conduct a lucky draw for event registrants |
 |=======================================================================
 
 [appendix]
@@ -1311,7 +1308,7 @@ Cons:
 * Requires specific hardware (iPads loaned out by the company).
 * Expensive, and not reusable (payment for each event).
 * Proprietary software, not open source.
-* Participant contact information cannot be reused across multiple events - has to be re-entered.
+* registrant contact information cannot be reused across multiple events - has to be re-entered.
 * Editing guest list has to go through the company and hence is slow and a large hassle.
 
 [appendix]
