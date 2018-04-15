@@ -9,7 +9,9 @@
 == Overview
 
 Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning
-and registration for large organisations*.
+and registration for large organisations*. EPIC handles event attendance management with
+simplicity and efficiency. By storing all of the contacts in a common database, the same person
+can be registered for multiple events without having to re-enter his or her details for each event.
 EPIC is optimized for event planners who prefer typing to using the mouse.
 
 == Summary of contributions
