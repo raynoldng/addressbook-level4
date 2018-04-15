@@ -555,7 +555,7 @@ the user undoes a `ClearCommand`.
 ===== Aspect: Data Structure to Support the Undo/Redo Commands
 
 * **Alternative 1 (current choice):** Use separate stack for undo and redo
-** Pros: Easy to understand for new Computer Science undergraduates to understand, who are likely to be *  new incoming developers of our project.
+** Pros: Easier for new Computer Science undergraduates to understand, who are likely to be new incoming developers of our project.
 ** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update * both `HistoryManager` and `UndoRedoStack`.
 * **Alternative 2:** Use `HistoryManager` for undo/redo
 ** Pros: We do not need to maintain a separate stack, and just reuse what is already in the codebase.
@@ -609,7 +609,7 @@ Implementation is easier.
 ** Cons: User might absentmindedly delete a person when his/her details are still required
 (by an upcoming event he/she is registered for).
 
-=== List Registered Persons for an Event
+=== List Registered Persons Feature
 
 ==== Current Implementation
 
@@ -621,7 +621,7 @@ is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
 
 // tag::markattendance[]
 
-=== Toggling Attendance
+=== Toggle Attendance Feature
 
 ==== Current Implementation
 

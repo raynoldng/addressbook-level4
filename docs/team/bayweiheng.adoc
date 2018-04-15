@@ -83,7 +83,11 @@ include::../UserGuide.adoc[tag=uiinteractions]
 
 _Excerpts from Undoing Commands_
 
-include::../UserGuide.adoc[tag=undoredo]
+include::../UserGuide.adoc[tag=undo]
+
+_Excerpts from Redoing Commands_
+
+include::../UserGuide.adoc[tag=redo]
 
 _Excerpts from Registering a Person for an Event_
 

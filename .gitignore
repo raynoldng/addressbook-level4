@@ -16,13 +16,13 @@ classes/
 /bin/
 src/main/resources/docs/
 out/
+config.json
 preferences.json
+docs/team/*.pdf
 docs/*.pdf
 docs/*.html
 *.md
 Collate-GUI.jar
 docs/team/raynoldng.pdf
-.gitignore
-cofig.json
 data/EPIC.xml
-preference.json
+.gitignore

@@ -490,7 +490,7 @@ Pressing the up and down arrows will display the previous and next input respect
 Clears all entries from EPIC. +
 Format: `clear`
 
-// tag::undoredo[]
+// tag::undo[]
 === Undoing Commands : `undo`
 
 Restores EPIC to the state before the previous _undoable_ command was executed. +
@@ -526,6 +526,10 @@ it shows that relative order of persons might not be preserved. +
 .Illustration of `undo` command (only the Persons Pane is shown for clarity).
 image::UndoUG.png[width="790"]
 
+// end::undo[]
+
+// tag::redo[]
+
 === Redoing Commands : `redo`
 
 Reverses the most recent `undo` command. This will *fail* if the most recent command
@@ -557,7 +561,7 @@ Redoes the `delete 1` command, followed by the `clear` command.
 `redo` +
 The `redo` command fails as the most recent command was not an `undo/redo` command. This
 prevents ill-defined behavior like trying to add back an event that already exists.
-// end::undoredo[]
+// end::redo[]
 
 === Exiting the Program : `exit`
 
