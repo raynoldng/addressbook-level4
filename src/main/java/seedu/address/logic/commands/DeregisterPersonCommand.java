@@ -68,12 +68,7 @@ public class DeregisterPersonCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_PERSON_NOT_IN_EVENT);
         }
 
-        model.setSelectedEpicEvent(eventToDeregisterFor);
-        int eventIndexInFilteredList = model.getFilteredEventList().indexOf(eventToDeregisterFor);
-        if (eventIndexInFilteredList != -1) {
-            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
-                    Index.fromZeroBased(eventIndexInFilteredList)));
-        }
+        model.visuallySelectEpicEvent(eventToDeregisterFor);
         return new CommandResult(String.format(MESSAGE_SUCCESS, personToDeregister, eventName));
     }
 
