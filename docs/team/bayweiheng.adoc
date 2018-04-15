@@ -2,6 +2,11 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
+== Introduction
+
+This Project Portfolio details my contributions to past projects, showing that I am capable of producing functional code,
+and work in a team on a large project.
+
 == PROJECT: Event Planning isn’t Complicated (EPIC)
 
 ---
@@ -11,6 +16,7 @@
 Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning
 and registration for large organisations*.
 EPIC is optimized for event planners who prefer typing to using the mouse.
+The size of EPIC's codebase is >10kLoC.
 
 == Summary of contributions
 
@@ -83,3 +89,11 @@ include::../UserGuide.adoc[tag=undoredo]
 include::../DeveloperGuide.adoc[tag=editfeature]
 include::../DeveloperGuide.adoc[tag=undoredochanges]
 
+== PROJECT: NUSMods Planner
+
+---
+
+== Overview
+
+NUSMods Planner is an automatic timetable generator, helping students to generate their timetable purely from
+specifications. More details can be found at https://github.com/bayweiheng/[my GitHub page]

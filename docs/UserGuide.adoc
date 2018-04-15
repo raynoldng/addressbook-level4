@@ -185,6 +185,7 @@ Format: `delete INDEX`
 * Deletes the person at the specified `INDEX` shown.
 The index refers to the index number shown in the Persons Pane.
 * The index *must be a positive integer*: 1, 2, 3, ...
+* The person specified must not be registered for any event.
 ****
 
 Examples:
@@ -266,17 +267,15 @@ The index *must be a positive integer* 1, 2, 3, ...
 
 Examples:
 
-* `edit-event 1 n/Career Talk 2018` +
-Edits the name of the 1st event in event pane to be `Career Talk 2018`.
 * `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
+* `edit-event 6 n/Career Talk 2018` +
+Edits the name of the 6th event in event pane to be `Career Talk 2018`. See <<#editevent>> below for UI changes. +
 
-See the figures below for UI changes. +
-[# edit-event]
-.Before the `edit-event` command is executed
-image::EditUIBefore.png[width="790"]
-.After the `edit-event` command is executed
-image::EditUIAfter.png[width="790"]
+[#editevent]
+.Illustration of `edit-event` command (only the Events Pane is shown for clarity).
+image::EditEventUG.png[width="790"]
+
 
 === Locating Events by Name: `find-event`
 
@@ -296,14 +295,11 @@ Examples:
 * `find-event talk` +
 Returns `Career Talk`
 * `find-event Talk Competition` +
-Returns any event having name `Talk`, or `Competition`
+Returns any event having name `Talk`, or `Competition`. See <<#findevent>> below for UI changes. +
 
-See the figures below for UI changes. +
-[# find]
-.Before the `find-event` command is executed
-image::FindUIBefore.png[width="790"]
-.After the `find-event` command is executed
-image::FindUIAfter.png[width="790"]
+[#findevent]
+.Illustration of `find-event` command (only the Events Pane is shown for clarity).
+image::FindEventUG.png[width="790"]
 
 === Deleting an Event : `delete-event`
 
@@ -346,14 +342,11 @@ Examples:
 Registers the 1st person in the results of the `find` command for Computing Seminar.
 * `list` +
 `register 2 AY201718 Graduation` +
-Registers the 2nd person in EPIC for AY201718 Graduation. See the figures below for UI changes. +
+Registers the 2nd person in EPIC for AY201718 Graduation. See <<#register>> below for UI changes. +
 
 [#register]
-.Before the `register` command is executed
-image::RegisterUIBefore.png[width="790"]
-
-.After the `register` command is executed
-image::RegisterUIAfter.png[width="790"]
+.Illustration of `register` command (only the Attendees Pane is shown for clarity).
+image::RegisterUG.png[width="790"]
 
 // end::register[]
 
@@ -423,7 +416,7 @@ be computed based on the filtered list (see <<#after-find-attendance>>).
 
 [#before-find-attendance]
 .Before the `find-attendance alex` command is executed
-image::before_find_attendance.png[width="790"]
+image::before_find_attendance.png[height="790"]
 [#after-find-attendance]
 .After the `find-attendance alex` command is executed
 image::after_find_attendance.png[width="790"]
@@ -507,18 +500,12 @@ Undoes the `clear` command, followed by the `delete 1` command.
 
 * `delete 2` +
 `undo` +
-Undoes the `delete 2` command. See the figures below for UI changes. In particular,
-<<#undoafter>> shows that relative order of persons might not be preserved. +
-
-.Before the `delete 2` command is executed
-image::DeleteUIBefore.png[width="790"]
-
-.After the `delete 2` command is executed
-image::UndoUIBefore.png[width="790"]
+Undoes the `delete 2` command. See <<#undoafter>> below for UI changes. In particular,
+it shows that relative order of persons might not be preserved. +
 
 [#undoafter]
-.After the `undo` command is executed
-image::UndoUIAfter.png[width="790"]
+.Illustration of `undo` command (only the Persons Pane is shown for clarity).
+image::UndoUG.png[width="790"]
 
 === Redoing Commands : `redo`
 
