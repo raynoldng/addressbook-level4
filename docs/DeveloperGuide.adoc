@@ -626,7 +626,9 @@ and it uses the index provided to find and save a reference to the `Attendance` 
 to be toggled. This is done so that the command can be undone by toggling the exact same
 `Attendance` object.
 
-When the `ToggleAttendance`
+When the `ToggleAttendanceCommand` is executed, it obtains the relevant `Person` and
+`EpicEvent` from the stored `Attendance` object and triggers `toggleAttendance` from
+the `Model`. The actions that follow are shown in the sequence diagram below.
 
 ==== Design Considerations
 
