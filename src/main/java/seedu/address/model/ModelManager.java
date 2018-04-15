@@ -14,6 +14,7 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
+import seedu.address.commons.events.ui.ClearEventListSelectionEvent;
 import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
@@ -219,6 +220,10 @@ public class ModelManager extends ComponentManager implements Model {
             EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
                     Index.fromZeroBased(eventIndexInFilteredList)));
         }
+
+        else {
+            EventsCenter.getInstance().post(new ClearEventListSelectionEvent());
+        }
     }
 
     @Override
@@ -226,7 +231,7 @@ public class ModelManager extends ComponentManager implements Model {
         return selectedEpicEvent;
     }
 
-    //@@author
+    //@@authorN
 
 
     //@@author bayweiheng
