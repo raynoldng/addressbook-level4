@@ -1,16 +1,16 @@
 = Gan Wei Liang - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
+:xrefstyle: short
+:experimental:
 
 == Overview
 This Project Portfolio details my contributions to project EPIC, showing that I am capable of producing functional code,
 and working in a team on a large project.
 
-== PROJECT: Event Planning isn’t Complicated (EPIC)
-
 ---
 
-== Overview
+== PROJECT: EPIC
 
 Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning
 and registration for large organisations*. EPIC handles event attendance management with
@@ -20,24 +20,28 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 
 == Summary of contributions
 
-* *Major enhancement*: Added the `toggle` command to toggle attendance of participants to events.
-** What it does: Allows the user to toggle the attendance of a participant based on their index in the Attendance Panel.
-It toggles the attendance of a participant from attended to not attended and vice versa. It also supports undoing and redoing in both directions.
-** Justification: It is one of the essential functionalities of EPIC.
-** Highlights: Updated the structure of the app and added an Attendance class in order
-to support all operations related to attendance.
-* *Minor enhancement*: Updated the structure of the app and added an EpicEvent class in order
-to support all operations related to events. Added the `add-event` command to support adding of
+* *Major enhancement*: implemented the `toggle` command to toggle attendance of registrants to events.
+** What it does: The `toggle` command allows the user to toggle the attendance of a
+registrant based on their index in the Attendance Pane. It toggles the attendance of a
+registrant from attended to not attended and vice versa. It also supports undoing and
+redoing in both directions.
+** Justification: The `toggle` command is an essential functionality of EPIC as
+it helps event planners easily manage the attendance of a large number of registrants
+within a single GUI.
+** Highlights: In order to support attendance related operations, I restructured EPIC
+and added the `Attendance` and `UniqueAttendanceList` classes.
+* *Minor enhancement*: updated the structure of the app and added an EpicEvent class in order
+to support all operations related to events. Implemented the `add-event` command to support adding of
 events to EPIC.
 * *Code contributed*: [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/functional/william6364.md[Functional code]] [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/test/william6364.md[Test code]]
 
 * *Other contributions*:
 
 ** Enhancements to existing features:
-*** Wrote additional tests for existing features to increase coverage from 83% to 88% (Pull request https://github.com[#124])
+*** Wrote additional tests for existing features to increase coverage from 83% to 88% (Pull Request https://github.com[#124])
 ** Documentation:
 *** Updated diagrams in the Developer Docs to reflect refactored class and variable names
-and updated models: (Pull request https://github.com[#50])
+and updated models: (Pull Request https://github.com[#50])
 ** Community:
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W09-B4/main/issues/161[1], https://github.com/CS2103JAN2018-W09-B4/main/issues/163[2], https://github.com/CS2103JAN2018-W09-B4/main/issues/165[3])
 

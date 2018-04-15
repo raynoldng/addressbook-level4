@@ -635,69 +635,79 @@ this feature at https://docs.oracle.com/javase/8/docs/api/java/util/function/Pre
 
 ==== Current Implementation
 
-The implementation uses a class called `Attendance`. An instance of `Attendance` is created every time a person registers to an event and
-it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
-and stores a `boolean` representing whether the person has attended the event.
-This reduces coupling between the `Person` and `EpicEvent` class and allows the event
-to have access to all its registrants so that adding, removing and listing registrants are
+The implementation uses a class called `Attendance`. An instance of `Attendance` is created
+every time a `Person` registers to an `EpicEvent` and stores references to the corresponding
+`EpicEvent` and `Person`. It also stores a `BooleanProperty` called `hasAttendedEventProperty`
+to store information on whether the `Person` has attended the `EpicEvent.
+The `Attendance` object is then added to the `UniqueAttendanceList` inside the `EpicEvent`.
+This structure reduces coupling between the `Person` and `EpicEvent` class and allows the
+`EpicEvent` to have access to all its registrants so that adding, removing and listing registrants are
 easy to implement.
 
-When the `toggle` command is called, an instance of `ToggleAttendanceCommand` is created
-and it uses the index provided to find and save a reference to the `Attendance` object
-to be toggled. This is done so that the command can be undone by toggling the exact same
+When the `toggle` command is called, the command is passed to the `EventPlannerParser` object
+,which reads and parses the input to return a `ToggleAttendanceCommand` object.
+The command then uses the index provided to find and save a reference to the `Attendance` object
+to be toggled. This is done so that the command can be undone by toggling the same
 `Attendance` object. <<#TCD>> below shows how the `toggle` command is processed
-in the logic component.
+in the Logic component.
 
 [#TCD]
 .Sequence Diagram for toggle command
 image::ToggleAttendanceCommandSequenceDiagram.png[width="800"]
 
 When the `ToggleAttendanceCommand` is executed, it obtains the relevant `Person` and
-`EpicEvent` from the stored `Attendance` object and triggers `toggleAttendance` from
+`EpicEvent` objects from the stored `Attendance` object and triggers `toggleAttendance` from
 the `Model`. After which, the relevant `Attendance` object is replaced with a copy
 where the `hasAttendedEventProperty` is toggled.
 
 ==== Design Considerations
 
-===== Aspect: Location of Instances of `Attendance` Objects
+===== Aspect: Location of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Store in `EpicEvent` object
-** Pros: There is less coupling between `Person` and `EpicEvent and it is easier for event to keep track of attendance list.
-It is also easier for UI to display the attendance list.
-** Cons: It is more difficult for `EventPlanner` to track which events a person is registered for so deleting a person requires
+** Pros: There is less coupling between the `Person` and `EpicEvent` classes.
+Instances of `EpicEvent` are also able to keep track of the attendance list more easily and
+thus the UI has less difficulty displaying the attendance list.
+** Cons: It is more difficult for `EventPlanner` to track which events a
+person is registered for, so deleting a person requires
 checking through all the events to delete a person properly.
 * **Alternative 2:** Store in `EventPlanner` object
-** Pros: It is easier for `EventPlanner` to track which events a person is registered to and thus making
-some person commands such as delete persons easier.
-** Cons: An `EpicEvent` needs to search through the entire list of `Attendance` objects in `EventPlanner` to find out
-which persons are registered to itself. This can be very slow if the number of `Attendance` objects is very large.
+** Pros: The `EventPlanner` can easily track which events a person is registered for, thus making
+the implementation of some person-related commands such as `delete` easier.
+** Cons: In order to find out which persons are registered to an `EpicEvent`,
+an instance of `EpicEvent` would have to search through the entire list of `Attendance`
+objects in `EventPlanner`. This can be very slow if the number of `Attendance` objects is very large.
 
 ==== Aspect: Mutability of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Make `Attendance` objects immutable
-** Pros: It is easier to track changes in `Attendance` objects as changes can be detected by a replacement of the
-`Attendance` object in the attendance list.
-** Cons: It is more difficult to implement since the entire object has to be replaced whenever
-a change needs to be made, such as when marking attendance.
+** Pros: Changes to the `Attendance` objects in the attendance list are more easily
+tracked, which makes updating of the UI more striaghtforward.
+This is because changes need to be made by replacing the object
+with a new copy that contains the updated properties and this can be tracked using listeners.
+** Cons: Implementation of the `toggle` command is more difficult as the entire object has to be replaced whenever
+a change needs to be made. For example, toggling the attendance would have to be done
+by replacing the entire object with a new copy which only has its `hasAttendedEventProperty` changed.
 * **Alternative 2:** Make `Attendance` objects mutable
-** Pros: It is easier to implement marking of attendance since the `hasAttended` property
-inside the object can be directly mutated.
-** Cons: It is more difficult to track the changes since mutating the object does not directly
-trigger any events.
+** Pros: Implementation of the `toggle` command is easier the `hasAttendedEventProperty`
+of the `Attendance` object can be directly accessed and modified.
+** Cons: Changes to the `Attendance` objects in the attendance list are harder to track
+as mutating the object cannot be tracked using a listener. In this case, specialised events
+would have to be used to trigger changes in the UI.
 
 ==== Aspect: Method of Marking Attendance
 
 * **Alternative 1 (current choice):** Have one command to toggle attendance from attended to not attended and vice versa
-** Pros: It is easier to undo the command since toggling is always valid while marking a participant
-has attended may not always be valid since that person may have already been marked as attended so undoing
-the command has to account for that.
-** Cons: It is less intuitive for the user since the result of toggling
-depends on the current state of the attendance.
-* **Alternative 2:** Have two separate commands: one for marking participant as attended and one for marking
-as not attended
-** Pros: It is more intuitive for the user since marking as attended and not attended is a direct action.
-** Cons: It is harder to undo the command since the command may not be successful if for example the participant
-has already been marked as attended when the user tries to mark the participant as attended.
+** Pros: Undoing the `toggle` command is easier as toggling is always valid while marking a registrant
+as attended may not always be valid since that registrant may have already been marked as attended so
+the undo command has to account for that.
+** Cons: Users may find it less intuitive to toggle the attendance of a registrant
+compared to directly marking a registrant as attended or not attended.
+* **Alternative 2:** Have two separate commands: one for marking registrants as attended and one for marking
+them as not attended
+** Pros: Users may find it more intuitive compared to toggling the attendance of a registrant.
+** Cons: Undoing the command is more difficult the undo commmand has to account for the case where
+a user tries to mark a registrant as attended when he/she has already been marked as attended.
 // end::markattendance[]
 
 // tag::findregistrant[]
@@ -855,12 +865,17 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 ==== Proposed Implementation
 
-This feature is proposed to allow for mass registration of multiple persons to a single event.
+This feature is proposed to allow mass registration of multiple persons, with
+the same tag, to a single event. For example, a user can register all persons tagged with
+`computing` for a computing-related seminar.
+
 The proposed implementation is to make use of tags to select groups of persons to register for an event.
 Currently, the `Tag` class has been split into `PersonTag` and `EpicEventTag` so as to
-differentiate between the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
-By doing so, a group of persons can be filtered by `PersonTag` and thus registered to an event
-by iteratively registering each person without requiring the user to register each person individually.
+differentiate between the two. This allows searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
+
+By doing so, a `register-by-tag` command can be implemented that takes in a `PersonTag` as an argument.
+The persons can be filtered by `PersonTag` and the list of filtered persons can be registered
+to an `EpicEvent` without requiring the user to register each person individually.
 
 // end::massregistration[]
 
