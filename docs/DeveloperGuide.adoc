@@ -251,6 +251,8 @@ The Storage component has the following functions:
 * It can save `UserPref` objects in json format and reconstruct the Model from a file of this format.
 * It can save the Event Planner data in xml format and reconstruct the Model from a file of this format.
 
+// tag::storagedevguide[]
+
 When EPIC is re-launched, the following steps take place to restore data from the storage file:
 
 .  The `Main` creates an instance of `UserPrefStorage` object to initiate user preference for storage.
@@ -263,6 +265,8 @@ The Sequence Diagram for interactions within the Storage Component to restore da
 
 .Interactions Inside the Storage Component to restore data
 image::StorageComponentSequenceDiagram.png[width="800"]
+
+// end::storagedevguide[]
 
 === How Components Interact
 
@@ -302,7 +306,7 @@ the Model component having to be coupled to either of them. This is an example o
 
 This section describes some noteworthy details on how certain features are implemented.
 
-// tag::find-eventfeature[]
+// tag::findeventdevguide[]
 
 === Find Event Feature
 The `find-event` command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
@@ -328,7 +332,7 @@ The `find-event` command input is passed into an `EventPlannerParser` object. Th
 * **Alternative 3:** Fuzzy search
 ** Pros: The user can find an event even if he/she has forgotten the name of the event.
 ** Cons: It is harder to implement the find function.
-// end::edit-eventfeature[]
+// end::findeventdevguide[]
 
 // tag::editfeature[]
 
@@ -485,9 +489,15 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 Instead of saving the entire event planner each time we execute an `UndoableCommand`, each `UndoableCommand` knows how to `undo/redo` itself.
 Each `UndoableCommand` has an `oppositeCommand` field, which is another `UndoableCommand` that, when executed, reverses the changes made by the original command.
-The sequence diagram for the new `undo()` implementation is shown in <<#SDUndo>>.
+This `oppositeCommand` is generated as part of the `execute()` method, which is overridden in the `UndoableCommand` class.
 
-[#SDUndo]
+The sequence diagram for the overridden `execute()` method is shown in <<#sdoverriddenexecute>>, and that for the new `undo()` implementation in <<#sdundo>>.
+
+[#sdoverriddenexecute]
+.Sequence Diagram for the overridden `execute()`
+image::ExecuteSequenceDiagram.png[width="650"]
+
+[#sdundo]
 .Sequence Diagram for new undo implementation
 image::UndoSequenceDiagram.png[width="650"]
 
@@ -569,6 +579,7 @@ The entire process is illustrated using the sequence diagram (<<#registerseq>>) 
 
 [#registerseq]
 .Sequence Diagram for the `register` command
+image::RegisterPersonCommandSequenceDiagram.png[width="650"]
 
 ==== Design Considerations
 
@@ -843,7 +854,7 @@ by iteratively registering each person without requiring the user to register ea
 
 // end::massregistration[]
 
-
+// tag::exporteventdevguide[]
 
 === [proposed] Export an Event
 
@@ -885,6 +896,7 @@ When deciding on the export options, the following aspects of user experience ar
     * Pros: Excel files are well formatted when opened with Microsoft Excel software.
     * Cons: Even though Microsoft Excel software is used by many people, some may prefer other data processing software that supports csv files but not excel files.
 
+// end::exporteventdevguide[]
 
 == Documentation
 

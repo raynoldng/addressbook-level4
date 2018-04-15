@@ -189,6 +189,7 @@ Format: `delete INDEX`
 * Deletes the person at the specified `INDEX` shown.
 The index refers to the index number shown in the Persons Pane.
 * The index *must be a positive integer*: 1, 2, 3, ...
+* The person specified must not be registered for any event.
 ****
 
 Examples:
@@ -254,6 +255,8 @@ Format: `select-event INDEX`
 By default, the first event in the Event List Panel is the selected event.
 // end::selectevent[]
 
+// tag::editevent[]
+
 === Editing an Event : `edit-event`
 
 Edits an existing event in the EPIC. +
@@ -270,17 +273,18 @@ The index *must be a positive integer* 1, 2, 3, ...
 
 Examples:
 
-* `edit-event 1 n/Career Talk 2018` +
-Edits the name of the 1st event in event pane to be `Career Talk 2018`.
 * `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
+* `edit-event 6 n/Career Talk 2018` +
+Edits the name of the 6th event in event pane to be `Career Talk 2018`. See <<#editevent>> below for UI changes. +
 
-See the figures below for UI changes. +
-[# edit-event]
-.Before the `edit-event` command is executed
-image::EditUIBefore.png[width="790"]
-.After the `edit-event` command is executed
-image::EditUIAfter.png[width="790"]
+[#editevent]
+.Illustration of `edit-event` command (only the Events Pane is shown for clarity).
+image::EditEventUG.png[width="790"]
+
+// end::editevent[]
+
+// tag::findevent[]
 
 === Locating Events by Name: `find-event`
 
@@ -300,14 +304,15 @@ Examples:
 * `find-event talk` +
 Returns `Career Talk`
 * `find-event Talk Competition` +
-Returns any event having name `Talk`, or `Competition`
+Returns any event having name `Talk`, or `Competition`. See <<#findevent>> below for UI changes. +
 
-See the figures below for UI changes. +
-[# find]
-.Before the `find-event` command is executed
-image::FindUIBefore.png[width="790"]
-.After the `find-event` command is executed
-image::FindUIAfter.png[width="790"]
+[#findevent]
+.Illustration of `find-event` command (only the Events Pane is shown for clarity).
+image::FindEventUG.png[width="790"]
+
+// end::findevent[]
+
+// tag::deleteevent[]
 
 === Deleting an Event : `delete-event`
 
@@ -328,6 +333,8 @@ Deletes the 2nd event in EPIC.
 * `find-event Talk` +
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
+
+// end::deleteevent[]
 
 // tag::register[]
 
@@ -350,14 +357,11 @@ Examples:
 Registers the 1st person in the results of the `find` command for Computing Seminar.
 * `list` +
 `register 2 AY201718 Graduation` +
-Registers the 2nd person in EPIC for AY201718 Graduation. See the figures below for UI changes. +
+Registers the 2nd person in EPIC for AY201718 Graduation. See <<#register>> below for UI changes. +
 
 [#register]
-.Before the `register` command is executed
-image::RegisterUIBefore.png[width="790"]
-
-.After the `register` command is executed
-image::RegisterUIAfter.png[width="790"]
+.Illustration of `register` command (only the Attendees Pane is shown for clarity).
+image::RegisterUG.png[width="790"]
 
 // end::register[]
 
@@ -419,24 +423,25 @@ If your event contains too many participants, it can be difficult to find inform
 names contain any of the given keys are displayed.
 
 In our example, we'll apply a filter to display only participants from the IoT Talk Event with the
-name "Alice".
+name "Alex".
 
-. Select the IoT Event by executing `select-event 1`. Observe that Alice Pauline is registered
-. Execute `find-registrant alice`, this filters the attendance panel, hiding anyone whose name does
-not contain the word alice (case-insensitive).
+. Select the IoT Event by executing `select-event 1`. Observe that Alex Yeoh is registered
+. Execute `find-registrant alex`, this filters the attendance panel, hiding anyone whose name does
+not contain the word alex (case-insensitive).
 . To remove the filter, execute `list-attendance`.
 
 When a filter is applied, the header of the attendance panel will display `filtered`, and the attendance statistic will
-be computed based on the filtered list (see <<#after-find-registrant>>).
+be computed based on the filtered list. See <<#findregistrants>> below for UI changes. +
 
+[#findregistrants]
+.Illustration of `find-registrants` command (only the Attendees Pane is shown for clarity).
+image::FindRegistrantsUG.png[width="790"]
 
-
-[#before-find-registrant]
-.Before the `find-registrant alice` command is executed
-image::before_find_attendance.png[width="750"]
-[#after-find-registrant]
-.After the `find-registrant alice` command is executed
-image::after_find_attendance.png[width="750"]
+****
+* The search is case insensitive. e.g hans will match Hans.
+* Only the name is searched.
+* Only full words will be matched. e.g. Han will not match Hans.
+****
 
 === Listing all Event Participants: `list-attendance`
 
@@ -463,18 +468,11 @@ Examples:
 *`select-event 2` +
 `toggle 3` +
 Toggles the attendance of the 3rd registrant in the attendance list of
-the 2nd event currently listed. <<#ToggleBefore>> below shows an example of
-how EPIC looks like after the `select-event 2` command is executed and
-<<#ToggleAfter>> below shows how EPIC would look like after the `toggle 3` command
-is executed.
+the 2nd event currently listed. See <<#toggle>> below for UI changes. +
 
-[#ToggleBefore]
-.GUI before the `toggle 3` command is executed
-image::ToggleScreenShotBefore.png[width="800"]
-
-[#ToggleAfter]
-.GUI after the `toggle 3` command is exectued
-image::ToggleScreenShotAfter.png[width="800"]
+[#toggle]
+.Illustration of `toggle` command (only the Attendees Pane is shown for clarity).
+image::ToggleUG.png[width="790"]
 //end::toggle[]
 
 === Listing Entered Commands : `history`
@@ -521,18 +519,12 @@ Undoes the `clear` command, followed by the `delete 1` command.
 
 * `delete 2` +
 `undo` +
-Undoes the `delete 2` command. See the figures below for UI changes. In particular,
-<<#undoafter>> shows that relative order of persons might not be preserved. +
-
-.Before the `delete 2` command is executed
-image::DeleteUIBefore.png[width="790"]
-
-.After the `delete 2` command is executed
-image::UndoUIBefore.png[width="790"]
+Undoes the `delete 2` command. See <<#undoafter>> below for UI changes. In particular,
+it shows that relative order of persons might not be preserved. +
 
 [#undoafter]
-.After the `undo` command is executed
-image::UndoUIAfter.png[width="790"]
+.Illustration of `undo` command (only the Persons Pane is shown for clarity).
+image::UndoUG.png[width="790"]
 
 === Redoing Commands : `redo`
 

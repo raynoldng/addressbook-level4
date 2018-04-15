@@ -76,6 +76,7 @@ public class EditEventCommand extends UndoableCommand {
             throw new AssertionError("The target event cannot be missing");
         }
         model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+
         return new CommandResult(String.format(MESSAGE_EDIT_EVENT_SUCCESS, editedEvent));
     }
 

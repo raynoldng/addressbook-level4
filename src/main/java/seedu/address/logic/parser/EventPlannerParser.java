@@ -85,10 +85,10 @@ public class EventPlannerParser {
             return new FindRegistrantCommandParser().parse(arguments);
 
         case RegisterPersonCommand.COMMAND_WORD:
-            return new RegisterCommandParser().parse(arguments);
+            return new RegisterPersonCommandParser().parse(arguments);
 
         case DeregisterPersonCommand.COMMAND_WORD:
-            return new DeregisterCommandParser().parse(arguments);
+            return new DeregisterPersonCommandParser().parse(arguments);
 
         case ListRegisteredPersonsCommand.COMMAND_WORD:
             return new ListRegisteredPersonsCommandParser().parse(arguments);

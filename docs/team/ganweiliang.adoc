@@ -55,8 +55,6 @@ include::../UserGuide.adoc[tag=toggle]
 |===
 
 include::../DeveloperGuide.adoc[tag=modelcomponent]
-
 include::../DeveloperGuide.adoc[tag=markattendance]
-
 include::../DeveloperGuide.adoc[tag=massregistration]
 
