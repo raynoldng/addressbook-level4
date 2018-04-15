@@ -270,10 +270,17 @@ The index *must be a positive integer* 1, 2, 3, ...
 
 Examples:
 
-* `edit-event 1 n/IoT Talk t/talk` +
-Edits the name and tag of the 1st event to be `IoT Talk` and `talk` respectively.
+* `edit-event 1 n/Career Talk 2018` +
+Edits the name of the 1st event in event pane to be `Career Talk 2018`.
 * `edit-event 2 n/Graduation Day t/` +
 Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
+
+See the figures below for UI changes. +
+[# edit-event]
+.Before the `edit-event` command is executed
+image::EditUIBefore.png[width="790"]
+.After the `edit-event` command is executed
+image::EditUIAfter.png[width="790"]
 
 === Locating Events by Name: `find-event`
 
@@ -290,10 +297,17 @@ Format: `find-event KEYWORD [MORE_KEYWORDS]`
 
 Examples:
 
-* `find-event Talk` +
-Returns `IoT Talk` and `Food Talk`
+* `find-event talk` +
+Returns `Career Talk`
 * `find-event Talk Competition` +
 Returns any event having name `Talk`, or `Competition`
+
+See the figures below for UI changes. +
+[# find]
+.Before the `find-event` command is executed
+image::FindUIBefore.png[width="790"]
+.After the `find-event` command is executed
+image::FindUIAfter.png[width="790"]
 
 === Deleting an Event : `delete-event`
 
