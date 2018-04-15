@@ -4,6 +4,9 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import seedu.address.commons.core.EventsCenter;
+import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.DuplicateEventException;
@@ -42,6 +45,14 @@ public class AddEventCommand extends UndoableCommand {
         requireNonNull(model);
         try {
             model.addEvent(toAdd);
+            // @@author bayweiheng
+            model.setSelectedEpicEvent(toAdd);
+            int eventIndexInFilteredList = model.getFilteredEventList().indexOf(toAdd);
+            if (eventIndexInFilteredList != -1) {
+                EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
+                        Index.fromZeroBased(eventIndexInFilteredList)));
+            }
+            // @@author william6364
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicateEventException e) {
             throw new CommandException(MESSAGE_DUPLICATE_EVENT);
