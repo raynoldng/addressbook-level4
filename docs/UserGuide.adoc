@@ -77,7 +77,7 @@ The UI consists of the 5 main layout regions (<<#layout-of-epic>>):
 
 [#layout-of-epic]
 .Components of the GUI
-image::Ui_annotated.png[width="790"]
+image::Ui_annotated.png[width="750"]
 
 . Command Box: text box to receive user inputs.
 . Result Display: status bar that displays the result of user commands.
@@ -167,7 +167,7 @@ Finds persons whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 ****
-* The search is case insensitive. e.g `hans` will match `Hans`.
+* The search is case-insensitive. e.g `hans` will match `Hans`.
 * Only the name is searched.
 * Only full words will be matched. e.g. `Han` will not match `Hans`.
 * Persons matching *at least* one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber` and `Bo Yang`.
@@ -281,7 +281,7 @@ Finds events whose names contain any of the given keywords. +
 Format: `find-event KEYWORD [MORE_KEYWORDS]`
 
 ****
-* The search is case insensitive. e.g `talks` will match `Talks`
+* The search is case-insensitive. e.g `talks` will match `Talks`
 * The order of the keywords does not matter. e.g. `Food Talk` will match `Talk Food`
 * Only the name is searched.
 * Only full words will be matched e.g. `Talk` will not match `Talks`
@@ -388,41 +388,41 @@ Format: `list-registered EVENT_NAME`
 
 // tag::attendance-search[]
 
-=== Listing all Event Participants: `find-attendance`
+=== Listing all Event Participants: `find-registrant`
 
 Finds registrants whose names contain any of the given keywords.
 
-Format: `find-attendance KEYWORD [MORE_KEYWORDS]`
+Format: `find-registrant KEYWORD [MORE_KEYWORDS]`
 
 ****
-* The search is case insensitive. e.g hans will match Hans.
+* The search is case-insensitive. e.g hans will match Hans.
 * Only the name is searched.
 * Only full words will be matched. e.g. Han will not match Hans.
 ****
 
 If your event contains too many participants, it can be difficult to find information quickly. The
-`find-attendance` command can be used to narrow down participants by their name. Only persons whose
-names contain any of the given keys is displayed.
+`find-registrant` command can be used to narrow down participants by their name. Only persons whose
+names contain any of the given keys are displayed.
 
 In our example, we'll apply a filter to display only participants from the IoT Talk Event with the
-name "Alex".
+name "Alice".
 
-. Select the IoT Event by executing `select-event 1`. Observe that Alex Yeoh has been registered
-. Execute `find-attendance alex`, this filters the attendance panel, hiding anyone whose name does
-not contain the word alex (case insensitive).
+. Select the IoT Event by executing `select-event 1`. Observe that Alice Pauline is registered
+. Execute `find-registrant alice`, this filters the attendance panel, hiding anyone whose name does
+not contain the word alice (case-insensitive).
 . To remove the filter, execute `list-attendance`.
 
 When a filter is applied, the header of the attendance panel will display `filtered`, and the attendance statistic will
-be computed based on the filtered list (see <<#after-find-attendance>>).
+be computed based on the filtered list (see <<#after-find-registrant>>).
 
 
 
-[#before-find-attendance]
-.Before the `find-attendance alex` command is executed
-image::before_find_attendance.png[width="790"]
-[#after-find-attendance]
-.After the `find-attendance alex` command is executed
-image::after_find_attendance.png[width="790"]
+[#before-find-registrant]
+.Before the `find-registrant alice` command is executed
+image::before_find_attendance.png[width="750"]
+[#after-find-registrant]
+.After the `find-registrant alice` command is executed
+image::after_find_attendance.png[width="750"]
 
 === Listing all Event Participants: `list-attendance`
 
