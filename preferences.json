@@ -1,10 +1,10 @@
 {
   "guiSettings" : {
-    "windowWidth" : 1440.0,
-    "windowHeight" : 806.0,
+    "windowWidth" : 1938.0,
+    "windowHeight" : 1048.0,
     "windowCoordinates" : {
-      "x" : 0,
-      "y" : 27
+      "x" : -9,
+      "y" : -9
     }
   },
   "addressBookFilePath" : "data/EPIC.xml",

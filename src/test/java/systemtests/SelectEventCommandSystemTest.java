@@ -20,7 +20,7 @@ import seedu.address.model.Model;
 import seedu.address.model.event.EpicEvent;
 
 
-public class SelectEpicEventCommandSystemTest extends EventPlannerSystemTest {
+public class SelectEventCommandSystemTest extends EventPlannerSystemTest {
     @Test
     public void select() {
         /* ------------------------ Perform select operations on the shown unfiltered list -------------------------- */
