@@ -4,7 +4,8 @@
 
 == Overview
 This Project Portfolio details my contributions to project EPIC, showing that I am capable of producing functional code,
-and work in a team on a large project.
+and working in a team on a large project.
+
 ---
 
 == PROJECT: EPIC
