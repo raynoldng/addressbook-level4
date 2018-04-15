@@ -7,6 +7,6 @@
       "y" : 22
     }
   },
-  "addressBookFilePath" : "data/addressbook.xml",
-  "addressBookName" : "MyAddressBook"
+  "addressBookFilePath" : "data/EPIC.xml",
+  "addressBookName" : "EPIC"
 }

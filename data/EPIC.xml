@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<eventplanner>
+    <persons>
+        <name>Benson Meier</name>
+        <phone>98765432</phone>
+        <email>johnd@example.com</email>
+        <address>311, Clementi Ave 2, #02-25</address>
+        <numberOfEventsRegisteredFor>0</numberOfEventsRegisteredFor>
+        <tagged>owesMoney</tagged>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Elle Meyer</name>
+        <phone>9482224</phone>
+        <email>werner@example.com</email>
+        <address>michegan ave</address>
+        <numberOfEventsRegisteredFor>0</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Carl Kurz</name>
+        <phone>95352563</phone>
+        <email>heinz@example.com</email>
+        <address>wall street</address>
+        <numberOfEventsRegisteredFor>0</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <persons>
+        <name>Daniel Meier</name>
+        <phone>87652533</phone>
+        <email>cornelia@example.com</email>
+        <address>10th street</address>
+        <numberOfEventsRegisteredFor>0</numberOfEventsRegisteredFor>
+        <tagged>friends</tagged>
+    </persons>
+    <personTags>owesMoney</personTags>
+    <personTags>impersonator</personTags>
+    <personTags>friends</personTags>
+    <eventTags>career</eventTags>
+    <eventTags>graduation</eventTags>
+    <eventTags>seminar</eventTags>
+    <eventTags>physics</eventTags>
+    <eventTags>competition</eventTags>
+    <eventTags>talk</eventTags>
+    <eventTags>math</eventTags>
+    <eventTags>food</eventTags>
+    <eventTags>fun</eventTags>
+    <eventTags>IoT</eventTags>
+</eventplanner>

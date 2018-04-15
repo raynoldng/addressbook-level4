@@ -37,6 +37,7 @@ and updated models: (Pull request https://github.com[#50])
 ** Community:
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W09-B4/main/issues/161[1], https://github.com/CS2103JAN2018-W09-B4/main/issues/163[2], https://github.com/CS2103JAN2018-W09-B4/main/issues/165[3])
 
+<<<
 == Contributions to the User Guide
 
 
@@ -45,9 +46,10 @@ and updated models: (Pull request https://github.com[#50])
 |===
 
 include::../UserGuide.adoc[tag=addevent]
+
 include::../UserGuide.adoc[tag=toggle]
 
-
+<<<
 == Contributions to the Developer Guide
 
 |===
@@ -55,6 +57,8 @@ include::../UserGuide.adoc[tag=toggle]
 |===
 
 include::../DeveloperGuide.adoc[tag=modelcomponent]
+
 include::../DeveloperGuide.adoc[tag=markattendance]
+
 include::../DeveloperGuide.adoc[tag=massregistration]
 

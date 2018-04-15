@@ -120,12 +120,10 @@ public class ModelStub implements Model {
 
     @Override
     public void setSelectedEpicEvent(int index) {
-        fail("This method should not be called.");
     }
 
     @Override
     public void setSelectedEpicEvent(EpicEvent epicEvent) {
-        fail("This method should not be called.");
     }
 
     @Override
