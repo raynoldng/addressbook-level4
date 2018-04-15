@@ -44,7 +44,7 @@ This app will not work with earlier versions of Java 8.
 . *IntelliJ* IDE
 +
 [NOTE]
-IntelliJ by default has Gradle and JavaFx plugins installed. +
+IntelliJ by default has Gradle and JavaFX plugins installed. +
 Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
 
 
@@ -145,7 +145,7 @@ is used by components to communicate with other components using events (i.e. a 
 The UI component is responsible for interfacing with the user. The UI component has three main responsibilities:
 
 * It executes user commands using the Logic component.
-* It binds itself to some data in the Model component so that the it can auto-update itself when data in the Model component changes.
+* It binds itself to some data in the Model component so that it can auto-update itself when data in the Model component changes.
 * It responds to events raised from various parts of the App and updates itself accordingly.
 
 ====  Functional Overview
@@ -154,34 +154,34 @@ The UI consists of a `MainWindow` that contains the 5 main layout regions (<<#GU
 
 [#GUIOverview]
 .Overview of the Graphical User Interface of EPIC
-image::GUI.png[width="800"]
+image::GUI.png[width="750"]
 
 . Command Box: text box to receive user inputs.
 . Result Display: status bar that displays the result of user commands.
-. People List Panel: panel that lists all persons.
-. Event List Panel: panel that lists all events.
-. Attendance List Panel: panel that lists all attendees in the user selected event.
-. Person Card: card that lists a peron's contact information.
-. Event Card: card that lists an event's details.
-. Attendance Card: card that lists an attendee's contact information and displays if the attendee has attended or not.
+. People List Panel: pane that lists all persons.
+. Event List Panel: pane that lists all events.
+. Attendance List Panel: pane that lists all registrants in the user selected event.
+. Person Card: a card that lists a person's contact information.
+. Event Card: a card that lists an event's details.
+. Attendance Card: a card that lists a registrant's contact information and displays if the registrant has attended or not.
 
 [NOTE]
-If no  `EpicEvent` has been selected, `AttendeeList` will be empty
+If no  `EpicEvent` has been selected, the Attendance List Panel will be empty
 
 
 ==== Technical Overview
 
-The UI component (<<#UiClassDiagram>>) uses the JavaFx UI framework. The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI component (<<#UiClassDiagram>>) uses the JavaFX UI framework. The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 
 [#UiClassDiagram]
 .Structure of the UI Component
-image::UiClassDiagram.png[width="800"]
+image::UiClassDiagram.png[width="750"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
 
-The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
+The layout of these UI parts is defined in matching `.fxml` files that are in the `src/main/resources/view` folder.
 For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 // end::uicomponent[]
 
@@ -614,7 +614,7 @@ An instance of `Attendance` is created every time a person registers to an event
 it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
 and stores a `boolean` representing whether the person has attended the event.
 This reduces coupling between the `Person` and `EpicEvent` class and allows the event
-to have access to all its attendees so that adding, removing and listing attendees are
+to have access to all its registrants so that adding, removing and listing registrants are
 easy to implement.
 
 ==== Design Considerations
@@ -664,17 +664,20 @@ has already been marked as attended when the user tries to mark the participant 
 === Find Registrant Feature
 
 The `find-registrant` command enables users to filter registrants of an event with keywords. Only registrants
-whose names contain any of the given keywords will be listed. The user can further toggle the attendance of the registants with the `toggle` command.
+whose names contain any of the given keywords will be listed. The user can further toggle the attendance of the
+registrants with the `toggle` command.
 
 <<#SDSEC>> below shows how the `find-registrant` command is processed in the Logic component.
 
 [#SDSEC]
-.Seqeuence Diagram for `find-registrant` command
-image::FindAttendanceSequenceDiagram.png[width="650"]
+.Sequence Diagram for `find-registrant` command
+image::FindRegistrantSequenceDiagram.png[width="650"]
 
 ==== Current Implementation
 
-The `find-registrant` command is passed to the `EventPlannerParser` object when then reads the parses the input and returns a `FindRegistrantCommand` object. When the `FindRegistrantCommand` object is exceuted, the Model filters the list of registrants and the Attendance List Panel that is bind to the list of registrants is updated.
+The `find-registrant` command is passed to the `EventPlannerParser` object when then reads the parses the input and
+returns a `FindRegistrantCommand` object. When the `FindRegistrantCommand` object is executed, the Model filters the
+list of registrants and the Attendance List Panel is updated.
 
 ==== Design Considerations
 
@@ -682,28 +685,35 @@ The `find-registrant` command is passed to the `EventPlannerParser` object when 
 
 * **Alternative 1 (current choice)**: Match any of the keywords
 ** Pros: The user can find multiple registrants using multiple keywords.
-** Cons: If the user will not be able to search by full name as other registrants might be matched as well
+** Cons: If the user will not be able to search by full name as other registrants might be matched as well.
 * **Alternative 2**: Match all keywords
 ** Pros: The user can search by full name.
 ** Cons: Matching all keywords might be too restrictive and would not a useful filter to narrow down registrants.
 * **Alternative 3** Fuzzy Search
-** Pros: The user can filter registrants with approximate keywords
-** Cons: It is harder to implement fuzzy search
+** Pros: The user can filter registrants with approximate keywords.
+** Cons: It is harder to implement fuzzy search.
 // end::findregistrant[]
 
 
 // tag::threepaneui[]
-=== Three Pane UI
+=== Three-Pane UI
 
-The new UI is a 3 pane UI consisting of list of persons, events, and attendees for the selected event. Being able to view all three panes will allow the user to read off the desired command parameters without having to switch between lists.
+The new UI is a three-pane UI consisting of a list of persons, events, and registrants for the selected event. Being able to
+ view all three panes will allow the user to read off the desired command parameters without having to switch between
+  lists.
 
-In addition, `edit` and `edit-command` commands are now implemented in a mutable manner (see <<edit-curr-implementation>>). As a result, the `ObservableList` that wraps the people and event data will no longer be notified to changes. The new UI must be notified of changes to data so it can refresh itself to reflect such changes. The UI will also have to respond to new commands such as the `select-event` and `toggle`. The `select-event` could invoke a change in the contents of the Attendance Panel and `toggle` will toggle the attendance status and is reflected in the UI in the form of the attendance icon change.
+In addition, `edit` and `edit-command` commands are now implemented in a mutable manner
+ (see <<edit-curr-implementation>>). As a result, the `ObservableList` that wraps the people and event data will no
+ longer be notified of changes. The new UI must be notified of changes to data so it can refresh itself to reflect
+ such changes. The UI will also have to respond to new commands such as the `select-event` and `toggle`.
+ The `select-event` could invoke a change in the contents of the Attendance List Panel and `toggle` will toggle the
+ attendance status and is reflected in the UI in the form of the attendance icon change.
 
 ==== Current Implementation
 
-The UI now consists of 3 list panels: `PersonListPanel`, `EpicEventListPanel` and `AttendanceListPanel`. Each panel is a list of `PersonCard`, `EpicEventCard` and `AttendanceCard` respectively. Since the `AttendanceCard` has the same UI as `PersonCard` with the addition of the toggle icon, it extends `PersonCard`. The `model` maintains a `selectedEpicEvent` variable whose attendees will be displayed in the `AttendancePanel`.
+The UI now consists of 3 list panes: `PersonListPanel`, `EpicEventListPanel` and `AttendanceListPanel`. Each pane is a list of `PersonCard`, `EpicEventCard` and `AttendanceCard` respectively. Since the `AttendanceCard` has the same UI as `PersonCard` with the addition of the toggle icon, it extends `PersonCard`. The `model` maintains a `selectedEpicEvent` variable whose registrants will be displayed in the `AttendancePanel`.
 
-In order to get the `AttendanceListPanel` to instantly update its elements, we employ the JavaFx Bean Pattern. We listen to changes to object properties by using the JavaBeans API to represent the properties.
+In order to get the `AttendanceListPanel` to instantly update its elements, we employ the JavaFX Bean Pattern. We listen to changes to object properties by using the JavaBeans API to represent the properties.
 
 The `Person` class is implemented this way:
 
@@ -715,7 +725,7 @@ public class Person extends SimpleObjectProperty {
 
     /**
      * Edits this person by transferring the fields of dummyPerson over.
-     * Used for mutable edit command
+     * Used for the mutable edit command
      */
     public void setPerson(Person dummyPerson) {
         // ... setPerson logic ...
@@ -724,9 +734,9 @@ public class Person extends SimpleObjectProperty {
 }
 ----
 
-This way, editing `Person` calls `fireValueChangedEvent()` which informs JavaFx of the content change and triggers an UI refresh.
+This way, editing `Person` calls `fireValueChangedEvent()` which informs JavaFX of the content change and triggers an UI refresh.
 
-To listen to changes in attendance. We enable the `AttendanceList` to report changes on the element by providing an properties extractor. First, we use the JavaBeans API to represent properties of `Attendance` that we want to listen to, which is the `hasAttendedEventProperty`, a `BooleanProperty` object.
+To listen to changes in attendance. We enable the `AttendanceList` to report changes on the element by providing a properties extractor. First, we use the JavaBeans API to represent properties of `Attendance` that we want to listen to, which is the `hasAttendedEventProperty`, a `BooleanProperty` object.
 
 We then use an Extractor which is a Callback containing an array of `Observables` which are then observed by the `ObservableList`.
 
@@ -747,25 +757,25 @@ When deciding on the UI, the following aspects of user experience were considere
 
 ===== Aspect: Overall UI Design
 
-- *Alternative 1 (current choice)*: A 3 pane UI consisting of list of persons, events, and attendees for selected event
+- *Alternative 1 (current choice)*: A three-pane UI consisting of list of persons, events, and registrants for the selected event
     * Pros: The user can view all 3 lists at the same time. He would know what arguments to supply when typing commands as he can read them off the list.
     * Cons: The UI might become too cluttered as there are too many UI elements. However, given that EPIC is meant for modern computers with large displays, this should not be an issue.
-- *Alternative 2 (previous choice)*: 2 pane UI where the left pane is a 2 tab pane consisting of list of persons and events, and the right pane is the list of attendees.
-    * Pros: Merging the horizontal space for list of persons and events will create more space for list of attendees. The user is likely to be more interested in the attendees details.
+- *Alternative 2 (previous choice)*: two-pane UI where the left pane is a 2 tab pane consisting of a list of persons and events, and the right pane is a list of registrants.
+    * Pros: Merging the horizontal space for the list of persons and events will create more space for list of registrants. The user is likely to be more interested in the registrants' details.
     * Cons: If the user needs to access data for some tabbed pane that is not in focus to fill out a command, this would break his workflow. The user will have to delete his current command, execute a command to set focus to the desired tab, memorize the required details and reenter his previous command.
-- *Alternative 3*: A common list that can display either list of persons, events or attendees for selected event
+- *Alternative 3*: A common list that can display either list of persons, events or registrants for the selected event
     * Pros: We only have to make minimal changes to the UI layout.
-    * Cons: Events, persons, and attendees must be displayed using the same `Card` class. This would result in tight coupling of the display graphics logic  for the three lists.
+    * Cons: Events, persons, and registrants must be displayed using the same `Card` class. This would result in tight coupling of the display graphics logic  for the three lists.
 
 ===== Aspect: Updating UI when Data Changes
 
 Previously, changes to `Person` would create a new `Person` object that would replace the previous object, triggering a UI refresh. Now that such changes to `Peron`, `EpicEvent` and `Attendance` objects only mutate it, the `ListView` is unable to listen to such changes.
 
-- Alternative 1 (current choice): Use the JavaFx Beans Convention
+- Alternative 1 (current choice): Use the JavaFX Beans Convention
     * Pros: Using the JavaBeans API to represent a property of an object allows property changes to be propagated to property change listeners. This is an elegant way to get the `ListView` to instantly update its elements.
     * Cons: Using the JavaBeans API to represent object properties introduces coupling between the Model and UI components.
 - Alternative 2: Force all commands that change data to invoke a UI refresh
-    * Pros: It is straight forward to force a `ListView` UI refresh by invoking its `refresh()` method.
+    * Pros: It is straightforward to force a `ListView` UI refresh by invoking its `refresh()` method.
     * Cons: We will have to ensure that any action that could modify data force a UI refresh. In addition, constantly invoking a UI refresh could become a resource hog.
 
 ==== Binding Data to Attendance Panel
@@ -777,7 +787,7 @@ Previously, changes to `Person` would create a new `Person` object that would re
     * Pros: As `ObservableEpicEvent` extends `Observable`, it can listen to when the selected event changes and update the Attendance Panel accordingly.
     * Cons: More code has to be written and maintained as we are introducing an additional layer of abstraction.
 - Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
-    * Pros: Binding data to the Attendance Panel is straight forward and the approach used to data to the People and Events Panels can be used here too.
+    * Pros: Binding data to the Attendance Panel is straightforward and the approach used to data to the People and Events Panels can be used here too.
     * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`, increasing coupling between the `MainWindow` and `AttendanceListPanel`. It is a violation of Single Responsibility Principle as the `MainWindow` should only be concerned with displaying the main layout.
 // end::threepaneui[]
 
@@ -818,7 +828,7 @@ by iteratively registering each person.
 
 === [proposed] Export an Event
 
-The proposed export command exports the names of the attendees, their phone numbers,
+The proposed export command exports the names of the registrants, their phone numbers,
 their email addresses, their home addresses and their attendance information of a particular
 event to a csv file into a file path specified by the user. Having all the information of a
 particular event in a csv file would enable the user to analyse the data using other tools.
@@ -840,12 +850,12 @@ When deciding on the export options, the following aspects of user experience ar
 
 ===== Aspect: Data to be Exported
 
-- *Alternative 1 (current choice)*: Name of the attendees, their phone number, their email address, their home address and their attendance information for the event
+- *Alternative 1 (current choice)*: Name of the registrants, their phone number, their email address, their home address and their attendance information for the event
     * Pros: The information includes almost all the data users need for an event. The parsing of the data is straight forward.
-    * Cons: The tags of the attendees are not exported.
-- *Alternative 2*: All information for attendees including their tags
+    * Cons: The tags of the registrants are not exported.
+- *Alternative 2*: All information for registrants including their tags
     * Pros: More information for users as compared to current implementation.
-    * Cons: The attendees may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
+    * Cons: The registrants may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
 
 ==== Aspect: Format of Exported Files
 
@@ -985,8 +995,8 @@ b. Require developers to download those libraries manually (this creates extra w
 *Feature Contribution*:
 
 * Raynold Ng:
-** Minor: Creating a pane view for EpicEvent list and implementing the `list-events` command. This allows the user to view the list of events.
-** Major: Three pane view (persons, events, and event participant). The user should be able to view persons, events and attendees of an event at the same time. That would also allow the user to execute event administration commands as he can view both events and contacts at the same time.
+** Minor: Add commands for searching list of registrants and displaying all registrants. This allows the user to filter list of registrants from a list of keywords.
+** Major: Implemented a three pane view (persons, events, and event participant). The user should be able to view persons, events and registrants of an event at the same time. That would also allow the user to execute event administration commands as he can view both events and contacts at the same time.
 
 * Wei Liang:
 ** Minor: Adding of EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
@@ -1232,7 +1242,7 @@ Pros:
 * Fast Contextual Search
 ** Search for guests by name, table, department, or any other parameter of your choosing.
 * Quick, easy check-in
-** Effortlessly check the guest in with a simple swipe. Guests can also find out where they’re seated and whom they’re seated with. Display custom data to aid your receptionists, such as information on VIP attendees.
+** Effortlessly check the guest in with a simple swipe. Guests can also find out where they’re seated and whom they’re seated with. Display custom data to aid your receptionists, such as information on VIP registrants.
 * Even faster: QR scanning
 ** Send out QR codes on physical invitation cards or by email, and guests can simply wave their codes at the iPad camera to check in.
 * Synchronization across multiple devices
