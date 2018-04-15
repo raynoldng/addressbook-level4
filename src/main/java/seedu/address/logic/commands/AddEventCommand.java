@@ -45,7 +45,13 @@ public class AddEventCommand extends UndoableCommand {
         requireNonNull(model);
         try {
             model.addEvent(toAdd);
-            model.visuallySelectEpicEvent(toAdd);
+            // @@author bayweiheng
+            model.setSelectedEpicEvent(toAdd);
+            int eventIndexInFilteredList = model.getFilteredEventList().indexOf(toAdd);
+            if (eventIndexInFilteredList != -1) {
+                EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
+                        Index.fromZeroBased(eventIndexInFilteredList)));
+            }
             // @@author william6364
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicateEventException e) {

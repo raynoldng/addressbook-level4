@@ -68,8 +68,12 @@ public class RegisterPersonCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        model.visuallySelectEpicEvent(eventToRegisterFor);
-
+        model.setSelectedEpicEvent(eventToRegisterFor);
+        int eventIndexInFilteredList = model.getFilteredEventList().indexOf(eventToRegisterFor);
+        if (eventIndexInFilteredList != -1) {
+            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
+                    Index.fromZeroBased(eventIndexInFilteredList)));
+        }
         return new CommandResult(String.format(MESSAGE_SUCCESS, personToRegister, eventName));
     }
 

@@ -10,11 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
-import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.events.model.EventPlannerChangedEvent;
-import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.model.attendance.Attendance;
 import seedu.address.model.attendance.exceptions.DuplicateAttendanceException;
 import seedu.address.model.event.EpicEvent;
@@ -209,16 +206,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredAttendanceList(Predicate<Attendance> predicate) {
         requireNonNull(predicate);
         selectedEpicEvent.getFilteredAttendees().setPredicate(predicate);
-    }
-
-    @Override
-    public void visuallySelectEpicEvent(EpicEvent toSelect) {
-        setSelectedEpicEvent(toSelect);
-        int eventIndexInFilteredList = getFilteredEventList().indexOf(toSelect);
-        if (eventIndexInFilteredList != -1) {
-            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
-                    Index.fromZeroBased(eventIndexInFilteredList)));
-        }
     }
 
     @Override

@@ -1,6 +1,5 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.EventNameContainsKeywordsPredicate;
 
 //@@author jiangyue12392
@@ -26,7 +25,6 @@ public class FindEventCommand extends Command {
     @Override
     public CommandResult execute() {
         model.updateFilteredEventList(predicate);
-        model.visuallySelectEpicEvent(EpicEvent.getDummyEpicEvent());
 
         return new CommandResult(getMessageForEventListShownSummary(model.getFilteredEventList().size()));
     }
