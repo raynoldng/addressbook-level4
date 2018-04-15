@@ -19,8 +19,9 @@ public class ListRegisteredPersonsCommandParser implements Parser<ListRegistered
     public ListRegisteredPersonsCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
 
-        if(trimmedArgs.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListRegisteredPersonsCommand.MESSAGE_USAGE));
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ListRegisteredPersonsCommand.MESSAGE_USAGE));
         }
 
         return new ListRegisteredPersonsCommand(trimmedArgs);

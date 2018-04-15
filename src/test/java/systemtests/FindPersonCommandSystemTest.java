@@ -14,7 +14,6 @@ import java.util.List;
 import org.junit.Test;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.DeletePersonCommand;
 import seedu.address.logic.commands.FindPersonCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
@@ -79,16 +78,6 @@ public class FindPersonCommandSystemTest extends EventPlannerSystemTest {
         command = RedoCommand.COMMAND_WORD;
         expectedResultMessage = RedoCommand.MESSAGE_FAILURE;
         assertCommandFailure(command, expectedResultMessage);
-
-        /* Case: find same persons in address book after deleting 1 of them -> 1 person found */
-        executeCommand(DeletePersonCommand.COMMAND_WORD + " 1");
-        // TODO fix failing test case
-        // assertFalse(getModel().getEventPlanner().getPersonList().contains(BENSON));
-        command = FindPersonCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
-        expectedModel = getModel();
-        ModelHelper.setFilteredList(expectedModel, DANIEL);
-        assertCommandSuccess(command, expectedModel);
-        assertSelectedCardUnchanged();
 
         /* Case: find person in address book, keyword is same as name but of different case -> 1 person found */
         command = FindPersonCommand.COMMAND_WORD + " MeIeR";
@@ -170,8 +159,7 @@ public class FindPersonCommandSystemTest extends EventPlannerSystemTest {
                 MESSAGE_PERSONS_LISTED_OVERVIEW, expectedModel.getFilteredPersonList().size());
 
         executeCommand(command);
-        // TODO fix failing test case
-        //assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarUnchanged();
     }

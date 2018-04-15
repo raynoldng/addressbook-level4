@@ -30,9 +30,9 @@ import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
 
 //@@author raynoldng
 /**
- * Contains integration tests (interaction with the Model) for {@code FindAttendanceCommand}.
+ * Contains integration tests (interaction with the Model) for {@code FindRegistrantCommand}.
  */
-public class FindAttendanceCommandTest {
+public class FindRegistrantCommandTest {
     private Model model;
 
     @Before
@@ -48,37 +48,37 @@ public class FindAttendanceCommandTest {
         AttendanceNameContainsKeywordsPredicate secondPredicate =
                 new AttendanceNameContainsKeywordsPredicate(Collections.singletonList("second"));
 
-        FindAttendanceCommand firstFindAttendanceCommand = new FindAttendanceCommand(firstPredicate);
-        FindAttendanceCommand secondFindAttendanceCommand = new FindAttendanceCommand(secondPredicate);
+        FindRegistrantCommand firstFindRegistrantCommand = new FindRegistrantCommand(firstPredicate);
+        FindRegistrantCommand secondFindRegistrantCommand = new FindRegistrantCommand(secondPredicate);
 
         // same object -> returns true
-        assertTrue(firstFindAttendanceCommand.equals(firstFindAttendanceCommand));
+        assertTrue(firstFindRegistrantCommand.equals(firstFindRegistrantCommand));
 
         // same values -> returns true
-        FindAttendanceCommand firstFindAttendanceCommandCopy = new FindAttendanceCommand(firstPredicate);
-        assertTrue(firstFindAttendanceCommand.equals(firstFindAttendanceCommandCopy));
+        FindRegistrantCommand firstFindRegistrantCommandCopy = new FindRegistrantCommand(firstPredicate);
+        assertTrue(firstFindRegistrantCommand.equals(firstFindRegistrantCommandCopy));
 
         // different types -> returns false
-        assertFalse(firstFindAttendanceCommand.equals(1));
+        assertFalse(firstFindRegistrantCommand.equals(1));
 
         // null -> returns false
-        assertFalse(firstFindAttendanceCommand.equals(null));
+        assertFalse(firstFindRegistrantCommand.equals(null));
 
         // different person -> returns false
-        assertFalse(firstFindAttendanceCommand.equals(secondFindAttendanceCommand));
+        assertFalse(firstFindRegistrantCommand.equals(secondFindRegistrantCommand));
     }
 
     @Test
     public void execute_zeroKeywords_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        FindAttendanceCommand command = prepareCommand(" ");
+        FindRegistrantCommand command = prepareCommand(" ");
         assertCommandSuccess(command, expectedMessage, Collections.emptyList());
     }
 
     @Test
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
-        FindAttendanceCommand command = prepareCommand("Kurz Elle Kunz");
+        FindRegistrantCommand command = prepareCommand("Kurz Elle Kunz");
         assertCommandSuccess(command, expectedMessage, Arrays.asList(new Attendance(CARL, GRADUATIONAY18),
                 new Attendance(ELLE, GRADUATIONAY18), new Attendance(FIONA, GRADUATIONAY18)));
 
@@ -87,9 +87,9 @@ public class FindAttendanceCommandTest {
     /**
      * Parses {@code userInput} into a {@code FindAttendeeCommand}.
      */
-    private FindAttendanceCommand prepareCommand(String userInput) {
-        FindAttendanceCommand command =
-                new FindAttendanceCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList(userInput
+    private FindRegistrantCommand prepareCommand(String userInput) {
+        FindRegistrantCommand command =
+                new FindRegistrantCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList(userInput
                         .split("\\s+"))));
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
@@ -101,7 +101,7 @@ public class FindAttendanceCommandTest {
      *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
      *     - the {@code EventPlanner} in model remains the same after executing the {@code command}
      */
-    private void assertCommandSuccess(FindAttendanceCommand command, String expectedMessage,
+    private void assertCommandSuccess(FindRegistrantCommand command, String expectedMessage,
                                       List<Attendance> expectedList) {
         EventPlanner expectedEventPlanner = new EventPlanner(model.getEventPlanner());
         CommandResult commandResult = command.execute();

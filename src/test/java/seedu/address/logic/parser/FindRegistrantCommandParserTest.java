@@ -8,29 +8,29 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import seedu.address.logic.commands.FindAttendanceCommand;
+import seedu.address.logic.commands.FindRegistrantCommand;
 import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
 
 //@@author raynoldng
-public class FindAttendanceCommandParserTest {
+public class FindRegistrantCommandParserTest {
 
-    private FindAttendanceCommandParser parser = new FindAttendanceCommandParser();
+    private FindRegistrantCommandParser parser = new FindRegistrantCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                FindAttendanceCommand.MESSAGE_USAGE));
+                FindRegistrantCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_validArgs_returnsFindCommand() {
         // no leading and trailing whitespaces
-        FindAttendanceCommand expectedFindAttendanceCommand =
-                new FindAttendanceCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList("John", "Cena")));
-        assertParseSuccess(parser, "John Cena", expectedFindAttendanceCommand);
+        FindRegistrantCommand expectedFindRegistrantCommand =
+                new FindRegistrantCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList("John", "Cena")));
+        assertParseSuccess(parser, "John Cena", expectedFindRegistrantCommand);
 
         // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n John \n \t Cena \t", expectedFindAttendanceCommand);
+        assertParseSuccess(parser, " \n John \n \t Cena \t", expectedFindRegistrantCommand);
     }
 
 }

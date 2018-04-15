@@ -2,6 +2,7 @@ package seedu.address;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import javafx.stage.Screen;
@@ -96,6 +97,10 @@ public class TestApp extends MainApp {
     public Model getModel() {
         Model copy = new ModelManager((model.getEventPlanner()), new UserPrefs());
         ModelHelper.setFilteredList(copy, model.getFilteredPersonList());
+        ModelHelper.setEpicEventFilteredList(copy, model.getFilteredEventList());
+        copy.setSelectedEpicEvent(model.getSelectedEpicEvent().getEpicEvent());
+        Predicate prevPredicate = model.getSelectedEpicEvent().getFilteredAttendees().getPredicate();
+        copy.getSelectedEpicEvent().getFilteredAttendees().setPredicate(prevPredicate);
         return copy;
     }
 

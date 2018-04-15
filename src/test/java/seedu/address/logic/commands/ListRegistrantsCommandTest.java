@@ -17,13 +17,13 @@ import seedu.address.model.UserPrefs;
 
 //@@author raynoldng
 /**
- * Contains integration tests (interaction with the Model) and unit tests for ListAttendanceCommand.
+ * Contains integration tests (interaction with the Model) and unit tests for ListRegistrantsCommand.
  */
-public class ListAttendanceCommandTest {
+public class ListRegistrantsCommandTest {
 
     private Model model;
     private Model expectedModel;
-    private ListAttendanceCommand listAttendanceCommand;
+    private ListRegistrantsCommand listRegistrantsCommand;
 
     @Before
     public void setUp() {
@@ -31,18 +31,18 @@ public class ListAttendanceCommandTest {
         model.setSelectedEpicEvent(GRADUATIONAY18_INDEX);
         expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
-        listAttendanceCommand = new ListAttendanceCommand();
-        listAttendanceCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        listRegistrantsCommand = new ListRegistrantsCommand();
+        listRegistrantsCommand.setData(model, new CommandHistory(), new UndoRedoStack());
     }
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(listAttendanceCommand, model, ListAttendanceCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(listRegistrantsCommand, model, ListRegistrantsCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showAttendeeAtIndex(model, INDEX_FIRST_PERSON);
-        assertCommandSuccess(listAttendanceCommand, model, ListAttendanceCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(listRegistrantsCommand, model, ListRegistrantsCommand.MESSAGE_SUCCESS, expectedModel);
     }
 }

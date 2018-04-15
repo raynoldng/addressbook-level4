@@ -52,6 +52,7 @@ public class ModelManager extends ComponentManager implements Model {
         } else {
             selectedEpicEvent = new ObservableEpicEvent(EpicEvent.getDummyEpicEvent());
         }
+        selectedEpicEvent.getFilteredAttendees().setPredicate(PREDICATE_SHOW_ALL_ATTENDEES);
     }
 
     public ModelManager() {
