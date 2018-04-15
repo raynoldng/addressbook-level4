@@ -70,10 +70,10 @@ public class EpicEventListPanel extends UiPart<Region> {
     }
 
     @Subscribe
-    private void handleClearEventListSelectionEvent (ClearEventListSelectionEvent event) {
+    private void handleClearEventListSelectionEvent(ClearEventListSelectionEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         for (int selectedIndex : epicEventListView.getSelectionModel().getSelectedIndices()) {
-            epicEventListView.getSelectionModel().clearAndSelect(selectedIndex);
+            epicEventListView.getSelectionModel().clearSelection(selectedIndex);
         }
     }
 

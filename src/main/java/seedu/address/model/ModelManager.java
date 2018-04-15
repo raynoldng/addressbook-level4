@@ -219,11 +219,15 @@ public class ModelManager extends ComponentManager implements Model {
         if (eventIndexInFilteredList != -1) {
             EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
                     Index.fromZeroBased(eventIndexInFilteredList)));
-        }
-
-        else {
+        } else {
             EventsCenter.getInstance().post(new ClearEventListSelectionEvent());
         }
+    }
+
+    @Override
+    public void clearSelectedEpicEvent() {
+        visuallySelectEpicEvent(EpicEvent.getDummyEpicEvent());
+        EventsCenter.getInstance().post(new ClearEventListSelectionEvent());
     }
 
     @Override

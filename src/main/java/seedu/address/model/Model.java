@@ -126,5 +126,7 @@ public interface Model {
     void updateFilteredAttendanceList(Predicate<Attendance> predicate);
 
     void visuallySelectEpicEvent(EpicEvent toAdd);
+
+    void clearSelectedEpicEvent();
     // @@author
 }
