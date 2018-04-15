@@ -84,10 +84,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         setPersonTags(new HashSet<>(newData.getPersonTagList()));
         setEventTags(new HashSet<>(newData.getEventTagList()));
         List<Person> syncedPersonList = newData.getPersonList().stream()
-                .map(this::syncPersonWithMasterTagList)
                 .collect(Collectors.toList());
         List<EpicEvent> syncedEventList = newData.getEventList().stream()
-                .map(this::syncEventWithMasterTagList)
                 .collect(Collectors.toList());
 
         try {
@@ -152,9 +150,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         // Rebuild the list of person tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
         newPersonTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        person.setPerson(new Person(
-                person.getFullName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences));
-        return person;
+        return new Person(
+                person.getFullName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
     }
 
     /**
@@ -184,7 +181,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         // This can cause the tags master list to have additional tags that are not tagged to any event
         // in the event list.
         events.add(event);
-        event.setAttendanceList(event.getAttendanceList());
+        event.setAttendanceList(e.getAttendanceList());
         event.handleAddEvent();
     }
 
@@ -200,8 +197,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         // Rebuild the list of event tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
         newEventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        event.setEvent(new EpicEvent(event.getName(), event.getUniqueAttendanceList(), correctTagReferences));
-        return event;
+        return new EpicEvent(event.getName(), event.getUniqueAttendanceList(), correctTagReferences);
     }
 
     /**
