@@ -340,7 +340,8 @@ The `find-event` command input is passed into an `EventPlannerParser` object. Th
 
 ==== Previous Implementation
 
-In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` command was performed by creating a new `Person` and passing it to a `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
+In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` command was performed by creating a new `Person`
+and passing it to the `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
 
 [source,java]
 ----
@@ -366,11 +367,14 @@ In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable m
 ===== Aspect: Implementation of `edit`
 
 * **Alternative 1 (current choice):** Edit in a mutable manner
-** Pros: Since EPIC has both `EpicEvent` and `Person` objects, which maintain references to one another, editing a `Person/EpicEvent` in this manner automatically updates the `EpicEvent/Person` objects that is associated with it.
+** Pros: Since an `EpicEvent` maintain references to multiple `Person` objects, editing a `Person` in this manner
+automatically updates the `EpicEvent` objects which reference it. Similarly, editing an `EpicEvent` in this manner
+automatically updates the `Attendance` objects which reference it.
 ** Cons: Implementation of `undo` will be more difficult.
 * **Alternative 2:** Edit in an immutable manner
 ** Pros: Implementation of `undo` is easier, since we can just replace the current `EventPlanner` with the previous one.
-** Cons: Editing a `Person/EpicEvent` will require passing a copy of the newly-created `Person/EpicEvent` to all objects associated with the to-be-edited version, introducing significant overhead
+** Cons: Editing a `Person/EpicEvent` will require passing a copy of the newly-created `Person/EpicEvent` to all objects
+associated with the to-be-edited version, introducing significant overhead.
 
 // end::editfeature[]
 
@@ -471,8 +475,12 @@ If the `redoStack` is empty, then there are no other commands left to be redone,
 redo() does not simply execute the `Command` with the previous parameters! This would cause indexing issues with
 commands like `delete` if `filteredPersons` had been altered by a `find` or other view command.
 
-The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. This time the `redoStack` is no longer empty. It will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
+The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`.
+This time the `redoStack` is no longer empty. It will be purged as it no longer makes sense to redo the `add n/David` command
+(this is the behavior that most modern desktop applications follow). <<#UndoRedoNewCommand2StackDiagram>> below shows how
+the clear command changes the `UndoRedoStack`.
 
+[#UndoRedoNewCommand2StackDiagram]
 .How a clear command modifies the UndoRedoStack
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
@@ -507,14 +515,14 @@ image::ExecuteSequenceDiagram.png[width="450"]
 image::UndoSequenceDiagram.png[width="450"]
 
 The `oppositeCommand` is generated in the `execute()` method, after `preprocessUndoableCommand()`. This is because generating the `oppositeCommand`
-requires knowledge of the actual `Person/EpicEvent` objects to be modified. For example, the `oppositeCommand` for a `deletePersonCommand` is an `addPersonCommand`,
+requires knowledge of the actual `Person/EpicEvent` objects to be modified. For example, the `oppositeCommand` of a `deletePersonCommand` is an `addPersonCommand`,
 but we only know the person to be deleted after the pre-processing step.
 
 [NOTE]
 Each `UndoableCommand` now requires its individual `generateOppositeCommand()` implementation. Hence, this method is made abstract in
-the abstract class `UndoableCommand`
+the abstract class `UndoableCommand`.
 
-There was no `Command` that could easily reverse the changes of a `ClearCommand`, hence a new `Command` `RestoreCommand` had to be created. Since the sole purpose
+There was no `Command` that could easily reverse the changes caused by executing a `ClearCommand`, hence a new `Command` `RestoreCommand` had to be created. Since the sole purpose
 of this command is to serve as the `oppositeCommand` of a `ClearCommand`, this command is not directly accessible to the user, and can only be executed when
 the user undoes a `ClearCommand`.
 
@@ -555,11 +563,12 @@ the user undoes a `ClearCommand`.
 ===== Aspect: Data Structure to Support the Undo/Redo Commands
 
 * **Alternative 1 (current choice):** Use separate stack for undo and redo
-** Pros: Easier for new Computer Science undergraduates to understand, who are likely to be new incoming developers of our project.
+** Pros: This will be easier to understand for new Computer Science undergraduates, who are likely to be the incoming developers of our project.
 ** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update * both `HistoryManager` and `UndoRedoStack`.
 * **Alternative 2:** Use `HistoryManager` for undo/redo
 ** Pros: We do not need to maintain a separate stack, and just reuse what is already in the codebase.
-** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
+** Cons: This requires dealing with commands that have already been undone - we must remember to skip these commands. This also violates the Single Responsibility Principle (SRP) and Separation of Concerns (SoC) as `HistoryManager` now needs to do two different things.
+
 // end::undoredo[]
 
 // tag::registerpersons[]
@@ -601,21 +610,22 @@ need to implement the link later.
 ==== Aspect: Deletion of Persons still Registered for an Event
 
 * **Alternative 1 (current choice):** Disallow deletion of persons still registered for an event
-** Pros: Ensures that person's details will be safeguarded until they are no longer required.
+** Pros: This ensures that all persons' details will be safeguarded until they are no longer required.
 ** Cons: Implementation is more complicated.
 * **Alternative 2:** Allow deletion of persons still registered for an event
-** Pros: User will not have to deregister persons/delete events before a person can be deleted.
+** Pros: The user will not have to deregister persons/delete events before a person can be deleted.
 Implementation is easier.
-** Cons: User might absentmindedly delete a person when his/her details are still required
+** Cons: The user might absentmindedly delete a person when his/her details are still required
 (by an upcoming event he/she is registered for).
 
 === List Registered Persons Feature
 
 ==== Current Implementation
 
-A new feature in Java 8, `Predicate` supports the filtering of lists in a functional style.
 To list the persons registered for an event, we create a `Predicate` that tests whether a `Person`
-is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
+is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`. `Predicate` is a new feature in Java 8
+that supports the filtering of lists in a functional style. Incoming developers can learn how to use
+this feature at https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html[the official Java site].
 
 // end::registerpersons[]
 
