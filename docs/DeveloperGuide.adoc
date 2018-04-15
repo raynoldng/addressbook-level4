@@ -624,11 +624,17 @@ easy to implement.
 When the `toggle` command is called, an instance of `ToggleAttendanceCommand` is created
 and it uses the index provided to find and save a reference to the `Attendance` object
 to be toggled. This is done so that the command can be undone by toggling the exact same
-`Attendance` object.
+`Attendance` object. <<#TCD>> below shows how the `toggle` command is processed
+in the logic component.
+
+[#TCD]
+.Sequence Diagram for toggle command
+image::ToggleAttendanceCommandSequenceDiagram.png[width="800"]
 
 When the `ToggleAttendanceCommand` is executed, it obtains the relevant `Person` and
 `EpicEvent` from the stored `Attendance` object and triggers `toggleAttendance` from
-the `Model`. The actions that follow are shown in the sequence diagram below.
+the `Model`. After which, the relevant `Attendance` object is replaced with a copy
+where the `hasAttendedEventProperty` is toggled.
 
 ==== Design Considerations
 
