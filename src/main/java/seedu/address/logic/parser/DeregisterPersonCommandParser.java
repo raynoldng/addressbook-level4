@@ -10,13 +10,13 @@ import seedu.address.logic.parser.exceptions.ParseException;
 //@@author bayweiheng
 
 /**
- * Parses input arguments and creates a new RegisterPersonCommand object
+ * Parses input arguments and creates a new DeregisterPersonCommand object
  */
-public class DeregisterCommandParser implements Parser<DeregisterPersonCommand> {
+public class DeregisterPersonCommandParser implements Parser<DeregisterPersonCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the RegisterPersonCommand
-     * and returns an RegisterPersonCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the DeregisterPersonCommand
+     * and returns an DeregisterPersonCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeregisterPersonCommand parse(String args) throws ParseException {

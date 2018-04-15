@@ -489,9 +489,15 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 Instead of saving the entire event planner each time we execute an `UndoableCommand`, each `UndoableCommand` knows how to `undo/redo` itself.
 Each `UndoableCommand` has an `oppositeCommand` field, which is another `UndoableCommand` that, when executed, reverses the changes made by the original command.
-The sequence diagram for the new `undo()` implementation is shown in <<#SDUndo>>.
+This `oppositeCommand` is generated as part of the `execute()` method, which is overridden in the `UndoableCommand` class.
 
-[#SDUndo]
+The sequence diagram for the overridden `execute()` method is shown in <<#sdoverriddenexecute>>, and that for the new `undo()` implementation in <<#sdundo>>.
+
+[#sdoverriddenexecute]
+.Sequence Diagram for the overridden `execute()`
+image::ExecuteSequenceDiagram.png[width="650"]
+
+[#sdundo]
 .Sequence Diagram for new undo implementation
 image::UndoSequenceDiagram.png[width="650"]
 
@@ -573,6 +579,7 @@ The entire process is illustrated using the sequence diagram (<<#registerseq>>) 
 
 [#registerseq]
 .Sequence Diagram for the `register` command
+image::RegisterPersonCommandSequenceDiagram.png[width="650"]
 
 ==== Design Considerations
 

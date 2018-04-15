@@ -12,7 +12,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 /**
  * Parses input arguments and creates a new RegisterPersonCommand object
  */
-public class RegisterCommandParser implements Parser<RegisterPersonCommand> {
+public class RegisterPersonCommandParser implements Parser<RegisterPersonCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the RegisterPersonCommand
