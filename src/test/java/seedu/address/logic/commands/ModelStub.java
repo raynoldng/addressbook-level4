@@ -130,4 +130,9 @@ public class ModelStub implements Model {
     public void updateFilteredAttendanceList(Predicate<Attendance> predicate) {
         fail("This method should not be called.");
     }
+
+    @Override
+    public void visuallySelectEpicEvent(EpicEvent toAdd) {
+        fail("This method should not be called.");
+    }
 }
