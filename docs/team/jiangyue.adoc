@@ -5,10 +5,9 @@
 == Overview
 This Project Portfolio details my contributions to project EPIC, showing that I am capable of producing functional code,
 and work in a team on a large project.
+---
 
 == PROJECT: EPIC
-
----
 
 Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning
 and registration for large organisations*. EPIC handles event attendance management with
