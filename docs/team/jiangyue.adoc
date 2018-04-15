@@ -39,82 +39,9 @@ EPIC is an event planning tool for large organisations hosting many large-scale 
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-=== Editing an Event : `edit-event`
-
-Edits an existing event in the EPIC. +
-Format: `edit-event INDEX [n/NAME] [t/TAG]...`
-
-****
-* Edits the event at the specified `INDEX`. The index refers to the index number shown in the Events Pane.
-The index *must be a positive integer* 1, 2, 3, ...
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the event will be removed i.e adding of tags is not cumulative.
-* You can remove all the event's tags by typing `t/` without specifying any tags after it.
-****
-
-Examples:
-
-* `edit-event 1 n/Career Talk 2018` +
-Edits the name of the 1st event in event pane to be `Career Talk 2018`.
-* `edit-event 2 n/Graduation Day t/` +
-Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
-
-See the figures below for UI changes. +
-[# edit-event]
-.Before the `edit-event` command is executed
-image::EditUIBefore.png[width="790"]
-.After the `edit-event` command is executed
-image::EditUIAfter.png[width="790"]
-
-=== Locating Events by Name: `find-event`
-
-Finds events whose names contain any of the given keywords. +
-Format: `find-event KEYWORD [MORE_KEYWORDS]`
-
-****
-* The search is case insensitive. e.g `talks` will match `Talks`
-* The order of the keywords does not matter. e.g. `Food Talk` will match `Talk Food`
-* Only the name is searched.
-* Only full words will be matched e.g. `Talk` will not match `Talks`
-* Events matching at least one keyword will be returned (i.e. `OR` search). e.g. `Talk` will return `Food Talk`, `IoT Talk`
-****
-
-Examples:
-
-* `find-event talk` +
-Returns `Career Talk`
-* `find-event Talk Competition` +
-Returns any event having name `Talk`, or `Competition`
-
-See the figures below for UI changes. +
-[# find]
-.Before the `find-event` command is executed
-image::FindUIBefore.png[width="790"]
-.After the `find-event` command is executed
-image::FindUIAfter.png[width="790"]
-
-=== Deleting an Event : `delete-event`
-
-Deletes the specified event from EPIC. +
-Format: `delete-event INDEX`
-
-****
-* Deletes the event at the specified `INDEX`.
-The index refers to the index number shown in the middle pane.
-* The index *must be a positive integer* 1, 2, 3, ...
-****
-
-Examples:
-
-* `list-events` +
-`delete-event 2` +
-Deletes the 2nd event in EPIC.
-* `find-event Talk` +
-`delete-event 1` +
-Deletes the 1st event in the results of the `find-event` command.
-
-<<<
+include::../UserGuide.adoc[tag=editevent]
+include::../UserGuide.adoc[tag=findevent]
+include::../UserGuide.adoc[tag=deleteevent]
 
 == Contributions to the Developer Guide
 
@@ -122,80 +49,6 @@ Deletes the 1st event in the results of the `find-event` command.
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-When EPIC is re-launched, the following steps take place to restore data from the storage file:
-
-.  The `Main` creates an instance of `UserPrefStorage` object to initiate user preference for storage.
-.  The `Main` creates an instance of `XmlEventPlannerStorage` object to restore data with storage file path supplied by the instance of `UserPrefStorage` object.
-.  The restored data is encapsulated as an `EventPlanner` object inside the `XmlEventPlannerStorage` instance.
-.  An instance of `StorageManager` object is created from both the `XmlEventPlannerStorage` object and the `UserPrefStorage` object.
-.  The `StorageManager` object is used to initiate the model components.
-
-The Sequence Diagram for interactions within the Storage Component to restore data is shown below.
-
-.Interactions Inside the Storage Component to restore data
-image::StorageComponentSequenceDiagram.png[width="800"]
-
-=== Find Event Feature
-The find-event command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
-
-<<#SDFEC>> below shows how the `find-event` command is processed in the Logic component.
-
-[#SDFEC]
-.Sequence Diagram for find-event command
-image::FindEventCommandSequenceDiagram.png[width="650"]
-==== Current Implementation
-The `find-event` command input is passed into an `EventPlannerParser` object. The `EventPlannerParser` reads the command word “find-events” and creates a `FindEventCommandParser` object that further parses the command input and creates a `FindEventCommand`. The `FindEventCommand` filters the the event list based on the keywords and updates Model components on changes in the filtered event list.
-
-==== Design Considerations
-
-===== Aspect: Keyword Matching Pattern
-
-* **Alternative 1 (current choice):** Match any of the keywords
-** Pros: The user can find multiple events given multiple keywords for events.
-** Cons: The user cannot pin-point an event if the keyword used for matching is also inside other event names.
-* **Alternative 2:** Match all the keywords
-** Pros: The find events function will be more targeted and precise.
-** Cons: The users cannot find different types of events at the same time.
-* **Alternative 3:** Fuzzy search
-** Pros: The user can find an event even if he/she has forgotten the name of the event.
-** Cons: It is harder to implement the find function.
-
-=== [proposed] Export an Event
-
-The proposed export command exports the names of the attendees, their phone numbers,
-their email addresses, their home addresses and their attendance information of a particular
-event to a csv file into a file path specified by the user. Having all the information of a
-particular event in a csv file would enable the user to analyse the data using other tools.
-
-==== [proposed] Implementation
-
-The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`.
-The execution of it creates a `CsvEventPlannerStorage`. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` where event data is parsed by `CsvUtil` and then exported as a file through `CsvFileStorage` using the file path specified by the user.
-
-<<#SDCSV>> below shows how the csv event export is processed in the storage component.
-
-[#SDCSV]
-.Sequence Diagram for csv export
-image::ExportEventSequenceDiagram.png[width="650"]
-
-==== Design Considerations
-
-When deciding on the export options, the following aspects of user experience are considered.
-
-===== Aspect: Data to be Exported
-
-- *Alternative 1 (current choice)*: Name of the attendees, their phone number, their email address, their home address and their attendance information for the event
-    * Pros: The information includes almost all the data users need for an event. The parsing of the data is straight forward.
-    * Cons: The tags of the attendees are not exported.
-- *Alternative 2*: All information for attendees including their tags
-    * Pros: More information for users as compared to current implementation.
-    * Cons: The attendees may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
-
-==== Aspect: Format of Exported Files
-
-- *Alternative 1 (current choice)*: csv files
-    * Pros: The format can be imported and then processed by most data processing software in the market.
-    * Cons: The files are not reader friendly if they are open directly as a text file.
-- *Alternative 2*: excel files
-    * Pros: Excel files are well formatted when opened with Microsoft Excel software.
-    * Cons: Even though Microsoft Excel software is used by many people, some may prefer other data processing software that supports csv files but not excel files.
+include::../DeveloperGuide.adoc[tag=storagedevguide]
+include::../DeveloperGuide.adoc[tag=findeventdevguide]
+include::../DeveloperGuide.adoc[tag=exporteventdevguide]

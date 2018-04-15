@@ -255,6 +255,8 @@ Format: `select-event INDEX`
 By default, the first event in the Event List Panel is the selected event.
 // end::selectevent[]
 
+// tag::editevent[]
+
 === Editing an Event : `edit-event`
 
 Edits an existing event in the EPIC. +
@@ -280,6 +282,9 @@ Edits the name of the 6th event in event pane to be `Career Talk 2018`. See <<#e
 .Illustration of `edit-event` command (only the Events Pane is shown for clarity).
 image::EditEventUG.png[width="790"]
 
+// end::editevent[]
+
+// tag::findevent[]
 
 === Locating Events by Name: `find-event`
 
@@ -305,6 +310,10 @@ Returns any event having name `Talk`, or `Competition`. See <<#findevent>> below
 .Illustration of `find-event` command (only the Events Pane is shown for clarity).
 image::FindEventUG.png[width="790"]
 
+// end::findevent[]
+
+// tag::deleteevent[]
+
 === Deleting an Event : `delete-event`
 
 Deletes the specified event from EPIC. +
@@ -324,6 +333,8 @@ Deletes the 2nd event in EPIC.
 * `find-event Talk` +
 `delete-event 1` +
 Deletes the 1st event in the results of the `find-event` command.
+
+// end::deleteevent[]
 
 // tag::register[]
 
@@ -412,22 +423,19 @@ If your event contains too many participants, it can be difficult to find inform
 names contain any of the given keys are displayed.
 
 In our example, we'll apply a filter to display only participants from the IoT Talk Event with the
-name "Alice".
+name "Alex".
 
-. Select the IoT Event by executing `select-event 1`. Observe that Alice Pauline is registered
-. Execute `find-registrant alice`, this filters the attendance panel, hiding anyone whose name does
-not contain the word alice (case-insensitive).
+. Select the IoT Event by executing `select-event 1`. Observe that Alex Yeoh is registered
+. Execute `find-registrant alex`, this filters the attendance panel, hiding anyone whose name does
+not contain the word alex (case-insensitive).
 . To remove the filter, execute `list-attendance`.
 
 When a filter is applied, the header of the attendance panel will display `filtered`, and the attendance statistic will
-be computed based on the filtered list (see <<#after-find-registrant>>).
+be computed based on the filtered list. See <<#findregistrants>> below for UI changes. +
 
-[#before-find-attendance]
-.Before the `find-attendance alex` command is executed
-image::before_find_attendance.png[height="790"]
-[#after-find-attendance]
-.After the `find-attendance alex` command is executed
-image::after_find_attendance.png[width="790"]
+[#findregistrants]
+.Illustration of `find-registrants` command (only the Attendees Pane is shown for clarity).
+image::FindRegistrantsUG.png[width="790"]
 
 ****
 * The search is case insensitive. e.g hans will match Hans.
@@ -460,18 +468,11 @@ Examples:
 *`select-event 2` +
 `toggle 3` +
 Toggles the attendance of the 3rd registrant in the attendance list of
-the 2nd event currently listed. <<#ToggleBefore>> below shows an example of
-how EPIC looks like after the `select-event 2` command is executed and
-<<#ToggleAfter>> below shows how EPIC would look like after the `toggle 3` command
-is executed.
+the 2nd event currently listed. See <<#toggle>> below for UI changes. +
 
-[#ToggleBefore]
-.GUI before the `toggle 3` command is executed
-image::ToggleScreenShotBefore.png[width="800"]
-
-[#ToggleAfter]
-.GUI after the `toggle 3` command is exectued
-image::ToggleScreenShotAfter.png[width="800"]
+[#toggle]
+.Illustration of `toggle` command (only the Attendees Pane is shown for clarity).
+image::ToggleUG.png[width="790"]
 //end::toggle[]
 
 === Listing Entered Commands : `history`
