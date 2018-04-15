@@ -71,9 +71,6 @@ public class EpicEvent {
     public void setEvent(EpicEvent dummyEvent) {
         this.name = dummyEvent.getName();
         this.tags = new UniqueTagList(dummyEvent.getTags());
-        for(Attendance attendance : this.attendanceList.asObservableList()) {
-            attendance.setAttendance(new Attendance(attendance.getPerson(), this, attendance.hasAttended()));
-        }
     }
 
     /** registers person for this event */
