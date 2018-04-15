@@ -49,6 +49,7 @@ This app will not work with earlier versions of Java 8.
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
+
 .GUI of EPIC
 image::Ui.png[width="790"]
 Some example commands you can try:
@@ -60,6 +61,10 @@ Some example commands you can try:
 
 Refer to <<Features>> for details of each command.
 
+[NOTE]
+Registrant refers to the person registered to a particular event.
+
+
 [[Layout]]
 == How to Use the GUI
 
@@ -68,31 +73,30 @@ This section describes the components of the GUI, and common ways to interact wi
 
 === Layout
 
-The UI consists of the 5 main layout regions (Figure 2):
+The UI consists of the 5 main layout regions (<<#layout-of-epic>>):
 
+[#layout-of-epic]
 .Components of the GUI
-image::Ui_annotated.png[width="790"]
+image::Ui_annotated.png[width="750"]
 
 . Command Box: text box to receive user inputs.
 . Result Display: status bar that displays the result of user commands.
 . People List Panel: panel that lists all persons stored in EPIC.
 . Event List Panel: panel that lists all events stored in EPIC.
-. Attendance List Panel: panel that lists all attendees in the selected event.
+. Attendance List Panel: panel that lists all registrants in the selected event.
 // end::uilayout[]
 
 [TIP]
-The lists displayed in the panes can be filtered using the `find` or `find-event` commands!
+The lists displayed in the panes can be filtered using the `find`, `find-event` `find-registrant` commands!
 
 // tag::uiinteractions[]
 
 === Interacting with the GUI
 
-* Clicking on an event in the Events Pane selects that event, allowing you to see all persons registered for that event in the Attendees Pane,
+* Clicking on an event in the Events Pane selects that event, allowing you to see all registrants for that event in the Attendance Pane,
 as well as perform actions such as toggling attendance.
 Selecting an event can also be done with the `select` command in the command box.
-* Clicking on the tick/cross symbol next to a person's details in the Attendees Pane allows you to toggle
-that person's attendance for the currently selected event.
-Toggling the attendance can also be done with the `toggle` command.
+
 
 // end::uiinteractions[]
 
@@ -163,7 +167,7 @@ Finds persons whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 ****
-* The search is case insensitive. e.g `hans` will match `Hans`.
+* The search is case-insensitive. e.g `hans` will match `Hans`.
 * Only the name is searched.
 * Only full words will be matched. e.g. `Han` will not match `Hans`.
 * Persons matching *at least* one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber` and `Bo Yang`.
@@ -242,7 +246,7 @@ Format: `list-events`
 === Selecting an Event: `select-event`
 
 Selects the event identified by the index number used in the Events List Pane.
-Attendance List Panel will display the persons registered for that event.
+The Attendance List Panel will display the persons registered for that event.
 
 Format: `select-event INDEX`
 
@@ -283,7 +287,7 @@ Finds events whose names contain any of the given keywords. +
 Format: `find-event KEYWORD [MORE_KEYWORDS]`
 
 ****
-* The search is case insensitive. e.g `talks` will match `Talks`
+* The search is case-insensitive. e.g `talks` will match `Talks`
 * The order of the keywords does not matter. e.g. `Food Talk` will match `Talk Food`
 * Only the name is searched.
 * Only full words will be matched e.g. `Talk` will not match `Talks`
@@ -391,28 +395,32 @@ Format: `list-registered EVENT_NAME`
 
 // tag::attendance-search[]
 
-=== Listing all Event Participants: `find-attendance`
+=== Listing all Event Participants: `find-registrant`
 
 Finds registrants whose names contain any of the given keywords.
 
-Format: `find-attendance KEYWORD [MORE_KEYWORDS]`
+Format: `find-registrant KEYWORD [MORE_KEYWORDS]`
+
+****
+* The search is case-insensitive. e.g hans will match Hans.
+* Only the name is searched.
+* Only full words will be matched. e.g. Han will not match Hans.
+****
 
 If your event contains too many participants, it can be difficult to find information quickly. The
-`find-attendance` command can be used to narrow down participants by their name. Only persons whose
-names contain any of the given keys is displayed.
+`find-registrant` command can be used to narrow down participants by their name. Only persons whose
+names contain any of the given keys are displayed.
 
 In our example, we'll apply a filter to display only participants from the IoT Talk Event with the
-name "Alex".
+name "Alice".
 
-. Select the IoT Event by executing `select-event 1`.
-. Execute `find-attendance alex`, this filters the attendance panel, hiding anyone whose name does
-not contain the word alex (case insensitive).
+. Select the IoT Event by executing `select-event 1`. Observe that Alice Pauline is registered
+. Execute `find-registrant alice`, this filters the attendance panel, hiding anyone whose name does
+not contain the word alice (case-insensitive).
 . To remove the filter, execute `list-attendance`.
 
 When a filter is applied, the header of the attendance panel will display `filtered`, and the attendance statistic will
-be computed based on the filtered list (see <<#after-find-attendance>>).
-
-
+be computed based on the filtered list (see <<#after-find-registrant>>).
 
 [#before-find-attendance]
 .Before the `find-attendance alex` command is executed
@@ -449,11 +457,21 @@ The index refers to the index number shown in the rightmost pane.
 
 Examples:
 
-* `find-event AY201718 Graduation` +
-`select-event 1` +
-`toggle 1` +
-Toggles the attendance of the 1st person attendee in the attendance list of
-AY201718 Graduation.
+*`select-event 2` +
+`toggle 3` +
+Toggles the attendance of the 3rd registrant in the attendance list of
+the 2nd event currently listed. <<#ToggleBefore>> below shows an example of
+how EPIC looks like after the `select-event 2` command is executed and
+<<#ToggleAfter>> below shows how EPIC would look like after the `toggle 3` command
+is executed.
+
+[#ToggleBefore]
+.GUI before the `toggle 3` command is executed
+image::ToggleScreenShotBefore.png[width="800"]
+
+[#ToggleAfter]
+.GUI after the `toggle 3` command is exectued
+image::ToggleScreenShotAfter.png[width="800"]
 //end::toggle[]
 
 === Listing Entered Commands : `history`

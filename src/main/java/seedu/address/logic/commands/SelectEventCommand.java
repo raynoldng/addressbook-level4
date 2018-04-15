@@ -41,7 +41,6 @@ public class SelectEventCommand extends Command {
         }
 
         model.setSelectedEpicEvent(targetIndex.getZeroBased());
-
         EventsCenter.getInstance().post(new JumpToEventListRequestEvent(targetIndex));
         return new CommandResult(String.format(MESSAGE_SELECT_EVENT_SUCCESS, targetIndex.getOneBased()));
 
