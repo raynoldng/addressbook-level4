@@ -67,6 +67,7 @@ https://github.com/CS2103JAN2018-T11-B2/main/issues/110[#110] (has follow-up wit
 https://github.com/CS2103JAN2018-T11-B2/main/issues/89[#89] (suggested fix),
 https://github.com/CS2103JAN2018-T11-B2/main/issues/112[#112]
 
+<<<
 == Contributions to the User Guide
 
 
@@ -75,11 +76,16 @@ https://github.com/CS2103JAN2018-T11-B2/main/issues/112[#112]
 |===
 
 include::../UserGuide.adoc[tag=uiinteractions]
+
 include::../UserGuide.adoc[tag=register]
+
 include::../UserGuide.adoc[tag=deregister]
+
 include::../UserGuide.adoc[tag=list-registered]
+
 include::../UserGuide.adoc[tag=undoredo]
 
+<<<
 == Contributions to the Developer Guide
 
 |===
@@ -87,6 +93,7 @@ include::../UserGuide.adoc[tag=undoredo]
 |===
 
 include::../DeveloperGuide.adoc[tag=editfeature]
+
 include::../DeveloperGuide.adoc[tag=undoredochanges]
 
 == PROJECT: NUSMods Planner

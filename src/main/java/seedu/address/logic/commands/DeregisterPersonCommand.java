@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.event.exceptions.EventNotFoundException;
@@ -67,6 +69,11 @@ public class DeregisterPersonCommand extends UndoableCommand {
         }
 
         model.setSelectedEpicEvent(eventToDeregisterFor);
+        int eventIndexInFilteredList = model.getFilteredEventList().indexOf(eventToDeregisterFor);
+        if (eventIndexInFilteredList != -1) {
+            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
+                    Index.fromZeroBased(eventIndexInFilteredList)));
+        }
         return new CommandResult(String.format(MESSAGE_SUCCESS, personToDeregister, eventName));
     }
 

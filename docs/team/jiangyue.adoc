@@ -44,9 +44,12 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 |===
 
 include::../UserGuide.adoc[tag=editevent]
+
 include::../UserGuide.adoc[tag=findevent]
+
 include::../UserGuide.adoc[tag=deleteevent]
 
+<<<
 == Contributions to the Developer Guide
 
 |===
@@ -54,5 +57,7 @@ include::../UserGuide.adoc[tag=deleteevent]
 |===
 
 include::../DeveloperGuide.adoc[tag=storagedevguide]
+
 include::../DeveloperGuide.adoc[tag=findeventdevguide]
+
 include::../DeveloperGuide.adoc[tag=exporteventdevguide]

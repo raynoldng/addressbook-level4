@@ -49,6 +49,7 @@ command that resets it.
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2103JAN2018-W13-B2/main/pull/44[#44]
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W10-B3/main/issues/118#event-1562496445[1], https://github.com/CS2103JAN2018-W10-B3/main/issues/110#issuecomment-379736418[2])
 
+<<<
 == Contributions to the User Guide
 
 
@@ -62,7 +63,7 @@ include::../UserGuide.adoc[tag=selectevent]
 
 include::../UserGuide.adoc[tag=attendance-search]
 
-
+<<<
 == Contributions to the Developer Guide
 
 |===
