@@ -31,8 +31,7 @@ event in their respective panels.
 are changes to data.
 ** Justification: This feature *enhances the user experience* tremendously as the user can view all three panels
 without having to cycle between lists. Being able to view all three lists in a clean and intuitive interface empowers the user
-to type out commands that require parameters from all three lists without breaking his workflow. As such commands are
-the core functionality of EPIC, it is imperative that UI is clean and user-friendly.
+to type out commands that require parameters from all three lists without breaking his workflow.
 
 ** Highlights: This enhancement leverages several patterns such as the Model View Controller (MVC) Pattern, Observer
 Pattern, and JavaFX Beans Convention to elegantly trigger UI updates upon data changes. Using such patterns made UI
