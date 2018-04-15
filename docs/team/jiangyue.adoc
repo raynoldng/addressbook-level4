@@ -1,6 +1,8 @@
 = Jiang Yue - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
+:xrefstyle: short
+:experimental:
 
 == Overview
 This Project Portfolio details my contributions to project EPIC, showing that I am capable of producing functional code,
@@ -18,12 +20,12 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 
 == Summary of contributions
 
-* *Major enhancement*: added *commands to modify EpicEvents in the event list*
-** What it does: allows the user to locate an event with `find-event` command and then to modify the located event by deleting the event or editing the information of the event with `delete-event` and `edit-event` respectively.
-** Justification: These commands are essential to our product because EPIC is targeting at event planners who manage many events. Hence, event planners should be able to find the event they want to modify from multiple events easily and edit or delete an existing event as needed.
-** Highlights: This enhancement provides several basic functions for EPIC so that further enhancements that interact with events in EIPC can build on it.
+* *Major enhancement*: Added *commands to modify EpicEvents in the event list*.
+** What it does: The commands allow the user to locate an event with `find-event` command and then to modify the event by deleting it or editing its information with `delete-event` and `edit-event` respectively.
+** Justification: These commands are essential to our product because EPIC targets at event planners who manage many events. Hence, event planners should be able to find the event they want to modify from multiple events easily and perform operations on it.
+** Highlights: This enhancement provides several basic functions for EPIC so that further enhancements that interact with events in EPIC can build on it.
 
-* *Minor enhancement*: maintained the persistent storage of EPIC so that data is retained after EPIC being closed and users can continue their edits when they open the app next time.
+* *Minor enhancement*: Maintained the persistent storage of EPIC so that data is retained after EPIC is closed and users can continue their edits when they open the app next time.
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/functional/jiangyue12392.md[Functional code]] [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/test/jiangyue12392.md[Test code]]
 
