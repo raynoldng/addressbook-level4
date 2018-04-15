@@ -17,6 +17,7 @@ classes/
 src/main/resources/docs/
 out/
 preferences.json
+docs/team/*.pdf
 docs/*.pdf
 docs/*.html
 *.md

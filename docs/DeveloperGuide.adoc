@@ -609,7 +609,7 @@ Implementation is easier.
 ** Cons: User might absentmindedly delete a person when his/her details are still required
 (by an upcoming event he/she is registered for).
 
-=== List Registered Persons for an Event
+=== List Registered Persons Feature
 
 ==== Current Implementation
 
@@ -621,7 +621,7 @@ is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
 
 // tag::markattendance[]
 
-=== Toggling Attendance
+=== Toggle Attendance Feature
 
 ==== Current Implementation
 
