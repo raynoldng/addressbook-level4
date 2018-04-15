@@ -81,9 +81,9 @@ image::Ui_annotated.png[width="750"]
 
 . Command Box: text box to receive user inputs.
 . Result Display: status bar that displays the result of user commands.
-. People List Panel: panel that lists all persons stored in EPIC.
-. Event List Panel: panel that lists all events stored in EPIC.
-. Attendance List Panel: panel that lists all registrants in the selected event.
+. Persons Pane: pane that lists all persons stored in EPIC.
+. Events Pane: pane that lists all events stored in EPIC.
+. Attendance Pane: pane that lists all registrants in the selected event.
 // end::uilayout[]
 
 [TIP]
@@ -360,7 +360,7 @@ Registers the 1st person in the results of the `find` command for Computing Semi
 Registers the 2nd person in EPIC for AY201718 Graduation. See <<#register>> below for UI changes. +
 
 [#register]
-.Illustration of `register` command (only the Attendees Pane is shown for clarity).
+.Illustration of `register` command (only the Attendance Pane is shown for clarity).
 image::RegisterUG.png[width="790"]
 
 // end::register[]
@@ -434,7 +434,7 @@ When a filter is applied, the header of the attendance panel will display `filte
 be computed based on the filtered list. See <<#findregistrants>> below for UI changes. +
 
 [#findregistrants]
-.Illustration of `find-registrants` command (only the Attendees Pane is shown for clarity).
+.Illustration of `find-registrants` command (only the Attendance Pane is shown for clarity).
 image::FindRegistrantsUG.png[width="790"]
 
 ****
@@ -471,7 +471,7 @@ Toggles the attendance of the 3rd registrant in the attendance list of
 the 2nd event currently listed. See <<#toggle>> below for UI changes. +
 
 [#toggle]
-.Illustration of `toggle` command (only the Attendees Pane is shown for clarity).
+.Illustration of `toggle` command (only the Attendance Pane is shown for clarity).
 image::ToggleUG.png[width="790"]
 //end::toggle[]
 
@@ -495,7 +495,7 @@ Format: `clear`
 
 Restores EPIC to the state before the previous _undoable_ command was executed. +
 There is no guarantee that the relative order of persons/events will be preserved after the undoing
-of a `delete` or `delete-event` command. +
+of a `delete` or `delete-event` command (see the third example). +
 Format: `undo`
 
 [NOTE]
@@ -533,7 +533,7 @@ image::UndoUG.png[width="790"]
 === Redoing Commands : `redo`
 
 Reverses the most recent `undo` command. This will *fail* if the most recent command
-was neither `undo` nor `redo` (See last example below) +
+was neither `undo` nor `redo` (See last example below). +
 Format: `redo`
 
 Examples:
