@@ -16,8 +16,10 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import seedu.address.commons.core.Config;
+import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
 import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
@@ -133,6 +135,11 @@ public class MainWindow extends UiPart<Stage> {
 
         epicEventListPanel = new EpicEventListPanel(logic.getFilteredEventList());
         epicEventListPanelPlaceholder.getChildren().add(epicEventListPanel.getRoot());
+
+        // visually select the first event if possible
+        if (logic.getFilteredEventList().size() > 0) {
+            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(Index.fromZeroBased(0)));
+        }
 
         attendanceListPanel = new AttendanceListPanel(logic.getSelectedEpicEvent());
         attendanceListPanelPlaceholder.getChildren().add(attendanceListPanel.getRoot());
