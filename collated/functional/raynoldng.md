@@ -1,22 +1,96 @@
 # raynoldng
-###### /java/seedu/address/logic/LogicManager.java
+###### \java\seedu\address\commons\events\ui\AttendancePanelSelectionChangedEvent.java
 ``` java
-    @Override
-    public ObservableEpicEvent getSelectedEpicEvent() {
-        return model.getSelectedEpicEvent();
+package seedu.address.commons.events.ui;
+
+import seedu.address.commons.events.BaseEvent;
+import seedu.address.ui.AttendanceCard;
+
+/**
+ * Represents a selection change in the Epic Event List Panel
+ */
+public class AttendancePanelSelectionChangedEvent extends BaseEvent {
+
+
+    private final AttendanceCard newSelection;
+
+    public AttendancePanelSelectionChangedEvent(AttendanceCard newSelection) {
+        this.newSelection = newSelection;
     }
 
     @Override
-    public void setSelectedEpicEvent(int index) {
-        model.setSelectedEpicEvent(index);
+    public String toString() {
+        return this.getClass().getSimpleName();
     }
 
-    @Override
-    public void setSelectedEpicEvent(EpicEvent epicEvent) {
-        model.setSelectedEpicEvent(epicEvent);
+    public AttendanceCard getNewSelection() {
+        return newSelection;
     }
+}
 ```
-###### /java/seedu/address/logic/commands/FindRegistrantCommand.java
+###### \java\seedu\address\commons\events\ui\ClearEventListSelectionEvent.java
+``` java
+/**
+ * Indicates a request to clear selection in Event List Panel
+ */
+public class ClearEventListSelectionEvent extends BaseEvent {
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+}
+```
+###### \java\seedu\address\commons\events\ui\EpicEventPanelSelectionChangedEvent.java
+``` java
+package seedu.address.commons.events.ui;
+
+import seedu.address.commons.events.BaseEvent;
+import seedu.address.ui.EpicEventCard;
+
+/**
+ * Represents a selection change in the Epic Event List Panel
+ */
+public class EpicEventPanelSelectionChangedEvent extends BaseEvent {
+
+
+    private final EpicEventCard newSelection;
+
+    public EpicEventPanelSelectionChangedEvent(EpicEventCard newSelection) {
+        this.newSelection = newSelection;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+    public EpicEventCard getNewSelection() {
+        return newSelection;
+    }
+}
+```
+###### \java\seedu\address\commons\events\ui\JumpToAttendanceListRequestEvent.java
+``` java
+/**
+ * Indicates a request to jump to the list of persons
+ */
+public class JumpToAttendanceListRequestEvent extends BaseEvent {
+
+    public final int targetIndex;
+
+    public JumpToAttendanceListRequestEvent(Index targetIndex) {
+        this.targetIndex = targetIndex.getZeroBased();
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+}
+```
+###### \java\seedu\address\logic\commands\FindRegistrantCommand.java
 ``` java
 /**
  * Finds and lists all persons in event planner whose name contains any of the argument keywords.
@@ -52,12 +126,33 @@ public class FindRegistrantCommand extends Command {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/ListRegistrantsCommand.java
+###### \java\seedu\address\logic\commands\ListEventCommand.java
+``` java
+/**
+ * Lists all events in the event planner to the user.
+ */
+public class ListEventCommand extends Command {
+
+    public static final String COMMAND_WORD = "list-events";
+
+    public static final String MESSAGE_SUCCESS = "Listed all events";
+
+    @Override
+    public CommandResult execute() {
+        model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        model.clearSelectedEpicEvent();
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+
+}
+```
+###### \java\seedu\address\logic\commands\ListRegistrantsCommand.java
 ``` java
 /**
  * Lists all attendees of selected event in the event planner to the user.
  */
-public class ListRegistrantsCommand extends Command implements FocusOnPersonList {
+public class ListRegistrantsCommand extends Command {
 
     public static final String COMMAND_WORD = "list-registrants";
 
@@ -71,20 +166,8 @@ public class ListRegistrantsCommand extends Command implements FocusOnPersonList
     }
 }
 ```
-###### /java/seedu/address/logic/commands/SelectEventCommand.java
+###### \java\seedu\address\logic\commands\SelectEventCommand.java
 ``` java
-package seedu.address.logic.commands;
-
-import java.util.List;
-
-import seedu.address.commons.core.EventsCenter;
-import seedu.address.commons.core.Messages;
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.event.EpicEvent;
-
-
 /**
  * Selects a event identified using it's last displayed index from the event planner.
  */
@@ -128,7 +211,7 @@ public class SelectEventCommand extends Command {
     }
 }
 ```
-###### /java/seedu/address/logic/Logic.java
+###### \java\seedu\address\logic\Logic.java
 ``` java
     /** Returns selected EpicEvent **/
     ObservableEpicEvent getSelectedEpicEvent();
@@ -137,7 +220,50 @@ public class SelectEventCommand extends Command {
 
     void setSelectedEpicEvent(EpicEvent epicEvent);
 ```
-###### /java/seedu/address/logic/parser/SelectEventCommandParser.java
+###### \java\seedu\address\logic\LogicManager.java
+``` java
+    @Override
+    public ObservableEpicEvent getSelectedEpicEvent() {
+        return model.getSelectedEpicEvent();
+    }
+
+    @Override
+    public void setSelectedEpicEvent(int index) {
+        model.setSelectedEpicEvent(index);
+    }
+
+    @Override
+    public void setSelectedEpicEvent(EpicEvent epicEvent) {
+        model.setSelectedEpicEvent(epicEvent);
+    }
+```
+###### \java\seedu\address\logic\parser\FindRegistrantCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new FindRegistrantCommandParser object
+ */
+public class FindRegistrantCommandParser implements Parser<FindRegistrantCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the FindRegistrantCommand
+     * and returns an FindRegistrantCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public FindRegistrantCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindRegistrantCommand.MESSAGE_USAGE));
+        }
+
+        String[] nameKeywords = trimmedArgs.split("\\s+");
+
+        return new FindRegistrantCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+    }
+
+}
+```
+###### \java\seedu\address\logic\parser\SelectEventCommandParser.java
 ``` java
 package seedu.address.logic.parser;
 
@@ -170,33 +296,182 @@ public class SelectEventCommandParser implements Parser<SelectEventCommand> {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/FindRegistrantCommandParser.java
+###### \java\seedu\address\model\attendance\AttendanceNameContainsKeywordsPredicate.java
 ``` java
 /**
- * Parses input arguments and creates a new FindRegistrantCommandParser object
+ * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
  */
-public class FindRegistrantCommandParser implements Parser<FindRegistrantCommand> {
+public class AttendanceNameContainsKeywordsPredicate implements Predicate<Attendance> {
+    private final List<String> keywords;
 
-    /**
-     * Parses the given {@code String} of arguments in the context of the FindRegistrantCommand
-     * and returns an FindRegistrantCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public FindRegistrantCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindRegistrantCommand.MESSAGE_USAGE));
-        }
+    public AttendanceNameContainsKeywordsPredicate(List<String> keywords) {
+        this.keywords = keywords;
+    }
 
-        String[] nameKeywords = trimmedArgs.split("\\s+");
+    @Override
+    public boolean test(Attendance attendee) {
+        return keywords.stream()
+                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(attendee.getPerson().getFullName().name,
+                        keyword));
+    }
 
-        return new FindRegistrantCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof AttendanceNameContainsKeywordsPredicate // instanceof handles nulls
+                && this.keywords.equals(((AttendanceNameContainsKeywordsPredicate) other).keywords)); // state check
     }
 
 }
 ```
-###### /java/seedu/address/ui/AttendanceListPanel.java
+###### \java\seedu\address\model\event\EpicEvent.java
+``` java
+    public static EpicEvent getDummyEpicEvent() {
+        return new EpicEvent(new Name("dummyEvent"), new HashSet<Tag>());
+    }
+
+```
+###### \java\seedu\address\model\event\EpicEvent.java
+``` java
+    public ObservableList<Attendance> getAttendanceList() {
+        return attendanceList.asObservableList();
+    }
+
+    public UniqueAttendanceList getUniqueAttendanceList() {
+        return attendanceList;
+    }
+
+```
+###### \java\seedu\address\model\event\ObservableEpicEvent.java
+``` java
+/**
+ * Wrapper class for EpicEvent to listen for reassignments of selectedEpicEvent
+ */
+public class ObservableEpicEvent extends Observable {
+    private EpicEvent epicEvent;
+    private FilteredList<Attendance> filteredAttendees;
+
+    public ObservableEpicEvent(EpicEvent epicEvent) {
+        updateConnections(epicEvent);
+    }
+
+    public EpicEvent getEpicEvent() {
+        return epicEvent;
+    }
+
+    public void setEpicEvent(EpicEvent epicEvent) {
+        updateConnections(epicEvent);
+    }
+
+    public FilteredList<Attendance> getFilteredAttendees() {
+        return filteredAttendees;
+    }
+
+    /**
+     * updates {@code epicEvent} and {@code filteredAttendees}, notifies observers
+     */
+    private void updateConnections(EpicEvent epicEvent) {
+        this.epicEvent = epicEvent;
+        this.filteredAttendees = new FilteredList<>(this.epicEvent.getAttendanceList());
+        setChanged();
+        notifyObservers();
+    }
+}
+```
+###### \java\seedu\address\model\Model.java
+``` java
+    ObservableEpicEvent getSelectedEpicEvent();
+
+    void setSelectedEpicEvent(int index);
+
+    void setSelectedEpicEvent(EpicEvent epicEvent);
+
+    void updateFilteredAttendanceList(Predicate<Attendance> predicate);
+
+    void visuallySelectEpicEvent(EpicEvent toAdd);
+
+    void clearSelectedEpicEvent();
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public void setSelectedEpicEvent(int index) {
+        selectedEpicEvent.setEpicEvent(filteredEvents.get(index));
+    }
+
+    @Override
+    public void setSelectedEpicEvent(EpicEvent epicEvent) {
+        selectedEpicEvent.setEpicEvent(epicEvent);
+    }
+
+    @Override
+    public void updateFilteredAttendanceList(Predicate<Attendance> predicate) {
+        requireNonNull(predicate);
+        selectedEpicEvent.getFilteredAttendees().setPredicate(predicate);
+    }
+
+    @Override
+    public void visuallySelectEpicEvent(EpicEvent toSelect) {
+        setSelectedEpicEvent(toSelect);
+        int eventIndexInFilteredList = getFilteredEventList().indexOf(toSelect);
+        if (eventIndexInFilteredList != -1) {
+            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
+                    Index.fromZeroBased(eventIndexInFilteredList)));
+        } else {
+            EventsCenter.getInstance().post(new ClearEventListSelectionEvent());
+        }
+    }
+
+    @Override
+    public void clearSelectedEpicEvent() {
+        visuallySelectEpicEvent(EpicEvent.getDummyEpicEvent());
+        EventsCenter.getInstance().post(new ClearEventListSelectionEvent());
+    }
+
+    @Override
+    public ObservableEpicEvent getSelectedEpicEvent() {
+        return selectedEpicEvent;
+    }
+
+```
+###### \java\seedu\address\ui\AttendanceCard.java
+``` java
+/**
+ * An UI component that displays information of a {@code Person}.
+ */
+public class AttendanceCard extends PersonCard {
+
+    protected static final String FXML = "AttendanceListCard.fxml";
+
+    private static final String ICON_ATTENDED_URL = "/images/green_tick.png";
+    private static final String ICON_NOT_ATTENDED_URL = "/images/red_cross.png";
+
+    private static final Image ICON_ATTENDED = new Image(ICON_ATTENDED_URL);
+    private static final Image ICON_NOT_ATTENDED = new Image(ICON_NOT_ATTENDED_URL);
+    private static final List<Image> images = Arrays.asList(ICON_ATTENDED, ICON_NOT_ATTENDED);
+
+    @FXML
+    private ImageView attendanceToggleImage;
+
+    private Attendance attendance;
+    private IntegerProperty intValue;
+
+    public AttendanceCard(Attendance attendee, int displayedIndex) {
+        super(attendee.getPerson(), displayedIndex, FXML);
+        this.attendance = attendee;
+        intValue = new SimpleIntegerProperty();
+
+        intValue.set(attendee.hasAttended() ? 0 : 1);
+        attendanceToggleImage.imageProperty().bind(Bindings.createObjectBinding(() -> images.get(intValue.getValue())));
+    }
+
+    public Attendance getAttendance() {
+        return attendance;
+    }
+
+}
+```
+###### \java\seedu\address\ui\AttendanceListPanel.java
 ``` java
 /**
  * Panel containing the list of persons.
@@ -348,17 +623,8 @@ public class AttendanceListPanel extends UiPart<Region> {
 
 }
 ```
-###### /java/seedu/address/ui/EpicEventCard.java
+###### \java\seedu\address\ui\EpicEventCard.java
 ``` java
-package seedu.address.ui;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import seedu.address.model.event.EpicEvent;
-
 /**
  * An UI component that displays information of an {@code EpicEvent}.
  */
@@ -412,43 +678,8 @@ public class EpicEventCard extends UiPart<Region> {
     }
 }
 ```
-###### /java/seedu/address/ui/MainWindow.java
+###### \java\seedu\address\ui\EpicEventListPanel.java
 ``` java
-    @Subscribe
-    private void handleEpicEventPanelSelectionChangedEvent(EpicEventPanelSelectionChangedEvent event) {
-        logic.setSelectedEpicEvent(event.getNewSelection().epicEvent);
-
-    }
-
-    @Subscribe
-    private void handleJumpToListRequestEvent(JumpToEventListRequestEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        logic.setSelectedEpicEvent(event.targetIndex);
-
-    }
-```
-###### /java/seedu/address/ui/EpicEventListPanel.java
-``` java
-package seedu.address.ui;
-
-import java.util.logging.Logger;
-
-import org.fxmisc.easybind.EasyBind;
-
-import com.google.common.eventbus.Subscribe;
-
-import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.Region;
-
-import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.ClearEventListSelectionEvent;
-import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
-import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
-import seedu.address.model.event.EpicEvent;
 /**
  * Panel containing the list of events.
  */
@@ -528,7 +759,22 @@ public class EpicEventListPanel extends UiPart<Region> {
 
 }
 ```
-###### /java/seedu/address/ui/PersonCard.java
+###### \java\seedu\address\ui\MainWindow.java
+``` java
+    @Subscribe
+    private void handleEpicEventPanelSelectionChangedEvent(EpicEventPanelSelectionChangedEvent event) {
+        logic.setSelectedEpicEvent(event.getNewSelection().epicEvent);
+
+    }
+
+    @Subscribe
+    private void handleJumpToListRequestEvent(JumpToEventListRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        logic.setSelectedEpicEvent(event.targetIndex);
+
+    }
+```
+###### \java\seedu\address\ui\PersonCard.java
 ``` java
     public PersonCard(Person person, int displayedIndex, String fxml) {
         super(fxml);
@@ -546,262 +792,7 @@ public class EpicEventListPanel extends UiPart<Region> {
         person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 ```
-###### /java/seedu/address/ui/AttendanceCard.java
-``` java
-/**
- * An UI component that displays information of a {@code Person}.
- */
-public class AttendanceCard extends PersonCard {
-
-    protected static final String FXML = "AttendanceListCard.fxml";
-
-    private static final String ICON_ATTENDED_URL = "/images/green_tick.png";
-    private static final String ICON_NOT_ATTENDED_URL = "/images/red_cross.png";
-
-    private static final Image ICON_ATTENDED = new Image(ICON_ATTENDED_URL);
-    private static final Image ICON_NOT_ATTENDED = new Image(ICON_NOT_ATTENDED_URL);
-    private static final List<Image> images = Arrays.asList(ICON_ATTENDED, ICON_NOT_ATTENDED);
-
-    @FXML
-    private ImageView attendanceToggleImage;
-
-    private Attendance attendance;
-    private IntegerProperty intValue;
-
-    public AttendanceCard(Attendance attendee, int displayedIndex) {
-        super(attendee.getPerson(), displayedIndex, FXML);
-        this.attendance = attendee;
-        intValue = new SimpleIntegerProperty();
-
-        intValue.set(attendee.hasAttended() ? 0 : 1);
-        attendanceToggleImage.imageProperty().bind(Bindings.createObjectBinding(() -> images.get(intValue.getValue())));
-    }
-
-    public Attendance getAttendance() {
-        return attendance;
-    }
-
-}
-```
-###### /java/seedu/address/commons/events/ui/JumpToAttendanceListRequestEvent.java
-``` java
-/**
- * Indicates a request to jump to the list of persons
- */
-public class JumpToAttendanceListRequestEvent extends BaseEvent {
-
-    public final int targetIndex;
-
-    public JumpToAttendanceListRequestEvent(Index targetIndex) {
-        this.targetIndex = targetIndex.getZeroBased();
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
-}
-```
-###### /java/seedu/address/commons/events/ui/AttendancePanelSelectionChangedEvent.java
-``` java
-package seedu.address.commons.events.ui;
-
-import seedu.address.commons.events.BaseEvent;
-import seedu.address.ui.AttendanceCard;
-
-/**
- * Represents a selection change in the Epic Event List Panel
- */
-public class AttendancePanelSelectionChangedEvent extends BaseEvent {
-
-
-    private final AttendanceCard newSelection;
-
-    public AttendancePanelSelectionChangedEvent(AttendanceCard newSelection) {
-        this.newSelection = newSelection;
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
-    public AttendanceCard getNewSelection() {
-        return newSelection;
-    }
-}
-```
-###### /java/seedu/address/commons/events/ui/EpicEventPanelSelectionChangedEvent.java
-``` java
-package seedu.address.commons.events.ui;
-
-import seedu.address.commons.events.BaseEvent;
-import seedu.address.ui.EpicEventCard;
-
-/**
- * Represents a selection change in the Epic Event List Panel
- */
-public class EpicEventPanelSelectionChangedEvent extends BaseEvent {
-
-
-    private final EpicEventCard newSelection;
-
-    public EpicEventPanelSelectionChangedEvent(EpicEventCard newSelection) {
-        this.newSelection = newSelection;
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
-    public EpicEventCard getNewSelection() {
-        return newSelection;
-    }
-}
-```
-###### /java/seedu/address/commons/events/ui/ClearEventListSelectionEvent.java
-``` java
-/**
- * Indicates a request to clear selection in Event List Panel
- */
-public class ClearEventListSelectionEvent extends BaseEvent {
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-}
-```
-###### /java/seedu/address/model/event/ObservableEpicEvent.java
-``` java
-package seedu.address.model.event;
-
-import java.util.Observable;
-
-import javafx.collections.transformation.FilteredList;
-import seedu.address.model.attendance.Attendance;
-
-/**
- * Wrapper class for EpicEvent to listen for reassignments of selectedEpicEvent
- */
-public class ObservableEpicEvent extends Observable {
-    private EpicEvent epicEvent;
-    private FilteredList<Attendance> filteredAttendees;
-
-    public ObservableEpicEvent(EpicEvent epicEvent) {
-        updateConnections(epicEvent);
-    }
-
-    public EpicEvent getEpicEvent() {
-        return epicEvent;
-    }
-
-    public void setEpicEvent(EpicEvent epicEvent) {
-        updateConnections(epicEvent);
-    }
-
-    public FilteredList<Attendance> getFilteredAttendees() {
-        return filteredAttendees;
-    }
-
-    /**
-     * updates {@code epicEvent} and {@code filteredAttendees}, notifies observers
-     */
-    private void updateConnections(EpicEvent epicEvent) {
-        this.epicEvent = epicEvent;
-        this.filteredAttendees = new FilteredList<>(this.epicEvent.getAttendanceList());
-        setChanged();
-        notifyObservers();
-    }
-}
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-    @Override
-    public void setSelectedEpicEvent(int index) {
-        selectedEpicEvent.setEpicEvent(filteredEvents.get(index));
-    }
-
-    @Override
-    public void setSelectedEpicEvent(EpicEvent epicEvent) {
-        selectedEpicEvent.setEpicEvent(epicEvent);
-    }
-
-    @Override
-    public void updateFilteredAttendanceList(Predicate<Attendance> predicate) {
-        requireNonNull(predicate);
-        selectedEpicEvent.getFilteredAttendees().setPredicate(predicate);
-    }
-
-    @Override
-    public void visuallySelectEpicEvent(EpicEvent toSelect) {
-        setSelectedEpicEvent(toSelect);
-        int eventIndexInFilteredList = getFilteredEventList().indexOf(toSelect);
-        if (eventIndexInFilteredList != -1) {
-            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
-                    Index.fromZeroBased(eventIndexInFilteredList)));
-        } else {
-            EventsCenter.getInstance().post(new ClearEventListSelectionEvent());
-        }
-    }
-
-    @Override
-    public void clearSelectedEpicEvent() {
-        visuallySelectEpicEvent(EpicEvent.getDummyEpicEvent());
-        EventsCenter.getInstance().post(new ClearEventListSelectionEvent());
-    }
-
-    @Override
-    public ObservableEpicEvent getSelectedEpicEvent() {
-        return selectedEpicEvent;
-    }
-
-```
-###### /java/seedu/address/model/Model.java
-``` java
-    ObservableEpicEvent getSelectedEpicEvent();
-
-    void setSelectedEpicEvent(int index);
-
-    void setSelectedEpicEvent(EpicEvent epicEvent);
-
-    void updateFilteredAttendanceList(Predicate<Attendance> predicate);
-
-    void visuallySelectEpicEvent(EpicEvent toAdd);
-
-    void clearSelectedEpicEvent();
-```
-###### /java/seedu/address/model/attendance/AttendanceNameContainsKeywordsPredicate.java
-``` java
-/**
- * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
- */
-public class AttendanceNameContainsKeywordsPredicate implements Predicate<Attendance> {
-    private final List<String> keywords;
-
-    public AttendanceNameContainsKeywordsPredicate(List<String> keywords) {
-        this.keywords = keywords;
-    }
-
-    @Override
-    public boolean test(Attendance attendee) {
-        return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(attendee.getPerson().getFullName().name,
-                        keyword));
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof AttendanceNameContainsKeywordsPredicate // instanceof handles nulls
-                && this.keywords.equals(((AttendanceNameContainsKeywordsPredicate) other).keywords)); // state check
-    }
-
-}
-```
-###### /resources/view/MainWindow.fxml
+###### \resources\view\MainWindow.fxml
 ``` fxml
           <VBox fx:id="epicEventList" minWidth="200" prefWidth="340" SplitPane.resizableWithParent="false">
             <padding>

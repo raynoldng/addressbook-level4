@@ -1,5 +1,62 @@
 # william6364
-###### /java/seedu/address/logic/commands/ToggleAttendanceCommand.java
+###### \java\seedu\address\logic\commands\AddEventCommand.java
+``` java
+/**
+ * Adds an event to the event planner.
+ */
+public class AddEventCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "add-event";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an event to the event planner. "
+            + "Parameters: "
+            + PREFIX_NAME + "NAME "
+            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "AY201718 Graduation Ceremony "
+            + PREFIX_TAG + "graduation ";
+
+    public static final String MESSAGE_SUCCESS = "New event added: %1$s";
+    public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists in the event planner";
+
+    private final EpicEvent toAdd;
+
+    /**
+     * Creates an AddEventCommand to add the specified {@code EpicEvent}
+     */
+    public AddEventCommand(EpicEvent event) {
+        requireNonNull(event);
+        toAdd = event;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        requireNonNull(model);
+        try {
+            model.addEvent(toAdd);
+            model.visuallySelectEpicEvent(toAdd);
+```
+###### \java\seedu\address\logic\commands\AddEventCommand.java
+``` java
+            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        } catch (DuplicateEventException e) {
+            throw new CommandException(MESSAGE_DUPLICATE_EVENT);
+        }
+    }
+
+```
+###### \java\seedu\address\logic\commands\AddEventCommand.java
+``` java
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof AddEventCommand // instanceof handles nulls
+                && toAdd.equals(((AddEventCommand) other).toAdd));
+    }
+}
+```
+###### \java\seedu\address\logic\commands\ToggleAttendanceCommand.java
 ``` java
 /**
  * Marks attendance of a participant for an event.
@@ -73,64 +130,7 @@ public class ToggleAttendanceCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/AddEventCommand.java
-``` java
-/**
- * Adds an event to the event planner.
- */
-public class AddEventCommand extends UndoableCommand {
-
-    public static final String COMMAND_WORD = "add-event";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an event to the event planner. "
-            + "Parameters: "
-            + PREFIX_NAME + "NAME "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "AY201718 Graduation Ceremony "
-            + PREFIX_TAG + "graduation ";
-
-    public static final String MESSAGE_SUCCESS = "New event added: %1$s";
-    public static final String MESSAGE_DUPLICATE_EVENT = "This event already exists in the event planner";
-
-    private final EpicEvent toAdd;
-
-    /**
-     * Creates an AddEventCommand to add the specified {@code EpicEvent}
-     */
-    public AddEventCommand(EpicEvent event) {
-        requireNonNull(event);
-        toAdd = event;
-    }
-
-    @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
-        requireNonNull(model);
-        try {
-            model.addEvent(toAdd);
-            model.visuallySelectEpicEvent(toAdd);
-```
-###### /java/seedu/address/logic/commands/AddEventCommand.java
-``` java
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
-        } catch (DuplicateEventException e) {
-            throw new CommandException(MESSAGE_DUPLICATE_EVENT);
-        }
-    }
-
-```
-###### /java/seedu/address/logic/commands/AddEventCommand.java
-``` java
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof AddEventCommand // instanceof handles nulls
-                && toAdd.equals(((AddEventCommand) other).toAdd));
-    }
-}
-```
-###### /java/seedu/address/logic/parser/AddEventCommandParser.java
+###### \java\seedu\address\logic\parser\AddEventCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new AddPersonCommand object
@@ -173,7 +173,7 @@ public class AddEventCommandParser implements Parser<AddEventCommand> {
 
 }
 ```
-###### /java/seedu/address/logic/parser/ToggleAttendanceCommandParser.java
+###### \java\seedu\address\logic\parser\ToggleAttendanceCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new ToggleAttendanceCommand object
@@ -196,206 +196,7 @@ public class ToggleAttendanceCommandParser implements Parser<ToggleAttendanceCom
     }
 }
 ```
-###### /java/seedu/address/model/event/UniqueEpicEventList.java
-``` java
-/**
- * A list of events that enforces uniqueness between its elements and does not allow nulls.
- *
- * Supports a minimal set of list operations.
- *
- * @see EpicEvent#equals(Object)
- * @see CollectionUtil#elementsAreUnique(Collection)
- */
-public class UniqueEpicEventList {
-
-    private final ObservableList<EpicEvent> internalList = FXCollections.observableArrayList();
-
-    /**
-     * Returns true if the list contains an equivalent event as the given argument.
-     */
-    public boolean contains(EpicEvent toCheck) {
-        requireNonNull(toCheck);
-        return internalList.contains(toCheck);
-    }
-
-    /**
-     * Adds an event to the list.
-     *
-     * @throws DuplicateEventException if the event to add is a duplicate of an existing event in the list.
-     */
-    public void add(EpicEvent toAdd) throws DuplicateEventException {
-        requireNonNull(toAdd);
-        if (contains(toAdd)) {
-            throw new DuplicateEventException();
-        }
-        internalList.add(toAdd);
-    }
-
-```
-###### /java/seedu/address/model/event/UniqueEpicEventList.java
-``` java
-    /**
-     * Toggles the attendance of the person in the event.
-     *
-     * @throws PersonNotFoundInEventException if person could not be found in event
-     * @throws EventNotFoundException if no such event could be found in the list
-     */
-    public void toggleAttendance(Person person, EpicEvent eventToToggleAttendance)
-            throws PersonNotFoundInEventException, EventNotFoundException {
-        requireAllNonNull(person, eventToToggleAttendance);
-
-        int index = internalList.indexOf(eventToToggleAttendance);
-        if (index == -1) {
-            throw new EventNotFoundException();
-        }
-
-        eventToToggleAttendance.toggleAttendance(person);
-    }
-
-```
-###### /java/seedu/address/model/event/UniqueEpicEventList.java
-``` java
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof UniqueEpicEventList // instanceof handles nulls
-                && this.internalList.equals(((UniqueEpicEventList) other).internalList));
-    }
-
-    /**
-     * Returns the backing list as an unmodifiable {@code ObservableList}.
-     */
-    public ObservableList<EpicEvent> asObservableList() {
-        return FXCollections.unmodifiableObservableList(internalList);
-    }
-    @Override
-    public int hashCode() {
-        return internalList.hashCode();
-    }
-
-}
-```
-###### /java/seedu/address/model/event/exceptions/DuplicateEventException.java
-``` java
-/**
- * Signals that the operation will result in duplicate EpicEvent objects.
- */
-public class DuplicateEventException extends DuplicateDataException {
-    public DuplicateEventException() {
-        super("Operation would result in duplicate events");
-    }
-}
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-
-    @Override
-    public void toggleAttendance(Person person, EpicEvent event)
-        throws EventNotFoundException, PersonNotFoundInEventException {
-        requireAllNonNull(person, event);
-
-        eventPlanner.toggleAttendance(person, event);
-        indicateEventPlannerChanged();
-    }
-
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-    //=========== Filtered Event List Accessors =============================================================
-
-    /**
-     * Returns an unmodifiable view of the filtered list of {@code EpicEvent} backed by the internal list of
-     * {@code eventPlanner}
-     */
-    @Override
-    public ObservableList<EpicEvent> getFilteredEventList() {
-        return FXCollections.unmodifiableObservableList(filteredEvents);
-    }
-
-    @Override
-    public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
-        requireNonNull(predicate);
-        filteredEvents.setPredicate(predicate);
-    }
-
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-
-    @Override
-    public boolean equals(Object obj) {
-        // short circuit if same object
-        if (obj == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(obj instanceof ModelManager)) {
-            return false;
-        }
-
-        // state check
-        ModelManager other = (ModelManager) obj;
-        return eventPlanner.equals(other.eventPlanner)
-                && filteredPersons.equals(other.filteredPersons)
-                && filteredEvents.equals(other.filteredEvents);
-    }
-
-}
-```
-###### /java/seedu/address/model/EventPlanner.java
-``` java
-    /**
-     * Toggles the attendance of a particular person in a particular event
-     */
-    public void toggleAttendance(Person person, EpicEvent event)
-        throws EventNotFoundException, PersonNotFoundInEventException {
-        events.toggleAttendance(person, event);
-    }
-
-    //// tag-level operations
-
-    /**
-     *  Updates the master person tag list to include tags in {@code objectTags} that are not in the list.
-     *  @return a mapping of the Tags in the list Tag object in the master list.
-     */
-    private Map<Tag, Tag> updateMasterPersonTagList(UniqueTagList objectTags) {
-        personTags.mergeFrom(objectTags);
-
-        // Create map with values = tag object references in the master list
-        // used for checking tag references
-        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
-        personTags.forEach(tag -> masterTagObjects.put(tag, tag));
-
-        return masterTagObjects;
-    }
-
-
-    /**
-     *  Updates the master event tag list to include tags in {@code objectTags} that are not in the list.
-     *  @return a mapping of the Tags in the list Tag object in the master list.
-     */
-    private Map<Tag, Tag> updateMasterEventTagList(UniqueTagList objectTags) {
-        eventTags.mergeFrom(objectTags);
-
-        // Create map with values = tag object references in the master list
-        // used for checking tag references
-        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
-        eventTags.forEach(tag -> masterTagObjects.put(tag, tag));
-
-        return masterTagObjects;
-    }
-
-    public void addPersonTag(Tag t) throws UniqueTagList.DuplicateTagException {
-        personTags.add(t);
-    }
-
-    public void addEventTag(Tag t) throws UniqueTagList.DuplicateTagException {
-        eventTags.add(t);
-    }
-
-```
-###### /java/seedu/address/model/attendance/Attendance.java
+###### \java\seedu\address\model\attendance\Attendance.java
 ``` java
 /**
  * Represents the attendance of a person to an event in the event planner.
@@ -422,7 +223,7 @@ public class Attendance {
 
 
 ```
-###### /java/seedu/address/model/attendance/Attendance.java
+###### \java\seedu\address\model\attendance\Attendance.java
 ``` java
 
     /**
@@ -501,7 +302,18 @@ public class Attendance {
     }
 }
 ```
-###### /java/seedu/address/model/attendance/UniqueAttendanceList.java
+###### \java\seedu\address\model\attendance\exceptions\DuplicateAttendanceException.java
+``` java
+/**
+ * Signals that the operation will result in duplicate Attendance objects.
+ */
+public class DuplicateAttendanceException extends DuplicateDataException {
+    public DuplicateAttendanceException() {
+        super("Operation would result in duplicate attendance");
+    }
+}
+```
+###### \java\seedu\address\model\attendance\UniqueAttendanceList.java
 ``` java
 /**
  * A list of attendance objects that enforces uniqueness between the persons inside the object and does not allow nulls.
@@ -597,7 +409,7 @@ public class UniqueAttendanceList {
     }
 
 ```
-###### /java/seedu/address/model/attendance/UniqueAttendanceList.java
+###### \java\seedu\address\model\attendance\UniqueAttendanceList.java
 ``` java
 
     public void setAttendanceList(UniqueAttendanceList replacement) {
@@ -655,14 +467,321 @@ public class UniqueAttendanceList {
     }
 }
 ```
-###### /java/seedu/address/model/attendance/exceptions/DuplicateAttendanceException.java
+###### \java\seedu\address\model\event\EpicEvent.java
 ``` java
 /**
- * Signals that the operation will result in duplicate Attendance objects.
+ * Represents a Event in the event planner.
+ * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class DuplicateAttendanceException extends DuplicateDataException {
-    public DuplicateAttendanceException() {
-        super("Operation would result in duplicate attendance");
+public class EpicEvent {
+
+    private Name name;
+
+    private UniqueTagList tags;
+    private final UniqueAttendanceList attendanceList;
+
+    /**
+     * Every field must be present and not null.
+     */
+    public EpicEvent(Name name, Set<Tag> tags) {
+        requireAllNonNull(name, tags);
+        this.name = name;
+        // protect internal tags from changes in the arg list
+        this.tags = new UniqueTagList(tags);
+        this.attendanceList = new UniqueAttendanceList();
+    }
+
+```
+###### \java\seedu\address\model\event\EpicEvent.java
+``` java
+    public Name getName() {
+        return name;
+    }
+
+```
+###### \java\seedu\address\model\event\EpicEvent.java
+``` java
+
+    /** toggles the attendance of a person in this event */
+    public void toggleAttendance(Person person) throws PersonNotFoundInEventException {
+        try {
+            attendanceList.toggleAttendance(person, this);
+        } catch (PersonNotFoundInEventException e) {
+            throw new PersonNotFoundInEventException();
+        }
+    }
+
+```
+###### \java\seedu\address\model\event\EpicEvent.java
+``` java
+
+    /**
+     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Tag> getTags() {
+        return Collections.unmodifiableSet(tags.toSet());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof EpicEvent)) {
+            return false;
+        }
+
+        EpicEvent otherEpicEvent = (EpicEvent) other;
+        return otherEpicEvent.getName().equals(this.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(name, tags);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getName())
+                .append(" Tags: ");
+        getTags().forEach(builder::append);
+        return builder.toString();
+    }
+
+}
+```
+###### \java\seedu\address\model\event\exceptions\DuplicateEventException.java
+``` java
+/**
+ * Signals that the operation will result in duplicate EpicEvent objects.
+ */
+public class DuplicateEventException extends DuplicateDataException {
+    public DuplicateEventException() {
+        super("Operation would result in duplicate events");
     }
 }
+```
+###### \java\seedu\address\model\event\UniqueEpicEventList.java
+``` java
+/**
+ * A list of events that enforces uniqueness between its elements and does not allow nulls.
+ *
+ * Supports a minimal set of list operations.
+ *
+ * @see EpicEvent#equals(Object)
+ * @see CollectionUtil#elementsAreUnique(Collection)
+ */
+public class UniqueEpicEventList {
+
+    private final ObservableList<EpicEvent> internalList = FXCollections.observableArrayList();
+
+    /**
+     * Returns true if the list contains an equivalent event as the given argument.
+     */
+    public boolean contains(EpicEvent toCheck) {
+        requireNonNull(toCheck);
+        return internalList.contains(toCheck);
+    }
+
+    /**
+     * Adds an event to the list.
+     *
+     * @throws DuplicateEventException if the event to add is a duplicate of an existing event in the list.
+     */
+    public void add(EpicEvent toAdd) throws DuplicateEventException {
+        requireNonNull(toAdd);
+        if (contains(toAdd)) {
+            throw new DuplicateEventException();
+        }
+        internalList.add(toAdd);
+    }
+
+```
+###### \java\seedu\address\model\event\UniqueEpicEventList.java
+``` java
+    /**
+     * Toggles the attendance of the person in the event.
+     *
+     * @throws PersonNotFoundInEventException if person could not be found in event
+     * @throws EventNotFoundException if no such event could be found in the list
+     */
+    public void toggleAttendance(Person person, EpicEvent eventToToggleAttendance)
+            throws PersonNotFoundInEventException, EventNotFoundException {
+        requireAllNonNull(person, eventToToggleAttendance);
+
+        int index = internalList.indexOf(eventToToggleAttendance);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        eventToToggleAttendance.toggleAttendance(person);
+    }
+
+```
+###### \java\seedu\address\model\event\UniqueEpicEventList.java
+``` java
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UniqueEpicEventList // instanceof handles nulls
+                && this.internalList.equals(((UniqueEpicEventList) other).internalList));
+    }
+
+    /**
+     * Returns the backing list as an unmodifiable {@code ObservableList}.
+     */
+    public ObservableList<EpicEvent> asObservableList() {
+        return FXCollections.unmodifiableObservableList(internalList);
+    }
+    @Override
+    public int hashCode() {
+        return internalList.hashCode();
+    }
+
+}
+```
+###### \java\seedu\address\model\EventPlanner.java
+``` java
+
+    //// event-level operation
+
+    /**
+     * Adds an event to the event planner
+     * Also checks the new event's tags and updates {@link #eventTags} with any new tags found,
+     * and updates the Tag objects in the event to point to those in {@link #eventTags}.
+     *
+     * @throws DuplicateEventException if an equivalent event already exists.
+     */
+    public void addEvent(EpicEvent e) throws DuplicateEventException {
+        EpicEvent event = syncEventWithMasterTagList(e);
+        events.add(event);
+        event.setAttendanceList(e.getAttendanceList());
+        event.handleAddEvent();
+    }
+
+    /**
+     *  Updates the master tag list to include tags in {@code event} that are not in the list.
+     *  @return a copy of this {@code event} such that every tag in this event points to a Tag object in the master
+     *  list.
+     */
+    private EpicEvent syncEventWithMasterTagList(EpicEvent event) {
+        final UniqueTagList newEventTags = new UniqueTagList(event.getTags());
+        final Map<Tag, Tag> masterTagObjects = updateMasterEventTagList(newEventTags);
+
+        // Rebuild the list of event tags to point to the relevant tags in the master tag list.
+        final Set<Tag> correctTagReferences = new HashSet<>();
+        newEventTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
+        return new EpicEvent(event.getName(), event.getUniqueAttendanceList(), correctTagReferences);
+    }
+
+```
+###### \java\seedu\address\model\EventPlanner.java
+``` java
+    /**
+     * Toggles the attendance of a particular person in a particular event
+     */
+    public void toggleAttendance(Person person, EpicEvent event)
+        throws EventNotFoundException, PersonNotFoundInEventException {
+        events.toggleAttendance(person, event);
+    }
+
+    //// tag-level operations
+
+    /**
+     *  Updates the master person tag list to include tags in {@code objectTags} that are not in the list.
+     *  @return a mapping of the Tags in the list Tag object in the master list.
+     */
+    private Map<Tag, Tag> updateMasterPersonTagList(UniqueTagList objectTags) {
+        personTags.mergeFrom(objectTags);
+
+        // Create map with values = tag object references in the master list
+        // used for checking tag references
+        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
+        personTags.forEach(tag -> masterTagObjects.put(tag, tag));
+
+        return masterTagObjects;
+    }
+
+
+    /**
+     *  Updates the master event tag list to include tags in {@code objectTags} that are not in the list.
+     *  @return a mapping of the Tags in the list Tag object in the master list.
+     */
+    private Map<Tag, Tag> updateMasterEventTagList(UniqueTagList objectTags) {
+        eventTags.mergeFrom(objectTags);
+
+        // Create map with values = tag object references in the master list
+        // used for checking tag references
+        final Map<Tag, Tag> masterTagObjects = new HashMap<>();
+        eventTags.forEach(tag -> masterTagObjects.put(tag, tag));
+
+        return masterTagObjects;
+    }
+
+    public void addPersonTag(Tag t) throws UniqueTagList.DuplicateTagException {
+        personTags.add(t);
+    }
+
+    public void addEventTag(Tag t) throws UniqueTagList.DuplicateTagException {
+        eventTags.add(t);
+    }
+
+    //// util methods
+
+    @Override
+    public String toString() {
+        return persons.asObservableList().size() + " persons, " + personTags.asObservableList().size()
+                +  " person tags, " + eventTags.asObservableList().size() + " event tags.";
+    }
+
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+
+    //=========== Event Level Operations =====================================================================
+
+    @Override
+    public synchronized void addEvent(EpicEvent event) throws DuplicateEventException {
+        eventPlanner.addEvent(event);
+        updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        indicateEventPlannerChanged();
+    }
+
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+
+    @Override
+    public void toggleAttendance(Person person, EpicEvent event)
+        throws EventNotFoundException, PersonNotFoundInEventException {
+        requireAllNonNull(person, event);
+
+        eventPlanner.toggleAttendance(person, event);
+        indicateEventPlannerChanged();
+    }
+
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    //=========== Filtered Event List Accessors =============================================================
+
+    /**
+     * Returns an unmodifiable view of the filtered list of {@code EpicEvent} backed by the internal list of
+     * {@code eventPlanner}
+     */
+    @Override
+    public ObservableList<EpicEvent> getFilteredEventList() {
+        return FXCollections.unmodifiableObservableList(filteredEvents);
+    }
+
+    @Override
+    public void updateFilteredEventList(Predicate<EpicEvent> predicate) {
+        requireNonNull(predicate);
+        filteredEvents.setPredicate(predicate);
+    }
+
 ```
