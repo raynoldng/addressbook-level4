@@ -10,9 +10,12 @@ import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_SEMINAR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.TypicalEpicEvents.CAREERTALK;
 import static seedu.address.testutil.TypicalEpicEvents.GRADUATION;
+import static seedu.address.testutil.TypicalEpicEvents.KEYWORD_MATCHING_OLYMPIAD;
 import static seedu.address.testutil.TypicalEpicEvents.MATHOLYMPIAD;
 import static seedu.address.testutil.TypicalEpicEvents.ORIENTATION;
 import static seedu.address.testutil.TypicalEpicEvents.SEMINAR;
+import static seedu.address.testutil.TypicalPersons.IDA;
+import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
 
@@ -68,6 +71,12 @@ public class AddEventCommandSystemTest extends EventPlannerSystemTest {
 
         /* Case: add a person, missing tags -> added */
         assertCommandSuccess(ORIENTATION);
+
+        /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
+
+        /* Case: filters the event list before adding -> added */
+        showEventsWithName(KEYWORD_MATCHING_OLYMPIAD);
+        assertCommandSuccess(GRADUATION);
 
         /* ------------------------ Perform add operation while an event card is selected --------------------------- */
 
