@@ -4,19 +4,12 @@
 :xrefstyle: short
 :experimental:
 
-== Introduction
-
-This Project Portfolio details my contributions to past projects, showing that I am capable of producing functional code,
-and work in a team on a large project.
-
-
-== PROJECT: Event Planning isn’t Complicated (EPIC)
-
----
-
 
 == Overview
+This Project Portfolio details my contributions to project EPIC, showing that I am capable of producing functional code,
+and working in a team on a large project.
 
+== PROJECT: EPIC
 Event Planning isn’t Complicated (EPIC) is a desktop application used for *event planning
 and registration for large organisations*. EPIC handles event attendance management with
 simplicity and efficiency. By storing all of the contacts in a common database, the same person
@@ -25,19 +18,20 @@ EPIC is optimized for event planners who prefer typing to using the mouse.
 
 == Summary of contributions
 
-* *Major enhancement*: overhauled UI to a three panel system that displays all persons, events and attendees of the selected
-event in their respective panels.
-** What it does: The three-panel system displaying stored persons, events and attendees. It auto updates itself when there
-are changes to data.
-** Justification: This feature *enhances the user experience* tremendously as the user can view all three panels
-without having to cycle between lists. This clean and intuitive interface empowers the user
+* *Major enhancement*: overhauled UI to a three-pane system that displays all persons, events and registrants of the selected
+event in their respective panes.
+** What it does: The three-pane system displaying stored persons, events and registrants. It automatically updates itself when there
+are changes to the data.
+** Justification: This feature *enhances the user experience* tremendously as the user can view all three panes
+without having to cycle between lists. The clean and intuitive interface empowers the user
 to type out commands that require parameters from all three lists without breaking his workflow.
 
 ** Highlights: This enhancement leverages several patterns such as the Model View Controller (MVC) Pattern, Observer
 Pattern, and JavaFX Beans Convention to elegantly trigger UI updates upon data changes. Using such patterns made UI
-updates *automatic and resource-efficient* The feature was implemented in a
+updates *automatic and resource-efficient*.
+//The feature was implemented in a
 modular fashion, which makes maintenance and testing easy.
-* *Minor enhancement*: added the `find-attendance` command that filters the attendance panel and the `list-attendance`
+* *Minor enhancement*: added the `find-registrant` command that filters the attendance pane and the `list-registrants`
 command that resets it.
 
 * *Code contributed*: [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/functional/raynoldng.md[Functional code]] [https://github.com/CS2103JAN2018-W13-B2/main/blob/master/collated/test/raynoldng.md[Test code]]
@@ -49,8 +43,8 @@ command that resets it.
 ** Enhancements to existing features:
 *** Fixed failing test cases due to incorrect data (Pull requests https://github.com/CS2103JAN2018-W13-B2/main/pull/110[#110])
 *** Wrote additional tests for existing features  (Pull requests https://github.com/CS2103JAN2018-W13-B2/main/pull/148[#148], https://github.com/CS2103JAN2018-W13-B2/main/pull/170[#170])
-** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com/CS2103JAN2018-W13-B2/main/pull/158[#158]
+//** Documentation:
+//*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com/CS2103JAN2018-W13-B2/main/pull/158[#158]
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com/CS2103JAN2018-W13-B2/main/pull/44[#44]
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com/CS2103JAN2018-W10-B3/main/issues/118#event-1562496445[1], https://github.com/CS2103JAN2018-W10-B3/main/issues/110#issuecomment-379736418[2])
@@ -62,6 +56,7 @@ command that resets it.
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
+
 
 include::../UserGuide.adoc[tag=uilayout]
 
@@ -81,9 +76,3 @@ include::../DeveloperGuide.adoc[tag=findregistrant]
 include::../DeveloperGuide.adoc[tag=uicomponent]
 
 include::../DeveloperGuide.adoc[tag=threepaneui]
-
-
-== Overview
-
-NUSMods Planner is an automatic timetable generator, helping students to generate their timetable purely from
-specifications. More details can be found at https://github.com/raynoldng/nusmods-planner[my Github page]
