@@ -334,9 +334,10 @@ The `find-event` command input is passed into an `EventPlannerParser` object. Th
 ** Cons: It is harder to implement the find function.
 // end::findeventdevguide[]
 
+=== Edit Person/Event Features
+
 // tag::editfeature[]
 
-=== Edit Person/Event Feature
 ==== Previous Implementation
 
 In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` command was performed by creating a new `Person` and passing it to a `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
@@ -374,7 +375,7 @@ In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable m
 // end::editfeature[]
 
 // tag::undoredo[]
-=== Undo/Redo Feature
+=== Undo/Redo Features
 ==== Current Implementation
 
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports
@@ -459,10 +460,12 @@ The following sequence diagram shows how the undo operation works:
 .Sequence Diagram for the undo command
 image::UndoRedoSequenceDiagram.png[width="800"]
 
+// tag::editedundoparts[]
+
 The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and performs the intention of the original command).
 
 [NOTE]
-If the `redoStack` is empty, then there are no other commands left to be redone, and an `Exception` will be thrown when popping the `redoStack`.
+If the `redoStack` is empty, then there are no other commands left to be redone, and a `CommandException` will be thrown when popping the `redoStack`.
 
 [NOTE]
 redo() does not simply execute the `Command` with the previous parameters! This would cause indexing issues with
@@ -472,6 +475,8 @@ The user now decides to execute a new command, `clear`. As before, `clear` will 
 
 .How a clear command modifies the UndoRedoStack
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
+
+// end::editedundoparts[]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
@@ -495,11 +500,11 @@ The sequence diagram for the overridden `execute()` method is shown in <<#sdover
 
 [#sdoverriddenexecute]
 .Sequence Diagram for the overridden `execute()`
-image::ExecuteSequenceDiagram.png[width="650"]
+image::ExecuteSequenceDiagram.png[width="450"]
 
 [#sdundo]
 .Sequence Diagram for new undo implementation
-image::UndoSequenceDiagram.png[width="650"]
+image::UndoSequenceDiagram.png[width="450"]
 
 The `oppositeCommand` is generated in the `execute()` method, after `preprocessUndoableCommand()`. This is because generating the `oppositeCommand`
 requires knowledge of the actual `Person/EpicEvent` objects to be modified. For example, the `oppositeCommand` for a `deletePersonCommand` is an `addPersonCommand`,
@@ -557,9 +562,9 @@ the user undoes a `ClearCommand`.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag:: registerpersons[]
+// tag::registerpersons[]
 
-=== Register/Deregister Persons for/from Events
+=== Register/Deregister Features
 
 ==== Current Implementation
 
