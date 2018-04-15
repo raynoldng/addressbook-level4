@@ -261,9 +261,10 @@ When EPIC is re-launched, the following steps take place to restore data from th
 .  An instance of `StorageManager` object is created from both the `XmlEventPlannerStorage` object and the `UserPrefStorage` object.
 .  The `StorageManager` object is used to initiate the model components.
 
-The Sequence Diagram for interactions within the Storage Component to restore data is shown below.
+The Sequence Diagram (<<SCSD>>) for interactions within the Storage Component to restore data is shown below.
 
-.Interactions Inside the Storage Component to restore data
+[#SCSD]
+.Interactions inside the Storage Component to restore data
 image::StorageComponentSequenceDiagram.png[width="800"]
 
 // end::storagedevguide[]
@@ -314,10 +315,10 @@ The `find-event` command enables the user to find events from the event list wit
 <<#SDFEC>> below shows how the `find-event` command is processed in the Logic component.
 
 [#SDFEC]
-.Sequence Diagram for find-event command
+.Sequence Diagram for `find-event` command
 image::FindEventCommandSequenceDiagram.png[width="650"]
 ==== Current Implementation
-The `find-event` command input is passed into an `EventPlannerParser` object. The `EventPlannerParser` reads the command word “find-events” and creates a `FindEventCommandParser` object that further parses the command input and creates a `FindEventCommand`. The `FindEventCommand` filters the the event list based on the keywords and updates Model components on changes in the filtered event list.
+The `find-event` command input is passed into an `EventPlannerParser` object. The `EventPlannerParser` reads the command word “find-event” and creates a `FindEventCommandParser` object that further parses the command input and creates a `FindEventCommand`. The `FindEventCommand` filters the the event list based on the keywords and updates Model component on changes in the filtered event list.
 
 ==== Design Considerations
 
@@ -881,14 +882,13 @@ to an `EpicEvent` without requiring the user to register each person individuall
 
 // tag::exporteventdevguide[]
 
-=== [proposed] Export an Event
+=== [Proposed] Export an Event
 
-The proposed export command exports the names of the registrants, their phone numbers,
-their email addresses, their home addresses and their attendance information of a particular
+The proposed export command exports their contact information and their attendance information of a particular
 event to a csv file into a file path specified by the user. Having all the information of a
 particular event in a csv file would enable the user to analyse the data using other tools.
 
-==== [proposed] Implementation
+==== [Proposed] Implementation
 
 The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`.
 The execution of it creates a `CsvEventPlannerStorage`. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` where event data is parsed by `CsvUtil` and then exported as a file through `CsvFileStorage` using the file path specified by the user.
@@ -901,7 +901,7 @@ image::ExportEventSequenceDiagram.png[width="650"]
 
 ==== Design Considerations
 
-When deciding on the export options, the following aspects of user experience are considered.
+When deciding on the export options, the following aspects of the user experience are considered.
 
 ===== Aspect: Data to be Exported
 
@@ -910,16 +910,16 @@ When deciding on the export options, the following aspects of user experience ar
     * Cons: The tags of the registrants are not exported.
 - *Alternative 2*: All information for registrants including their tags
     * Pros: More information for users as compared to current implementation.
-    * Cons: The registrants may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
+    * Cons: The registrants may have zero or multiple tags. The uncertainty in the number of tags makes parsing messy.
 
 ==== Aspect: Format of Exported Files
 
 - *Alternative 1 (current choice)*: csv files
-    * Pros: The format can be imported and then processed by most data processing software in the market.
-    * Cons: The files are not reader friendly if they are open directly as a text file.
+    * Pros: The format can be imported and then processed by most data processing applications in the market.
+    * Cons: The files are not reader friendly if they are opened directly as a text file.
 - *Alternative 2*: excel files
-    * Pros: Excel files are well formatted when opened with Microsoft Excel software.
-    * Cons: Even though Microsoft Excel software is used by many people, some may prefer other data processing software that supports csv files but not excel files.
+    * Pros: Excel files are well-formatted when opened with Microsoft Excel.
+    * Cons: Even though Microsoft Excel is used by many people, some may prefer other data processing applications that supports csv files but not excel files.
 
 // end::exporteventdevguide[]
 

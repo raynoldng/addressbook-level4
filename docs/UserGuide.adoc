@@ -259,7 +259,7 @@ By default, the first event in the Event List Panel is the selected event.
 
 === Editing an Event : `edit-event`
 
-Edits an existing event in the EPIC. +
+Edits an existing event in EPIC. +
 Format: `edit-event INDEX [n/NAME] [t/TAG]...`
 
 ****
@@ -274,9 +274,9 @@ The index *must be a positive integer* 1, 2, 3, ...
 Examples:
 
 * `edit-event 2 n/Graduation Day t/` +
-Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
+Edits the name of the 2nd event to `Graduation Day` and clears all existing tags.
 * `edit-event 6 n/Career Talk 2018` +
-Edits the name of the 6th event in event pane to be `Career Talk 2018`. See <<#editevent>> below for UI changes. +
+Edits the name of the 6th event in the Events Pane to `Career Talk 2018`. See <<#editevent>> below for UI changes. +
 
 [#editevent]
 .Illustration of `edit-event` command (only the Events Pane is shown for clarity).
@@ -304,7 +304,7 @@ Examples:
 * `find-event talk` +
 Returns `Career Talk`
 * `find-event Talk Competition` +
-Returns any event having name `Talk`, or `Competition`. See <<#findevent>> below for UI changes. +
+Returns any event having `Talk`, or `Competition` in its name. See <<#findevent>> below for UI changes. +
 
 [#findevent]
 .Illustration of `find-event` command (only the Events Pane is shown for clarity).
@@ -321,7 +321,7 @@ Format: `delete-event INDEX`
 
 ****
 * Deletes the event at the specified `INDEX`.
-The index refers to the index number shown in the middle pane.
+The index refers to the index number shown in the Events Pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
