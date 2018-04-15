@@ -29,6 +29,8 @@ import seedu.address.model.event.exceptions.DuplicateEventException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EpicEventUtil;
 
+//@@author william6364
+
 public class AddEventCommandSystemTest extends EventPlannerSystemTest {
 
     @Test
@@ -67,7 +69,7 @@ public class AddEventCommandSystemTest extends EventPlannerSystemTest {
         command = AddEventCommand.COMMAND_WORD + TAG_DESC_SEMINAR + NAME_DESC_SEMINAR;
         assertCommandSuccess(command, toAdd);
 
-        /* Case: add a person, missing tags -> added */
+        /* Case: add an event, missing tags -> added */
         assertCommandSuccess(ORIENTATION);
 
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
@@ -100,7 +102,7 @@ public class AddEventCommandSystemTest extends EventPlannerSystemTest {
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
 
         /* Case: invalid keyword -> rejected */
-        command = "adds " + EpicEventUtil.getEventDetails(toAdd);
+        command = "adds-event " + EpicEventUtil.getEventDetails(toAdd);
         assertCommandFailure(command, Messages.MESSAGE_UNKNOWN_COMMAND);
 
         /* Case: invalid name -> rejected */

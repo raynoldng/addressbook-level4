@@ -1,4 +1,4 @@
-// @@author raynoldng
+
 package seedu.address.logic.commands;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.event.EpicEvent;
 
-
+// @@author raynoldng
 /**
  * Selects a event identified using it's last displayed index from the event planner.
  */

@@ -19,6 +19,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
+//@@author william6364
 /**
  * Represents a Event in the event planner.
  * Guarantees: details are present and not null, field values are validated, immutable.
@@ -41,6 +42,7 @@ public class EpicEvent {
         this.attendanceList = new UniqueAttendanceList();
     }
 
+    //@@author jiangyue12392
     public EpicEvent(Name name, UniqueAttendanceList attendanceList, Set<Tag> tags) {
         requireAllNonNull(name, tags);
         this.name = name;
@@ -49,6 +51,7 @@ public class EpicEvent {
         this.tags = new UniqueTagList(tags);
     }
 
+    //@@author bayweiheng
     public EpicEvent(EpicEvent toBeCopied) {
         requireNonNull(toBeCopied);
         this.name = new Name(toBeCopied.getName().toString());
@@ -56,10 +59,12 @@ public class EpicEvent {
         this.attendanceList = new UniqueAttendanceList();
     }
 
+    //@@author william6364
     public Name getName() {
         return name;
     }
 
+    //@@author raynoldng
     public static EpicEvent getDummyEpicEvent() {
         return new EpicEvent(new Name("dummyEvent"), new HashSet<Tag>());
     }
@@ -95,7 +100,8 @@ public class EpicEvent {
     public void replace(Person person) {
         attendanceList.replace(person, this);
     }
-    //@@author
+
+    //@@author william6364
 
     /** toggles the attendance of a person in this event */
     public void toggleAttendance(Person person) throws PersonNotFoundInEventException {
@@ -106,6 +112,7 @@ public class EpicEvent {
         }
     }
 
+    //@@author bayweiheng
     /**
      * Decrements all this event's attendanceList' numberOfEventsRegisteredFor.
      * Called only when this event is being deleted
@@ -137,6 +144,7 @@ public class EpicEvent {
         }
     }
 
+    //@@author raynoldng
     public ObservableList<Attendance> getAttendanceList() {
         return attendanceList.asObservableList();
     }
@@ -152,7 +160,8 @@ public class EpicEvent {
     public boolean hasPerson(Person person) {
         return attendanceList.contains(person, this);
     }
-    //@@author
+
+    //@@author william6364
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}

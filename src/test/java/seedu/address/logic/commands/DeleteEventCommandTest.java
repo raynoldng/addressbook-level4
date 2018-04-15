@@ -154,7 +154,7 @@ public class DeleteEventCommandTest {
         tryToExecute(redoCommand);
         assertEventNotInModel(eventToDelete, model);
     }
-    //@@author
+    //@@author jiangyue12392
 
     @Test
     public void equals() throws Exception {

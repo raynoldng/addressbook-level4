@@ -6,7 +6,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ATTENDEES;
 /**
  * Lists all attendees of selected event in the event planner to the user.
  */
-public class ListRegistrantsCommand extends Command implements FocusOnPersonList {
+public class ListRegistrantsCommand extends Command {
 
     public static final String COMMAND_WORD = "list-registrants";
 

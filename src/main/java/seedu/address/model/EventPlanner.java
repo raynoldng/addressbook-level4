@@ -166,6 +166,8 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         }
     }
 
+    //@@author william6364
+
     //// event-level operation
 
     /**
@@ -177,9 +179,6 @@ public class EventPlanner implements ReadOnlyEventPlanner {
      */
     public void addEvent(EpicEvent e) throws DuplicateEventException {
         EpicEvent event = syncEventWithMasterTagList(e);
-        // TODO: the tags master list will be updated even though the below line fails.
-        // This can cause the tags master list to have additional tags that are not tagged to any event
-        // in the event list.
         events.add(event);
         event.setAttendanceList(e.getAttendanceList());
         event.handleAddEvent();
@@ -200,6 +199,7 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         return new EpicEvent(event.getName(), event.getUniqueAttendanceList(), correctTagReferences);
     }
 
+    //@@author jiangyue12392
     /**
      * Removes {@code key} from this {@code EventPlanner}.
      * @throws EventNotFoundException if the {@code eventKey} is not in this {@code EventPlanner}.
@@ -302,16 +302,15 @@ public class EventPlanner implements ReadOnlyEventPlanner {
         eventTags.add(t);
     }
 
-    //@@author
-
     //// util methods
 
     @Override
     public String toString() {
         return persons.asObservableList().size() + " persons, " + personTags.asObservableList().size()
                 +  " person tags, " + eventTags.asObservableList().size() + " event tags.";
-        // TODO: refine later
     }
+
+    //@@author
 
     @Override
     public ObservableList<Person> getPersonList() {
