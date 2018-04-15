@@ -183,13 +183,6 @@ public abstract class EventPlannerSystemTest {
 
     //@@author william6364
     /**
-     * Displays all events in the event planner.
-     */
-    protected void showAllEvents() {
-        executeCommand(ListEventCommand.COMMAND_WORD);
-        assertEquals(getModel().getEventPlanner().getEventList().size(), getModel().getFilteredEventList().size());
-    }
-    /**
      * Displays all events with any parts of their names matching {@code keyword} (case-insensitive).
      */
     protected void showEventsWithName(String keyword) {
