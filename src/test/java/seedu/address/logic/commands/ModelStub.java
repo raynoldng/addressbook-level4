@@ -97,13 +97,11 @@ public class ModelStub implements Model {
 
     @Override
     public ObservableList<EpicEvent> getFilteredEventList() {
-        fail("This method should not be called.");
         return null;
     }
 
     @Override
     public ObservableList<EpicEvent> getEventList() {
-        fail("This method should not be called.");
         return null;
     }
 
@@ -128,6 +126,5 @@ public class ModelStub implements Model {
 
     @Override
     public void updateFilteredAttendanceList(Predicate<Attendance> predicate) {
-        fail("This method should not be called.");
     }
 }
