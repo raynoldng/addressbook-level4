@@ -79,12 +79,7 @@ public class EditEventCommand extends UndoableCommand {
         }
         model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
 
-        model.setSelectedEpicEvent(eventToEdit);
-        int eventIndexInFilteredList = model.getFilteredEventList().indexOf(eventToEdit);
-        if (eventIndexInFilteredList != -1) {
-            EventsCenter.getInstance().post(new JumpToEventListRequestEvent(
-                    Index.fromZeroBased(eventIndexInFilteredList)));
-        }
+        model.visuallySelectEpicEvent(eventToEdit);
         return new CommandResult(String.format(MESSAGE_EDIT_EVENT_SUCCESS, editedEvent));
     }
 

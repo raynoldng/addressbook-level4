@@ -124,5 +124,7 @@ public interface Model {
     void setSelectedEpicEvent(EpicEvent epicEvent);
 
     void updateFilteredAttendanceList(Predicate<Attendance> predicate);
+
+    void visuallySelectEpicEvent(EpicEvent toAdd);
     // @@author
 }
