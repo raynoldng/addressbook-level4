@@ -460,11 +460,21 @@ The index refers to the index number shown in the rightmost pane.
 
 Examples:
 
-* `find-event AY201718 Graduation` +
-`select-event 1` +
-`toggle 1` +
-Toggles the attendance of the 1st person attendee in the attendance list of
-AY201718 Graduation.
+*`select-event 2` +
+`toggle 3` +
+Toggles the attendance of the 3rd registrant in the attendance list of
+the 2nd event currently listed. <<#ToggleBefore>> below shows an example of
+how EPIC looks like after the `select-event 2` command is executed and
+<<#ToggleAfter>> below shows how EPIC would look like after the `toggle 3` command
+is executed.
+
+[#ToggleBefore]
+.GUI before the `toggle 3` command is executed
+image::ToggleScreenShotBefore.png[width="800"]
+
+[#ToggleAfter]
+.GUI after the `toggle 3` command is exectued
+image::ToggleScreenShotAfter.png[width="800"]
 //end::toggle[]
 
 === Listing Entered Commands : `history`

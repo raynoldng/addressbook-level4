@@ -609,13 +609,26 @@ is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
 
 ==== Current Implementation
 
-The implementation uses a class called `Attendance`.
+The implementation uses a class called `Attendance`, the structure of which is shown
+in <<#ACD>> below.
+[#ACD]
+.Structure of the Attendance class
+image::ModelClassDiagram.png[width=800px]
 An instance of `Attendance` is created every time a person registers to an event and
 it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
 and stores a `boolean` representing whether the person has attended the event.
 This reduces coupling between the `Person` and `EpicEvent` class and allows the event
 to have access to all its registrants so that adding, removing and listing registrants are
 easy to implement.
+
+When the `toggle` command is called, an instance of `ToggleAttendanceCommand` is created
+and it uses the index provided to find and save a reference to the `Attendance` object
+to be toggled. This is done so that the command can be undone by toggling the exact same
+`Attendance` object.
+
+When the `ToggleAttendanceCommand` is executed, it obtains the relevant `Person` and
+`EpicEvent` from the stored `Attendance` object and triggers `toggleAttendance` from
+the `Model`. The actions that follow are shown in the sequence diagram below.
 
 ==== Design Considerations
 
@@ -817,10 +830,10 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 This feature is proposed to allow for mass registration of multiple persons to a single event.
 The proposed implementation is to make use of tags to select groups of persons to register for an event.
-It is proposed that the `Tag` class be split into `PersonTag` and `EpicEventTag` so as to differentiate
-the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
-By doing so, a group of persons can be identified by `PersonTag` and thus registered to an event
-by iteratively registering each person.
+Currently, the `Tag` class has been split into `PersonTag` and `EpicEventTag` so as to
+differentiate between the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
+By doing so, a group of persons can be filtered by `PersonTag` and thus registered to an event
+by iteratively registering each person without requiring the user to register each person individually.
 
 // end::massregistration[]
 
