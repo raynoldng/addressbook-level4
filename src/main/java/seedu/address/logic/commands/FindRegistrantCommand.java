@@ -7,9 +7,9 @@ import seedu.address.model.attendance.AttendanceNameContainsKeywordsPredicate;
  * Finds and lists all persons in event planner whose name contains any of the argument keywords.
  * Keyword matching is case sensitive.
  */
-public class FindAttendanceCommand extends Command {
+public class FindRegistrantCommand extends Command {
 
-    public static final String COMMAND_WORD = "find-attendance";
+    public static final String COMMAND_WORD = "find-registrant";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
             + "the specified keywords (case-sensitive) in the selected event and displays them as a list with index"
@@ -18,7 +18,7 @@ public class FindAttendanceCommand extends Command {
 
     private final AttendanceNameContainsKeywordsPredicate predicate;
 
-    public FindAttendanceCommand(AttendanceNameContainsKeywordsPredicate predicate) {
+    public FindRegistrantCommand(AttendanceNameContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
     }
 
@@ -32,7 +32,7 @@ public class FindAttendanceCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof FindAttendanceCommand // instanceof handles nulls
-                && this.predicate.equals(((FindAttendanceCommand) other).predicate)); // state check
+                || (other instanceof FindRegistrantCommand // instanceof handles nulls
+                && this.predicate.equals(((FindRegistrantCommand) other).predicate)); // state check
     }
 }

@@ -305,7 +305,7 @@ This section describes some noteworthy details on how certain features are imple
 // tag::find-eventfeature[]
 
 === Find Event Feature
-The find-event command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
+The `find-event` command enables the user to find events from the event list with keywords. The command finds all events whose names contain any of the given keywords. The user can further modify the events with `edit-event` or `delete-event` command once the event is found.
 
 <<#SDFEC>> below shows how the `find-event` command is processed in the Logic component.
 
@@ -660,7 +660,37 @@ as not attended
 has already been marked as attended when the user tries to mark the participant as attended.
 // end::markattendance[]
 
-// tag::massregistration[]
+// tag::findregistrant[]
+=== Find Registrant Feature
+
+The `find-registrant` command enables users to filter registrants of an event with keywords. Only registrants
+whose names contain any of the given keywords will be listed. The user can further toggle the attendance of the registants with the `toggle` command.
+
+<<#SDSEC>> below shows how the `find-registrant` command is processed in the Logic component.
+
+[#SDSEC]
+.Seqeuence Diagram for `find-registrant` command
+image::FindAttendanceSequenceDiagram.png[width="650"]
+
+==== Current Implementation
+
+The `find-registrant` command is passed to the `EventPlannerParser` object when then reads the parses the input and returns a `FindRegistrantCommand` object. When the `FindRegistrantCommand` object is exceuted, the Model filters the list of registrants and the Attendance List Panel that is bind to the list of registrants is updated.
+
+==== Design Considerations
+
+===== Aspect: Keyword Matching Pattern
+
+* **Alternative 1 (current choice)**: Match any of the keywords
+** Pros: The user can find multiple registrants using multiple keywords.
+** Cons: If the user will not be able to search by full name as other registrants might be matched as well
+* **Alternative 2**: Match all keywords
+** Pros: The user can search by full name.
+** Cons: Matching all keywords might be too restrictive and would not a useful filter to narrow down registrants.
+* **Alternative 3** Fuzzy Search
+** Pros: The user can filter registrants with approximate keywords
+** Cons: It is harder to implement fuzzy search
+// end::findregistrant[]
+
 
 // tag::threepaneui[]
 === Three Pane UI
@@ -710,8 +740,6 @@ By using the JavaBeans API to handle UI updates, the programmer does not have to
 
 //.Sequence Diagram for Panel initialisation
 //image::CreatePersonListPanelSequenceDiagram.png[width="650"]
-// end::threepaneui[]
-
 
 ==== Design Considerations
 
@@ -751,6 +779,7 @@ Previously, changes to `Person` would create a new `Person` object that would re
 - Alternative 2: Bind `ObservableList<Attendance>` to the Attendance Panel
     * Pros: Binding data to the Attendance Panel is straight forward and the approach used to data to the People and Events Panels can be used here too.
     * Cons: Logic to handle the switching of selected events is moved up to the `MainWindow`, increasing coupling between the `MainWindow` and `AttendanceListPanel`. It is a violation of Single Responsibility Principle as the `MainWindow` should only be concerned with displaying the main layout.
+// end::threepaneui[]
 
 === Logging
 
@@ -770,6 +799,7 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 [TIP]
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+// tag::massregistration[]
 
 === [Proposed] Mass Registration
 
