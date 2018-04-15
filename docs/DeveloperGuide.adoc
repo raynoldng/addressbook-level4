@@ -671,7 +671,7 @@ registrants with the `toggle` command.
 
 [#SDSEC]
 .Sequence Diagram for `find-registrant` command
-image::FindAttendanceSequenceDiagram.png[width="650"]
+image::FindRegistrantSequenceDiagram.png[width="650"]
 
 ==== Current Implementation
 
