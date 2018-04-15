@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.ClearEventListSelectionEvent;
 import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.model.event.EpicEvent;
@@ -66,6 +67,14 @@ public class EpicEventListPanel extends UiPart<Region> {
     private void handleJumpToListRequestEvent(JumpToEventListRequestEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         scrollTo(event.targetIndex);
+    }
+
+    @Subscribe
+    private void handleClearEventListSelectionEvent(ClearEventListSelectionEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        for (int selectedIndex : epicEventListView.getSelectionModel().getSelectedIndices()) {
+            epicEventListView.getSelectionModel().clearSelection(selectedIndex);
+        }
     }
 
 

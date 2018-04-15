@@ -132,4 +132,9 @@ public class ModelStub implements Model {
     public void visuallySelectEpicEvent(EpicEvent toAdd) {
         fail("This method should not be called.");
     }
+
+    @Override
+    public void clearSelectedEpicEvent() {
+        fail("This method should not be called.");
+    }
 }
