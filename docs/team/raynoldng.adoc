@@ -4,9 +4,16 @@
 :xrefstyle: short
 :experimental:
 
+== Introduction
+
+This Project Portfolio details my contributions to past projects, showing that I am capable of producing functional code,
+and work in a team on a large project.
+
+
 == PROJECT: Event Planning isn’t Complicated (EPIC)
 
 ---
+
 
 == Overview
 
@@ -77,3 +84,7 @@ include::../DeveloperGuide.adoc[tag=uicomponent]
 include::../DeveloperGuide.adoc[tag=threepaneui]
 
 
+== Overview
+
+NUSMods Planner is an automatic timetable generator, helping students to generate their timetable purely from
+specifications. More details can be found at https://github.com/raynoldng/nusmods-planner[my Github page]
