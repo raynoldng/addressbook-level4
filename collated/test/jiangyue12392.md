@@ -1,4 +1,88 @@
 # jiangyue12392
+###### /java/seedu/address/logic/commands/DeleteEventCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
+ * {@code DeleteEventCommand}.
+ */
+public class DeleteEventCommandTest {
+
+    private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+
+    @Test
+    public void execute_validIndexUnfilteredList_success() throws Exception {
+        model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+        System.out.println(getTypicalEventPlanner().getEventList().size());
+        System.out.println(model.getEventPlanner().getEventList().size());
+        EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
+        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
+
+        String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
+
+        ModelManager expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
+        expectedModel.deleteEvent(eventToDelete);
+
+        assertCommandSuccess(deleteEventCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_invalidIndexUnfilteredList_throwsCommandException() throws Exception {
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
+        DeleteEventCommand deleteEventCommand = prepareCommand(outOfBoundIndex);
+
+        assertCommandFailure(deleteEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_validIndexFilteredList_success() throws Exception {
+        showEventAtIndex(model, INDEX_FIRST_EVENT);
+
+        EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
+        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
+
+        String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
+
+        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
+        expectedModel.deleteEvent(eventToDelete);
+        showNoEvent(expectedModel);
+
+        assertCommandSuccess(deleteEventCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_invalidIndexFilteredList_throwsCommandException() {
+        showEventAtIndex(model, INDEX_FIRST_EVENT);
+
+        Index outOfBoundIndex = INDEX_SECOND_EVENT;
+        // ensures that outOfBoundIndex is still in bounds of address book list
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getEventPlanner().getEventList().size());
+
+        DeleteEventCommand deleteEventCommand = prepareCommand(outOfBoundIndex);
+
+        assertCommandFailure(deleteEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
+    }
+
+```
+###### /java/seedu/address/logic/commands/DeleteEventCommandTest.java
+``` java
+
+    @Test
+    public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
+        UndoRedoStack undoRedoStack = new UndoRedoStack();
+        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
+        DeleteEventCommand deleteEventCommand = prepareCommand(outOfBoundIndex);
+
+        // execution failed -> deleteEventCommand not pushed into undoRedoStack
+        assertCommandFailure(deleteEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
+
+        // no commands in undoRedoStack -> undoCommand and redoCommand fail
+        assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
+        assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
+    }
+
+```
 ###### /java/seedu/address/logic/commands/EditEventDescriptorTest.java
 ``` java
 public class EditEventDescriptorTest {
@@ -230,81 +314,9 @@ public class EditEventCommandTest {
         assertCommandFailure(editEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
     }
 
-    //TODO: Undo/Redo Test for editEventCommand
-    /**
-     @Test
-     public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
-     UndoRedoStack undoRedoStack = new UndoRedoStack();
-     UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-     RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-     Person editedPerson = new PersonBuilder().build();
-     Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-     EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-     EditPersonCommand editPersonCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
-     Model expectedModel = new ModelManager(new EventPlanner(model.getEventPlanner()), new UserPrefs());
-
-     // edit -> first person edited
-     editPersonCommand.execute();
-     undoRedoStack.push(editPersonCommand);
-
-     // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-     assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-     // redo -> same first person edited again
-     expectedModel.updatePerson(personToEdit, editedPerson);
-     assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-     }
-
-     @Test
-     public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
-     UndoRedoStack undoRedoStack = new UndoRedoStack();
-     UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-     RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-     Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-     EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_PERSON_NAME_BOB).build();
-     EditPersonCommand editPersonCommand = prepareCommand(outOfBoundIndex, descriptor);
-
-     // execution failed -> editPersonCommand not pushed into undoRedoStack
-     assertCommandFailure(editPersonCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-
-     // no commands in undoRedoStack -> undoCommand and redoCommand fail
-     assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
-     assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-     }*/
-
-    /**
-     * 1. Edits a {@code Person} from a filtered list.
-     * 2. Undo the edit.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously edited person in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the edit. This ensures {@code RedoCommand} edits the person object regardless of indexing.
-     */
-
-    /**
-     @Test
-     public void executeUndoRedo_validIndexFilteredList_samePersonEdited() throws Exception {
-     UndoRedoStack undoRedoStack = new UndoRedoStack();
-     UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-     RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-     Person editedPerson = new PersonBuilder().build();
-     EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-     EditPersonCommand editPersonCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
-     Model expectedModel = new ModelManager(new EventPlanner(model.getEventPlanner()), new UserPrefs());
-
-     showPersonAtIndex(model, INDEX_SECOND_PERSON);
-     Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-     // edit -> edits second person in unfiltered person list / first person in filtered person list
-     editPersonCommand.execute();
-     undoRedoStack.push(editPersonCommand);
-
-     // undo -> reverts addressbook back to previous state and filtered person list to show all persons
-     assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-     expectedModel.updatePerson(personToEdit, editedPerson);
-     assertNotEquals(model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()), personToEdit);
-     // redo -> edits same second person in unfiltered person list
-     assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-     }*/
+```
+###### /java/seedu/address/logic/commands/EditEventCommandTest.java
+``` java
 
     @Test
     public void equals() throws Exception {
@@ -345,184 +357,262 @@ public class EditEventCommandTest {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/DeleteEventCommandTest.java
+###### /java/seedu/address/logic/parser/FindEventCommandParserTest.java
+``` java
+public class FindEventCommandParserTest {
+
+    private FindEventCommandParser parser = new FindEventCommandParser();
+
+    @Test
+    public void parse_emptyArg_throwsParseException() {
+        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                FindEventCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_validArgs_returnsFindCommand() {
+        // no leading and trailing whitespaces
+        FindEventCommand expectedFindEventCommand =
+                new FindEventCommand(new EventNameContainsKeywordsPredicate(Arrays.asList("Seminar", "Graduation")));
+        assertParseSuccess(parser, "Seminar Graduation", expectedFindEventCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, " \n Seminar \n \t Graduation  \t", expectedFindEventCommand);
+    }
+
+}
+```
+###### /java/seedu/address/logic/parser/DeleteEventCommandParserTest.java
 ``` java
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
- * {@code DeleteEventCommand}.
+ * As we are only doing white-box testing, our test cases do not cover path variations
+ * outside of the DeleteEventCommand code. For example, inputs "1" and "1 abc" take the
+ * same path through the DeleteEventCommand, and therefore we test only one of them.
+ * The path variation for those two cases occur inside the ParserUtil, and
+ * therefore should be covered by the ParserUtilTest.
  */
-public class DeleteEventCommandTest {
+public class DeleteEventCommandParserTest {
 
-    private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+    private DeleteEventCommandParser parser = new DeleteEventCommandParser();
 
     @Test
-    public void execute_validIndexUnfilteredList_success() throws Exception {
-        model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
-        System.out.println(getTypicalEventPlanner().getEventList().size());
-        System.out.println(model.getEventPlanner().getEventList().size());
-        EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
-        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
-
-        String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
-
-        ModelManager expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
-        expectedModel.deleteEvent(eventToDelete);
-
-        assertCommandSuccess(deleteEventCommand, model, expectedMessage, expectedModel);
+    public void parse_validArgs_returnsDeleteEventCommand() {
+        assertParseSuccess(parser, "1", new DeleteEventCommand(INDEX_FIRST_EVENT));
     }
 
     @Test
-    public void execute_invalidIndexUnfilteredList_throwsCommandException() throws Exception {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
-        DeleteEventCommand deleteEventCommand = prepareCommand(outOfBoundIndex);
-
-        assertCommandFailure(deleteEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
-    }
-
-    @Test
-    public void execute_validIndexFilteredList_success() throws Exception {
-        showEventAtIndex(model, INDEX_FIRST_EVENT);
-
-        EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
-        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
-
-        String expectedMessage = String.format(DeleteEventCommand.MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete);
-
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
-        expectedModel.deleteEvent(eventToDelete);
-        showNoEvent(expectedModel);
-
-        assertCommandSuccess(deleteEventCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showEventAtIndex(model, INDEX_FIRST_EVENT);
-
-        Index outOfBoundIndex = INDEX_SECOND_EVENT;
-        // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getEventPlanner().getEventList().size());
-
-        DeleteEventCommand deleteEventCommand = prepareCommand(outOfBoundIndex);
-
-        assertCommandFailure(deleteEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
-    }
-
-    // TODO: Re-code tests after undo-redo functionality implemented
-    /**
-    @Test
-    public void executeUndoRedo_validIndexUnfilteredList_success() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
-        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
-
-        // delete -> first event deleted
-        deleteEventCommand.execute();
-        undoRedoStack.push(deleteEventCommand);
-
-        // undo -> reverts event planner back to previous state and filtered event list to show all events
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        // redo -> same first event deleted again
-        expectedModel.deleteEvent(eventToDelete);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-     */
-
-    @Test
-    public void executeUndoRedo_invalidIndexUnfilteredList_failure() {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredEventList().size() + 1);
-        DeleteEventCommand deleteEventCommand = prepareCommand(outOfBoundIndex);
-
-        // execution failed -> deleteEventCommand not pushed into undoRedoStack
-        assertCommandFailure(deleteEventCommand, model, Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
-
-        // no commands in undoRedoStack -> undoCommand and redoCommand fail
-        assertCommandFailure(undoCommand, model, UndoCommand.MESSAGE_FAILURE);
-        assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
-    }
-
-    /**
-     * 1. Deletes a {@code Event} from a filtered list.
-     * 2. Undo the deletion.
-     * 3. The unfiltered list should be shown now. Verify that the index of the previously deleted event in the
-     * unfiltered list is different from the index at the filtered list.
-     * 4. Redo the deletion. This ensures {@code RedoCommand} deletes the event object regardless of indexing.
-     */
-    // TODO: modify undo/redo function to properly undo/redo the deleteEvent command.
-    /*@Test
-    public void executeUndoRedo_validIndexFilteredList_sameEventDeleted() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        DeleteEventCommand deleteEventCommand = prepareCommand(INDEX_FIRST_EVENT);
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
-
-        showEventAtIndex(model, INDEX_SECOND_EVENT);
-        EpicEvent eventToDelete = model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased());
-        // delete -> deletes second event in unfiltered event list / first event in filtered event list
-        deleteEventCommand.execute();
-        undoRedoStack.push(deleteEventCommand);
-
-        // undo -> reverts addressbook back to previous state and filtered event list to show all events
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        expectedModel.deleteEvent(eventToDelete);
-        assertNotEquals(eventToDelete, model.getFilteredEventList().get(INDEX_FIRST_EVENT.getZeroBased()));
-        // redo -> deletes same second event in unfiltered event list
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }*/
-
-    @Test
-    public void equals() throws Exception {
-        DeleteEventCommand deleteFirstCommand = prepareCommand(INDEX_FIRST_EVENT);
-        DeleteEventCommand deleteSecondCommand = prepareCommand(INDEX_SECOND_EVENT);
-
-        // same object -> returns true
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
-
-        // same values -> returns true
-        DeleteEventCommand deleteFirstCommandCopy = prepareCommand(INDEX_FIRST_EVENT);
-        assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
-
-        // one command preprocessed when previously equal -> returns false
-        deleteFirstCommandCopy.preprocessUndoableCommand();
-        assertFalse(deleteFirstCommand.equals(deleteFirstCommandCopy));
-
-        // different types -> returns false
-        assertFalse(deleteFirstCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(deleteFirstCommand.equals(null));
-
-        // different event -> returns false
-        assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
-    }
-
-    /**
-     * Returns a {@code DeleteEventCommand} with the parameter {@code index}.
-     */
-    private DeleteEventCommand prepareCommand(Index index) {
-        DeleteEventCommand deleteEventCommand = new DeleteEventCommand(index);
-        deleteEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return deleteEventCommand;
-    }
-
-    /**
-     * Updates {@code model}'s filtered list to show no one.
-     */
-    private void showNoEvent(Model model) {
-        model.updateFilteredEventList(p -> false);
-
-        assertTrue(model.getFilteredEventList().isEmpty());
+    public void parse_invalidArgs_throwsParseException() {
+        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                DeleteEventCommand.MESSAGE_USAGE));
     }
 }
+```
+###### /java/seedu/address/logic/parser/EditEventCommandParserTest.java
+``` java
+public class EditEventCommandParserTest {
+
+    private static final String TAG_EMPTY = " " + PREFIX_TAG;
+
+    private static final String MESSAGE_INVALID_FORMAT =
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditEventCommand.MESSAGE_USAGE);
+
+    private EditEventCommandParser parser = new EditEventCommandParser();
+
+    @Test
+    public void parse_missingParts_failure() {
+        // no index specified
+        assertParseFailure(parser, VALID_EVENT_NAME_SEMINAR, MESSAGE_INVALID_FORMAT);
+
+        // no field specified
+        assertParseFailure(parser, "1", EditEventCommand.MESSAGE_NOT_EDITED);
+
+        // no index and no field specified
+        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidPreamble_failure() {
+        // negative index
+        assertParseFailure(parser, "-5" + VALID_EVENT_NAME_SEMINAR, MESSAGE_INVALID_FORMAT);
+
+        // zero index
+        assertParseFailure(parser, "0" + VALID_EVENT_NAME_SEMINAR, MESSAGE_INVALID_FORMAT);
+
+        // invalid arguments being parsed as preamble
+        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
+
+        // invalid prefix being parsed as preamble
+        assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_invalidValue_failure() {
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_NAME_CONSTRAINTS); // invalid name
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); // invalid tag
+
+        // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code EpicEvent} being edited,
+        // parsing it together with a valid tag results in error
+        assertParseFailure(parser, "1" + TAG_DESC_GRADUATION + TAG_DESC_SEMINAR + TAG_EMPTY,
+                Tag.MESSAGE_TAG_CONSTRAINTS);
+        assertParseFailure(parser, "1" + TAG_DESC_GRADUATION + TAG_EMPTY + TAG_DESC_SEMINAR,
+                Tag.MESSAGE_TAG_CONSTRAINTS);
+        assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_GRADUATION + TAG_DESC_SEMINAR,
+                Tag.MESSAGE_TAG_CONSTRAINTS);
+
+        // multiple invalid values, but only the first invalid value is captured
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC + TAG_EMPTY + TAG_DESC_SEMINAR,
+                Name.MESSAGE_NAME_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_allFieldsSpecified_success() {
+        Index targetIndex = INDEX_SECOND_EVENT;
+        String userInput = targetIndex.getOneBased() + NAME_DESC_GRADUATION + TAG_DESC_GRADUATION;
+
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_GRADUATION)
+                .withTags(VALID_EVENT_TAG_GRADUATION).build();
+        EditEventCommand expectedCommand = new EditEventCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_oneFieldSpecified_success() {
+        // name
+        Index targetIndex = INDEX_THIRD_EVENT;
+        String userInput = targetIndex.getOneBased() + NAME_DESC_GRADUATION;
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_GRADUATION).build();
+        EditEventCommand expectedCommand = new EditEventCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // tags
+        userInput = targetIndex.getOneBased() + TAG_DESC_SEMINAR;
+        descriptor = new EditEventDescriptorBuilder().withTags(VALID_EVENT_TAG_SEMINAR).build();
+        expectedCommand = new EditEventCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_multipleRepeatedFields_acceptsLast() {
+        Index targetIndex = INDEX_FIRST_EVENT;
+        String userInput = targetIndex.getOneBased() + NAME_DESC_SEMINAR + NAME_DESC_GRADUATION;
+
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_GRADUATION).build();
+        EditEventCommand expectedCommand = new EditEventCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_invalidValueFollowedByValidValue_success() {
+        Index targetIndex = INDEX_FIRST_EVENT;
+        String userInput = targetIndex.getOneBased() + INVALID_NAME_DESC + NAME_DESC_SEMINAR;
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withName(VALID_EVENT_NAME_SEMINAR).build();
+        EditEventCommand expectedCommand = new EditEventCommand(targetIndex, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_resetTags_success() {
+        Index targetIndex = INDEX_THIRD_EVENT;
+        String userInput = targetIndex.getOneBased() + TAG_EMPTY;
+
+        EditEventDescriptor descriptor = new EditEventDescriptorBuilder().withTags().build();
+        EditEventCommand expectedCommand = new EditEventCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+}
+```
+###### /java/seedu/address/storage/XmlAdaptedAttendanceTest.java
+``` java
+public class XmlAdaptedAttendanceTest {
+    private static final Attendance VALID_ATTENDANCE = new Attendance(BENSON, false);
+
+    @Test
+    public void toModelType_validAttendanceDetails_returnsAttendance() throws Exception {
+        XmlAdaptedAttendance attendance = new XmlAdaptedAttendance(new XmlAdaptedPerson(BENSON), false);
+        assertEquals(VALID_ATTENDANCE, attendance.toModelType());
+    }
+
+    @Test
+    public void toModelType_nullPerson_throwsIllegalValueException() {
+        XmlAdaptedAttendance attendance = new XmlAdaptedAttendance(null, true);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Person.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, attendance::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullHasAttended_throwsIllegalValueException() {
+        XmlAdaptedAttendance attendance = new XmlAdaptedAttendance(new XmlAdaptedPerson(BENSON), null);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, "Attendance Status");
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, attendance::toModelType);
+    }
+
+}
+
+```
+###### /java/seedu/address/storage/XmlAdaptedEpicEventTest.java
+``` java
+public class XmlAdaptedEpicEventTest {
+    private static final String INVALID_NAME = "M@th Olympiad";
+    private static final String INVALID_TAG = "#olympiad";
+
+    private static final String VALID_NAME = MATHOLYMPIAD.getName().toString();
+    private static final List<XmlAdaptedTag> VALID_TAGS = MATHOLYMPIAD.getTags().stream()
+            .map(XmlAdaptedTag::new)
+            .collect(Collectors.toList());
+
+    @Test
+    public void toModelType_validEpicEventDetails_returnsEpicEvent() throws Exception {
+        XmlAdaptedEpicEvent event = new XmlAdaptedEpicEvent(MATHOLYMPIAD);
+        assertEquals(MATHOLYMPIAD, event.toModelType());
+    }
+
+    @Test
+    public void toModelType_invalidName_throwsIllegalValueException() {
+        XmlAdaptedEpicEvent event =
+                new XmlAdaptedEpicEvent(INVALID_NAME, null, VALID_TAGS);
+        String expectedMessage = Name.MESSAGE_NAME_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, event::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullName_throwsIllegalValueException() {
+        XmlAdaptedEpicEvent event = new XmlAdaptedEpicEvent(null, null, VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, event::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidTags_throwsIllegalValueException() {
+        List<XmlAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
+        invalidTags.add(new XmlAdaptedTag(INVALID_TAG));
+        XmlAdaptedEpicEvent event =
+                new XmlAdaptedEpicEvent(VALID_NAME, null, invalidTags);
+        Assert.assertThrows(IllegalValueException.class, event::toModelType);
+    }
+
+}
+```
+###### /java/seedu/address/storage/XmlAdaptedPersonTest.java
+``` java
+    @Test
+    public void toModelType_invalidNumberOfEvents_throwsIllegalValueException() {
+        XmlAdaptedPerson person =
+                new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                        INVALID_NUMBEROFEVENTS, VALID_TAGS);
+        String expectedMessage = "Number of events registered for must be a positive number!";
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullNumberOfEvents_throwsIllegalValueException() {
+        XmlAdaptedPerson person = new XmlAdaptedPerson(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                null, VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, "numberOfEventsRegisteredFor");
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
 ```
 ###### /java/seedu/address/testutil/TypicalEpicEvents.java
 ``` java
@@ -532,7 +622,7 @@ public class DeleteEventCommandTest {
 public class TypicalEpicEvents {
 
     public static final EpicEvent GRADUATIONAY18 = new EpicEventBuilder().withName("AY201718 Graduation Ceremony")
-            .withAttendees(getTypicalPersons()).withTags("graduation").build();
+            .withAttendees(Arrays.asList(ALICE, CARL, DANIEL, ELLE, FIONA, GEORGE)).withTags("graduation").build();
     public static final EpicEvent FOODSEMINAR = new EpicEventBuilder().withName("Food Seminar")
             .withTags("seminar", "food").build();
     public static final EpicEvent IOTSEMINAR = new EpicEventBuilder().withName("IoT Seminar")
@@ -543,7 +633,11 @@ public class TypicalEpicEvents {
             .withTags("competition", "physics").build();
     public static final EpicEvent CAREERTALK = new EpicEventBuilder().withName("Career Talk")
             .withTags("talk", "career").build();
-    public static final EpicEvent ORIENTATION = new EpicEventBuilder().withName("Orientation").build();
+    public static final EpicEvent ORIENTATION = new EpicEventBuilder().withName("Orientation")
+            .withAttendees(Arrays.asList(CARL)).build();
+
+    public static final int GRADUATIONAY18_INDEX = 0;
+    public static final int ORIENTATION_INDEX = 6;
 
     // Manually added
     public static final EpicEvent SOCORIENTATION = new EpicEventBuilder().withName("SOC Orientation")
@@ -556,7 +650,11 @@ public class TypicalEpicEvents {
     public static final EpicEvent SEMINAR = new EpicEventBuilder().withName(VALID_EVENT_NAME_SEMINAR)
             .withTags(VALID_EVENT_TAG_SEMINAR).build();
 
-    public static final String KEYWORD_MATCHING_OLYMPIAD = "Olympiad"; // A keyword that matches MEIER
+```
+###### /java/seedu/address/testutil/TypicalEpicEvents.java
+``` java
+
+    public static final String KEYWORD_MATCHING_OLYMPIAD = "Olympiad"; // A keyword that matches OLYMPIAD
 
     private TypicalEpicEvents() {} // prevents instantiation
 
@@ -579,12 +677,14 @@ public class TypicalEpicEvents {
                 throw new AssertionError("not possible");
             }
         }
+
         return ep;
     }
 
     public static List<EpicEvent> getTypicalEvents() {
         return new ArrayList<>(Arrays.asList(GRADUATIONAY18, FOODSEMINAR, IOTSEMINAR, MATHOLYMPIAD, PHYSICSOLYMPIAD,
                 CAREERTALK, ORIENTATION));
+
     }
 }
 ```

@@ -1,109 +1,39 @@
 # jiangyue12392
-###### /java/seedu/address/logic/parser/EditEventCommandParser.java
+###### /java/seedu/address/logic/commands/FindEventCommand.java
 ``` java
 /**
- * Parses input arguments and creates a new EditEventCommand object
+ * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Keyword matching is case sensitive.
  */
-public class EditEventCommandParser implements Parser<EditEventCommand> {
+public class FindEventCommand extends Command {
 
-    /**
-     * Parses the given {@code String} of arguments in the context of the EditEventCommand
-     * and returns an EditEventCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public EditEventCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_TAG);
+    public static final String COMMAND_WORD = "find-event";
 
-        Index index;
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all events whose names contain any of "
+            + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
+            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
+            + "Example: " + COMMAND_WORD + " alice bob charlie";
 
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalValueException ive) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditEventCommand.MESSAGE_USAGE));
-        }
+    private final EventNameContainsKeywordsPredicate predicate;
 
-        EditEventDescriptor editEventDescriptor = new EditEventDescriptor();
-        try {
-            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editEventDescriptor::setName);
-            parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editEventDescriptor::setTags);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-
-        if (!editEventDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditEventCommand.MESSAGE_NOT_EDITED);
-        }
-
-        return new EditEventCommand(index, editEventDescriptor);
+    public FindEventCommand(EventNameContainsKeywordsPredicate predicate) {
+        this.predicate = predicate;
     }
 
-    /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
-     * If {@code tags} contain only one element which is an empty string, it will be parsed into a
-     * {@code Set<Tag>} containing zero tags.
-     */
-    private Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws IllegalValueException {
-        assert tags != null;
+    @Override
+    public CommandResult execute() {
+        model.updateFilteredEventList(predicate);
+        model.clearSelectedEpicEvent();
 
-        if (tags.isEmpty()) {
-            return Optional.empty();
-        }
-        Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
-        return Optional.of(ParserUtil.parseTags(tagSet));
+        return new CommandResult(getMessageForEventListShownSummary(model.getFilteredEventList().size()));
     }
 
-}
-```
-###### /java/seedu/address/logic/parser/FindEventCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new FindPersonCommand object
- */
-public class FindEventCommandParser implements Parser<FindEventCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the FindPersonCommand
-     * and returns an FindPersonCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public FindEventCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
-        }
-
-        String[] nameKeywords = trimmedArgs.split("\\s+");
-
-        return new FindEventCommand(new EventNameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof FindEventCommand // instanceof handles nulls
+                && this.predicate.equals(((FindEventCommand) other).predicate)); // state check
     }
-
-}
-```
-###### /java/seedu/address/logic/parser/DeleteEventCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new DeleteEventCommand object
- */
-public class DeleteEventCommandParser implements Parser<DeleteEventCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the DeleteEventCommand
-     * and returns an DeleteEventCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public DeleteEventCommand parse(String args) throws ParseException {
-        try {
-            Index index = ParserUtil.parseIndex(args);
-            return new DeleteEventCommand(index);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteEventCommand.MESSAGE_USAGE));
-        }
-    }
-
 }
 ```
 ###### /java/seedu/address/logic/commands/EditEventCommand.java
@@ -161,6 +91,8 @@ public class EditEventCommand extends UndoableCommand {
             throw new AssertionError("The target event cannot be missing");
         }
         model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+
+        model.visuallySelectEpicEvent(eventToEdit);
         return new CommandResult(String.format(MESSAGE_EDIT_EVENT_SUCCESS, editedEvent));
     }
 
@@ -284,41 +216,6 @@ public class EditEventCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/FindEventCommand.java
-``` java
-/**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
- * Keyword matching is case sensitive.
- */
-public class FindEventCommand extends Command {
-
-    public static final String COMMAND_WORD = "find-event";
-
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all events whose names contain any of "
-            + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
-
-    private final EventNameContainsKeywordsPredicate predicate;
-
-    public FindEventCommand(EventNameContainsKeywordsPredicate predicate) {
-        this.predicate = predicate;
-    }
-
-    @Override
-    public CommandResult execute() {
-        model.updateFilteredEventList(predicate);
-        return new CommandResult(getMessageForEventListShownSummary(model.getFilteredEventList().size()));
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof FindEventCommand // instanceof handles nulls
-                && this.predicate.equals(((FindEventCommand) other).predicate)); // state check
-    }
-}
-```
 ###### /java/seedu/address/logic/commands/DeleteEventCommand.java
 ``` java
 /**
@@ -352,6 +249,7 @@ public class DeleteEventCommand extends UndoableCommand {
         requireNonNull(eventToDelete);
         try {
             model.deleteEvent(eventToDelete);
+            model.clearSelectedEpicEvent();
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");
         }
@@ -384,15 +282,217 @@ public class DeleteEventCommand extends UndoableCommand {
 }
 
 ```
-###### /java/seedu/address/storage/XmlSerializableEventPlanner.java
+###### /java/seedu/address/logic/parser/FindEventCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new FindPersonCommand object
+ */
+public class FindEventCommandParser implements Parser<FindEventCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the FindPersonCommand
+     * and returns an FindPersonCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public FindEventCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
+        }
+
+        String[] nameKeywords = trimmedArgs.split("\\s+");
+
+        return new FindEventCommand(new EventNameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+    }
+
+}
+```
+###### /java/seedu/address/logic/parser/DeleteEventCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new DeleteEventCommand object
+ */
+public class DeleteEventCommandParser implements Parser<DeleteEventCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the DeleteEventCommand
+     * and returns an DeleteEventCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public DeleteEventCommand parse(String args) throws ParseException {
+        try {
+            Index index = ParserUtil.parseIndex(args);
+            return new DeleteEventCommand(index);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteEventCommand.MESSAGE_USAGE));
+        }
+    }
+
+}
+```
+###### /java/seedu/address/logic/parser/EditEventCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new EditEventCommand object
+ */
+public class EditEventCommandParser implements Parser<EditEventCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the EditEventCommand
+     * and returns an EditEventCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public EditEventCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_TAG);
+
+        Index index;
+
+        try {
+            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        } catch (IllegalValueException ive) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditEventCommand.MESSAGE_USAGE));
+        }
+
+        EditEventDescriptor editEventDescriptor = new EditEventDescriptor();
+        try {
+            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editEventDescriptor::setName);
+            parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editEventDescriptor::setTags);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        if (!editEventDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditEventCommand.MESSAGE_NOT_EDITED);
+        }
+
+        return new EditEventCommand(index, editEventDescriptor);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
+     * If {@code tags} contain only one element which is an empty string, it will be parsed into a
+     * {@code Set<Tag>} containing zero tags.
+     */
+    private Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws IllegalValueException {
+        assert tags != null;
+
+        if (tags.isEmpty()) {
+            return Optional.empty();
+        }
+        Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
+        return Optional.of(ParserUtil.parseTags(tagSet));
+    }
+
+}
+```
+###### /java/seedu/address/model/event/UniqueEpicEventList.java
 ``` java
     /**
-     * Finds and replaces the dummy person in attendance list with the person object in the master list
+     * Removes the equivalent event from the list.
+     *
+     * @throws EventNotFoundException if no such event could be found in the list.
      */
-    void setPersonForAttendance(UniquePersonList persons, EpicEvent event) {
-        for (Person p : persons) {
-            event.replace(p);
+    public boolean remove(EpicEvent eventToRemove) throws EventNotFoundException {
+        requireNonNull(eventToRemove);
+        final boolean eventFoundAndDeleted = internalList.remove(eventToRemove);
+        if (!eventFoundAndDeleted) {
+            throw new EventNotFoundException();
         }
+        return eventFoundAndDeleted;
+    }
+
+```
+###### /java/seedu/address/model/event/UniqueEpicEventList.java
+``` java
+    /**
+     * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
+     *
+     * @throws DuplicateEventException if the replacement is equivalent to another existing event in the list.
+     * @throws EventNotFoundException if {@code targetEvent} could not be found in the list.
+     */
+    public void setEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException {
+        requireNonNull(editedEvent);
+
+        int index = internalList.indexOf(targetEvent);
+        if (index == -1) {
+            throw new EventNotFoundException();
+        }
+
+        if (!targetEvent.equals(editedEvent) && internalList.contains(editedEvent)) {
+            throw new DuplicateEventException();
+        }
+
+        internalList.get(index).setEvent(editedEvent);
+
+        // Forces UI to refresh
+        internalList.set(index, internalList.get(index));
+    }
+
+    public void setEvents(UniqueEpicEventList replacement) {
+        this.internalList.setAll(replacement.internalList);
+    }
+
+    public void setEvents(List<EpicEvent> events) throws DuplicateEventException {
+        requireAllNonNull(events);
+        final UniqueEpicEventList replacement = new UniqueEpicEventList();
+        for (final EpicEvent event : events) {
+            replacement.add(event);
+        }
+        setEvents(replacement);
+    }
+
+```
+###### /java/seedu/address/model/event/EpicEvent.java
+``` java
+    /** replace the person in the attendance list with the given person and the event in the attendance list*/
+    public void replace(Person person) {
+        attendanceList.replace(person, this);
+    }
+```
+###### /java/seedu/address/model/ModelManager.java
+``` java
+    @Override
+    public synchronized void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
+        eventPlanner.removeEvent(targetEvent);
+        indicateEventPlannerChanged();
+    }
+
+```
+###### /java/seedu/address/model/attendance/Attendance.java
+``` java
+    /**
+     * Constructor for reconstruction of data from xmlfile
+     * @param attendee
+     * @param hasAttended
+     */
+    public Attendance(Person attendee, boolean hasAttended) {
+        Objects.requireNonNull(attendee);
+        this.attendee = attendee;
+        this.event = null;
+        this.hasAttendedEventProperty.set(hasAttended);
+    }
+```
+###### /java/seedu/address/model/attendance/UniqueAttendanceList.java
+``` java
+    /**
+     * Replaces the person in the attendance list with the given master person list if there is any person that
+     * that is in both the master list and the attendance list
+     */
+    public void replace(Person toReplace, EpicEvent event) {
+        requireAllNonNull(toReplace, event);
+
+        for (int i = 0; i < internalList.size(); i++) {
+            if (toReplace.equals(internalList.get(i).getPerson())) {
+                Attendance currentAttendance = internalList.get(i);
+                internalList.get(i).setAttendance(new Attendance(toReplace, event, currentAttendance.hasAttended()));
+            }
+        }
+
     }
 ```
 ###### /java/seedu/address/storage/XmlAdaptedEpicEvent.java
@@ -511,7 +611,7 @@ public class XmlAdaptedAttendance {
     private XmlAdaptedPerson attendee;
 
     @XmlElement
-    private boolean hasAttended;
+    private Boolean hasAttended;
 
     /**
      * Constructs an XmlAdaptedAttendance.
@@ -522,7 +622,7 @@ public class XmlAdaptedAttendance {
     /**
      * Constructs an {@code XmlAdaptedAttendance} with the given Attendance details.
      */
-    public XmlAdaptedAttendance(XmlAdaptedPerson attendee, boolean hasAttended) {
+    public XmlAdaptedAttendance(XmlAdaptedPerson attendee, Boolean hasAttended) {
         this.attendee = attendee;
         this.hasAttended = hasAttended;
     }
@@ -547,7 +647,10 @@ public class XmlAdaptedAttendance {
     public Attendance toModelType() throws IllegalValueException {
         if (this.attendee == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    Attendance.class.getSimpleName()));
+                    Person.class.getSimpleName()));
+        }
+        if (this.hasAttended == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Attendance Status"));
         }
         final Person attendee = this.attendee.toModelType();
 
@@ -572,109 +675,14 @@ public class XmlAdaptedAttendance {
     }
 }
 ```
-###### /java/seedu/address/model/attendance/UniqueAttendanceList.java
+###### /java/seedu/address/storage/XmlSerializableEventPlanner.java
 ``` java
     /**
-     * Replaces the person in the attendance list with the given master person list if there is any person that
-     * that is in both the master list and the attendance list
+     * Finds and replaces the dummy person in attendance list with the person object in the master list
      */
-    public void replace(Person toReplace, EpicEvent event) {
-        requireAllNonNull(toReplace, event);
-
-        for (int i = 0; i < internalList.size(); i++) {
-            if (toReplace.equals(internalList.get(i).getPerson())) {
-                Attendance currentAttendance = internalList.get(i);
-                internalList.get(i).setAttendance(new Attendance(toReplace, event, currentAttendance.hasAttended()));
-            }
+    void setPersonForAttendance(UniquePersonList persons, EpicEvent event) {
+        for (Person p : persons) {
+            event.replace(p);
         }
-
     }
-```
-###### /java/seedu/address/model/attendance/Attendance.java
-``` java
-    /**
-     * Constructor for reconstruction of data from xmlfile
-     * @param attendee
-     * @param hasAttended
-     */
-    public Attendance(Person attendee, boolean hasAttended) {
-        Objects.requireNonNull(attendee);
-        this.attendee = attendee;
-        this.event = null;
-        this.hasAttendedEvent = hasAttended;
-    }
-```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-    @Override
-    public synchronized void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
-        eventPlanner.removeEvent(targetEvent);
-        indicateEventPlannerChanged();
-    }
-
-```
-###### /java/seedu/address/model/event/EpicEvent.java
-``` java
-    /** replace the person in the attendance list with the given person and the event in the attendance list*/
-    public void replace(Person person) {
-        attendanceList.replace(person, this);
-    }
-```
-###### /java/seedu/address/model/event/UniqueEpicEventList.java
-``` java
-    /**
-     * Removes the equivalent event from the list.
-     *
-     * @throws EventNotFoundException if no such event could be found in the list.
-     */
-    public boolean remove(EpicEvent eventToRemove) throws EventNotFoundException {
-        requireNonNull(eventToRemove);
-        final boolean eventFoundAndDeleted = internalList.remove(eventToRemove);
-        if (!eventFoundAndDeleted) {
-            throw new EventNotFoundException();
-        }
-        return eventFoundAndDeleted;
-    }
-
-```
-###### /java/seedu/address/model/event/UniqueEpicEventList.java
-``` java
-    /**
-     * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
-     *
-     * @throws DuplicateEventException if the replacement is equivalent to another existing event in the list.
-     * @throws EventNotFoundException if {@code targetEvent} could not be found in the list.
-     */
-    public void setEvent(EpicEvent targetEvent, EpicEvent editedEvent)
-            throws DuplicateEventException, EventNotFoundException {
-        requireNonNull(editedEvent);
-
-        int index = internalList.indexOf(targetEvent);
-        if (index == -1) {
-            throw new EventNotFoundException();
-        }
-
-        if (!targetEvent.equals(editedEvent) && internalList.contains(editedEvent)) {
-            throw new DuplicateEventException();
-        }
-
-        internalList.get(index).setEvent(editedEvent);
-
-        // Forces UI to refresh
-        internalList.set(index, internalList.get(index));
-    }
-
-    public void setEvents(UniqueEpicEventList replacement) {
-        this.internalList.setAll(replacement.internalList);
-    }
-
-    public void setEvents(List<EpicEvent> events) throws DuplicateEventException {
-        requireAllNonNull(events);
-        final UniqueEpicEventList replacement = new UniqueEpicEventList();
-        for (final EpicEvent event : events) {
-            replacement.add(event);
-        }
-        setEvents(replacement);
-    }
-
 ```
