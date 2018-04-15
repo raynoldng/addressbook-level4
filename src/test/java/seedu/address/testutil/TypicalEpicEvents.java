@@ -23,6 +23,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 //@@author jiangyue12392
+
 /**
  * A utility class containing a list of {@code EpicEvent} objects to be used in tests.
  */
@@ -46,18 +47,11 @@ public class TypicalEpicEvents {
     public static final int GRADUATIONAY18_INDEX = 0;
     public static final int ORIENTATION_INDEX = 6;
 
-    // Manually added
-    public static final EpicEvent SOCORIENTATION = new EpicEventBuilder().withName("SOC Orientation")
-            .withTags("orientation", "SOC").build();
-    public static final EpicEvent IOTTALK = new EpicEventBuilder().withName("IoT Talk").build();
-
     // Manually added - Event's details found in {@code CommandTestUtil}
     public static final EpicEvent GRADUATION = new EpicEventBuilder().withName(VALID_EVENT_NAME_GRADUATION)
             .withTags(VALID_EVENT_TAG_GRADUATION).build();
     public static final EpicEvent SEMINAR = new EpicEventBuilder().withName(VALID_EVENT_NAME_SEMINAR)
             .withTags(VALID_EVENT_TAG_SEMINAR).build();
-
-    //@@author jiangyue12392
 
     public static final String KEYWORD_MATCHING_OLYMPIAD = "Olympiad"; // A keyword that matches OLYMPIAD
 

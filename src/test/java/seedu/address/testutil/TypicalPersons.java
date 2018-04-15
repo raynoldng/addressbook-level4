@@ -79,7 +79,7 @@ public class TypicalPersons {
         }
         return ab;
     }
-    // @@ author
+    // @@author
 
     /**
      * Returns an {@code EventPlanner} with all the typical persons.

@@ -76,7 +76,11 @@ public class TestApp extends MainApp {
      */
     public EventPlanner readStorageAddressBook() {
         try {
-            return new EventPlanner(storage.readEventPlanner().get());
+            if (storage.readEventPlanner().isPresent()) {
+                return new EventPlanner(storage.readEventPlanner().get());
+            } else {
+                return new EventPlanner();
+            }
         } catch (DataConversionException dce) {
             throw new AssertionError("Data is not in the EventPlanner format.");
         } catch (IOException ioe) {
@@ -94,6 +98,7 @@ public class TestApp extends MainApp {
     /**
      * Returns a defensive copy of the model.
      */
+    @SuppressWarnings("unchecked")
     public Model getModel() {
         Model copy = new ModelManager((model.getEventPlanner()), new UserPrefs());
         ModelHelper.setFilteredList(copy, model.getFilteredPersonList());

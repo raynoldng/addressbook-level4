@@ -1,5 +1,26 @@
 # raynoldng
-###### /java/guitests/guihandles/AttendanceListPanelHandle.java
+###### \java\guitests\guihandles\AttendanceCardHandle.java
+``` java
+/**
+ * Provides a handle to an attendance card in the attendance list panel.
+ */
+public class AttendanceCardHandle extends PersonCardHandle {
+
+    private static final String IMAGEVIEW_FIELD_ID = "#attendanceToggleImage";
+
+    private final ImageView attendanceToggleImage;
+
+    public AttendanceCardHandle(Node cardNode) {
+        super(cardNode);
+        attendanceToggleImage = getChildNode(IMAGEVIEW_FIELD_ID);
+    }
+
+    public ImageView getAttendanceToggleImage() {
+        return attendanceToggleImage;
+    }
+}
+```
+###### \java\guitests\guihandles\AttendanceListPanelHandle.java
 ``` java
 /**
  * Provides a handle for {@code AttendanceListPanel} containing the list of {@code AttendanceCard}.
@@ -128,28 +149,29 @@ public class AttendanceListPanelHandle extends NodeHandle<ListView<AttendanceCar
     }
 }
 ```
-###### /java/guitests/guihandles/AttendanceCardHandle.java
+###### \java\guitests\guihandles\AttendanceListPanelHeaderHandle.java
 ``` java
 /**
- * Provides a handle to an attendance card in the attendance list panel.
+ *  Handle to header text of attendance list panel to check for content correctness
  */
-public class AttendanceCardHandle extends PersonCardHandle {
+public class AttendanceListPanelHeaderHandle extends NodeHandle<Label> {
 
-    private static final String IMAGEVIEW_FIELD_ID = "#attendanceToggleImage";
+    public static final String ATTENDANCE_STATUS_ID = "#attendanceStatus";
+    public static final String ATTENDANCE_STATUS_FORMAT = "Attendees%s: (%d/%d)";
 
-    private final ImageView attendanceToggleImage;
-
-    public AttendanceCardHandle(Node cardNode) {
-        super(cardNode);
-        attendanceToggleImage = getChildNode(IMAGEVIEW_FIELD_ID);
+    public AttendanceListPanelHeaderHandle(Label rootNode) {
+        super(rootNode);
     }
 
-    public ImageView getAttendanceToggleImage() {
-        return attendanceToggleImage;
+    /**
+     * Returns the text in the header.
+     */
+    public String getText() {
+        return getRootNode().getText();
     }
 }
 ```
-###### /java/guitests/guihandles/EpicEventCardHandle.java
+###### \java\guitests\guihandles\EpicEventCardHandle.java
 ``` java
 /**
  * Provides a handle to a person card in the event list panel.
@@ -193,59 +215,126 @@ public class EpicEventCardHandle extends NodeHandle<Node> {
     }
 }
 ```
-###### /java/guitests/guihandles/AttendanceListPanelHeaderHandle.java
+###### \java\seedu\address\logic\commands\FindRegistrantCommandTest.java
 ``` java
 /**
- *  Handle to header text of attendance list panel to check for content correctness
+ * Contains integration tests (interaction with the Model) for {@code FindRegistrantCommand}.
  */
-public class AttendanceListPanelHeaderHandle extends NodeHandle<Label> {
+public class FindRegistrantCommandTest {
+    private Model model;
 
-    public static final String ATTENDANCE_STATUS_ID = "#attendanceStatus";
-    public static final String ATTENDANCE_STATUS_FORMAT = "Attendees%s: (%d/%d)";
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model.setSelectedEpicEvent(GRADUATIONAY18_INDEX);
+    }
 
-    public AttendanceListPanelHeaderHandle(Label rootNode) {
-        super(rootNode);
+    @Test
+    public void equals() {
+        AttendanceNameContainsKeywordsPredicate firstPredicate =
+                new AttendanceNameContainsKeywordsPredicate(Collections.singletonList("first"));
+        AttendanceNameContainsKeywordsPredicate secondPredicate =
+                new AttendanceNameContainsKeywordsPredicate(Collections.singletonList("second"));
+
+        FindRegistrantCommand firstFindRegistrantCommand = new FindRegistrantCommand(firstPredicate);
+        FindRegistrantCommand secondFindRegistrantCommand = new FindRegistrantCommand(secondPredicate);
+
+        // same object -> returns true
+        assertTrue(firstFindRegistrantCommand.equals(firstFindRegistrantCommand));
+
+        // same values -> returns true
+        FindRegistrantCommand firstFindRegistrantCommandCopy = new FindRegistrantCommand(firstPredicate);
+        assertTrue(firstFindRegistrantCommand.equals(firstFindRegistrantCommandCopy));
+
+        // different types -> returns false
+        assertFalse(firstFindRegistrantCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(firstFindRegistrantCommand.equals(null));
+
+        // different person -> returns false
+        assertFalse(firstFindRegistrantCommand.equals(secondFindRegistrantCommand));
+    }
+
+    @Test
+    public void execute_zeroKeywords_noPersonFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
+        FindRegistrantCommand command = prepareCommand(" ");
+        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
+    }
+
+    @Test
+    public void execute_multipleKeywords_multiplePersonsFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
+        FindRegistrantCommand command = prepareCommand("Kurz Elle Kunz");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(new Attendance(CARL, GRADUATIONAY18),
+                new Attendance(ELLE, GRADUATIONAY18), new Attendance(FIONA, GRADUATIONAY18)));
+
     }
 
     /**
-     * Returns the text in the header.
+     * Parses {@code userInput} into a {@code FindAttendeeCommand}.
      */
-    public String getText() {
-        return getRootNode().getText();
+    private FindRegistrantCommand prepareCommand(String userInput) {
+        FindRegistrantCommand command =
+                new FindRegistrantCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList(userInput
+                        .split("\\s+"))));
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        return command;
+    }
+
+    /**
+     * Asserts that {@code command} is successfully executed, and<br>
+     *     - the command feedback is equal to {@code expectedMessage}<br>
+     *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
+     *     - the {@code EventPlanner} in model remains the same after executing the {@code command}
+     */
+    private void assertCommandSuccess(FindRegistrantCommand command, String expectedMessage,
+                                      List<Attendance> expectedList) {
+        EventPlanner expectedEventPlanner = new EventPlanner(model.getEventPlanner());
+        CommandResult commandResult = command.execute();
+
+        assertEquals(expectedMessage, commandResult.feedbackToUser);
+        assertEquals(expectedList, model.getSelectedEpicEvent().getFilteredAttendees());
+        assertEquals(expectedEventPlanner, model.getEventPlanner());
     }
 }
 ```
-###### /java/seedu/address/logic/commands/SelectEventCommandTest.java
+###### \java\seedu\address\logic\commands\ListRegistrantsCommandTest.java
 ``` java
-package seedu.address.logic.commands;
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for ListRegistrantsCommand.
+ */
+public class ListRegistrantsCommandTest {
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+    private Model model;
+    private Model expectedModel;
+    private ListRegistrantsCommand listRegistrantsCommand;
 
-import static seedu.address.logic.commands.CommandTestUtil.showEventAtIndex;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EVENT;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_EVENT;
-import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_EVENT;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        model.setSelectedEpicEvent(GRADUATIONAY18_INDEX);
+        expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+        listRegistrantsCommand = new ListRegistrantsCommand();
+        listRegistrantsCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+    }
 
-import seedu.address.commons.core.Messages;
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
-import seedu.address.logic.CommandHistory;
-import seedu.address.logic.UndoRedoStack;
-import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
-import seedu.address.ui.testutil.EventsCollectorRule;
+    @Test
+    public void execute_listIsNotFiltered_showsSameList() {
+        assertCommandSuccess(listRegistrantsCommand, model, ListRegistrantsCommand.MESSAGE_SUCCESS, expectedModel);
+    }
 
-
+    @Test
+    public void execute_listIsFiltered_showsEverything() {
+        showAttendeeAtIndex(model, INDEX_FIRST_PERSON);
+        assertCommandSuccess(listRegistrantsCommand, model, ListRegistrantsCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+}
+```
+###### \java\seedu\address\logic\commands\SelectEventCommandTest.java
+``` java
 /**
  * Contains integration tests (interaction with the Model) for {@code SelectEventCommand}.
  */
@@ -361,125 +450,7 @@ public class SelectEventCommandTest {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/FindRegistrantCommandTest.java
-``` java
-/**
- * Contains integration tests (interaction with the Model) for {@code FindRegistrantCommand}.
- */
-public class FindRegistrantCommandTest {
-    private Model model;
-
-    @Before
-    public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        model.setSelectedEpicEvent(GRADUATIONAY18_INDEX);
-    }
-
-    @Test
-    public void equals() {
-        AttendanceNameContainsKeywordsPredicate firstPredicate =
-                new AttendanceNameContainsKeywordsPredicate(Collections.singletonList("first"));
-        AttendanceNameContainsKeywordsPredicate secondPredicate =
-                new AttendanceNameContainsKeywordsPredicate(Collections.singletonList("second"));
-
-        FindRegistrantCommand firstFindRegistrantCommand = new FindRegistrantCommand(firstPredicate);
-        FindRegistrantCommand secondFindRegistrantCommand = new FindRegistrantCommand(secondPredicate);
-
-        // same object -> returns true
-        assertTrue(firstFindRegistrantCommand.equals(firstFindRegistrantCommand));
-
-        // same values -> returns true
-        FindRegistrantCommand firstFindRegistrantCommandCopy = new FindRegistrantCommand(firstPredicate);
-        assertTrue(firstFindRegistrantCommand.equals(firstFindRegistrantCommandCopy));
-
-        // different types -> returns false
-        assertFalse(firstFindRegistrantCommand.equals(1));
-
-        // null -> returns false
-        assertFalse(firstFindRegistrantCommand.equals(null));
-
-        // different person -> returns false
-        assertFalse(firstFindRegistrantCommand.equals(secondFindRegistrantCommand));
-    }
-
-    @Test
-    public void execute_zeroKeywords_noPersonFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        FindRegistrantCommand command = prepareCommand(" ");
-        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
-    }
-
-    @Test
-    public void execute_multipleKeywords_multiplePersonsFound() {
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
-        FindRegistrantCommand command = prepareCommand("Kurz Elle Kunz");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(new Attendance(CARL, GRADUATIONAY18),
-                new Attendance(ELLE, GRADUATIONAY18), new Attendance(FIONA, GRADUATIONAY18)));
-
-    }
-
-    /**
-     * Parses {@code userInput} into a {@code FindAttendeeCommand}.
-     */
-    private FindRegistrantCommand prepareCommand(String userInput) {
-        FindRegistrantCommand command =
-                new FindRegistrantCommand(new AttendanceNameContainsKeywordsPredicate(Arrays.asList(userInput
-                        .split("\\s+"))));
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
-
-    /**
-     * Asserts that {@code command} is successfully executed, and<br>
-     *     - the command feedback is equal to {@code expectedMessage}<br>
-     *     - the {@code FilteredList<Person>} is equal to {@code expectedList}<br>
-     *     - the {@code EventPlanner} in model remains the same after executing the {@code command}
-     */
-    private void assertCommandSuccess(FindRegistrantCommand command, String expectedMessage,
-                                      List<Attendance> expectedList) {
-        EventPlanner expectedEventPlanner = new EventPlanner(model.getEventPlanner());
-        CommandResult commandResult = command.execute();
-
-        assertEquals(expectedMessage, commandResult.feedbackToUser);
-        assertEquals(expectedList, model.getSelectedEpicEvent().getFilteredAttendees());
-        assertEquals(expectedEventPlanner, model.getEventPlanner());
-    }
-}
-```
-###### /java/seedu/address/logic/commands/ListRegistrantsCommandTest.java
-``` java
-/**
- * Contains integration tests (interaction with the Model) and unit tests for ListRegistrantsCommand.
- */
-public class ListRegistrantsCommandTest {
-
-    private Model model;
-    private Model expectedModel;
-    private ListRegistrantsCommand listRegistrantsCommand;
-
-    @Before
-    public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        model.setSelectedEpicEvent(GRADUATIONAY18_INDEX);
-        expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
-
-        listRegistrantsCommand = new ListRegistrantsCommand();
-        listRegistrantsCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-    }
-
-    @Test
-    public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(listRegistrantsCommand, model, ListRegistrantsCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-
-    @Test
-    public void execute_listIsFiltered_showsEverything() {
-        showAttendeeAtIndex(model, INDEX_FIRST_PERSON);
-        assertCommandSuccess(listRegistrantsCommand, model, ListRegistrantsCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-}
-```
-###### /java/seedu/address/logic/parser/FindRegistrantCommandParserTest.java
+###### \java\seedu\address\logic\parser\FindRegistrantCommandParserTest.java
 ``` java
 public class FindRegistrantCommandParserTest {
 
@@ -504,7 +475,7 @@ public class FindRegistrantCommandParserTest {
 
 }
 ```
-###### /java/seedu/address/logic/parser/SelectEventCommandParserTest.java
+###### \java\seedu\address\logic\parser\SelectEventCommandParserTest.java
 ``` java
 package seedu.address.logic.parser;
 
@@ -537,7 +508,24 @@ public class SelectEventCommandParserTest {
     }
 }
 ```
-###### /java/seedu/address/ui/AttendanceCardTest.java
+###### \java\seedu\address\testutil\TypicalPersons.java
+``` java
+    /**
+     * Returns an {@code EventPlanner} with all the typical persons.
+     */
+    public static EventPlanner getTypicalAddressBookWithoutEvents() {
+        EventPlanner ab = new EventPlanner();
+        for (Person person : getTypicalPersons()) {
+            try {
+                ab.addPerson(person);
+            } catch (DuplicatePersonException e) {
+                throw new AssertionError("not possible");
+            }
+        }
+        return ab;
+    }
+```
+###### \java\seedu\address\ui\AttendanceCardTest.java
 ``` java
 public class AttendanceCardTest extends GuiUnitTest {
 
@@ -605,54 +593,56 @@ public class AttendanceCardTest extends GuiUnitTest {
     }
 }
 ```
-###### /java/seedu/address/ui/EpicEventListPanelTest.java
+###### \java\seedu\address\ui\AttendanceListPanelTest.java
 ``` java
+
 /**
- * Panel containing the list of events.
+ * Panel containing the list of attendees.
  */
-public class EpicEventListPanelTest extends GuiUnitTest {
-    private static final ObservableList<EpicEvent> TYPICAL_EVENTS =
-            FXCollections.observableList(getTypicalEvents());
+public class AttendanceListPanelTest extends GuiUnitTest {
+    private static final ObservableEpicEvent selectedEvent =
+            new ObservableEpicEvent(TypicalEpicEvents.GRADUATIONAY18);
+    private static final JumpToAttendanceListRequestEvent JUMP_TO_SECOND_ATTENDANCE =
+            new JumpToAttendanceListRequestEvent(INDEX_SECOND_PERSON);
 
-    private static final JumpToEventListRequestEvent JUMP_TO_SECOND_EVENT =
-            new JumpToEventListRequestEvent(INDEX_SECOND_EVENT);
+    private ObservableList<Attendance> attendanceList = selectedEvent.getEpicEvent().getAttendanceList();
 
-    private EpicEventListPanelHandle epicEventListPanelHandle;
+    private AttendanceListPanelHandle attendanceListPanelHandle;
 
     @Before
     public void setUp() {
-        EpicEventListPanel epicEventListPanel = new EpicEventListPanel(TYPICAL_EVENTS);
-        uiPartRule.setUiPart(epicEventListPanel);
+        AttendanceListPanel attendanceListPanel = new AttendanceListPanel(selectedEvent);
+        uiPartRule.setUiPart(attendanceListPanel);
 
-        epicEventListPanelHandle = new EpicEventListPanelHandle(getChildNode(epicEventListPanel.getRoot(),
-                EpicEventListPanelHandle.EPIC_EVENT_LIST_VIEW_ID));
+        attendanceListPanelHandle = new AttendanceListPanelHandle(getChildNode(attendanceListPanel.getRoot(),
+                AttendanceListPanelHandle.ATTENDANCE_LIST_VIEW_ID));
     }
 
     @Test
     public void display() {
-        for (int i = 0; i < TYPICAL_EVENTS.size(); i++) {
-            epicEventListPanelHandle.navigateToCard(TYPICAL_EVENTS.get(i));
-            EpicEvent expectedEpicEvent = TYPICAL_EVENTS.get(i);
-            EpicEventCardHandle actualCard = epicEventListPanelHandle.getEpicEventCardHandle(i);
+        for (int i = 0; i < attendanceList.size(); i++) {
+            attendanceListPanelHandle.navigateToCard(attendanceList.get(i));
+            Attendance expectedAttendance = attendanceList.get(i);
+            AttendanceCardHandle actualCard = attendanceListPanelHandle.getAttendanceCardHandle(i);
 
-            assertEpicEventCardDisplaysEpicEvent(expectedEpicEvent, actualCard);
+            assertAttendanceEventCardDisplaysAttendance(expectedAttendance, actualCard);
             assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
         }
     }
 
     @Test
     public void handleJumpToListRequestEvent() {
-        postNow(JUMP_TO_SECOND_EVENT);
+        postNow(JUMP_TO_SECOND_ATTENDANCE);
         guiRobot.pauseForHuman();
 
-        EpicEventCardHandle expectedCard =
-                epicEventListPanelHandle.getEpicEventCardHandle(INDEX_SECOND_EVENT.getZeroBased());
-        EpicEventCardHandle selectedCard = epicEventListPanelHandle.getHandleToSelectedCard();
-        assertEpicEventCardEquals(expectedCard, selectedCard);
+        AttendanceCardHandle expectedCard =
+                attendanceListPanelHandle.getAttendanceCardHandle(INDEX_SECOND_EVENT.getZeroBased());
+        AttendanceCardHandle selectedCard = attendanceListPanelHandle.getHandleToSelectedCard();
+        assertAttendanceCardEquals(expectedCard, selectedCard);
     }
 }
 ```
-###### /java/seedu/address/ui/EpicEventCardTest.java
+###### \java\seedu\address\ui\EpicEventCardTest.java
 ``` java
 public class EpicEventCardTest extends GuiUnitTest {
 
@@ -714,101 +704,78 @@ public class EpicEventCardTest extends GuiUnitTest {
     }
 }
 ```
-###### /java/seedu/address/ui/AttendanceListPanelTest.java
+###### \java\seedu\address\ui\EpicEventListPanelTest.java
 ``` java
-
 /**
- * Panel containing the list of attendees.
+ * Panel containing the list of events.
  */
-public class AttendanceListPanelTest extends GuiUnitTest {
-    private static final ObservableEpicEvent selectedEvent =
-            new ObservableEpicEvent(TypicalEpicEvents.GRADUATIONAY18);
-    private static final JumpToAttendanceListRequestEvent JUMP_TO_SECOND_ATTENDANCE =
-            new JumpToAttendanceListRequestEvent(INDEX_SECOND_PERSON);
+public class EpicEventListPanelTest extends GuiUnitTest {
+    private static final ObservableList<EpicEvent> TYPICAL_EVENTS =
+            FXCollections.observableList(getTypicalEvents());
 
-    private ObservableList<Attendance> attendanceList = selectedEvent.getEpicEvent().getAttendanceList();
+    private static final JumpToEventListRequestEvent JUMP_TO_SECOND_EVENT =
+            new JumpToEventListRequestEvent(INDEX_SECOND_EVENT);
 
-    private AttendanceListPanelHandle attendanceListPanelHandle;
+    private EpicEventListPanelHandle epicEventListPanelHandle;
 
     @Before
     public void setUp() {
-        AttendanceListPanel attendanceListPanel = new AttendanceListPanel(selectedEvent);
-        uiPartRule.setUiPart(attendanceListPanel);
+        EpicEventListPanel epicEventListPanel = new EpicEventListPanel(TYPICAL_EVENTS);
+        uiPartRule.setUiPart(epicEventListPanel);
 
-        attendanceListPanelHandle = new AttendanceListPanelHandle(getChildNode(attendanceListPanel.getRoot(),
-                AttendanceListPanelHandle.ATTENDANCE_LIST_VIEW_ID));
+        epicEventListPanelHandle = new EpicEventListPanelHandle(getChildNode(epicEventListPanel.getRoot(),
+                EpicEventListPanelHandle.EPIC_EVENT_LIST_VIEW_ID));
     }
 
     @Test
     public void display() {
-        for (int i = 0; i < attendanceList.size(); i++) {
-            attendanceListPanelHandle.navigateToCard(attendanceList.get(i));
-            Attendance expectedAttendance = attendanceList.get(i);
-            AttendanceCardHandle actualCard = attendanceListPanelHandle.getAttendanceCardHandle(i);
+        for (int i = 0; i < TYPICAL_EVENTS.size(); i++) {
+            epicEventListPanelHandle.navigateToCard(TYPICAL_EVENTS.get(i));
+            EpicEvent expectedEpicEvent = TYPICAL_EVENTS.get(i);
+            EpicEventCardHandle actualCard = epicEventListPanelHandle.getEpicEventCardHandle(i);
 
-            assertAttendanceEventCardDisplaysAttendance(expectedAttendance, actualCard);
+            assertEpicEventCardDisplaysEpicEvent(expectedEpicEvent, actualCard);
             assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
         }
     }
 
     @Test
     public void handleJumpToListRequestEvent() {
-        postNow(JUMP_TO_SECOND_ATTENDANCE);
+        postNow(JUMP_TO_SECOND_EVENT);
         guiRobot.pauseForHuman();
 
-        AttendanceCardHandle expectedCard =
-                attendanceListPanelHandle.getAttendanceCardHandle(INDEX_SECOND_EVENT.getZeroBased());
-        AttendanceCardHandle selectedCard = attendanceListPanelHandle.getHandleToSelectedCard();
-        assertAttendanceCardEquals(expectedCard, selectedCard);
+        EpicEventCardHandle expectedCard =
+                epicEventListPanelHandle.getEpicEventCardHandle(INDEX_SECOND_EVENT.getZeroBased());
+        EpicEventCardHandle selectedCard = epicEventListPanelHandle.getHandleToSelectedCard();
+        assertEpicEventCardEquals(expectedCard, selectedCard);
     }
 }
 ```
-###### /java/seedu/address/testutil/TypicalPersons.java
+###### \java\systemtests\EventPlannerSystemTest.java
 ``` java
     /**
-     * Returns an {@code EventPlanner} with all the typical persons.
+     * Asserts that the {@code AttendanceListPanel} displays the expected message, i.e.: filtered if so and attendance
+     * count is displayed correctly
      */
-    public static EventPlanner getTypicalAddressBookWithoutEvents() {
-        EventPlanner ab = new EventPlanner();
-        for (Person person : getTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                throw new AssertionError("not possible");
-            }
-        }
-        return ab;
-    }
-    // @@ author
+    protected void assertAttendanceListHeaderDisplaysExpected(Model expectedModel) {
+        boolean isFiltered = expectedModel.getSelectedEpicEvent().getFilteredAttendees().getPredicate()
+                != PREDICATE_SHOW_ALL_ATTENDEES;
 
-    /**
-     * Returns an {@code EventPlanner} with all the typical persons.
-     */
-    public static EventPlanner getTypicalAddressBook() {
-        EventPlanner ab = new EventPlanner();
-        for (Person person : getTypicalPersons()) {
-            try {
-                ab.addPerson(person);
-            } catch (DuplicatePersonException e) {
-                throw new AssertionError("not possible");
-            }
+        if (isFiltered) {
+            assert(getAttendanceListPanelHeader().getText().contains("(filtered)"));
         }
-        for (EpicEvent epicEvent : getTypicalEvents()) {
-            try {
-                ab.addEvent(epicEvent);
-            } catch (DuplicateEventException e) {
-                throw new AssertionError("not possible");
-            }
-        }
-        return ab;
-    }
 
-    public static List<Person> getTypicalPersons() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+        int numAttended = (int) expectedModel.getSelectedEpicEvent().getFilteredAttendees().stream()
+                .filter(attendance -> attendance.hasAttended())
+                .count();
+        int total = expectedModel.getSelectedEpicEvent().getFilteredAttendees().size();
+        String expected = String.format(ATTENDANCE_STATUS_FORMAT, isFiltered ? "(filtered)" : "", numAttended,
+                total);
+        assertEquals(expected, getAttendanceListPanelHeader().getText());
+
     }
-}
 ```
-###### /java/systemtests/FindRegistrantCommandSystemTest.java
+###### \java\systemtests\FindRegistrantCommandSystemTest.java
 ``` java
 public class FindRegistrantCommandSystemTest extends EventPlannerSystemTest {
 
@@ -887,7 +854,7 @@ public class FindRegistrantCommandSystemTest extends EventPlannerSystemTest {
     }
 }
 ```
-###### /java/systemtests/ModelHelper.java
+###### \java\systemtests\ModelHelper.java
 ``` java
     public static void setEpicEventFilteredList(Model model, List<EpicEvent> toDisplay) {
         Optional<Predicate<EpicEvent>> predicate =
@@ -903,29 +870,5 @@ public class FindRegistrantCommandSystemTest extends EventPlannerSystemTest {
 
     public static void setFilteredAttendanceList(Model model, Attendance... toDisplay) {
         setFilteredAttendanceList(model, Arrays.asList(toDisplay));
-    }
-```
-###### /java/systemtests/EventPlannerSystemTest.java
-``` java
-    /**
-     * Asserts that the {@code AttendanceListPanel} displays the expected message, i.e.: filtered if so and attendance
-     * count is displayed correctly
-     */
-    protected void assertAttendanceListHeaderDisplaysExpected(Model expectedModel) {
-        boolean isFiltered = expectedModel.getSelectedEpicEvent().getFilteredAttendees().getPredicate()
-                != PREDICATE_SHOW_ALL_ATTENDEES;
-
-        if (isFiltered) {
-            assert(getAttendanceListPanelHeader().getText().contains("(filtered)"));
-        }
-
-        int numAttended = (int) expectedModel.getSelectedEpicEvent().getFilteredAttendees().stream()
-                .filter(attendance -> attendance.hasAttended())
-                .count();
-        int total = expectedModel.getSelectedEpicEvent().getFilteredAttendees().size();
-        String expected = String.format(ATTENDANCE_STATUS_FORMAT, isFiltered ? "(filtered)" : "", numAttended,
-                total);
-        assertEquals(expected, getAttendanceListPanelHeader().getText());
-
     }
 ```

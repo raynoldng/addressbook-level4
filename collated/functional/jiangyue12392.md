@@ -1,42 +1,71 @@
 # jiangyue12392
-###### /java/seedu/address/logic/commands/FindEventCommand.java
+###### \java\seedu\address\logic\commands\DeleteEventCommand.java
 ``` java
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
- * Keyword matching is case sensitive.
+ * Deletes an event identified using it's last displayed index from the event planner.
  */
-public class FindEventCommand extends Command {
+public class DeleteEventCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "find-event";
+    public static final String COMMAND_WORD = "delete-event";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all events whose names contain any of "
-            + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Deletes the event identified by the index number used in the last event listing.\n"
+            + "Parameters: INDEX (must be a positive integer)\n"
+            + "Example: " + COMMAND_WORD + " 1";
 
-    private final EventNameContainsKeywordsPredicate predicate;
+    public static final String MESSAGE_DELETE_EVENT_SUCCESS = "Deleted Event: %1$s";
 
-    public FindEventCommand(EventNameContainsKeywordsPredicate predicate) {
-        this.predicate = predicate;
+    private final Index targetIndex;
+
+    private EpicEvent eventToDelete;
+
+    public DeleteEventCommand(Index targetIndex) {
+        this.targetIndex = targetIndex;
+    }
+
+```
+###### \java\seedu\address\logic\commands\DeleteEventCommand.java
+``` java
+
+    @Override
+    public CommandResult executeUndoableCommand() {
+        requireNonNull(eventToDelete);
+        try {
+            model.deleteEvent(eventToDelete);
+            model.clearSelectedEpicEvent();
+        } catch (EventNotFoundException enfe) {
+            throw new AssertionError("The target event cannot be missing");
+        }
+
+        return new CommandResult(String.format(MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete));
     }
 
     @Override
-    public CommandResult execute() {
-        model.updateFilteredEventList(predicate);
-        model.clearSelectedEpicEvent();
+    protected void preprocessUndoableCommand() throws CommandException {
+        List<EpicEvent> lastShownList = model.getFilteredEventList();
 
-        return new CommandResult(getMessageForEventListShownSummary(model.getFilteredEventList().size()));
+        if (targetIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
+        }
+
+        eventToDelete = lastShownList.get(targetIndex.getZeroBased());
     }
+
+```
+###### \java\seedu\address\logic\commands\DeleteEventCommand.java
+``` java
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof FindEventCommand // instanceof handles nulls
-                && this.predicate.equals(((FindEventCommand) other).predicate)); // state check
+                || (other instanceof DeleteEventCommand // instanceof handles nulls
+                && this.targetIndex.equals(((DeleteEventCommand) other).targetIndex) // state check
+                && Objects.equals(this.eventToDelete, ((DeleteEventCommand) other).eventToDelete));
     }
 }
+
 ```
-###### /java/seedu/address/logic/commands/EditEventCommand.java
+###### \java\seedu\address\logic\commands\EditEventCommand.java
 ``` java
 /**
  * Edits the details of an existing event in the address book.
@@ -109,7 +138,7 @@ public class EditEventCommand extends UndoableCommand {
     }
 
 ```
-###### /java/seedu/address/logic/commands/EditEventCommand.java
+###### \java\seedu\address\logic\commands\EditEventCommand.java
 ``` java
 
     /**
@@ -216,99 +245,44 @@ public class EditEventCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/DeleteEventCommand.java
+###### \java\seedu\address\logic\commands\FindEventCommand.java
 ``` java
 /**
- * Deletes an event identified using it's last displayed index from the event planner.
+ * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Keyword matching is case sensitive.
  */
-public class DeleteEventCommand extends UndoableCommand {
+public class FindEventCommand extends Command {
 
-    public static final String COMMAND_WORD = "delete-event";
+    public static final String COMMAND_WORD = "find-event";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the event identified by the index number used in the last event listing.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all events whose names contain any of "
+            + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
+            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
+            + "Example: " + COMMAND_WORD + " alice bob charlie";
 
-    public static final String MESSAGE_DELETE_EVENT_SUCCESS = "Deleted Event: %1$s";
+    private final EventNameContainsKeywordsPredicate predicate;
 
-    private final Index targetIndex;
-
-    private EpicEvent eventToDelete;
-
-    public DeleteEventCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
-    }
-
-```
-###### /java/seedu/address/logic/commands/DeleteEventCommand.java
-``` java
-
-    @Override
-    public CommandResult executeUndoableCommand() {
-        requireNonNull(eventToDelete);
-        try {
-            model.deleteEvent(eventToDelete);
-            model.clearSelectedEpicEvent();
-        } catch (EventNotFoundException enfe) {
-            throw new AssertionError("The target event cannot be missing");
-        }
-
-        return new CommandResult(String.format(MESSAGE_DELETE_EVENT_SUCCESS, eventToDelete));
+    public FindEventCommand(EventNameContainsKeywordsPredicate predicate) {
+        this.predicate = predicate;
     }
 
     @Override
-    protected void preprocessUndoableCommand() throws CommandException {
-        List<EpicEvent> lastShownList = model.getFilteredEventList();
+    public CommandResult execute() {
+        model.updateFilteredEventList(predicate);
+        model.clearSelectedEpicEvent();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_EVENT_DISPLAYED_INDEX);
-        }
-
-        eventToDelete = lastShownList.get(targetIndex.getZeroBased());
+        return new CommandResult(getMessageForEventListShownSummary(model.getFilteredEventList().size()));
     }
-
-```
-###### /java/seedu/address/logic/commands/DeleteEventCommand.java
-``` java
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof DeleteEventCommand // instanceof handles nulls
-                && this.targetIndex.equals(((DeleteEventCommand) other).targetIndex) // state check
-                && Objects.equals(this.eventToDelete, ((DeleteEventCommand) other).eventToDelete));
+                || (other instanceof FindEventCommand // instanceof handles nulls
+                && this.predicate.equals(((FindEventCommand) other).predicate)); // state check
     }
 }
-
 ```
-###### /java/seedu/address/logic/parser/FindEventCommandParser.java
-``` java
-/**
- * Parses input arguments and creates a new FindPersonCommand object
- */
-public class FindEventCommandParser implements Parser<FindEventCommand> {
-
-    /**
-     * Parses the given {@code String} of arguments in the context of the FindPersonCommand
-     * and returns an FindPersonCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public FindEventCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim();
-        if (trimmedArgs.isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
-        }
-
-        String[] nameKeywords = trimmedArgs.split("\\s+");
-
-        return new FindEventCommand(new EventNameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
-    }
-
-}
-```
-###### /java/seedu/address/logic/parser/DeleteEventCommandParser.java
+###### \java\seedu\address\logic\parser\DeleteEventCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new DeleteEventCommand object
@@ -332,7 +306,7 @@ public class DeleteEventCommandParser implements Parser<DeleteEventCommand> {
 
 }
 ```
-###### /java/seedu/address/logic/parser/EditEventCommandParser.java
+###### \java\seedu\address\logic\parser\EditEventCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new EditEventCommand object
@@ -389,7 +363,112 @@ public class EditEventCommandParser implements Parser<EditEventCommand> {
 
 }
 ```
-###### /java/seedu/address/model/event/UniqueEpicEventList.java
+###### \java\seedu\address\logic\parser\FindEventCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new FindPersonCommand object
+ */
+public class FindEventCommandParser implements Parser<FindEventCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the FindPersonCommand
+     * and returns an FindPersonCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public FindEventCommand parse(String args) throws ParseException {
+        String trimmedArgs = args.trim();
+        if (trimmedArgs.isEmpty()) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindEventCommand.MESSAGE_USAGE));
+        }
+
+        String[] nameKeywords = trimmedArgs.split("\\s+");
+
+        return new FindEventCommand(new EventNameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+    }
+
+}
+```
+###### \java\seedu\address\model\attendance\Attendance.java
+``` java
+    /**
+     * Constructor for reconstruction of data from xmlfile
+     * @param attendee
+     * @param hasAttended
+     */
+    public Attendance(Person attendee, boolean hasAttended) {
+        Objects.requireNonNull(attendee);
+        this.attendee = attendee;
+        this.event = null;
+        this.hasAttendedEventProperty.set(hasAttended);
+    }
+```
+###### \java\seedu\address\model\attendance\UniqueAttendanceList.java
+``` java
+    /**
+     * Replaces the person in the attendance list with the given master person list if there is any person that
+     * that is in both the master list and the attendance list
+     */
+    public void replace(Person toReplace, EpicEvent event) {
+        requireAllNonNull(toReplace, event);
+
+        for (int i = 0; i < internalList.size(); i++) {
+            if (toReplace.equals(internalList.get(i).getPerson())) {
+                Attendance currentAttendance = internalList.get(i);
+                internalList.get(i).setAttendance(new Attendance(toReplace, event, currentAttendance.hasAttended()));
+            }
+        }
+
+    }
+```
+###### \java\seedu\address\model\event\EpicEvent.java
+``` java
+    public EpicEvent(Name name, UniqueAttendanceList attendanceList, Set<Tag> tags) {
+        requireAllNonNull(name, tags);
+        this.name = name;
+        this.attendanceList = attendanceList;
+        // protect internal tags from changes in the arg list
+        this.tags = new UniqueTagList(tags);
+    }
+
+```
+###### \java\seedu\address\model\event\EpicEvent.java
+``` java
+    /** replace the person in the attendance list with the given person and the event in the attendance list*/
+    public void replace(Person person) {
+        attendanceList.replace(person, this);
+    }
+
+```
+###### \java\seedu\address\model\event\EventNameContainsKeywordsPredicate.java
+``` java
+
+/**
+ * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
+ */
+public class EventNameContainsKeywordsPredicate implements Predicate<EpicEvent> {
+    private final List<String> keywords;
+
+    public EventNameContainsKeywordsPredicate(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
+    @Override
+    public boolean test(EpicEvent event) {
+        return keywords.stream()
+                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(event.getName().name, keyword));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof EventNameContainsKeywordsPredicate // instanceof handles nulls
+                && this.keywords.equals(((EventNameContainsKeywordsPredicate) other).keywords)); // state check
+    }
+
+}
+```
+###### \java\seedu\address\model\event\UniqueEpicEventList.java
 ``` java
     /**
      * Removes the equivalent event from the list.
@@ -406,7 +485,7 @@ public class EditEventCommandParser implements Parser<EditEventCommand> {
     }
 
 ```
-###### /java/seedu/address/model/event/UniqueEpicEventList.java
+###### \java\seedu\address\model\event\UniqueEpicEventList.java
 ``` java
     /**
      * Replaces the event {@code targetEvent} in the list with {@code editedEvent}.
@@ -447,14 +526,45 @@ public class EditEventCommandParser implements Parser<EditEventCommand> {
     }
 
 ```
-###### /java/seedu/address/model/event/EpicEvent.java
+###### \java\seedu\address\model\EventPlanner.java
 ``` java
-    /** replace the person in the attendance list with the given person and the event in the attendance list*/
-    public void replace(Person person) {
-        attendanceList.replace(person, this);
+    /**
+     * Removes {@code key} from this {@code EventPlanner}.
+     * @throws EventNotFoundException if the {@code eventKey} is not in this {@code EventPlanner}.
+     */
+    public boolean removeEvent(EpicEvent eventKey) throws EventNotFoundException {
+        if (events.remove(eventKey)) {
+            eventKey.handleDeleteEvent();
+            return true;
+        } else {
+            throw new EventNotFoundException();
+        }
     }
+
+    /**
+     * Replaces the given event {@code targetEvent} in the list with {@code editedEvent}.
+     * {@code EventPlanner}'s tag list will be updated with the tags of {@code editedEvent}.
+     *
+     * @throws DuplicateEventException if updating the event's details causes the event to be equivalent to
+     *      another existing event in the list.
+     * @throws EventNotFoundException if {@code targetEvent} could not be found in the list.
+     *
+     * @see #syncEventWithMasterTagList(EpicEvent)
+     */
+    public void updateEvent(EpicEvent targetEvent, EpicEvent editedEvent)
+            throws DuplicateEventException, EventNotFoundException {
+        requireNonNull(editedEvent);
+
+        EpicEvent syncedEditedEvent = syncEventWithMasterTagList(editedEvent);
+        // TODO: the tags master list will be updated even though the below line fails.
+        // This can cause the tags master list to have additional tags that are not tagged to any person
+        // in the person list.
+        events.setEvent(targetEvent, syncedEditedEvent);
+    }
+
+
 ```
-###### /java/seedu/address/model/ModelManager.java
+###### \java\seedu\address\model\ModelManager.java
 ``` java
     @Override
     public synchronized void deleteEvent(EpicEvent targetEvent) throws EventNotFoundException {
@@ -463,39 +573,95 @@ public class EditEventCommandParser implements Parser<EditEventCommand> {
     }
 
 ```
-###### /java/seedu/address/model/attendance/Attendance.java
+###### \java\seedu\address\model\person\exceptions\PersonNotFoundException.java
 ``` java
-    /**
-     * Constructor for reconstruction of data from xmlfile
-     * @param attendee
-     * @param hasAttended
-     */
-    public Attendance(Person attendee, boolean hasAttended) {
-        Objects.requireNonNull(attendee);
-        this.attendee = attendee;
-        this.event = null;
-        this.hasAttendedEventProperty.set(hasAttended);
+/**
+ * Signals that the operation is unable to find the specified person.
+ */
+public class PersonNotFoundException extends DataNotFoundException {
+    public PersonNotFoundException() {
+        super("Operation requires person that do not exist");
     }
+}
 ```
-###### /java/seedu/address/model/attendance/UniqueAttendanceList.java
+###### \java\seedu\address\storage\XmlAdaptedAttendance.java
 ``` java
-    /**
-     * Replaces the person in the attendance list with the given master person list if there is any person that
-     * that is in both the master list and the attendance list
-     */
-    public void replace(Person toReplace, EpicEvent event) {
-        requireAllNonNull(toReplace, event);
+/**
+ * JAXB-friendly version of the Attendance.
+ */
+public class XmlAdaptedAttendance {
 
-        for (int i = 0; i < internalList.size(); i++) {
-            if (toReplace.equals(internalList.get(i).getPerson())) {
-                Attendance currentAttendance = internalList.get(i);
-                internalList.get(i).setAttendance(new Attendance(toReplace, event, currentAttendance.hasAttended()));
-            }
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Attendance's %s field is missing!";
+
+    @XmlElement(required = true)
+    private XmlAdaptedPerson attendee;
+
+    @XmlElement
+    private Boolean hasAttended;
+
+    /**
+     * Constructs an XmlAdaptedAttendance.
+     * This is the no-arg constructor that is required by JAXB.
+     */
+    public XmlAdaptedAttendance() {}
+
+    /**
+     * Constructs an {@code XmlAdaptedAttendance} with the given Attendance details.
+     */
+    public XmlAdaptedAttendance(XmlAdaptedPerson attendee, Boolean hasAttended) {
+        this.attendee = attendee;
+        this.hasAttended = hasAttended;
+    }
+
+    /**
+     * Converts a given Attendance into this class for JAXB use.
+     *
+     * @param source future changes to this will not affect the created XmlAdaptedAttendance
+     */
+    public XmlAdaptedAttendance(Attendance source) {
+        Objects.requireNonNull(source);
+        Objects.requireNonNull(source.getPerson());
+        attendee = new XmlAdaptedPerson(source.getPerson());
+        hasAttended = source.hasAttended();
+    }
+
+    /**
+     * Converts this jaxb-friendly adapted Attendance object into the model's Attendance object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted Attendance
+     */
+    public Attendance toModelType() throws IllegalValueException {
+        if (this.attendee == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Person.class.getSimpleName()));
+        }
+        if (this.hasAttended == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Attendance Status"));
+        }
+        final Person attendee = this.attendee.toModelType();
+
+        final boolean hasAttended = this.hasAttended;
+
+        return new Attendance(attendee, hasAttended);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
         }
 
+        if (!(other instanceof XmlAdaptedAttendance)) {
+            return false;
+        }
+
+        XmlAdaptedAttendance otherAttendance = (XmlAdaptedAttendance) other;
+        return Objects.equals(attendee, otherAttendance.attendee)
+                && hasAttended == otherAttendance.hasAttended;
     }
+}
 ```
-###### /java/seedu/address/storage/XmlAdaptedEpicEvent.java
+###### \java\seedu\address\storage\XmlAdaptedEpicEvent.java
 ``` java
 /**
  * JAXB-friendly version of the EpicEvent.
@@ -598,84 +764,7 @@ public class XmlAdaptedEpicEvent {
     }
 }
 ```
-###### /java/seedu/address/storage/XmlAdaptedAttendance.java
-``` java
-/**
- * JAXB-friendly version of the Attendance.
- */
-public class XmlAdaptedAttendance {
-
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Attendance's %s field is missing!";
-
-    @XmlElement(required = true)
-    private XmlAdaptedPerson attendee;
-
-    @XmlElement
-    private Boolean hasAttended;
-
-    /**
-     * Constructs an XmlAdaptedAttendance.
-     * This is the no-arg constructor that is required by JAXB.
-     */
-    public XmlAdaptedAttendance() {}
-
-    /**
-     * Constructs an {@code XmlAdaptedAttendance} with the given Attendance details.
-     */
-    public XmlAdaptedAttendance(XmlAdaptedPerson attendee, Boolean hasAttended) {
-        this.attendee = attendee;
-        this.hasAttended = hasAttended;
-    }
-
-    /**
-     * Converts a given Attendance into this class for JAXB use.
-     *
-     * @param source future changes to this will not affect the created XmlAdaptedAttendance
-     */
-    public XmlAdaptedAttendance(Attendance source) {
-        Objects.requireNonNull(source);
-        Objects.requireNonNull(source.getPerson());
-        attendee = new XmlAdaptedPerson(source.getPerson());
-        hasAttended = source.hasAttended();
-    }
-
-    /**
-     * Converts this jaxb-friendly adapted Attendance object into the model's Attendance object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted Attendance
-     */
-    public Attendance toModelType() throws IllegalValueException {
-        if (this.attendee == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    Person.class.getSimpleName()));
-        }
-        if (this.hasAttended == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Attendance Status"));
-        }
-        final Person attendee = this.attendee.toModelType();
-
-        final boolean hasAttended = this.hasAttended;
-
-        return new Attendance(attendee, hasAttended);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        if (!(other instanceof XmlAdaptedAttendance)) {
-            return false;
-        }
-
-        XmlAdaptedAttendance otherAttendance = (XmlAdaptedAttendance) other;
-        return Objects.equals(attendee, otherAttendance.attendee)
-                && hasAttended == otherAttendance.hasAttended;
-    }
-}
-```
-###### /java/seedu/address/storage/XmlSerializableEventPlanner.java
+###### \java\seedu\address\storage\XmlSerializableEventPlanner.java
 ``` java
     /**
      * Finds and replaces the dummy person in attendance list with the person object in the master list

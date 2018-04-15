@@ -1,4 +1,4 @@
-// @@author raynoldng
+
 package seedu.address.ui;
 
 import java.util.logging.Logger;
@@ -19,6 +19,7 @@ import seedu.address.commons.events.ui.ClearEventListSelectionEvent;
 import seedu.address.commons.events.ui.EpicEventPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.JumpToEventListRequestEvent;
 import seedu.address.model.event.EpicEvent;
+// @@author raynoldng
 /**
  * Panel containing the list of events.
  */

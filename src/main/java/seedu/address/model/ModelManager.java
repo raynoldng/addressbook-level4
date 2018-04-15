@@ -101,6 +101,8 @@ public class ModelManager extends ComponentManager implements Model {
         indicateEventPlannerChanged();
     }
 
+    //@@author william6364
+
     //=========== Event Level Operations =====================================================================
 
     @Override
@@ -235,9 +237,6 @@ public class ModelManager extends ComponentManager implements Model {
         return selectedEpicEvent;
     }
 
-    //@@authorN
-
-
     //@@author bayweiheng
     /**
      * Returns an unmodifiable view of the list of {@code EpicEvent} backed by the internal list of
@@ -247,7 +246,8 @@ public class ModelManager extends ComponentManager implements Model {
     public ObservableList<EpicEvent> getEventList() {
         return FXCollections.unmodifiableObservableList(eventPlanner.getEventList());
     }
-    //@@author william6364
+
+    //@@author
 
     @Override
     public boolean equals(Object obj) {

@@ -5,7 +5,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 /**
  * Lists all persons in the event planner to the user.
  */
-public class ListPersonCommand extends Command implements FocusOnPersonList {
+public class ListPersonCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
