@@ -14,7 +14,7 @@
         <phone>9482224</phone>
         <email>werner@example.com</email>
         <address>michegan ave</address>
-        <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
+        <numberOfEventsRegisteredFor>0</numberOfEventsRegisteredFor>
         <tagged>friends</tagged>
     </persons>
     <persons>
@@ -33,53 +33,6 @@
         <numberOfEventsRegisteredFor>0</numberOfEventsRegisteredFor>
         <tagged>friends</tagged>
     </persons>
-    <epicEvents>
-        <name>IoT Seminar</name>
-        <tagged>seminar</tagged>
-        <tagged>IoT</tagged>
-    </epicEvents>
-    <epicEvents>
-        <name>Math Olympiad</name>
-        <tagged>competition</tagged>
-        <tagged>math</tagged>
-    </epicEvents>
-    <epicEvents>
-        <name>Physics Olympiad</name>
-        <tagged>physics</tagged>
-        <tagged>competition</tagged>
-    </epicEvents>
-    <epicEvents>
-        <name>A</name>
-        <attendanceList>
-            <attendee>
-                <name>Elle Meyer</name>
-                <phone>9482224</phone>
-                <email>werner@example.com</email>
-                <address>michegan ave</address>
-                <numberOfEventsRegisteredFor>1</numberOfEventsRegisteredFor>
-                <tagged>friends</tagged>
-            </attendee>
-            <hasAttended>true</hasAttended>
-        </attendanceList>
-        <tagged>career</tagged>
-        <tagged>talk</tagged>
-    </epicEvents>
-    <epicEvents>
-        <name>Orientation</name>
-        <tagged>graduation</tagged>
-    </epicEvents>
-    <epicEvents>
-        <name>1819 Graduation</name>
-    </epicEvents>
-    <epicEvents>
-        <name>bazaar</name>
-    </epicEvents>
-    <epicEvents>
-        <name>FFF</name>
-    </epicEvents>
-    <epicEvents>
-        <name>NO U</name>
-    </epicEvents>
     <personTags>owesMoney</personTags>
     <personTags>impersonator</personTags>
     <personTags>friends</personTags>
