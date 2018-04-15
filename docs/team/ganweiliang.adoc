@@ -2,6 +2,10 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
+== Overview
+This Project Portfolio details my contributions to project EPIC, showing that I am capable of producing functional code,
+and working in a team on a large project.
+
 == PROJECT: Event Planning isn’t Complicated (EPIC)
 
 ---
@@ -45,7 +49,11 @@ and updated models: (Pull request https://github.com[#50])
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
+_Excerpts from Add Event Command_
+
 include::../UserGuide.adoc[tag=addevent]
+
+_Excerpts from Toggle Attendance Command_
 
 include::../UserGuide.adoc[tag=toggle]
 
@@ -56,9 +64,15 @@ include::../UserGuide.adoc[tag=toggle]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
+_Excerpts from Model Component_
+
 include::../DeveloperGuide.adoc[tag=modelcomponent]
 
+_Excerpts from Toggle Attendance Feature_
+
 include::../DeveloperGuide.adoc[tag=markattendance]
+
+_Excerpts from Mass Registration_
 
 include::../DeveloperGuide.adoc[tag=massregistration]
 
