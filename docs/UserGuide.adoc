@@ -393,9 +393,9 @@ Deregisters the 1st person in the results of the `find` command from Computing S
 
 // tag::list-registered[]
 
-=== Listing all Event Participants: `list-registered`
+=== Listing all Event Registrants: `list-registered`
 
-Lists all participants for the specified event. +
+Lists all registrants for the specified event. +
 Format: `list-registered EVENT_NAME`
 
 ****
@@ -452,13 +452,13 @@ Format: `list-registered EVENT_NAME`
 
 
 //tag::toggle[]
-=== Toggle Attendance for Event Participant : `toggle`
+=== Toggle Attendance for Event Registrant : `toggle`
 
-Toggles the attendance of a participant to an event from attended to not attended and vice versa. +
+Toggles the attendance of a registrant to an event from attended to not attended and vice versa. +
 Format: `toggle INDEX`
 
 ****
-* Toggles the attendance of the participant at the specified `INDEX`.
+* Toggles the attendance of the registrant at the specified `INDEX`.
 The index refers to the index number shown in the Attendance Pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
@@ -598,9 +598,9 @@ Format: `export-event EVENT_NAME FILE_NAME`
 Registers all persons with a particular tag to an event in EPIC. +
 Format: `register-by-tag TAG EVENT_NAME`
 
-=== Adding Automatic Email Reminder to Event Participants : `add-reminder` [coming in v2.0]
+=== Adding Automatic Email Reminder to Event Registrants : `add-reminder` [coming in v2.0]
 
-Adds an automatic email reminder at the stipulated time to all event participants. +
+Adds an automatic email reminder at the stipulated time to all event registrants. +
 Format: `add-reminder DAYS_OFFSET EVENT_NAME`
 
 

@@ -1055,8 +1055,8 @@ b. Require developers to download those libraries manually (this creates extra w
 ** Major: Implemented a three pane view (persons, events, and event participant). The user should be able to view persons, events and registrants of an event at the same time. That would also allow the user to execute event administration commands as he can view both events and contacts at the same time.
 
 * Wei Liang:
-** Minor: Adding of EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
-** Major: Toggling of attendance for each event participant. This facilitates the attendance portion of the event planner.
+** Minor: Add EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
+** Major: Add Attendance class and a command to toggle attendance for each event registrant. This facilitates the attendance portion of the event planner.
 
 * Jiang Yue:
 ** Minor: Persistent storage. The user should be able to have their data retained after the app is closed so that they can continue their edits when they open the app next time.
