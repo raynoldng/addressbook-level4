@@ -16,6 +16,7 @@ classes/
 /bin/
 src/main/resources/docs/
 out/
+config.json
 preferences.json
 docs/team/*.pdf
 docs/*.pdf
