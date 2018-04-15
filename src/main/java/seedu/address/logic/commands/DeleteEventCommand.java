@@ -49,6 +49,7 @@ public class DeleteEventCommand extends UndoableCommand {
         requireNonNull(eventToDelete);
         try {
             model.deleteEvent(eventToDelete);
+            model.visuallySelectEpicEvent(EpicEvent.getDummyEpicEvent());
         } catch (EventNotFoundException enfe) {
             throw new AssertionError("The target event cannot be missing");
         }

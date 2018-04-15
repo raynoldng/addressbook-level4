@@ -12,10 +12,11 @@ src/test/data/sandbox/
 .DS_Store
 ./screenshot*.png
 classes/
-/data/addressbook.xml
+/data/EPIC.xml
 /bin/
 src/main/resources/docs/
 out/
+config.json
 preferences.json
 docs/*.pdf
 docs/*.html

@@ -35,7 +35,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.FindEventCommand;
 import seedu.address.logic.commands.FindPersonCommand;
-import seedu.address.logic.commands.ListEventCommand;
 import seedu.address.logic.commands.ListPersonCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.SelectEventCommand;
@@ -182,13 +181,6 @@ public abstract class EventPlannerSystemTest {
     }
 
     //@@author william6364
-    /**
-     * Displays all events in the event planner.
-     */
-    protected void showAllEvents() {
-        executeCommand(ListEventCommand.COMMAND_WORD);
-        assertEquals(getModel().getEventPlanner().getEventList().size(), getModel().getFilteredEventList().size());
-    }
     /**
      * Displays all events with any parts of their names matching {@code keyword} (case-insensitive).
      */
