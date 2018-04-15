@@ -1,5 +1,131 @@
 # william6364
-###### /java/seedu/address/logic/commands/ToggleAttendanceCommandTest.java
+###### \java\seedu\address\logic\commands\AddEventCommandIntegrationTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) for {@code AddEventCommand}.
+ */
+public class AddEventCommandIntegrationTest {
+
+    private Model model;
+
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+    }
+
+    @Test
+    public void execute_newEvent_success() throws Exception {
+        EpicEvent validEvent = new EpicEventBuilder().build();
+
+        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
+        expectedModel.addEvent(validEvent);
+
+        assertCommandSuccess(prepareCommand(validEvent, model), model,
+                String.format(AddEventCommand.MESSAGE_SUCCESS, validEvent), expectedModel);
+    }
+
+    @Test
+    public void execute_duplicateEvent_throwsCommandException() throws Exception {
+        EpicEvent validEvent = new EpicEventBuilder().build();
+        model.addEvent(validEvent);
+
+        EpicEvent eventInList = model.getEventPlanner().getEventList().get(0);
+        assertCommandFailure(prepareCommand(eventInList, model), model, AddEventCommand.MESSAGE_DUPLICATE_EVENT);
+    }
+
+    /**
+     * Generates a new {@code AddEventCommand} which upon execution, adds {@code event} into the {@code model}.
+     */
+    private AddEventCommand prepareCommand(EpicEvent event, Model model) {
+        AddEventCommand command = new AddEventCommand(event);
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        return command;
+    }
+}
+```
+###### \java\seedu\address\logic\commands\AddEventCommandTest.java
+``` java
+
+public class AddEventCommandTest {
+    @Rule
+    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
+
+    private Model model;
+
+    @Before
+    public void setUp() {
+        model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+        model.setSelectedEpicEvent(INDEX_FIRST_EVENT.getZeroBased());
+    }
+
+    /**
+     * Executes a {@code AddEventCommand} with the given {@code index},
+     * and checks that the event is correctly added
+     */
+    @Test
+    public void execute_eventAcceptedByModel_addSuccessful() {
+        EpicEvent event = new EpicEvent(new Name("New Event"), new TreeSet<>());
+        AddEventCommand addEventCommand = prepareCommand(event);
+        try {
+            CommandResult commandResult = addEventCommand.execute();
+            assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, event), commandResult.feedbackToUser);
+        } catch (CommandException ce) {
+            throw new IllegalArgumentException("Execution of command should not fail.", ce);
+        }
+        assertTrue(model.getEventList().contains(event));
+    }
+
+    /**
+     * Executes an {@code AddEventCommand} with a duplicate event and checks that a {@code CommandException}
+     * is thrown with the {@code expectedMessage}.
+     */
+    @Test
+    public void execute_duplicateEvent_throwsCommandException() {
+        AddEventCommand addEventCommand = prepareCommand(model.getEventList().get(0));
+        try {
+            addEventCommand.execute();
+            fail("The expected CommandException was not thrown.");
+        } catch (CommandException ce) {
+            assertEquals(AddEventCommand.MESSAGE_DUPLICATE_EVENT, ce.getMessage());
+            assertTrue(eventsCollectorRule.eventsCollector.isEmpty());
+        }
+    }
+
+    @Test
+    public void equals() {
+        EpicEvent eventA = new EpicEventBuilder().withName("Event A").build();
+        EpicEvent eventB = new EpicEventBuilder().withName("Event B").build();
+        AddEventCommand addEventACommand = new AddEventCommand(eventA);
+        AddEventCommand addEventBCommand = new AddEventCommand(eventB);
+
+        // same object -> returns true
+        assertTrue(addEventACommand.equals(addEventACommand));
+
+        // same values -> returns true
+        AddEventCommand addEventACommandCopy = new AddEventCommand(eventA);
+        assertTrue(addEventACommand.equals(addEventACommandCopy));
+
+        // different types -> returns false
+        assertFalse(addEventACommand.equals(1));
+
+        // null -> returns false
+        assertFalse(addEventACommand.equals(null));
+
+        // different person -> returns false
+        assertFalse(addEventACommand.equals(addEventBCommand));
+    }
+
+    /**
+     * Returns a {@code AddEventCommand} with parameters {@code event}.
+     */
+    private AddEventCommand prepareCommand(EpicEvent event) {
+        AddEventCommand addEventCommand = new AddEventCommand(event);
+        addEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return addEventCommand;
+    }
+}
+```
+###### \java\seedu\address\logic\commands\ToggleAttendanceCommandTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model) for {@code ToggleAttendanceCommand}.
@@ -150,133 +276,7 @@ public class ToggleAttendanceCommandTest {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/AddEventCommandTest.java
-``` java
-
-public class AddEventCommandTest {
-    @Rule
-    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
-
-    private Model model;
-
-    @Before
-    public void setUp() {
-        model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
-        model.setSelectedEpicEvent(INDEX_FIRST_EVENT.getZeroBased());
-    }
-
-    /**
-     * Executes a {@code AddEventCommand} with the given {@code index},
-     * and checks that the event is correctly added
-     */
-    @Test
-    public void execute_eventAcceptedByModel_addSuccessful() {
-        EpicEvent event = new EpicEvent(new Name("New Event"), new TreeSet<>());
-        AddEventCommand addEventCommand = prepareCommand(event);
-        try {
-            CommandResult commandResult = addEventCommand.execute();
-            assertEquals(String.format(AddEventCommand.MESSAGE_SUCCESS, event), commandResult.feedbackToUser);
-        } catch (CommandException ce) {
-            throw new IllegalArgumentException("Execution of command should not fail.", ce);
-        }
-        assertTrue(model.getEventList().contains(event));
-    }
-
-    /**
-     * Executes an {@code AddEventCommand} with a duplicate event and checks that a {@code CommandException}
-     * is thrown with the {@code expectedMessage}.
-     */
-    @Test
-    public void execute_duplicateEvent_throwsCommandException() {
-        AddEventCommand addEventCommand = prepareCommand(model.getEventList().get(0));
-        try {
-            addEventCommand.execute();
-            fail("The expected CommandException was not thrown.");
-        } catch (CommandException ce) {
-            assertEquals(AddEventCommand.MESSAGE_DUPLICATE_EVENT, ce.getMessage());
-            assertTrue(eventsCollectorRule.eventsCollector.isEmpty());
-        }
-    }
-
-    @Test
-    public void equals() {
-        EpicEvent eventA = new EpicEventBuilder().withName("Event A").build();
-        EpicEvent eventB = new EpicEventBuilder().withName("Event B").build();
-        AddEventCommand addEventACommand = new AddEventCommand(eventA);
-        AddEventCommand addEventBCommand = new AddEventCommand(eventB);
-
-        // same object -> returns true
-        assertTrue(addEventACommand.equals(addEventACommand));
-
-        // same values -> returns true
-        AddEventCommand addEventACommandCopy = new AddEventCommand(eventA);
-        assertTrue(addEventACommand.equals(addEventACommandCopy));
-
-        // different types -> returns false
-        assertFalse(addEventACommand.equals(1));
-
-        // null -> returns false
-        assertFalse(addEventACommand.equals(null));
-
-        // different person -> returns false
-        assertFalse(addEventACommand.equals(addEventBCommand));
-    }
-
-    /**
-     * Returns a {@code AddEventCommand} with parameters {@code event}.
-     */
-    private AddEventCommand prepareCommand(EpicEvent event) {
-        AddEventCommand addEventCommand = new AddEventCommand(event);
-        addEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return addEventCommand;
-    }
-}
-```
-###### /java/seedu/address/logic/commands/AddEventCommandIntegrationTest.java
-``` java
-/**
- * Contains integration tests (interaction with the Model) for {@code AddEventCommand}.
- */
-public class AddEventCommandIntegrationTest {
-
-    private Model model;
-
-    @Before
-    public void setUp() {
-        model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-    }
-
-    @Test
-    public void execute_newEvent_success() throws Exception {
-        EpicEvent validEvent = new EpicEventBuilder().build();
-
-        Model expectedModel = new ModelManager(model.getEventPlanner(), new UserPrefs());
-        expectedModel.addEvent(validEvent);
-
-        assertCommandSuccess(prepareCommand(validEvent, model), model,
-                String.format(AddEventCommand.MESSAGE_SUCCESS, validEvent), expectedModel);
-    }
-
-    @Test
-    public void execute_duplicateEvent_throwsCommandException() throws Exception {
-        EpicEvent validEvent = new EpicEventBuilder().build();
-        model.addEvent(validEvent);
-
-        EpicEvent eventInList = model.getEventPlanner().getEventList().get(0);
-        assertCommandFailure(prepareCommand(eventInList, model), model, AddEventCommand.MESSAGE_DUPLICATE_EVENT);
-    }
-
-    /**
-     * Generates a new {@code AddEventCommand} which upon execution, adds {@code event} into the {@code model}.
-     */
-    private AddEventCommand prepareCommand(EpicEvent event, Model model) {
-        AddEventCommand command = new AddEventCommand(event);
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
-}
-```
-###### /java/seedu/address/logic/parser/AddEventCommandParserTest.java
+###### \java\seedu\address\logic\parser\AddEventCommandParserTest.java
 ``` java
 
 public class AddEventCommandParserTest {
@@ -337,7 +337,7 @@ public class AddEventCommandParserTest {
 
 }
 ```
-###### /java/seedu/address/logic/parser/ToggleAttendanceCommandParserTest.java
+###### \java\seedu\address\logic\parser\ToggleAttendanceCommandParserTest.java
 ``` java
 
 /**
@@ -360,7 +360,7 @@ public class ToggleAttendanceCommandParserTest {
     }
 }
 ```
-###### /java/seedu/address/model/EventPlannerTest.java
+###### \java\seedu\address\model\EventPlannerTest.java
 ``` java
     @Test
     public void resetData_withDuplicateEvents_throwsAssertionError() {
@@ -375,7 +375,7 @@ public class ToggleAttendanceCommandParserTest {
     }
 
 ```
-###### /java/seedu/address/model/EventPlannerTest.java
+###### \java\seedu\address\model\EventPlannerTest.java
 ``` java
 
     @Test
@@ -436,35 +436,37 @@ public class ToggleAttendanceCommandParserTest {
 
 }
 ```
-###### /java/seedu/address/testutil/EpicEventUtil.java
+###### \java\seedu\address\model\UniqueAttendanceListTest.java
 ``` java
 
-/**
- * A utility class for EpicEvent.
- */
-public class EpicEventUtil {
+public class UniqueAttendanceListTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-    /**
-     * Returns an add command string for adding the {@code event}.
-     */
-    public static String getAddEventCommand(EpicEvent event) {
-        return AddEventCommand.COMMAND_WORD + " " + getEventDetails(event);
-    }
-
-    /**
-     * Returns the part of command string for the given {@code event}'s details.
-     */
-    public static String getEventDetails(EpicEvent event) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_NAME + event.getName().name + " ");
-        event.getTags().stream().forEach(
-            s -> sb.append(PREFIX_TAG + s.tagName + " ")
-        );
-        return sb.toString();
+    @Test
+    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
+        UniqueAttendanceList uniqueAttendanceList = new UniqueAttendanceList();
+        thrown.expect(UnsupportedOperationException.class);
+        uniqueAttendanceList.asObservableList().remove(0);
     }
 }
 ```
-###### /java/seedu/address/testutil/EpicEventBuilder.java
+###### \java\seedu\address\model\UniqueEpicEventListTest.java
+``` java
+
+public class UniqueEpicEventListTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
+        UniqueEpicEventList uniqueEpicEventList = new UniqueEpicEventList();
+        thrown.expect(UnsupportedOperationException.class);
+        uniqueEpicEventList.asObservableList().remove(0);
+    }
+}
+```
+###### \java\seedu\address\testutil\EpicEventBuilder.java
 ``` java
 
 /**
@@ -535,7 +537,194 @@ public class EpicEventBuilder {
 
 }
 ```
-###### /java/systemtests/EventPlannerSystemTest.java
+###### \java\seedu\address\testutil\EpicEventUtil.java
+``` java
+
+/**
+ * A utility class for EpicEvent.
+ */
+public class EpicEventUtil {
+
+    /**
+     * Returns an add command string for adding the {@code event}.
+     */
+    public static String getAddEventCommand(EpicEvent event) {
+        return AddEventCommand.COMMAND_WORD + " " + getEventDetails(event);
+    }
+
+    /**
+     * Returns the part of command string for the given {@code event}'s details.
+     */
+    public static String getEventDetails(EpicEvent event) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(PREFIX_NAME + event.getName().name + " ");
+        event.getTags().stream().forEach(
+            s -> sb.append(PREFIX_TAG + s.tagName + " ")
+        );
+        return sb.toString();
+    }
+}
+```
+###### \java\systemtests\AddEventCommandSystemTest.java
+``` java
+
+public class AddEventCommandSystemTest extends EventPlannerSystemTest {
+
+    @Test
+    public void add() throws Exception {
+        Model model = getModel();
+
+        /* ------------------------ Perform add operations on the shown unfiltered list ----------------------------- */
+
+        /* Case: add an event without tags to a non-empty address book, command with leading spaces and trailing spaces
+         * -> added
+         */
+        EpicEvent toAdd = GRADUATION;
+        String command = "   " + AddEventCommand.COMMAND_WORD + "  " + NAME_DESC_GRADUATION + " " + TAG_DESC_GRADUATION;
+        assertCommandSuccess(command, toAdd);
+
+        // Case: undo adding Graduation to the list -> Graduation deleted
+        command = UndoCommand.COMMAND_WORD;
+        String expectedResultMessage = UndoCommand.MESSAGE_SUCCESS;
+        assertCommandSuccess(command, model, expectedResultMessage);
+
+        // Case: redo adding Graduation to the list -> Graduation added again
+        command = RedoCommand.COMMAND_WORD;
+        model.addEvent(toAdd);
+        expectedResultMessage = RedoCommand.MESSAGE_SUCCESS;
+        assertCommandSuccess(command, model, expectedResultMessage);
+
+        /* Case: add an event with a different name -> added */
+        assertCommandSuccess(SEMINAR);
+
+        /* Case: add to empty address book -> added */
+        clearEventPlanner();
+        assertCommandSuccess(MATHOLYMPIAD);
+
+        /* Case: add an event with tags, command with parameters in reverse order -> added */
+        toAdd = SEMINAR;
+        command = AddEventCommand.COMMAND_WORD + TAG_DESC_SEMINAR + NAME_DESC_SEMINAR;
+        assertCommandSuccess(command, toAdd);
+
+        /* Case: add an event, missing tags -> added */
+        assertCommandSuccess(ORIENTATION);
+
+        /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
+
+        /* Case: filters the event list before adding -> added */
+        showEventsWithName(KEYWORD_MATCHING_OLYMPIAD);
+        assertCommandSuccess(GRADUATION);
+
+        /* ------------------------ Perform add operation while an event card is selected --------------------------- */
+
+        /* Case: selects first card in the event list, add an event -> added, card selection remains unchanged */
+        selectEvent(Index.fromOneBased(1));
+        assertCommandSuccess(CAREERTALK);
+
+        /* ----------------------------------- Perform invalid add operations --------------------------------------- */
+
+        /* Case: add a duplicate event -> rejected */
+        command = EpicEventUtil.getAddEventCommand(SEMINAR);
+        assertCommandFailure(command, AddEventCommand.MESSAGE_DUPLICATE_EVENT);
+
+        /* Case: add a duplicate event except with different tags -> rejected */
+        // "graduation" is an existing tag used in the default model, see TypicalEpicEvents#GRADUATION
+        // This test will fail if a new tag that is not in the model is used, see the bug documented in
+        // EventPlanner#addEvent(EpicEvent)
+        command = EpicEventUtil.getAddEventCommand(ORIENTATION) + " " + PREFIX_TAG.getPrefix() + "graduation";
+        assertCommandFailure(command, AddEventCommand.MESSAGE_DUPLICATE_EVENT);
+
+        /* Case: missing name -> rejected */
+        command = AddEventCommand.COMMAND_WORD + TAG_DESC_GRADUATION;
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEventCommand.MESSAGE_USAGE));
+
+        /* Case: invalid keyword -> rejected */
+        command = "adds-event " + EpicEventUtil.getEventDetails(toAdd);
+        assertCommandFailure(command, Messages.MESSAGE_UNKNOWN_COMMAND);
+
+        /* Case: invalid name -> rejected */
+        command = AddEventCommand.COMMAND_WORD + INVALID_NAME_DESC;
+        assertCommandFailure(command, Name.MESSAGE_NAME_CONSTRAINTS);
+
+        /* Case: invalid tag -> rejected */
+        command = AddEventCommand.COMMAND_WORD + NAME_DESC_GRADUATION + INVALID_TAG_DESC;
+        assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
+    }
+
+    /**
+     * Executes the {@code AddEventCommand} that adds {@code toAdd} to the model and asserts that the,<br>
+     * 1. Command box displays an empty string.<br>
+     * 2. Command box has the default style class.<br>
+     * 3. Result display box displays the success message of executing {@code AddEventCommand} with the details of
+     * {@code toAdd}.<br>
+     * 4. {@code Model}, {@code Storage} and {@code EventListPanel} equal to the corresponding components in
+     * the current model added with {@code toAdd}.<br>
+     * 5. Browser url and selected card remain unchanged.<br>
+     * 6. Status bar's sync status changes.<br>
+     * Verifications 1, 3 and 4 are performed by
+     * {@code EventPlannerSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     * @see EventPlannerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     */
+    private void assertCommandSuccess(EpicEvent toAdd) {
+        assertCommandSuccess(EpicEventUtil.getAddEventCommand(toAdd), toAdd);
+    }
+
+    /**
+     * Performs the same verification as {@code assertCommandSuccess(EpicEvent)}. Executes {@code command}
+     * instead.
+     * @see AddEventCommandSystemTest#assertCommandSuccess(EpicEvent)
+     */
+    private void assertCommandSuccess(String command, EpicEvent toAdd) {
+        Model expectedModel = getModel();
+        try {
+            expectedModel.addEvent(toAdd);
+        } catch (DuplicateEventException dpe) {
+            throw new IllegalArgumentException("toAdd already exists in the model.");
+        }
+        String expectedResultMessage = String.format(AddEventCommand.MESSAGE_SUCCESS, toAdd);
+
+        assertCommandSuccess(command, expectedModel, expectedResultMessage);
+    }
+
+    /**
+     * Performs the same verification as {@code assertCommandSuccess(String, EpicEvent)} except asserts that
+     * the,<br>
+     * 1. Result display box displays {@code expectedResultMessage}.<br>
+     * 2. {@code Model}, {@code Storage} and {@code EventListPanel} equal to the corresponding components in
+     * {@code expectedModel}.<br>
+     * @see AddEventCommandSystemTest#assertCommandSuccess(String, EpicEvent)
+     */
+    private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
+        executeCommand(command);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertSelectedCardUnchanged();
+        assertCommandBoxShowsDefaultStyle();
+        assertStatusBarUnchangedExceptSyncStatus();
+    }
+
+    /**
+     * Executes {@code command} and asserts that the,<br>
+     * 1. Command box displays {@code command}.<br>
+     * 2. Command box has the error style class.<br>
+     * 3. Result display box displays {@code expectedResultMessage}.<br>
+     * 4. {@code Model}, {@code Storage} and {@code EventListPanel} remain unchanged.<br>
+     * 5. Browser url, selected card and status bar remain unchanged.<br>
+     * Verifications 1, 3 and 4 are performed by
+     * {@code EventPlannerSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     * @see EventPlannerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     */
+    private void assertCommandFailure(String command, String expectedResultMessage) {
+        Model expectedModel = getModel();
+
+        executeCommand(command);
+        assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
+        assertSelectedCardUnchanged();
+        assertCommandBoxShowsErrorStyle();
+        assertStatusBarUnchanged();
+    }
+}
+```
+###### \java\systemtests\EventPlannerSystemTest.java
 ``` java
     /**
      * Displays all events with any parts of their names matching {@code keyword} (case-insensitive).

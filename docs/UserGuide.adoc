@@ -81,9 +81,9 @@ image::Ui_annotated.png[width="750"]
 
 . Command Box: text box to receive user inputs.
 . Result Display: status bar that displays the result of user commands.
-. People List Panel: panel that lists all persons stored in EPIC.
-. Event List Panel: panel that lists all events stored in EPIC.
-. Attendance List Panel: panel that lists all registrants in the selected event.
+. Persons Pane: pane that lists all persons stored in EPIC.
+. Events Pane: pane that lists all events stored in EPIC.
+. Attendance Pane: pane that lists all registrants in the selected event.
 // end::uilayout[]
 
 [TIP]
@@ -259,7 +259,7 @@ By default, the first event in the Event List Panel is the selected event.
 
 === Editing an Event : `edit-event`
 
-Edits an existing event in the EPIC. +
+Edits an existing event in EPIC. +
 Format: `edit-event INDEX [n/NAME] [t/TAG]...`
 
 ****
@@ -274,9 +274,9 @@ The index *must be a positive integer* 1, 2, 3, ...
 Examples:
 
 * `edit-event 2 n/Graduation Day t/` +
-Edits the name of the 2nd event to be `Graduation Day` and clears all existing tags.
+Edits the name of the 2nd event to `Graduation Day` and clears all existing tags.
 * `edit-event 6 n/Career Talk 2018` +
-Edits the name of the 6th event in event pane to be `Career Talk 2018`. See <<#editevent>> below for UI changes. +
+Edits the name of the 6th event in the Events Pane to `Career Talk 2018`. See <<#editevent>> below for UI changes. +
 
 [#editevent]
 .Illustration of `edit-event` command (only the Events Pane is shown for clarity).
@@ -304,7 +304,7 @@ Examples:
 * `find-event talk` +
 Returns `Career Talk`
 * `find-event Talk Competition` +
-Returns any event having name `Talk`, or `Competition`. See <<#findevent>> below for UI changes. +
+Returns any event having `Talk`, or `Competition` in its name. See <<#findevent>> below for UI changes. +
 
 [#findevent]
 .Illustration of `find-event` command (only the Events Pane is shown for clarity).
@@ -321,7 +321,7 @@ Format: `delete-event INDEX`
 
 ****
 * Deletes the event at the specified `INDEX`.
-The index refers to the index number shown in the middle pane.
+The index refers to the index number shown in the Events Pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
@@ -360,7 +360,7 @@ Registers the 1st person in the results of the `find` command for Computing Semi
 Registers the 2nd person in EPIC for AY201718 Graduation. See <<#register>> below for UI changes. +
 
 [#register]
-.Illustration of `register` command (only the Attendees Pane is shown for clarity).
+.Illustration of `register` command (only the Attendance Pane is shown for clarity).
 image::RegisterUG.png[width="790"]
 
 // end::register[]
@@ -393,9 +393,9 @@ Deregisters the 1st person in the results of the `find` command from Computing S
 
 // tag::list-registered[]
 
-=== Listing all Event Participants: `list-registered`
+=== Listing all Event Registrants: `list-registered`
 
-Lists all participants for the specified event. +
+Lists all registrants for the specified event. +
 Format: `list-registered EVENT_NAME`
 
 ****
@@ -434,7 +434,7 @@ When a filter is applied, the header of the attendance panel will display `filte
 be computed based on the filtered list. See <<#findregistrants>> below for UI changes. +
 
 [#findregistrants]
-.Illustration of `find-registrants` command (only the Attendees Pane is shown for clarity).
+.Illustration of `find-registrants` command (only the Attendance Pane is shown for clarity).
 image::FindRegistrantsUG.png[width="790"]
 
 ****
@@ -452,14 +452,14 @@ Format: `list-registered EVENT_NAME`
 
 
 //tag::toggle[]
-=== Toggle Attendance for Event Participant : `toggle`
+=== Toggle Attendance for Event Registrant : `toggle`
 
-Toggles the attendance of a participant to an event from attended to not attended and vice versa. +
+Toggles the attendance of a registrant to an event from attended to not attended and vice versa. +
 Format: `toggle INDEX`
 
 ****
-* Toggles the attendance of the participant at the specified `INDEX`.
-The index refers to the index number shown in the rightmost pane.
+* Toggles the attendance of the registrant at the specified `INDEX`.
+The index refers to the index number shown in the Attendance Pane.
 * The index *must be a positive integer* 1, 2, 3, ...
 ****
 
@@ -471,7 +471,7 @@ Toggles the attendance of the 3rd registrant in the attendance list of
 the 2nd event currently listed. See <<#toggle>> below for UI changes. +
 
 [#toggle]
-.Illustration of `toggle` command (only the Attendees Pane is shown for clarity).
+.Illustration of `toggle` command (only the Attendance Pane is shown for clarity).
 image::ToggleUG.png[width="790"]
 //end::toggle[]
 
@@ -495,7 +495,7 @@ Format: `clear`
 
 Restores EPIC to the state before the previous _undoable_ command was executed. +
 There is no guarantee that the relative order of persons/events will be preserved after the undoing
-of a `delete` or `delete-event` command. +
+of a `delete` or `delete-event` command (see the third example). +
 Format: `undo`
 
 [NOTE]
@@ -533,7 +533,7 @@ image::UndoUG.png[width="790"]
 === Redoing Commands : `redo`
 
 Reverses the most recent `undo` command. This will *fail* if the most recent command
-was neither `undo` nor `redo` (See last example below) +
+was neither `undo` nor `redo` (See last example below). +
 Format: `redo`
 
 Examples:
@@ -598,9 +598,9 @@ Format: `export-event EVENT_NAME FILE_NAME`
 Registers all persons with a particular tag to an event in EPIC. +
 Format: `register-by-tag TAG EVENT_NAME`
 
-=== Adding Automatic Email Reminder to Event Participants : `add-reminder` [coming in v2.0]
+=== Adding Automatic Email Reminder to Event Registrants : `add-reminder` [coming in v2.0]
 
-Adds an automatic email reminder at the stipulated time to all event participants. +
+Adds an automatic email reminder at the stipulated time to all event registrants. +
 Format: `add-reminder DAYS_OFFSET EVENT_NAME`
 
 

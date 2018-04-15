@@ -261,9 +261,10 @@ When EPIC is re-launched, the following steps take place to restore data from th
 .  An instance of `StorageManager` object is created from both the `XmlEventPlannerStorage` object and the `UserPrefStorage` object.
 .  The `StorageManager` object is used to initiate the model components.
 
-The Sequence Diagram for interactions within the Storage Component to restore data is shown below.
+The Sequence Diagram (<<SCSD>>) for interactions within the Storage Component to restore data is shown below.
 
-.Interactions Inside the Storage Component to restore data
+[#SCSD]
+.Interactions inside the Storage Component to restore data
 image::StorageComponentSequenceDiagram.png[width="800"]
 
 // end::storagedevguide[]
@@ -314,10 +315,10 @@ The `find-event` command enables the user to find events from the event list wit
 <<#SDFEC>> below shows how the `find-event` command is processed in the Logic component.
 
 [#SDFEC]
-.Sequence Diagram for find-event command
+.Sequence Diagram for `find-event` command
 image::FindEventCommandSequenceDiagram.png[width="650"]
 ==== Current Implementation
-The `find-event` command input is passed into an `EventPlannerParser` object. The `EventPlannerParser` reads the command word “find-events” and creates a `FindEventCommandParser` object that further parses the command input and creates a `FindEventCommand`. The `FindEventCommand` filters the the event list based on the keywords and updates Model components on changes in the filtered event list.
+The `find-event` command input is passed into an `EventPlannerParser` object. The `EventPlannerParser` reads the command word “find-event” and creates a `FindEventCommandParser` object that further parses the command input and creates a `FindEventCommand`. The `FindEventCommand` filters the the event list based on the keywords and updates Model component on changes in the filtered event list.
 
 ==== Design Considerations
 
@@ -340,7 +341,8 @@ The `find-event` command input is passed into an `EventPlannerParser` object. Th
 
 ==== Previous Implementation
 
-In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` command was performed by creating a new `Person` and passing it to a `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
+In https://github.com/se-edu/addressbook-level4[AddressBook-Level4], the `edit` command was performed by creating a new `Person`
+and passing it to the `UniquePersonList` in the model, which would then replace the to-be-edited `Person` with it.
 
 [source,java]
 ----
@@ -366,11 +368,14 @@ In EPIC, the `edit` and `edit-event` commands are now implemented in a mutable m
 ===== Aspect: Implementation of `edit`
 
 * **Alternative 1 (current choice):** Edit in a mutable manner
-** Pros: Since EPIC has both `EpicEvent` and `Person` objects, which maintain references to one another, editing a `Person/EpicEvent` in this manner automatically updates the `EpicEvent/Person` objects that is associated with it.
+** Pros: Since an `EpicEvent` maintain references to multiple `Person` objects, editing a `Person` in this manner
+automatically updates the `EpicEvent` objects which reference it. Similarly, editing an `EpicEvent` in this manner
+automatically updates the `Attendance` objects which reference it.
 ** Cons: Implementation of `undo` will be more difficult.
 * **Alternative 2:** Edit in an immutable manner
 ** Pros: Implementation of `undo` is easier, since we can just replace the current `EventPlanner` with the previous one.
-** Cons: Editing a `Person/EpicEvent` will require passing a copy of the newly-created `Person/EpicEvent` to all objects associated with the to-be-edited version, introducing significant overhead
+** Cons: Editing a `Person/EpicEvent` will require passing a copy of the newly-created `Person/EpicEvent` to all objects
+associated with the to-be-edited version, introducing significant overhead.
 
 // end::editfeature[]
 
@@ -471,8 +476,12 @@ If the `redoStack` is empty, then there are no other commands left to be redone,
 redo() does not simply execute the `Command` with the previous parameters! This would cause indexing issues with
 commands like `delete` if `filteredPersons` had been altered by a `find` or other view command.
 
-The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. This time the `redoStack` is no longer empty. It will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
+The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`.
+This time the `redoStack` is no longer empty. It will be purged as it no longer makes sense to redo the `add n/David` command
+(this is the behavior that most modern desktop applications follow). <<#UndoRedoNewCommand2StackDiagram>> below shows how
+the clear command changes the `UndoRedoStack`.
 
+[#UndoRedoNewCommand2StackDiagram]
 .How a clear command modifies the UndoRedoStack
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
@@ -507,14 +516,14 @@ image::ExecuteSequenceDiagram.png[width="450"]
 image::UndoSequenceDiagram.png[width="450"]
 
 The `oppositeCommand` is generated in the `execute()` method, after `preprocessUndoableCommand()`. This is because generating the `oppositeCommand`
-requires knowledge of the actual `Person/EpicEvent` objects to be modified. For example, the `oppositeCommand` for a `deletePersonCommand` is an `addPersonCommand`,
+requires knowledge of the actual `Person/EpicEvent` objects to be modified. For example, the `oppositeCommand` of a `deletePersonCommand` is an `addPersonCommand`,
 but we only know the person to be deleted after the pre-processing step.
 
 [NOTE]
 Each `UndoableCommand` now requires its individual `generateOppositeCommand()` implementation. Hence, this method is made abstract in
-the abstract class `UndoableCommand`
+the abstract class `UndoableCommand`.
 
-There was no `Command` that could easily reverse the changes of a `ClearCommand`, hence a new `Command` `RestoreCommand` had to be created. Since the sole purpose
+There was no `Command` that could easily reverse the changes caused by executing a `ClearCommand`, hence a new `Command` `RestoreCommand` had to be created. Since the sole purpose
 of this command is to serve as the `oppositeCommand` of a `ClearCommand`, this command is not directly accessible to the user, and can only be executed when
 the user undoes a `ClearCommand`.
 
@@ -555,11 +564,12 @@ the user undoes a `ClearCommand`.
 ===== Aspect: Data Structure to Support the Undo/Redo Commands
 
 * **Alternative 1 (current choice):** Use separate stack for undo and redo
-** Pros: Easier for new Computer Science undergraduates to understand, who are likely to be new incoming developers of our project.
+** Pros: This will be easier to understand for new Computer Science undergraduates, who are likely to be the incoming developers of our project.
 ** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update * both `HistoryManager` and `UndoRedoStack`.
 * **Alternative 2:** Use `HistoryManager` for undo/redo
 ** Pros: We do not need to maintain a separate stack, and just reuse what is already in the codebase.
-** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
+** Cons: This requires dealing with commands that have already been undone - we must remember to skip these commands. This also violates the Single Responsibility Principle (SRP) and Separation of Concerns (SoC) as `HistoryManager` now needs to do two different things.
+
 // end::undoredo[]
 
 // tag::registerpersons[]
@@ -601,21 +611,22 @@ need to implement the link later.
 ==== Aspect: Deletion of Persons still Registered for an Event
 
 * **Alternative 1 (current choice):** Disallow deletion of persons still registered for an event
-** Pros: Ensures that person's details will be safeguarded until they are no longer required.
+** Pros: This ensures that all persons' details will be safeguarded until they are no longer required.
 ** Cons: Implementation is more complicated.
 * **Alternative 2:** Allow deletion of persons still registered for an event
-** Pros: User will not have to deregister persons/delete events before a person can be deleted.
+** Pros: The user will not have to deregister persons/delete events before a person can be deleted.
 Implementation is easier.
-** Cons: User might absentmindedly delete a person when his/her details are still required
+** Cons: The user might absentmindedly delete a person when his/her details are still required
 (by an upcoming event he/she is registered for).
 
 === List Registered Persons Feature
 
 ==== Current Implementation
 
-A new feature in Java 8, `Predicate` supports the filtering of lists in a functional style.
 To list the persons registered for an event, we create a `Predicate` that tests whether a `Person`
-is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
+is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`. `Predicate` is a new feature in Java 8
+that supports the filtering of lists in a functional style. Incoming developers can learn how to use
+this feature at https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html[the official Java site].
 
 // end::registerpersons[]
 
@@ -625,69 +636,79 @@ is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
 
 ==== Current Implementation
 
-The implementation uses a class called `Attendance`. An instance of `Attendance` is created every time a person registers to an event and
-it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
-and stores a `boolean` representing whether the person has attended the event.
-This reduces coupling between the `Person` and `EpicEvent` class and allows the event
-to have access to all its registrants so that adding, removing and listing registrants are
+The implementation uses a class called `Attendance`. An instance of `Attendance` is created
+every time a `Person` registers to an `EpicEvent` and stores references to the corresponding
+`EpicEvent` and `Person`. It also stores a `BooleanProperty` called `hasAttendedEventProperty`
+to store information on whether the `Person` has attended the `EpicEvent.
+The `Attendance` object is then added to the `UniqueAttendanceList` inside the `EpicEvent`.
+This structure reduces coupling between the `Person` and `EpicEvent` class and allows the
+`EpicEvent` to have access to all its registrants so that adding, removing and listing registrants are
 easy to implement.
 
-When the `toggle` command is called, an instance of `ToggleAttendanceCommand` is created
-and it uses the index provided to find and save a reference to the `Attendance` object
-to be toggled. This is done so that the command can be undone by toggling the exact same
+When the `toggle` command is called, the command is passed to the `EventPlannerParser` object
+,which reads and parses the input to return a `ToggleAttendanceCommand` object.
+The command then uses the index provided to find and save a reference to the `Attendance` object
+to be toggled. This is done so that the command can be undone by toggling the same
 `Attendance` object. <<#TCD>> below shows how the `toggle` command is processed
-in the logic component.
+in the Logic component.
 
 [#TCD]
 .Sequence Diagram for toggle command
 image::ToggleAttendanceCommandSequenceDiagram.png[width="800"]
 
 When the `ToggleAttendanceCommand` is executed, it obtains the relevant `Person` and
-`EpicEvent` from the stored `Attendance` object and triggers `toggleAttendance` from
+`EpicEvent` objects from the stored `Attendance` object and triggers `toggleAttendance` from
 the `Model`. After which, the relevant `Attendance` object is replaced with a copy
 where the `hasAttendedEventProperty` is toggled.
 
 ==== Design Considerations
 
-===== Aspect: Location of Instances of `Attendance` Objects
+===== Aspect: Location of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Store in `EpicEvent` object
-** Pros: There is less coupling between `Person` and `EpicEvent and it is easier for event to keep track of attendance list.
-It is also easier for UI to display the attendance list.
-** Cons: It is more difficult for `EventPlanner` to track which events a person is registered for so deleting a person requires
+** Pros: There is less coupling between the `Person` and `EpicEvent` classes.
+Instances of `EpicEvent` are also able to keep track of the attendance list more easily and
+thus the UI has less difficulty displaying the attendance list.
+** Cons: It is more difficult for `EventPlanner` to track which events a
+person is registered for, so deleting a person requires
 checking through all the events to delete a person properly.
 * **Alternative 2:** Store in `EventPlanner` object
-** Pros: It is easier for `EventPlanner` to track which events a person is registered to and thus making
-some person commands such as delete persons easier.
-** Cons: An `EpicEvent` needs to search through the entire list of `Attendance` objects in `EventPlanner` to find out
-which persons are registered to itself. This can be very slow if the number of `Attendance` objects is very large.
+** Pros: The `EventPlanner` can easily track which events a person is registered for, thus making
+the implementation of some person-related commands such as `delete` easier.
+** Cons: In order to find out which persons are registered to an `EpicEvent`,
+an instance of `EpicEvent` would have to search through the entire list of `Attendance`
+objects in `EventPlanner`. This can be very slow if the number of `Attendance` objects is very large.
 
 ==== Aspect: Mutability of `Attendance` Objects
 
 * **Alternative 1 (current choice):** Make `Attendance` objects immutable
-** Pros: It is easier to track changes in `Attendance` objects as changes can be detected by a replacement of the
-`Attendance` object in the attendance list.
-** Cons: It is more difficult to implement since the entire object has to be replaced whenever
-a change needs to be made, such as when marking attendance.
+** Pros: Changes to the `Attendance` objects in the attendance list are more easily
+tracked, which makes updating of the UI more striaghtforward.
+This is because changes need to be made by replacing the object
+with a new copy that contains the updated properties and this can be tracked using listeners.
+** Cons: Implementation of the `toggle` command is more difficult as the entire object has to be replaced whenever
+a change needs to be made. For example, toggling the attendance would have to be done
+by replacing the entire object with a new copy which only has its `hasAttendedEventProperty` changed.
 * **Alternative 2:** Make `Attendance` objects mutable
-** Pros: It is easier to implement marking of attendance since the `hasAttended` property
-inside the object can be directly mutated.
-** Cons: It is more difficult to track the changes since mutating the object does not directly
-trigger any events.
+** Pros: Implementation of the `toggle` command is easier the `hasAttendedEventProperty`
+of the `Attendance` object can be directly accessed and modified.
+** Cons: Changes to the `Attendance` objects in the attendance list are harder to track
+as mutating the object cannot be tracked using a listener. In this case, specialised events
+would have to be used to trigger changes in the UI.
 
 ==== Aspect: Method of Marking Attendance
 
 * **Alternative 1 (current choice):** Have one command to toggle attendance from attended to not attended and vice versa
-** Pros: It is easier to undo the command since toggling is always valid while marking a participant
-has attended may not always be valid since that person may have already been marked as attended so undoing
-the command has to account for that.
-** Cons: It is less intuitive for the user since the result of toggling
-depends on the current state of the attendance.
-* **Alternative 2:** Have two separate commands: one for marking participant as attended and one for marking
-as not attended
-** Pros: It is more intuitive for the user since marking as attended and not attended is a direct action.
-** Cons: It is harder to undo the command since the command may not be successful if for example the participant
-has already been marked as attended when the user tries to mark the participant as attended.
+** Pros: Undoing the `toggle` command is easier as toggling is always valid while marking a registrant
+as attended may not always be valid since that registrant may have already been marked as attended so
+the undo command has to account for that.
+** Cons: Users may find it less intuitive to toggle the attendance of a registrant
+compared to directly marking a registrant as attended or not attended.
+* **Alternative 2:** Have two separate commands: one for marking registrants as attended and one for marking
+them as not attended
+** Pros: Users may find it more intuitive compared to toggling the attendance of a registrant.
+** Cons: Undoing the command is more difficult the undo commmand has to account for the case where
+a user tries to mark a registrant as attended when he/she has already been marked as attended.
 // end::markattendance[]
 
 // tag::findregistrant[]
@@ -845,25 +866,29 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 ==== Proposed Implementation
 
-This feature is proposed to allow for mass registration of multiple persons to a single event.
+This feature is proposed to allow mass registration of multiple persons, with
+the same tag, to a single event. For example, a user can register all persons tagged with
+`computing` for a computing-related seminar.
+
 The proposed implementation is to make use of tags to select groups of persons to register for an event.
 Currently, the `Tag` class has been split into `PersonTag` and `EpicEventTag` so as to
-differentiate between the two. This allows for searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
-By doing so, a group of persons can be filtered by `PersonTag` and thus registered to an event
-by iteratively registering each person without requiring the user to register each person individually.
+differentiate between the two. This allows searching of persons by `PersonTag` and searching for events by `EpicEventTag`.
+
+By doing so, a `register-by-tag` command can be implemented that takes in a `PersonTag` as an argument.
+The persons can be filtered by `PersonTag` and the list of filtered persons can be registered
+to an `EpicEvent` without requiring the user to register each person individually.
 
 // end::massregistration[]
 
 // tag::exporteventdevguide[]
 
-=== [proposed] Export an Event
+=== [Proposed] Export an Event
 
-The proposed export command exports the names of the registrants, their phone numbers,
-their email addresses, their home addresses and their attendance information of a particular
+The proposed export command exports their contact information and their attendance information of a particular
 event to a csv file into a file path specified by the user. Having all the information of a
 particular event in a csv file would enable the user to analyse the data using other tools.
 
-==== [proposed] Implementation
+==== [Proposed] Implementation
 
 The `export-event` command input is first parsed in `EventPlannerParser` to create an `ExportEventCommand`.
 The execution of it creates a `CsvEventPlannerStorage`. The subsequent export mechanism is handled by a `CsvEventPlannerStorage` where event data is parsed by `CsvUtil` and then exported as a file through `CsvFileStorage` using the file path specified by the user.
@@ -876,7 +901,7 @@ image::ExportEventSequenceDiagram.png[width="650"]
 
 ==== Design Considerations
 
-When deciding on the export options, the following aspects of user experience are considered.
+When deciding on the export options, the following aspects of the user experience are considered.
 
 ===== Aspect: Data to be Exported
 
@@ -885,16 +910,16 @@ When deciding on the export options, the following aspects of user experience ar
     * Cons: The tags of the registrants are not exported.
 - *Alternative 2*: All information for registrants including their tags
     * Pros: More information for users as compared to current implementation.
-    * Cons: The registrants may have zero or multiple tags. The uncertainty in the number of tags make parsing messy.
+    * Cons: The registrants may have zero or multiple tags. The uncertainty in the number of tags makes parsing messy.
 
 ==== Aspect: Format of Exported Files
 
 - *Alternative 1 (current choice)*: csv files
-    * Pros: The format can be imported and then processed by most data processing software in the market.
-    * Cons: The files are not reader friendly if they are open directly as a text file.
+    * Pros: The format can be imported and then processed by most data processing applications in the market.
+    * Cons: The files are not reader friendly if they are opened directly as a text file.
 - *Alternative 2*: excel files
-    * Pros: Excel files are well formatted when opened with Microsoft Excel software.
-    * Cons: Even though Microsoft Excel software is used by many people, some may prefer other data processing software that supports csv files but not excel files.
+    * Pros: Excel files are well-formatted when opened with Microsoft Excel.
+    * Cons: Even though Microsoft Excel is used by many people, some may prefer other data processing applications that supports csv files but not excel files.
 
 // end::exporteventdevguide[]
 
@@ -1030,8 +1055,8 @@ b. Require developers to download those libraries manually (this creates extra w
 ** Major: Implemented a three pane view (persons, events, and event participant). The user should be able to view persons, events and registrants of an event at the same time. That would also allow the user to execute event administration commands as he can view both events and contacts at the same time.
 
 * Wei Liang:
-** Minor: Adding of EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
-** Major: Toggling of attendance for each event participant. This facilitates the attendance portion of the event planner.
+** Minor: Add EpicEvent class to keep track of events and a command to add an event. This facilitates the implementation of the other commands to manipulate events.
+** Major: Add Attendance class and a command to toggle attendance for each event registrant. This facilitates the attendance portion of the event planner.
 
 * Jiang Yue:
 ** Minor: Persistent storage. The user should be able to have their data retained after the app is closed so that they can continue their edits when they open the app next time.

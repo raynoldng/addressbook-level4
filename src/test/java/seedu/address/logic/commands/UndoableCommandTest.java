@@ -22,23 +22,6 @@ public class UndoableCommandTest {
 
     private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
-    // TODO: Re-code tests after undo-redo functionality implemented
-    /**
-    @Test
-    public void executeUndo() throws Exception {
-        dummyCommand.execute();
-        deleteFirstPerson(expectedModel);
-        assertEquals(expectedModel, model);
-
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
-
-        // undo() should cause the model's filtered list to show all persons
-        dummyCommand.undo();
-        expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-        assertEquals(expectedModel, model);
-    }
-     */
-
     @Test
     public void redo() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);

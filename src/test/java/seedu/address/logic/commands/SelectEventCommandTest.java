@@ -1,4 +1,4 @@
-// @@author raynoldng
+
 package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +27,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.ui.testutil.EventsCollectorRule;
 
-
+// @@author raynoldng
 /**
  * Contains integration tests (interaction with the Model) for {@code SelectEventCommand}.
  */

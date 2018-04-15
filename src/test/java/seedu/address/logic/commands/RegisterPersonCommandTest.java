@@ -26,26 +26,6 @@ import seedu.address.model.UserPrefs;
 public class RegisterPersonCommandTest {
 
     private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
-    private Model duplicatedModel = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
-
-    //TODO: Re-code tests after architecture stable
-    /*@Test
-    public void execute_validIndexUnfilteredList_success() throws Exception {
-        Person personToRegister = duplicatedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        EpicEvent eventToRegisterFor = duplicatedModel.getFilteredEventList()
-                .get(INDEX_SECOND_EVENT.getZeroBased());
-        String eventName = model.getFilteredEventList()
-                .get(INDEX_SECOND_EVENT.getZeroBased()).getFullName().toString();
-        RegisterPersonCommand registerPersonCommand = prepareCommand(INDEX_FIRST_PERSON, eventName);
-
-        String expectedMessage = String.format(RegisterPersonCommand.MESSAGE_SUCCESS,
-                personToRegister, eventName);
-
-        ModelManager expectedModel = new ModelManager(duplicatedModel.getEventPlanner(), new UserPrefs());
-        expectedModel.registerPersonForEvent(personToRegister, eventToRegisterFor);
-
-        //assertCommandSuccess(registerPersonCommand, model, expectedMessage, expectedModel);
-    }*/
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() throws Exception {

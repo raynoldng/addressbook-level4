@@ -6,6 +6,8 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.model.event.UniqueEpicEventList;
 
+//@@author william6364
+
 public class UniqueEpicEventListTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();

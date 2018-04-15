@@ -9,6 +9,8 @@ import seedu.address.model.Name;
 import seedu.address.model.event.EpicEvent;
 import seedu.address.model.tag.Tag;
 
+//@@author jiangyue12392
+
 /**
  * A utility class to help with building EditEventDescriptor objects.
  */

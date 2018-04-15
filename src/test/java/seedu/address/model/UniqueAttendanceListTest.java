@@ -6,6 +6,8 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.model.attendance.UniqueAttendanceList;
 
+//@@author william6364
+
 public class UniqueAttendanceListTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();

@@ -1,5 +1,5 @@
 # jiangyue12392
-###### /java/seedu/address/logic/commands/DeleteEventCommandTest.java
+###### \java\seedu\address\logic\commands\DeleteEventCommandTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
@@ -63,7 +63,7 @@ public class DeleteEventCommandTest {
     }
 
 ```
-###### /java/seedu/address/logic/commands/DeleteEventCommandTest.java
+###### \java\seedu\address\logic\commands\DeleteEventCommandTest.java
 ``` java
 
     @Test
@@ -83,117 +83,55 @@ public class DeleteEventCommandTest {
     }
 
 ```
-###### /java/seedu/address/logic/commands/EditEventDescriptorTest.java
+###### \java\seedu\address\logic\commands\DeleteEventCommandTest.java
 ``` java
-public class EditEventDescriptorTest {
 
     @Test
-    public void equals() {
-        // same values -> returns true
-        EditEventDescriptor descriptorWithSameValues = new EditEventDescriptor(DESC_GRADUATION);
-        assertTrue(DESC_GRADUATION.equals(descriptorWithSameValues));
+    public void equals() throws Exception {
+        DeleteEventCommand deleteFirstCommand = prepareCommand(INDEX_FIRST_EVENT);
+        DeleteEventCommand deleteSecondCommand = prepareCommand(INDEX_SECOND_EVENT);
 
         // same object -> returns true
-        assertTrue(DESC_GRADUATION.equals(DESC_GRADUATION));
-
-        // null -> returns false
-        assertFalse(DESC_GRADUATION.equals(null));
-
-        // different types -> returns false
-        assertFalse(DESC_GRADUATION.equals(5));
-
-        // different values -> returns false
-        assertFalse(DESC_GRADUATION.equals(DESC_SEMINAR));
-
-        // different name -> returns false
-        EditEventDescriptor editedGraduation = new EditEventDescriptorBuilder(DESC_GRADUATION)
-                .withName(VALID_EVENT_NAME_SEMINAR).build();
-        assertFalse(DESC_GRADUATION.equals(editedGraduation));
-
-        // different tags -> returns false
-        editedGraduation = new EditEventDescriptorBuilder(DESC_GRADUATION).withTags(VALID_EVENT_TAG_SEMINAR).build();
-        assertFalse(DESC_GRADUATION.equals(editedGraduation));
-    }
-}
-```
-###### /java/seedu/address/logic/commands/FindEventCommandTest.java
-``` java
-/**
- * Contains integration tests (interaction with the Model) for {@code FindEventCommand}.
- */
-public class FindEventCommandTest {
-    private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
-
-    @Test
-    public void equals() {
-        EventNameContainsKeywordsPredicate firstPredicate =
-                new EventNameContainsKeywordsPredicate(Collections.singletonList("first"));
-        EventNameContainsKeywordsPredicate secondPredicate =
-                new EventNameContainsKeywordsPredicate(Collections.singletonList("second"));
-
-        FindEventCommand findFirstCommand = new FindEventCommand(firstPredicate);
-        FindEventCommand findSecondCommand = new FindEventCommand(secondPredicate);
-
-        // same object -> returns true
-        assertTrue(findFirstCommand.equals(findFirstCommand));
+        assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
 
         // same values -> returns true
-        FindEventCommand findFirstCommandCopy = new FindEventCommand(firstPredicate);
-        assertTrue(findFirstCommand.equals(findFirstCommandCopy));
+        DeleteEventCommand deleteFirstCommandCopy = prepareCommand(INDEX_FIRST_EVENT);
+        assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
+
+        // one command preprocessed when previously equal -> returns false
+        deleteFirstCommandCopy.preprocessUndoableCommand();
+        assertFalse(deleteFirstCommand.equals(deleteFirstCommandCopy));
 
         // different types -> returns false
-        assertFalse(findFirstCommand.equals(1));
+        assertFalse(deleteFirstCommand.equals(1));
 
         // null -> returns false
-        assertFalse(findFirstCommand.equals(null));
+        assertFalse(deleteFirstCommand.equals(null));
 
         // different event -> returns false
-        assertFalse(findFirstCommand.equals(findSecondCommand));
-    }
-
-    @Test
-    public void execute_zeroKeywords_noEventFound() {
-        String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 0);
-        FindEventCommand command = prepareCommand(" ");
-        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
-    }
-
-    @Test
-    public void execute_multipleKeywords_multipleEventsFound() {
-        String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 4);
-        FindEventCommand command = prepareCommand("seminar olympiad");
-        assertCommandSuccess(command, expectedMessage,
-                Arrays.asList(FOODSEMINAR, IOTSEMINAR, MATHOLYMPIAD, PHYSICSOLYMPIAD));
+        assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
     }
 
     /**
-     * Parses {@code userInput} into a {@code FindEventCommand}.
+     * Returns a {@code DeleteEventCommand} with the parameter {@code index}.
      */
-    private FindEventCommand prepareCommand(String userInput) {
-        FindEventCommand command =
-                new FindEventCommand(new EventNameContainsKeywordsPredicate(
-                        Arrays.asList(userInput.split("\\s+"))));
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
+    private DeleteEventCommand prepareCommand(Index index) {
+        DeleteEventCommand deleteEventCommand = new DeleteEventCommand(index);
+        deleteEventCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return deleteEventCommand;
     }
 
     /**
-     * Asserts that {@code command} is successfully executed, and<br>
-     *     - the command feedback is equal to {@code expectedMessage}<br>
-     *     - the {@code FilteredList<Event>} is equal to {@code expectedList}<br>
-     *     - the {@code EventPlanner} in model remains the same after executing the {@code command}
+     * Updates {@code model}'s filtered list to show no one.
      */
-    private void assertCommandSuccess(FindEventCommand command, String expectedMessage, List<EpicEvent> expectedList) {
-        EventPlanner expectedEventPlanner = new EventPlanner(model.getEventPlanner());
-        CommandResult commandResult = command.execute();
+    private void showNoEvent(Model model) {
+        model.updateFilteredEventList(p -> false);
 
-        assertEquals(expectedMessage, commandResult.feedbackToUser);
-        assertEquals(expectedList, model.getFilteredEventList());
-        assertEquals(expectedEventPlanner, model.getEventPlanner());
+        assertTrue(model.getFilteredEventList().isEmpty());
     }
 }
 ```
-###### /java/seedu/address/logic/commands/EditEventCommandTest.java
+###### \java\seedu\address\logic\commands\EditEventCommandTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests
@@ -315,7 +253,7 @@ public class EditEventCommandTest {
     }
 
 ```
-###### /java/seedu/address/logic/commands/EditEventCommandTest.java
+###### \java\seedu\address\logic\commands\EditEventCommandTest.java
 ``` java
 
     @Test
@@ -357,32 +295,117 @@ public class EditEventCommandTest {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/FindEventCommandParserTest.java
+###### \java\seedu\address\logic\commands\EditEventDescriptorTest.java
 ``` java
-public class FindEventCommandParserTest {
-
-    private FindEventCommandParser parser = new FindEventCommandParser();
+public class EditEventDescriptorTest {
 
     @Test
-    public void parse_emptyArg_throwsParseException() {
-        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                FindEventCommand.MESSAGE_USAGE));
+    public void equals() {
+        // same values -> returns true
+        EditEventDescriptor descriptorWithSameValues = new EditEventDescriptor(DESC_GRADUATION);
+        assertTrue(DESC_GRADUATION.equals(descriptorWithSameValues));
+
+        // same object -> returns true
+        assertTrue(DESC_GRADUATION.equals(DESC_GRADUATION));
+
+        // null -> returns false
+        assertFalse(DESC_GRADUATION.equals(null));
+
+        // different types -> returns false
+        assertFalse(DESC_GRADUATION.equals(5));
+
+        // different values -> returns false
+        assertFalse(DESC_GRADUATION.equals(DESC_SEMINAR));
+
+        // different name -> returns false
+        EditEventDescriptor editedGraduation = new EditEventDescriptorBuilder(DESC_GRADUATION)
+                .withName(VALID_EVENT_NAME_SEMINAR).build();
+        assertFalse(DESC_GRADUATION.equals(editedGraduation));
+
+        // different tags -> returns false
+        editedGraduation = new EditEventDescriptorBuilder(DESC_GRADUATION).withTags(VALID_EVENT_TAG_SEMINAR).build();
+        assertFalse(DESC_GRADUATION.equals(editedGraduation));
     }
-
-    @Test
-    public void parse_validArgs_returnsFindCommand() {
-        // no leading and trailing whitespaces
-        FindEventCommand expectedFindEventCommand =
-                new FindEventCommand(new EventNameContainsKeywordsPredicate(Arrays.asList("Seminar", "Graduation")));
-        assertParseSuccess(parser, "Seminar Graduation", expectedFindEventCommand);
-
-        // multiple whitespaces between keywords
-        assertParseSuccess(parser, " \n Seminar \n \t Graduation  \t", expectedFindEventCommand);
-    }
-
 }
 ```
-###### /java/seedu/address/logic/parser/DeleteEventCommandParserTest.java
+###### \java\seedu\address\logic\commands\FindEventCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) for {@code FindEventCommand}.
+ */
+public class FindEventCommandTest {
+    private Model model = new ModelManager(getTypicalEventPlanner(), new UserPrefs());
+
+    @Test
+    public void equals() {
+        EventNameContainsKeywordsPredicate firstPredicate =
+                new EventNameContainsKeywordsPredicate(Collections.singletonList("first"));
+        EventNameContainsKeywordsPredicate secondPredicate =
+                new EventNameContainsKeywordsPredicate(Collections.singletonList("second"));
+
+        FindEventCommand findFirstCommand = new FindEventCommand(firstPredicate);
+        FindEventCommand findSecondCommand = new FindEventCommand(secondPredicate);
+
+        // same object -> returns true
+        assertTrue(findFirstCommand.equals(findFirstCommand));
+
+        // same values -> returns true
+        FindEventCommand findFirstCommandCopy = new FindEventCommand(firstPredicate);
+        assertTrue(findFirstCommand.equals(findFirstCommandCopy));
+
+        // different types -> returns false
+        assertFalse(findFirstCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(findFirstCommand.equals(null));
+
+        // different event -> returns false
+        assertFalse(findFirstCommand.equals(findSecondCommand));
+    }
+
+    @Test
+    public void execute_zeroKeywords_noEventFound() {
+        String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 0);
+        FindEventCommand command = prepareCommand(" ");
+        assertCommandSuccess(command, expectedMessage, Collections.emptyList());
+    }
+
+    @Test
+    public void execute_multipleKeywords_multipleEventsFound() {
+        String expectedMessage = String.format(MESSAGE_EVENTS_LISTED_OVERVIEW, 4);
+        FindEventCommand command = prepareCommand("seminar olympiad");
+        assertCommandSuccess(command, expectedMessage,
+                Arrays.asList(FOODSEMINAR, IOTSEMINAR, MATHOLYMPIAD, PHYSICSOLYMPIAD));
+    }
+
+    /**
+     * Parses {@code userInput} into a {@code FindEventCommand}.
+     */
+    private FindEventCommand prepareCommand(String userInput) {
+        FindEventCommand command =
+                new FindEventCommand(new EventNameContainsKeywordsPredicate(
+                        Arrays.asList(userInput.split("\\s+"))));
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        return command;
+    }
+
+    /**
+     * Asserts that {@code command} is successfully executed, and<br>
+     *     - the command feedback is equal to {@code expectedMessage}<br>
+     *     - the {@code FilteredList<Event>} is equal to {@code expectedList}<br>
+     *     - the {@code EventPlanner} in model remains the same after executing the {@code command}
+     */
+    private void assertCommandSuccess(FindEventCommand command, String expectedMessage, List<EpicEvent> expectedList) {
+        EventPlanner expectedEventPlanner = new EventPlanner(model.getEventPlanner());
+        CommandResult commandResult = command.execute();
+
+        assertEquals(expectedMessage, commandResult.feedbackToUser);
+        assertEquals(expectedList, model.getFilteredEventList());
+        assertEquals(expectedEventPlanner, model.getEventPlanner());
+    }
+}
+```
+###### \java\seedu\address\logic\parser\DeleteEventCommandParserTest.java
 ``` java
 /**
  * As we are only doing white-box testing, our test cases do not cover path variations
@@ -407,7 +430,7 @@ public class DeleteEventCommandParserTest {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/EditEventCommandParserTest.java
+###### \java\seedu\address\logic\parser\EditEventCommandParserTest.java
 ``` java
 public class EditEventCommandParserTest {
 
@@ -524,7 +547,32 @@ public class EditEventCommandParserTest {
     }
 }
 ```
-###### /java/seedu/address/storage/XmlAdaptedAttendanceTest.java
+###### \java\seedu\address\logic\parser\FindEventCommandParserTest.java
+``` java
+public class FindEventCommandParserTest {
+
+    private FindEventCommandParser parser = new FindEventCommandParser();
+
+    @Test
+    public void parse_emptyArg_throwsParseException() {
+        assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                FindEventCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_validArgs_returnsFindCommand() {
+        // no leading and trailing whitespaces
+        FindEventCommand expectedFindEventCommand =
+                new FindEventCommand(new EventNameContainsKeywordsPredicate(Arrays.asList("Seminar", "Graduation")));
+        assertParseSuccess(parser, "Seminar Graduation", expectedFindEventCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, " \n Seminar \n \t Graduation  \t", expectedFindEventCommand);
+    }
+
+}
+```
+###### \java\seedu\address\storage\XmlAdaptedAttendanceTest.java
 ``` java
 public class XmlAdaptedAttendanceTest {
     private static final Attendance VALID_ATTENDANCE = new Attendance(BENSON, false);
@@ -552,7 +600,7 @@ public class XmlAdaptedAttendanceTest {
 }
 
 ```
-###### /java/seedu/address/storage/XmlAdaptedEpicEventTest.java
+###### \java\seedu\address\storage\XmlAdaptedEpicEventTest.java
 ``` java
 public class XmlAdaptedEpicEventTest {
     private static final String INVALID_NAME = "M@th Olympiad";
@@ -595,7 +643,7 @@ public class XmlAdaptedEpicEventTest {
 
 }
 ```
-###### /java/seedu/address/storage/XmlAdaptedPersonTest.java
+###### \java\seedu\address\storage\XmlAdaptedPersonTest.java
 ``` java
     @Test
     public void toModelType_invalidNumberOfEvents_throwsIllegalValueException() {
@@ -614,8 +662,59 @@ public class XmlAdaptedEpicEventTest {
         Assert.assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 ```
-###### /java/seedu/address/testutil/TypicalEpicEvents.java
+###### \java\seedu\address\testutil\EditEventDescriptorBuilder.java
 ``` java
+
+/**
+ * A utility class to help with building EditEventDescriptor objects.
+ */
+public class EditEventDescriptorBuilder {
+
+    private EditEventDescriptor descriptor;
+
+    public EditEventDescriptorBuilder() {
+        descriptor = new EditEventDescriptor();
+    }
+
+    public EditEventDescriptorBuilder(EditEventDescriptor descriptor) {
+        this.descriptor = new EditEventDescriptor(descriptor);
+    }
+
+    /**
+     * Returns an {@code EditEventDescriptor} with fields containing {@code event}'s details
+     */
+    public EditEventDescriptorBuilder(EpicEvent event) {
+        descriptor = new EditEventDescriptor();
+        descriptor.setName(event.getName());
+        descriptor.setTags(event.getTags());
+    }
+
+    /**
+     * Sets the {@code Name} of the {@code EditEventDescriptor} that we are building.
+     */
+    public EditEventDescriptorBuilder withName(String name) {
+        descriptor.setName(new Name(name));
+        return this;
+    }
+
+    /**
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditEventDescriptor}
+     * that we are building.
+     */
+    public EditEventDescriptorBuilder withTags(String... tags) {
+        Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
+        descriptor.setTags(tagSet);
+        return this;
+    }
+
+    public EditEventDescriptor build() {
+        return descriptor;
+    }
+}
+```
+###### \java\seedu\address\testutil\TypicalEpicEvents.java
+``` java
+
 /**
  * A utility class containing a list of {@code EpicEvent} objects to be used in tests.
  */
@@ -639,20 +738,11 @@ public class TypicalEpicEvents {
     public static final int GRADUATIONAY18_INDEX = 0;
     public static final int ORIENTATION_INDEX = 6;
 
-    // Manually added
-    public static final EpicEvent SOCORIENTATION = new EpicEventBuilder().withName("SOC Orientation")
-            .withTags("orientation", "SOC").build();
-    public static final EpicEvent IOTTALK = new EpicEventBuilder().withName("IoT Talk").build();
-
     // Manually added - Event's details found in {@code CommandTestUtil}
     public static final EpicEvent GRADUATION = new EpicEventBuilder().withName(VALID_EVENT_NAME_GRADUATION)
             .withTags(VALID_EVENT_TAG_GRADUATION).build();
     public static final EpicEvent SEMINAR = new EpicEventBuilder().withName(VALID_EVENT_NAME_SEMINAR)
             .withTags(VALID_EVENT_TAG_SEMINAR).build();
-
-```
-###### /java/seedu/address/testutil/TypicalEpicEvents.java
-``` java
 
     public static final String KEYWORD_MATCHING_OLYMPIAD = "Olympiad"; // A keyword that matches OLYMPIAD
 
