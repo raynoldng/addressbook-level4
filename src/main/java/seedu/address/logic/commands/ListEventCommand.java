@@ -14,6 +14,7 @@ public class ListEventCommand extends Command implements FocusOnEpicEventsList {
     @Override
     public CommandResult execute() {
         model.updateFilteredEventList(PREDICATE_SHOW_ALL_EVENTS);
+        model.clearSelectedEpicEvent();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

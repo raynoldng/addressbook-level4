@@ -23,3 +23,8 @@ docs/*.pdf
 docs/*.html
 *.md
 Collate-GUI.jar
+docs/team/raynoldng.pdf
+.gitignore
+cofig.json
+data/EPIC.xml
+preference.json

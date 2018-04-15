@@ -625,12 +625,7 @@ is in an `EpicEvent`, then pass it to `updateFilteredPersonList()`.
 
 ==== Current Implementation
 
-The implementation uses a class called `Attendance`, the structure of which is shown
-in <<#ACD>> below.
-[#ACD]
-.Structure of the Attendance class
-image::ModelClassDiagram.png[width=800px]
-An instance of `Attendance` is created every time a person registers to an event and
+The implementation uses a class called `Attendance`. An instance of `Attendance` is created every time a person registers to an event and
 it is stored inside the `EpicEvent`. The instance stores the corresponding `EpicEvent` and `Person`
 and stores a `boolean` representing whether the person has attended the event.
 This reduces coupling between the `Person` and `EpicEvent` class and allows the event
